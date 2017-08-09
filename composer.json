@@ -25,7 +25,10 @@
 	"autoload-dev" : {
 		"psr-4" : {
 			"Tests\\" : "tests/",
-			"FSS\\" : "src/"
+			"FSS\\" : "src/",
+			"FSS\\Models\\" : "src/Models/",
+			"FSS\\Controllers\\" : "src/Controllers/",
+			"FSS\\Utilities\\" : "src/Utilities/"
 		}
 	},
 	"scripts" : {
@@ -36,8 +39,9 @@
 	"autoload" : {
 		"psr-4" : {
 			"FSS\\" : "src/",
-			"FSS\\Models\\" : "src/Models",
-			"FSS\\Controllers\\" : "src/Controllers"
+			"FSS\\Models\\" : "src/Models/",
+			"FSS\\Controllers\\" : "src/Controllers/",
+			"FSS\\Utilities" : "src/Utilities"
 		}
 	}
 }
