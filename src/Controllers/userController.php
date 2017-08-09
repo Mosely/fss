@@ -8,7 +8,7 @@ use \Exception;
 //require '../src/Models/person.php';
 //require '../src/Models/gender.php';
 
-use FSS\Models\User as User;
+use FSS\Models\User;
 
 class UserController implements ControllerInterface
 {
