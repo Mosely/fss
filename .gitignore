@@ -3,7 +3,6 @@
 /phing
 /phpunit.xml
 /CONTRIBUTING.md
-/phpunit.xml
 /vendor/
 /logs/*
 !/logs/README.md
