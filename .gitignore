@@ -1,4 +1,7 @@
 /.env
+/build.xml
+/phing
+/phpunit.xml
 /vendor/
 /logs/*
 !/logs/README.md
