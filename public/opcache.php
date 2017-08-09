@@ -1,16 +1,18 @@
 <?php
+define('THOUSAND_SEPARATOR', true);
 
-define('THOUSAND_SEPARATOR',true);
-
-if (!extension_loaded('Zend OPcache')) {
+if (! extension_loaded('Zend OPcache')) {
     echo '<div style="background-color: #F2DEDE; color: #B94A48; padding: 1em;">You do not have the Zend OPcache extension loaded, sample data is being shown instead.</div>';
     require 'data-sample.php';
 }
 
 class OpCacheDataModel
 {
+
     private $_configuration;
+
     private $_status;
+
     private $_d3Scripts = array();
 
     public function __construct()
@@ -31,7 +33,7 @@ class OpCacheDataModel
             if ($key === 'scripts') {
                 continue;
             }
-
+            
             if (is_array($value)) {
                 foreach ($value as $k => $v) {
                     if ($v === false) {
@@ -41,15 +43,10 @@ class OpCacheDataModel
                         $value = 'true';
                     }
                     if ($k === 'used_memory' || $k === 'free_memory' || $k === 'wasted_memory') {
-                        $v = $this->_size_for_humans(
-                            $v
-                        );
+                        $v = $this->_size_for_humans($v);
                     }
                     if ($k === 'current_wasted_percentage' || $k === 'opcache_hit_rate') {
-                        $v = number_format(
-                                $v,
-                                2
-                            ) . '%';
+                        $v = number_format($v, 2) . '%';
                     }
                     if ($k === 'blacklist_miss_ratio') {
                         $v = number_format($v, 2) . '%';
@@ -60,7 +57,7 @@ class OpCacheDataModel
                     if (THOUSAND_SEPARATOR === true && is_int($v)) {
                         $v = number_format($v);
                     }
-
+                    
                     $rows[] = "<tr><th>$k</th><td>$v</td></tr>\n";
                 }
                 continue;
@@ -73,7 +70,7 @@ class OpCacheDataModel
             }
             $rows[] = "<tr><th>$key</th><td>$value</td></tr>\n";
         }
-
+        
         return implode("\n", $rows);
     }
 
@@ -92,7 +89,7 @@ class OpCacheDataModel
             }
             $rows[] = "<tr><th>$key</th><td>$value</td></tr>\n";
         }
-
+        
         return implode("\n", $rows);
     }
 
@@ -102,22 +99,23 @@ class OpCacheDataModel
             $dirs[dirname($key)][basename($key)] = $data;
             $this->_arrayPset($this->_d3Scripts, $key, array(
                 'name' => basename($key),
-                'size' => $data['memory_consumption'],
+                'size' => $data['memory_consumption']
             ));
         }
-
+        
         asort($dirs);
-
+        
         $basename = '';
         while (true) {
-            if (count($this->_d3Scripts) !=1) break;
+            if (count($this->_d3Scripts) != 1)
+                break;
             $basename .= DIRECTORY_SEPARATOR . key($this->_d3Scripts);
             $this->_d3Scripts = reset($this->_d3Scripts);
         }
-
+        
         $this->_d3Scripts = $this->_processPartition($this->_d3Scripts, $basename);
         $id = 1;
-
+        
         $rows = array();
         foreach ($dirs as $dir => $files) {
             $count = count($files);
@@ -127,13 +125,13 @@ class OpCacheDataModel
                 $m += $data["memory_consumption"];
             }
             $m = $this->_size_for_humans($m);
-
+            
             if ($count > 1) {
                 $rows[] = '<tr>';
                 $rows[] = "<th class=\"clickable\" id=\"head-{$id}\" colspan=\"3\" onclick=\"toggleVisible('#head-{$id}', '#row-{$id}')\">{$dir} ({$count} file{$file_plural}, {$m})</th>";
                 $rows[] = '</tr>';
             }
-
+            
             foreach ($files as $file => $data) {
                 $rows[] = "<tr id=\"row-{$id}\">";
                 $rows[] = "<td>" . $this->_format_value($data["hits"]) . "</td>";
@@ -141,10 +139,10 @@ class OpCacheDataModel
                 $rows[] = $count > 1 ? "<td>{$file}</td>" : "<td>{$dir}/{$file}</td>";
                 $rows[] = '</tr>';
             }
-
-            ++$id;
+            
+            ++ $id;
         }
-
+        
         return implode("\n", $rows);
     }
 
@@ -159,33 +157,33 @@ class OpCacheDataModel
         $dataset['memory'] = array(
             $this->_status['memory_usage']['used_memory'],
             $this->_status['memory_usage']['free_memory'],
-            $this->_status['memory_usage']['wasted_memory'],
+            $this->_status['memory_usage']['wasted_memory']
         );
-
+        
         $dataset['keys'] = array(
             $this->_status['opcache_statistics']['num_cached_keys'],
             $this->_status['opcache_statistics']['max_cached_keys'] - $this->_status['opcache_statistics']['num_cached_keys'],
             0
         );
-
+        
         $dataset['hits'] = array(
             $this->_status['opcache_statistics']['misses'],
             $this->_status['opcache_statistics']['hits'],
-            0,
+            0
         );
-
+        
         $dataset['restarts'] = array(
             $this->_status['opcache_statistics']['oom_restarts'],
             $this->_status['opcache_statistics']['manual_restarts'],
-            $this->_status['opcache_statistics']['hash_restarts'],
+            $this->_status['opcache_statistics']['hash_restarts']
         );
-
+        
         if (THOUSAND_SEPARATOR === true) {
             $dataset['TSEP'] = 1;
         } else {
             $dataset['TSEP'] = 0;
         }
-
+        
         return json_encode($dataset);
     }
 
@@ -234,13 +232,16 @@ class OpCacheDataModel
         if (array_key_exists('size', $value)) {
             return $value;
         }
-
-        $array = array('name' => $name,'children' => array());
-
+        
+        $array = array(
+            'name' => $name,
+            'children' => array()
+        );
+        
         foreach ($value as $k => $v) {
             $array['children'][] = $this->_processPartition($v, $k);
         }
-
+        
         return $array;
     }
 
@@ -269,19 +270,19 @@ class OpCacheDataModel
     // Borrowed from Laravel
     private function _arrayPset(&$array, $key, $value)
     {
-        if (is_null($key)) return $array = $value;
+        if (is_null($key))
+            return $array = $value;
         $keys = explode(DIRECTORY_SEPARATOR, ltrim($key, DIRECTORY_SEPARATOR));
         while (count($keys) > 1) {
             $key = array_shift($keys);
-            if ( ! isset($array[$key]) || ! is_array($array[$key])) {
+            if (! isset($array[$key]) || ! is_array($array[$key])) {
                 $array[$key] = array();
             }
-            $array =& $array[$key];
+            $array = & $array[$key];
         }
         $array[array_shift($keys)] = $value;
         return $array;
     }
-
 }
 
 $dataModel = new OpCacheDataModel();
@@ -290,177 +291,178 @@ $dataModel = new OpCacheDataModel();
 <meta charset="utf-8">
 <html>
 <head>
-    <style>
-        body {
-            font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+body {
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	margin: 0;
+	padding: 0;
+}
 
-        #container {
-            width: 1024px;
-            margin: auto;
-            position: relative;
-        }
+#container {
+	width: 1024px;
+	margin: auto;
+	position: relative;
+}
 
-        h1 {
-            padding: 10px 0;
-        }
+h1 {
+	padding: 10px 0;
+}
 
-        table {
-            border-collapse: collapse;
-        }
+table {
+	border-collapse: collapse;
+}
 
-        tbody tr:nth-child(even) {
-            background-color: #eee;
-        }
+tbody tr:nth-child(even) {
+	background-color: #eee;
+}
 
-        p.capitalize {
-            text-transform: capitalize;
-        }
+p.capitalize {
+	text-transform: capitalize;
+}
 
-        .tabs {
-            position: relative;
-            float: left;
-            width: 60%;
-        }
+.tabs {
+	position: relative;
+	float: left;
+	width: 60%;
+}
 
-        .tab {
-            float: left;
-        }
+.tab {
+	float: left;
+}
 
-        .tab label {
-            background: #eee;
-            padding: 10px 12px;
-            border: 1px solid #ccc;
-            margin-left: -1px;
-            position: relative;
-            left: 1px;
-        }
+.tab label {
+	background: #eee;
+	padding: 10px 12px;
+	border: 1px solid #ccc;
+	margin-left: -1px;
+	position: relative;
+	left: 1px;
+}
 
-        .tab [type=radio] {
-            display: none;
-        }
+.tab [type=radio] {
+	display: none;
+}
 
-        .tab th, .tab td {
-            padding: 8px 12px;
-        }
+.tab th, .tab td {
+	padding: 8px 12px;
+}
 
-        .content {
-            position: absolute;
-            top: 28px;
-            left: 0;
-            background: white;
-            border: 1px solid #ccc;
-            height: 450px;
-            width: 100%;
-            overflow: auto;
-        }
+.content {
+	position: absolute;
+	top: 28px;
+	left: 0;
+	background: white;
+	border: 1px solid #ccc;
+	height: 450px;
+	width: 100%;
+	overflow: auto;
+}
 
-        .content table {
-            width: 100%;
-        }
+.content table {
+	width: 100%;
+}
 
-        .content th, .tab:nth-child(3) td {
-            text-align: left;
-        }
+.content th, .tab:nth-child(3) td {
+	text-align: left;
+}
 
-        .content td {
-            text-align: right;
-        }
+.content td {
+	text-align: right;
+}
 
-        .clickable {
-            cursor: pointer;
-        }
+.clickable {
+	cursor: pointer;
+}
 
-        [type=radio]:checked ~ label {
-            background: white;
-            border-bottom: 1px solid white;
-            z-index: 2;
-        }
+[type=radio]:checked ~ label {
+	background: white;
+	border-bottom: 1px solid white;
+	z-index: 2;
+}
 
-        [type=radio]:checked ~ label ~ .content {
-            z-index: 1;
-        }
+[type=radio]:checked ~ label ~ .content {
+	z-index: 1;
+}
 
-        #graph {
-            float: right;
-            width: 40%;
-            position: relative;
-        }
+#graph {
+	float: right;
+	width: 40%;
+	position: relative;
+}
 
-        #graph > form {
-            position: absolute;
-            right: 60px;
-            top: -20px;
-        }
+#graph>form {
+	position: absolute;
+	right: 60px;
+	top: -20px;
+}
 
-        #graph > svg {
-            position: absolute;
-            top: 0;
-            right: 0;
-        }
+#graph>svg {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
 
-        #stats {
-            position: absolute;
-            right: 125px;
-            top: 145px;
-        }
+#stats {
+	position: absolute;
+	right: 125px;
+	top: 145px;
+}
 
-        #stats th, #stats td {
-            padding: 6px 10px;
-            font-size: 0.8em;
-        }
+#stats th, #stats td {
+	padding: 6px 10px;
+	font-size: 0.8em;
+}
 
-        #partition {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            z-index: 10;
-            top: 0;
-            left: 0;
-            background: #ddd;
-            display: none;
-        }
+#partition {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 10;
+	top: 0;
+	left: 0;
+	background: #ddd;
+	display: none;
+}
 
-        #close-partition {
-            display: none;
-            position: absolute;
-            z-index: 20;
-            right: 15px;
-            top: 15px;
-            background: #f9373d;
-            color: #fff;
-            padding: 12px 15px;
-        }
+#close-partition {
+	display: none;
+	position: absolute;
+	z-index: 20;
+	right: 15px;
+	top: 15px;
+	background: #f9373d;
+	color: #fff;
+	padding: 12px 15px;
+}
 
-        #close-partition:hover {
-            background: #D32F33;
-            cursor: pointer;
-        }
+#close-partition:hover {
+	background: #D32F33;
+	cursor: pointer;
+}
 
-        #partition rect {
-            stroke: #fff;
-            fill: #aaa;
-            fill-opacity: 1;
-        }
+#partition rect {
+	stroke: #fff;
+	fill: #aaa;
+	fill-opacity: 1;
+}
 
-        #partition rect.parent {
-            cursor: pointer;
-            fill: steelblue;
-        }
+#partition rect.parent {
+	cursor: pointer;
+	fill: steelblue;
+}
 
-        #partition text {
-            pointer-events: none;
-        }
+#partition text {
+	pointer-events: none;
+}
 
-        label {
-            cursor: pointer;
-        }
-    </style>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.1/d3.v3.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script>
+label {
+	cursor: pointer;
+}
+</style>
+<script src="//cdnjs.cloudflare.com/ajax/libs/d3/3.0.1/d3.v3.min.js"></script>
+<script
+	src="//cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script>
         var hidden = {};
         function toggleVisible(head, row) {
             if (!hidden[row]) {
@@ -474,74 +476,75 @@ $dataModel = new OpCacheDataModel();
             }
         }
     </script>
-    <title><?php echo $dataModel->getPageTitle(); ?></title>
+<title><?php echo $dataModel->getPageTitle(); ?></title>
 </head>
 
 <body>
-    <div id="container">
-        <h1><?php echo $dataModel->getPageTitle(); ?></h1>
+	<div id="container">
+		<h1><?php echo $dataModel->getPageTitle(); ?></h1>
 
-        <div class="tabs">
+		<div class="tabs">
 
-            <div class="tab">
-                <input type="radio" id="tab-status" name="tab-group-1" checked>
-                <label for="tab-status">Status</label>
-                <div class="content">
-                    <table>
+			<div class="tab">
+				<input type="radio" id="tab-status" name="tab-group-1" checked> <label
+					for="tab-status">Status</label>
+				<div class="content">
+					<table>
                         <?php echo $dataModel->getStatusDataRows(); ?>
                     </table>
-                </div>
-            </div>
+				</div>
+			</div>
 
-            <div class="tab">
-                <input type="radio" id="tab-config" name="tab-group-1">
-                <label for="tab-config">Configuration</label>
-                <div class="content">
-                    <table>
+			<div class="tab">
+				<input type="radio" id="tab-config" name="tab-group-1"> <label
+					for="tab-config">Configuration</label>
+				<div class="content">
+					<table>
                         <?php echo $dataModel->getConfigDataRows(); ?>
                     </table>
-                </div>
-            </div>
+				</div>
+			</div>
 
-            <div class="tab">
-                <input type="radio" id="tab-scripts" name="tab-group-1">
-                <label for="tab-scripts">Scripts (<?php echo $dataModel->getScriptStatusCount(); ?>)</label>
-                <div class="content">
-                    <table style="font-size:0.8em;">
-                        <tr>
-                            <th width="10%">Hits</th>
-                            <th width="20%">Memory</th>
-                            <th width="70%">Path</th>
-                        </tr>
+			<div class="tab">
+				<input type="radio" id="tab-scripts" name="tab-group-1"> <label
+					for="tab-scripts">Scripts (<?php echo $dataModel->getScriptStatusCount(); ?>)</label>
+				<div class="content">
+					<table style="font-size: 0.8em;">
+						<tr>
+							<th width="10%">Hits</th>
+							<th width="20%">Memory</th>
+							<th width="70%">Path</th>
+						</tr>
                         <?php echo $dataModel->getScriptStatusRows(); ?>
                     </table>
-                </div>
-            </div>
+				</div>
+			</div>
 
-            <div class="tab">
-                <input type="radio" id="tab-visualise" name="tab-group-1">
-                <label for="tab-visualise">Visualise Partition</label>
-                <div class="content"></div>
-            </div>
+			<div class="tab">
+				<input type="radio" id="tab-visualise" name="tab-group-1"> <label
+					for="tab-visualise">Visualise Partition</label>
+				<div class="content"></div>
+			</div>
 
-        </div>
+		</div>
 
-        <div id="graph">
-            <form>
-                <label><input type="radio" name="dataset" value="memory" checked> Memory</label>
-                <label><input type="radio" name="dataset" value="keys"> Keys</label>
-                <label><input type="radio" name="dataset" value="hits"> Hits</label>
-                <label><input type="radio" name="dataset" value="restarts"> Restarts</label>
-            </form>
+		<div id="graph">
+			<form>
+				<label><input type="radio" name="dataset" value="memory" checked>
+					Memory</label> <label><input type="radio" name="dataset"
+					value="keys"> Keys</label> <label><input type="radio"
+					name="dataset" value="hits"> Hits</label> <label><input
+					type="radio" name="dataset" value="restarts"> Restarts</label>
+			</form>
 
-            <div id="stats"></div>
-        </div>
-    </div>
+			<div id="stats"></div>
+		</div>
+	</div>
 
-    <div id="close-partition">&#10006; Close Visualisation</div>
-    <div id="partition"></div>
+	<div id="close-partition">&#10006; Close Visualisation</div>
+	<div id="partition"></div>
 
-    <script>
+	<script>
         var dataset = <?php echo $dataModel->getGraphDataSetJson(); ?>;
 
         var width = 400,

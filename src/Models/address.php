@@ -1,13 +1,13 @@
 <?php
-
 namespace FSS\Models;
 
 use \Illuminate\Database\Eloquent\Model;
 
 class Address extends CommonModel
 {
-    protected $table     = 'address';
-    
+
+    protected $table = 'address';
+
     /**
      * Get the city_data record associated with the address.
      */
@@ -15,7 +15,7 @@ class Address extends CommonModel
     {
         return $this->belongsTo('FSS\Models\City_data');
     }
-    
+
     /**
      * Get the state_data record associated with the address.
      */
@@ -23,7 +23,7 @@ class Address extends CommonModel
     {
         return $this->belongsTo('FSS\Models\State_data');
     }
-    
+
     /**
      * Get the county_data record associated with the address.
      */
@@ -31,5 +31,5 @@ class Address extends CommonModel
     {
         return $this->belongsTo('FSS\Models\County_data');
     }
-    //getters and setters if you want and other logic
+    // getters and setters if you want and other logic
 }

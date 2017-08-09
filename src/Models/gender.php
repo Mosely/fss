@@ -1,13 +1,13 @@
 <?php
-
 namespace FSS\Models;
 
 use \Illuminate\Database\Eloquent\Model;
 
 class Gender extends CommonModel
 {
-    protected $table     = 'gender';
-    
+
+    protected $table = 'gender';
+
     /**
      * Get the person records that have this gender.
      */
@@ -15,5 +15,5 @@ class Gender extends CommonModel
     {
         return $this->hasMany('FSS\Models\Person');
     }
-    //getters and setters if you want and other logic
+    // getters and setters if you want and other logic
 }

@@ -1,6 +1,5 @@
 <?php
 // DIC configuration
-
 $container = $app->getContainer();
 
 // monolog
@@ -15,14 +14,12 @@ $container['logger'] = function ($c) {
 // illuminate capsule
 $container['db'] = function ($c) {
     $settings = $c->get('settings')['db'];
-    $capsule  = new Illuminate\Database\Capsule\Manager;
+    $capsule = new Illuminate\Database\Capsule\Manager();
     $capsule->addConnection($settings);
     $capsule->bootEloquent();
     
-    $capsule->getContainer()->singleton(
-        Illuminate\Contracts\Debug\ExceptionHandler::class,
-        App\Exceptions\Handler::class
-        );
+    //$capsule->getContainer()->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class, \App\Exceptions\Handler::class);
+    $capsule->getContainer()->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class);
     
     return $capsule;
 };
