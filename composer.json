@@ -35,7 +35,9 @@
 	"minimum-stability" : "alpha",
 	"autoload" : {
 		"psr-4" : {
-			"FSS\\" : "src/"
+			"FSS\\" : "src/",
+			"FSS\\Models\\" : "src/Models",
+			"FSS\\Controllers\\" : "src/Controllers"
 		}
 	}
 }

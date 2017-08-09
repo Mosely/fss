@@ -3,10 +3,10 @@ namespace FSS\Controllers;
 
 use \DateTime;
 use \Exception;
-require 'controllerInterface.php';
-require '../src/Models/user.php';
-require '../src/Models/person.php';
-require '../src/Models/gender.php';
+//require 'controllerInterface.php';
+//require '../src/Models/user.php';
+//require '../src/Models/person.php';
+//require '../src/Models/gender.php';
 
 use FSS\Models\User as User;
 
