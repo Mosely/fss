@@ -16,7 +16,7 @@ $app->put('/users/{id:[0-9]+}', 'UserController:update');
 $app->delete('/users/{id:[0-9]+}', 'UserController:delete');
 
 $app->post('/login', 'UserController:login');
-$app->post('/logout', 'UserController:logout');
+$app->get('/logout', 'UserController:logout');
 
 $app->get('/branchesofservice', 'BranchOfServiceController:readAll');
 $app->get('/branchesofservice/{id:[0-9]+}', 'BranchOfServiceController:read');
