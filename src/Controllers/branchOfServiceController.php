@@ -5,7 +5,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Branch_of_service;
 
-class BranchOfServiceController
+class BranchOfServiceController implements ControllerInterface
 {
 
     private $container;
@@ -19,15 +19,15 @@ class BranchOfServiceController
         }
     }
 
-    public function readBranchOfService($request, $response, $args)
+    public function read($request, $response, $args)
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
-        return $this->readAllBranchesOfServiceWithFilter($request, $response, $args);
+        return $this->readAllWithFilter($request, $response, $args);
     }
 
-    public function readAllBranchesOfService($request, $response, $args)
+    public function readAll($request, $response, $args)
     {
         $records = Branch_of_service::all();
         return $response->withJson([
@@ -37,7 +37,7 @@ class BranchOfServiceController
         ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
-    public function readAllBranchesOfServiceWithFilter($request, $response, $args)
+    public function readAllWithFilter($request, $response, $args)
     {
         $filter = $args['filter'];
         $value = $args['value'];
@@ -65,7 +65,7 @@ class BranchOfServiceController
         }
     }
 
-    public function createBranchOfService($request, $response, $args)
+    public function create($request, $response, $args)
     {
         // Make sure the frontend only puts the name attribute on form elements that actually contain data for the record.
         $recordData = $request->getParsedBody();
@@ -86,7 +86,7 @@ class BranchOfServiceController
         }
     }
 
-    public function updateBranchOfService($request, $response, $args)
+    public function update($request, $response, $args)
     {
         //$id = $args['id'];
         $recordData = $request->getParsedBody();
@@ -111,7 +111,7 @@ class BranchOfServiceController
         }
     }
 
-    public function deleteBranchOfService($request, $response, $args)
+    public function delete($request, $response, $args)
     {
         $id = $args['id'];
         try {

@@ -8,7 +8,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Address;
 
-class AddressController
+class AddressController implements ControllerInterface
 {
 
     private $container;
@@ -22,7 +22,7 @@ class AddressController
         }
     }
 
-    public function readAddress($request, $response, $args)
+    public function read($request, $response, $args)
     {
         $id = $args['id'];
         $args['filter'] = "id";
@@ -31,10 +31,10 @@ class AddressController
         // $this->container['logger']->info("Reading address with id of $id");
         $this->container['logger']->debug("Reading address with id of $id");
         
-        return $this->readAllAddressesWithFilter($request, $response, $args);
+        return $this->readAllWithFilter($request, $response, $args);
     }
 
-    public function readAllAddresses($request, $response, $args)
+    public function readAll($request, $response, $args)
     {
         $records = Address::with([
             'city_data',
@@ -50,7 +50,7 @@ class AddressController
         ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
-    public function readAllAddressesWithFilter($request, $response, $args)
+    public function readAllWithFilter($request, $response, $args)
     {
         $filter = $args['filter'];
         $value = $args['value'];
@@ -83,7 +83,7 @@ class AddressController
         }
     }
 
-    public function createAddress($request, $response, $args)
+    public function create($request, $response, $args)
     {
         // Make sure the frontend only puts the name attribute on form elements that actually contain data for the record.
         $recordData = $request->getParsedBody();
@@ -105,7 +105,7 @@ class AddressController
         }
     }
 
-    public function updateAddress($request, $response, $args)
+    public function update($request, $response, $args)
     {
         //$id = $args['id'];
         $recordData = $request->getParsedBody();
@@ -131,7 +131,7 @@ class AddressController
         }
     }
 
-    public function deleteAddress($request, $response, $args)
+    public function delete($request, $response, $args)
     {
         $id = $args['id'];
         try {

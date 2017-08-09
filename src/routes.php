@@ -18,10 +18,10 @@ $app->delete('/users/{id:[0-9]+}', 'UserController:delete');
 $app->post('/login', 'UserController:login');
 $app->post('/logout', 'UserController:logout');
 
-$app->get('/branchesofservice', 'BranchOfServiceController:readAllBranchesOfService');
-$app->get('/branchesofservice/{id:[0-9]+}', 'BranchOfServiceController:readBranchOfService');
-$app->get('/branchesofservice/{filter}/{value}', 'BranchOfServiceController:readAllBranchesOfServiceWithFilter');
+$app->get('/branchesofservice', 'BranchOfServiceController:readAll');
+$app->get('/branchesofservice/{id:[0-9]+}', 'BranchOfServiceController:read');
+$app->get('/branchesofservice/{filter}/{value}', 'BranchOfServiceController:readAllWithFilter');
 
-$app->get('/addresses', 'AddressController:readAllAddresses');
-$app->get('/addresses/{id:[0-9]+}', 'AddressController:readAddress');
-$app->get('/addresses/{filter}/{value}', 'AddressController:readAllAddressesWithFilter');
+$app->get('/addresses', 'AddressController:readAll');
+$app->get('/addresses/{id:[0-9]+}', 'AddressController:read');
+$app->get('/addresses/{filter}/{value}', 'AddressController:readAllWithFilter');

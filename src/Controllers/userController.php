@@ -33,7 +33,7 @@ class UserController implements ControllerInterface
         $this->container['logger']->debug("Reading user with id of $id");
         
         // $user = User::findOrFail($id);
-        return $this->readAllUsersWithFilter($request, $response, $args);
+        return $this->readAllWithFilter($request, $response, $args);
     }
 
     public function readAll($request, $response, $args)
