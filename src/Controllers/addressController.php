@@ -1,12 +1,12 @@
 <?php
 namespace FSS\Controllers;
 
-require '../src/Models/address.php';
-require '../src/Models/city_data.php';
-require '../src/Models/state_data.php';
-require '../src/Models/county_data.php';
+//require '../src/Models/address.php';
+//require '../src/Models/city_data.php';
+//require '../src/Models/state_data.php';
+//require '../src/Models/county_data.php';
 
-use FSS\Models\Address as Address;
+use FSS\Models\Address;
 
 class AddressController
 {

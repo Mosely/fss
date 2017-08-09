@@ -1,7 +1,7 @@
 <?php
 // DJH Juryrigging the Token and Cache class Utilities
-require '../src/Utilities/token.php';
-require '../src/Utilities/cache.php';
+//require '../src/Utilities/token.php';
+//require '../src/Utilities/cache.php';
 
 return [
     'settings' => [

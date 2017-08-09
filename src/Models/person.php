@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Models;
 
-use \Illuminate\Database\Eloquent\Model;
+//use \Illuminate\Database\Eloquent\Model;
 
 class Person extends CommonModel
 {

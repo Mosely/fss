@@ -2,7 +2,7 @@
 // Since every controller will be using at least one model,
 // and since the models all extend CommonModel,
 // we'll go ahead and require commonModel.php here.
-require __DIR__ . "/../src/Models/commonModel.php";
+//require __DIR__ . "/../src/Models/commonModel.php";
 
 // Controller definitions
 $container['DefaultController'] = function ($c) {

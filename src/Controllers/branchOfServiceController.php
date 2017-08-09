@@ -1,9 +1,9 @@
 <?php
 namespace FSS\Controllers;
 
-require '../src/Models/branch_of_service.php';
+//require '../src/Models/branch_of_service.php';
 
-use FSS\Models\Branch_of_service as Branch_of_service;
+use FSS\Models\Branch_of_service;
 
 class BranchOfServiceController
 {

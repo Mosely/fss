@@ -2,7 +2,7 @@
 // Application middleware
 
 // e.g: $app->add(new \Slim\Csrf\Guard);
-use FSS\Utilities\Token as Token;
+use FSS\Utilities\Token;
 
 $app->add(new \Slim\Middleware\JwtAuthentication([
     "cookie" => getenv('JWT_NAME'),
