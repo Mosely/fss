@@ -90,6 +90,11 @@ class UserController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::create()
+     */
     public function create($request, $response, $args)
     {
         $recordData = $request->getParsedBody();
