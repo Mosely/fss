@@ -41,7 +41,7 @@
 			"FSS\\" : "src/",
 			"FSS\\Models\\" : "src/Models/",
 			"FSS\\Controllers\\" : "src/Controllers/",
-			"FSS\\Utilities" : "src/Utilities"
+			"FSS\\Utilities\\" : "src/Utilities/"
 		}
 	}
 }
