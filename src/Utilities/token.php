@@ -55,7 +55,7 @@ class Token
      */
     public function verify(string $token, string $userId)
     {
-        $payload = Token::decode($token);
+        $payload = self::decode($token);
         if ($payload['sub'] != $userId) {
             throw new Exception("This token does not match the user.");
         }
