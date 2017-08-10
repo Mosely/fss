@@ -3,6 +3,7 @@ namespace FSS\Utilities;
 
 use \Firebase\JWT\JWT;
 use \Exception;
+use \DateTime;
 
 /**
  * The Token class provides functionality to generate and verify JWT tokens.
@@ -21,8 +22,8 @@ class Token
      */
     public function generate(string $userId)
     {
-        $now = new \DateTime();
-        $future = new \DateTime(getenv('JWT_EXPIRATION'));
+        $now = new DateTime();
+        $future = new DateTime(getenv('JWT_EXPIRATION'));
         
         $jti = base64_encode(mcrypt_create_iv(32));
         $payload = [
@@ -37,7 +38,7 @@ class Token
         $data['token'] = $token;
         // $data["expires"] = $future->getTimeStamp();
         $data['expires'] = $payload['exp'];
-        return (array) $data;
+        return $data;
     }
 
     /**
