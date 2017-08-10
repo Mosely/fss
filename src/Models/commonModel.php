@@ -5,7 +5,8 @@ use \Illuminate\Database\Eloquent\Model;
 use \Exception;
 
 /**
- * The CommonModel class will hold any common code that all models can use.
+ * The CommonModel class will hold any 
+ * common code that all models can use.
  * 
  * @author Dewayne
  *
@@ -21,8 +22,8 @@ class CommonModel extends Model
     ];
 
     /**
-     * This will verify that the specified column is indeed a column for the 
-     * specified table.
+     * This will verify that the specified column 
+     * is indeed a column for the specified table.
      * 
      * @param string $theTable
      * @param string $column
@@ -33,10 +34,12 @@ class CommonModel extends Model
     {
         $columns = null;
         if (($cacheValue = $container['cache']->get($theTable)) != false) {
-            $container['logger']->debug("Retrieved $theTable column listing from cache.");
+            $container['logger']
+                ->debug("Retrieved $theTable column listing from cache.");
             $columns = $cacheValue;
         } else {
-            $columns = $container['db']::getSchemaBuilder()->getColumnListing($theTable);
+            $columns = 
+                $container['db']::getSchemaBuilder()->getColumnListing($theTable);
             $container['logger']
                 ->debug("Retrieved $theTable column listing from database: ", 
                 $container['db']::getQueryLog());

@@ -3,8 +3,10 @@ namespace FSS\Utilities;
 use Interop\Container\ContainerInterface;
 
 /**
- * The Cache class provides caching through the opcache functionality
- * in PHP.  THis should only be used for objects and arrays.
+ * The Cache class provides caching 
+ * through the opcache functionality
+ * in PHP.  THis should only be used 
+ * for objects and arrays.
  * 
  * @author Dewayne
  *
@@ -63,10 +65,12 @@ class Cache
         $ttl = 3600;
         $val = null;
         $this->container['logger']->debug("Retrieving cache item $key.");
-        if (file_exists("/tmp/$key") && ((time() - filemtime("/tmp/$key")) > $ttl)) { 
+        if (file_exists("/tmp/$key") && 
+            ((time() - filemtime("/tmp/$key")) > $ttl)) { 
             opcache_invalidate("/tmp/$key", true);
             unlink("/tmp/$key");
-            $this->container['logger']->debug("TTL exceeded. Cache item $key invalidated.");
+            $this->container['logger']
+                ->debug("TTL exceeded. Cache item $key invalidated.");
         }
         @include "/tmp/$key";
         return isset($val) ? $val : false;

@@ -18,7 +18,8 @@ class Person extends CommonModel
     public function user()
     {
         return $this->hasOne('FSS\Models\User', 'id', 'id');
-        // NOTE: indicate both the foreign and local keys for the one-to-one relationships
+        // NOTE: indicate both the foreign and 
+        // local keys for the one-to-one relationships
     }
 
     /**

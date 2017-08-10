@@ -28,7 +28,8 @@ class UserController implements ControllerInterface
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug("Enabling query log for the User Controller.");
+            $this->container['logger']
+                ->debug("Enabling query log for the User Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -57,7 +58,8 @@ class UserController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        // $records = User::with(['person', 'gender'])->get(); // This doesn't work
+        // $records = User::with(['person', 'gender'])->get(); 
+        // The above doesn't work
         $records = User::with([
             'person' => function ($q) {
                 return $q->with('gender');
@@ -137,7 +139,8 @@ class UserController implements ControllerInterface
             if (! ($recordData['password'] === $checkPassword)) {
                 throw new Exception("The passwords do not match.");
             }
-            $recordData['password'] = password_hash($recordData['password'], PASSWORD_DEFAULT);
+            $recordData['password'] = 
+                password_hash($recordData['password'], PASSWORD_DEFAULT);
             $recordId = User::insertGetId($recordData);
             $this->container['logger']->debug("Users create query: ", 
                 $this->container['db']::getQueryLog());

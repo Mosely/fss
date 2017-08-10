@@ -3,6 +3,7 @@
 
 // e.g: $app->add(new \Slim\Csrf\Guard);
 use FSS\Utilities\Token;
+use \Exception;
 
 // Setting up JWT Authentication 
 $app->add(new \Slim\Middleware\JwtAuthentication([
@@ -23,7 +24,8 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
         // inactive for more than the JWT expire interval. Hopefully.
         $tokenData = Token::generate($arguments["decoded"]->sub);
         if (! setcookie(getenv('JWT_NAME'), $tokenData['token'], 0, '/', '', false, true)) {
-            throw new \Exception("Cannot recreate the JWT Token with time extension. Disallowing authentication.");
+            throw new Exception(
+                "Cannot recreate the JWT Token with time extension. Disallowing authentication.");
             return false;
         }
         // DJH NOTE: this is the JWT that auth'ed this call, not the new JWT.

@@ -6,7 +6,8 @@ use \Exception;
 use \DateTime;
 
 /**
- * The Token class provides functionality to generate and verify JWT tokens.
+ * The Token class provides functionality 
+ * to generate and verify JWT tokens.
  * 
  * @author Dewayne
  *
@@ -14,7 +15,8 @@ use \DateTime;
 class Token
 {
     /**
-     * Generates a JWT token and returns an array containig the token and 
+     * Generates a JWT token and returns 
+     * an array containig the token and 
      * expiry data.
      * 
      * @param string $userId
@@ -33,7 +35,9 @@ class Token
             'sub' => $userId
         ];
         
-        $token = JWT::encode($payload, getenv('JWT_SECRET'), getenv('JWT_ALGORITHM'));
+        $token = JWT::encode($payload, 
+            getenv('JWT_SECRET'), 
+            getenv('JWT_ALGORITHM'));
         $data = [];
         $data['token'] = $token;
         // $data["expires"] = $future->getTimeStamp();
@@ -42,7 +46,8 @@ class Token
     }
 
     /**
-     * Verifies the given token to see if it matches the indicated user.
+     * Verifies the given token to see if 
+     * it matches the indicated user.
      * 
      * @param string $token
      * @param string $userId
