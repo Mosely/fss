@@ -11,7 +11,7 @@ use \Exception;
  * @author Dewayne
  *
  */
-class AbstractModel extends Model
+abstract class AbstractModel extends Model
 {
 
     // There's no need to return these three 
