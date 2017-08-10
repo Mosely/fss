@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *
  */
-class Branch_of_service extends CommonModel
+class Branch_of_service extends AbstractModel
 {
     // The table for this model
     protected $table = 'branch_of_service';

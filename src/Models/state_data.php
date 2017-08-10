@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *
  */
-class State_data extends CommonModel
+class State_data extends AbstractModel
 {
     // The table for this model
     protected $table = 'state_data';

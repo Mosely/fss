@@ -5,16 +5,17 @@ use \Illuminate\Database\Eloquent\Model;
 use \Exception;
 
 /**
- * The CommonModel class will hold any 
+ * The AbstractModel class will hold any 
  * common code that all models can use.
  * 
  * @author Dewayne
  *
  */
-class CommonModel extends Model
+class AbstractModel extends Model
 {
 
-    // There's no need to return these three columns with every request.
+    // There's no need to return these three 
+    // columns with every request.
     protected $hidden = [
         'created_at',
         'updated_at',

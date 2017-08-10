@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *
  */
-class County_data extends CommonModel
+class County_data extends AbstractModel
 {
     // The table for this model
     protected $table = 'county_data';

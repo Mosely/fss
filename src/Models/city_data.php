@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *
  */
-class City_data extends CommonModel
+class City_data extends AbstractModel
 {
     // The table for this model
     protected $table = 'city_data';

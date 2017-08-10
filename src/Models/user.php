@@ -8,7 +8,7 @@ use \Exception;
  * @author Dewayne
  *
  */
-class User extends CommonModel
+class User extends AbstractModel
 {
     // The table for this model
     protected $table = 'user';

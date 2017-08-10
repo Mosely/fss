@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *
  */
-class Person extends CommonModel
+class Person extends AbstractModel
 {
     // The table for this model
     protected $table = 'person';
