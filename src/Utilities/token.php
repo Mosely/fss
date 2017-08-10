@@ -16,10 +16,10 @@ class Token
      * Generates a JWT token and returns an array containig the token and 
      * expiry data.
      * 
-     * @param int $userId
+     * @param string $userId
      * @return array
      */
-    public function generate(int $userId)
+    public function generate(string $userId)
     {
         $now = new \DateTime();
         $future = new \DateTime(getenv('JWT_EXPIRATION'));
@@ -44,10 +44,10 @@ class Token
      * Verifies the given token to see if it matches the indicated user.
      * 
      * @param string $token
-     * @param int $userId
+     * @param string $userId
      * @throws Exception
      */
-    public function verify(string $token, int $userId)
+    public function verify(string $token, string $userId)
     {
         $payload = Token::decode($token);
         if ($payload['sub'] != $userId) {
