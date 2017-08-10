@@ -2,8 +2,6 @@
 // Application middleware
 
 // e.g: $app->add(new \Slim\Csrf\Guard);
-use FSS\Utilities\Token;
-use \Exception;
 
 // Setting up JWT Authentication 
 $app->add(new \Slim\Middleware\JwtAuthentication([
@@ -22,7 +20,7 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
         // If the current JWT is good, issue a new JWT with a new expire time.
         // This should allow the JWT auth process to work until the end-user is
         // inactive for more than the JWT expire interval. Hopefully.
-        $tokenData = Token::generate($arguments["decoded"]->sub);
+    $tokenData = $container['token']->generate($arguments["decoded"]->sub);
         if (! setcookie(getenv('JWT_NAME'), $tokenData['token'], 0, '/', '', false, true)) {
             throw new Exception(
                 "Cannot recreate the JWT Token with time extension. Disallowing authentication.");
@@ -32,6 +30,7 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
         $container["jwt"] = $arguments["decoded"];
     },
     "error" => function ($request, $response, $arguments) {
+        $data = [];
         $data["success"] = false;
         $data["message"] = $arguments["message"];
         return $response->withHeader("Content-Type", "application/json")
