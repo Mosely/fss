@@ -1,8 +1,6 @@
 <?php
 namespace FSS\Models;
 
-//use \Illuminate\Database\Eloquent\Model;
-
 class City_data extends CommonModel
 {
 
