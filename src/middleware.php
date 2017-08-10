@@ -9,7 +9,8 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
     "secure" => true,
     "relaxed" => [
         "localhost",
-        "nginx2.pantheon.local"
+        "nginx2.pantheon.local",
+        "nginx3.pantheon.local"
     ],
     "secret" => getenv('JWT_SECRET'), // DJH don't forget to change this and store it in an environment variable
     "algorithm" => getenv('JWT_ALGORITHM'),
