@@ -10,7 +10,7 @@ use \Exception;
  */
 class User extends CommonModel
 {
-
+    // The table for this model
     protected $table = 'user';
 
     /**

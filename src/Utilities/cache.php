@@ -63,7 +63,7 @@ class Cache
         $ttl = 3600;
         $val = null;
         $this->container['logger']->debug("Retrieving cache item $key.");
-        if ((time() - filemtime("/tmp/$key")) > $ttl) { 
+        if (file_exists("/tmp/$key") && ((time() - filemtime("/tmp/$key")) > $ttl)) { 
             opcache_invalidate("/tmp/$key", true);
             unlink("/tmp/$key");
             $this->container['logger']->debug("TTL exceeded. Cache item $key invalidated.");
