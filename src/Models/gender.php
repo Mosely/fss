@@ -1,9 +1,15 @@
 <?php
 namespace FSS\Models;
 
+/**
+ * The gender model.
+ * 
+ * @author Dewayne
+ *
+ */
 class Gender extends CommonModel
 {
-
+    // The table for this model
     protected $table = 'gender';
 
     /**

@@ -1,11 +1,15 @@
 <?php
 namespace FSS\Models;
 
-//use \Illuminate\Database\Eloquent\Model;
-
+/**
+ * The person model.
+ * 
+ * @author Dewayne
+ *
+ */
 class Person extends CommonModel
 {
-
+    // The table for this model
     protected $table = 'person';
 
     /**

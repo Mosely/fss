@@ -2,11 +2,24 @@
 namespace FSS\Utilities;
 
 use \Firebase\JWT\JWT;
+use \Exception;
 
+/**
+ * The Token class provides functionality to generate and verify JWT tokens.
+ * 
+ * @author Dewayne
+ *
+ */
 class Token
 {
-
-    public function generate($userId)
+    /**
+     * Generates a JWT token and returns an array containig the token and 
+     * expiry data.
+     * 
+     * @param int $userId
+     * @return array
+     */
+    public function generate(int $userId)
     {
         $now = new \DateTime();
         $future = new \DateTime(getenv('JWT_EXPIRATION'));
@@ -24,18 +37,31 @@ class Token
         $data['token'] = $token;
         // $data["expires"] = $future->getTimeStamp();
         $data['expires'] = $payload['exp'];
-        return $data;
+        return (array) $data;
     }
 
-    public function verify($token, $userId)
+    /**
+     * Verifies the given token to see if it matches the indicated user.
+     * 
+     * @param string $token
+     * @param int $userId
+     * @throws Exception
+     */
+    public function verify(string $token, int $userId)
     {
         $payload = Token::decode($token);
         if ($payload['sub'] != $userId) {
-            throw new \Exception("This token does not match the user.");
+            throw new Exception("This token does not match the user.");
         }
     }
 
-    private function decode($token)
+    /**
+     * Decodes the given JWT token.
+     * 
+     * @param string $token
+     * @return array
+     */
+    private function decode(string $token)
     {
         JWT::$leeway = 60; // $leeway in seconds
         $decoded = JWT::decode($token, getenv('JWT_SECRET'), array(

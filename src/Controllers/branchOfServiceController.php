@@ -1,15 +1,27 @@
 <?php
 namespace FSS\Controllers;
 
-//require '../src/Models/branch_of_service.php';
-
 use FSS\Models\Branch_of_service;
+use \Exception;
 
+/**
+ * This controller handles actions relating to
+ * the branch_of_service model.
+ * 
+ * @author Dewayne
+ *
+ */
 class BranchOfServiceController implements ControllerInterface
 {
-
+    // The DI container reference.
     private $container;
-
+    
+    /**
+     * The constructor that sets the DI Container reference and
+     * enable query logging if debug mode is true in settings.php
+     *
+     * @param unknown $c
+     */
     public function __construct($c)
     {
         $this->container = $c;
@@ -18,7 +30,11 @@ class BranchOfServiceController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
-
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::read()
+     */
     public function read($request, $response, $args)
     {
         $id = $args['id'];
@@ -27,6 +43,11 @@ class BranchOfServiceController implements ControllerInterface
         return $this->readAllWithFilter($request, $response, $args);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::readAll()
+     */
     public function readAll($request, $response, $args)
     {
         $records = Branch_of_service::all();
@@ -37,6 +58,11 @@ class BranchOfServiceController implements ControllerInterface
         ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     */
     public function readAllWithFilter($request, $response, $args)
     {
         $filter = $args['filter'];
@@ -57,7 +83,7 @@ class BranchOfServiceController implements ControllerInterface
                 "message" => "Filtered branches_of_service by $filter",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson([
                 "success" => false,
                 "message" => "Error occured: " . $e->getMessage()
@@ -65,6 +91,11 @@ class BranchOfServiceController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::create()
+     */
     public function create($request, $response, $args)
     {
         // Make sure the frontend only puts the name attribute on form elements that actually contain data for the record.
@@ -78,7 +109,7 @@ class BranchOfServiceController implements ControllerInterface
                 "success" => true,
                 "message" => "Branch_of_service $recordId has been created."
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson([
                 "success" => false,
                 "message" => "Error occured: " . $e->getMessage()
@@ -86,6 +117,11 @@ class BranchOfServiceController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::update()
+     */
     public function update($request, $response, $args)
     {
         //$id = $args['id'];
@@ -103,7 +139,7 @@ class BranchOfServiceController implements ControllerInterface
                 "success" => true,
                 "message" => "Updated Branch_of_service $recordId"
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson([
                 "success" => false,
                 "message" => "Error occured: " . $e->getMessage()
@@ -111,6 +147,11 @@ class BranchOfServiceController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::delete()
+     */
     public function delete($request, $response, $args)
     {
         $id = $args['id'];
@@ -121,7 +162,7 @@ class BranchOfServiceController implements ControllerInterface
                 "success" => true,
                 "message" => "Deleted Branch_of_service $id"
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson([
                 "success" => false,
                 "message" => "Branch_of_service not found"

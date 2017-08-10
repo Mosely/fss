@@ -1,18 +1,27 @@
 <?php
 namespace FSS\Controllers;
 
-//require '../src/Models/address.php';
-//require '../src/Models/city_data.php';
-//require '../src/Models/state_data.php';
-//require '../src/Models/county_data.php';
-
 use FSS\Models\Address;
 
+/**
+ * The controller for address-related actions.
+ * 
+ * Implements the ControllerInterface.
+ * 
+ * @author Dewayne
+ *
+ */
 class AddressController implements ControllerInterface
 {
-
+    // The DI container reference.
     private $container;
 
+    /**
+     * The constructor that sets the DI Container reference and 
+     * enable query logging if debug mode is true in settings.php
+     * 
+     * @param unknown $c
+     */
     public function __construct($c)
     {
         $this->container = $c;
@@ -22,6 +31,11 @@ class AddressController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::read()
+     */
     public function read($request, $response, $args)
     {
         $id = $args['id'];
@@ -34,6 +48,11 @@ class AddressController implements ControllerInterface
         return $this->readAllWithFilter($request, $response, $args);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::readAll()
+     */
     public function readAll($request, $response, $args)
     {
         $records = Address::with([
@@ -50,6 +69,11 @@ class AddressController implements ControllerInterface
         ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     */
     public function readAllWithFilter($request, $response, $args)
     {
         $filter = $args['filter'];
@@ -83,6 +107,11 @@ class AddressController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::create()
+     */
     public function create($request, $response, $args)
     {
         // Make sure the frontend only puts the name attribute on form elements that actually contain data for the record.
@@ -105,6 +134,11 @@ class AddressController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::update()
+     */
     public function update($request, $response, $args)
     {
         //$id = $args['id'];
@@ -131,6 +165,11 @@ class AddressController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::delete()
+     */
     public function delete($request, $response, $args)
     {
         $id = $args['id'];

@@ -1,11 +1,15 @@
 <?php
 namespace FSS\Models;
 
-//use \Illuminate\Database\Eloquent\Model;
-
+/**
+ * The county_data model.
+ * 
+ * @author Dewayne
+ *
+ */
 class County_data extends CommonModel
 {
-
+    // The table for this model
     protected $table = 'county_data';
 
     /**

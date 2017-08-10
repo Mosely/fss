@@ -1,11 +1,15 @@
 <?php
 namespace FSS\Models;
 
-//use \Illuminate\Database\Eloquent\Model;
-
+/**
+ * The address model.
+ * 
+ * @author Dewayne
+ *
+ */
 class Address extends CommonModel
 {
-
+    // The table for this model
     protected $table = 'address';
 
     /**

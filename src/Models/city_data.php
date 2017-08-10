@@ -1,9 +1,15 @@
 <?php
 namespace FSS\Models;
 
+/**
+ * The city_data model
+ * 
+ * @author Dewayne
+ *
+ */
 class City_data extends CommonModel
 {
-
+    // The table for this model
     protected $table = 'city_data';
 
     /**
