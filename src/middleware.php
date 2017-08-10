@@ -20,14 +20,14 @@ $app->add(new \Slim\Middleware\JwtAuthentication([
         // If the current JWT is good, issue a new JWT with a new expire time.
         // This should allow the JWT auth process to work until the end-user is
         // inactive for more than the JWT expire interval. Hopefully.
-    $tokenData = $container['token']->generate($arguments["decoded"]->sub);
+        $tokenData = $container['jwt']->generate($arguments["decoded"]->sub);
         if (! setcookie(getenv('JWT_NAME'), $tokenData['token'], 0, '/', '', false, true)) {
             throw new Exception(
                 "Cannot recreate the JWT Token with time extension. Disallowing authentication.");
             return false;
         }
         // DJH NOTE: this is the JWT that auth'ed this call, not the new JWT.
-        $container["jwt"] = $arguments["decoded"];
+        $container["jwtToken"] = $arguments["decoded"];
     },
     "error" => function ($request, $response, $arguments) {
         $data = [];
