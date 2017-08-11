@@ -1,13 +1,28 @@
 <?php
 namespace FSS\Models;
+use \Exception;
 
-class User extends CommonModel
+/**
+ * The user model.
+ * 
+ * @author Dewayne
+ *
+ */
+class User extends AbstractModel
 {
-
+    // The table for this model
     protected $table = 'user';
 
-    public function validatePassword($password)
+    /**
+     * Checks to see if the password follows rules.
+     * 
+     * @param string $password
+     * @return boolean
+     */
+    public function validatePassword(string $password)
     {
+        // TODO Think about a way to dynamically load regex from a 
+        // config.
         $r1 = '/[A-Z]/'; // Uppercase
         $r2 = '/[a-z]/'; // lowercase
         $r3 = '/[!@#$%^&*()\-_=+{};:,<.>]/'; // 'special char'
@@ -25,15 +40,31 @@ class User extends CommonModel
             return false;
         return true;
     }
-
-    public function verifyPassword($password, $passwordHash)
+    
+    /**
+     * Verifies that the password matches the given password hash.
+     * 
+     * @param string $password
+     * @param string $passwordHash
+     * @throws Exception
+     */
+    public function verifyPassword(string $password, string $passwordHash)
     {
         if (! password_verify($password, $passwordHash)) {
-            throw new \Exception("Incorrect password.");
+            throw new Exception("Incorrect password.");
         }
     }
-
-    public function authenticate($userData, $container, $table)
+    
+    /**
+     * This will try to authenticate a user 
+     * 
+     * @param unknown $userData
+     * @param unknown $container
+     * @param string $table
+     * @throws Exception
+     * @return string
+     */
+    public function authenticate($userData, $container, string $table)
     {
         try {
             
@@ -41,20 +72,24 @@ class User extends CommonModel
                 parent::validateColumn($table, $key, $container);
             }
             
-            $user = User::select('password', 'id', 'username', 'is_disabled')->where('username', '=', $userData['username'])->firstOrFail();
+            $user = User::select('password', 'id', 'username', 'is_disabled')
+                ->where('username', '=', $userData['username'])
+                ->firstOrFail();
             
-            $container['logger']->debug("User login query: ", $container['db']::getQueryLog());
+            $container['logger']
+                ->debug("User login query: ", 
+                $container['db']::getQueryLog());
             
             if ($user->is_disabled != 0) {
-                throw new \Exception("Your account has been disabled.");
+                throw new Exception("Your account has been disabled.");
             }
             
             User::verifyPassword($userData['password'], $user->password);
             
             return strtolower($user->id);
         } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
-            throw new \Exception("Username is incorrect.");
-        } catch (\Exception $e) {
+            throw new Exception("Username is incorrect.");
+        } catch (Exception $e) {
             throw $e;
         }
     }

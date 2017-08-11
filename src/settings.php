@@ -1,13 +1,14 @@
 <?php
-// DJH Juryrigging the Token and Cache class Utilities
-//require '../src/Utilities/token.php';
-//require '../src/Utilities/cache.php';
-
+// The settings array to be use by a variety 
+// of dependencies and midlewares
 return [
     'settings' => [
-        'debug' => ($debug = true), // DJH Adding a setting bool for checking if we're in debug mode
-        'displayErrorDetails' => true, // set to false in production
-        'addContentLengthHeader' => false, // Allow the web server to send the content-length header
+    // DJH Adding a setting bool for checking if we're in debug mode
+        'debug' => ($debug = true), 
+        // set to false in production
+        'displayErrorDetails' => true, 
+        // Allow the web server to send the content-length header
+        'addContentLengthHeader' => false, 
                                            
         // Monolog settings
         'logger' => [

@@ -1,11 +1,15 @@
 <?php
 namespace FSS\Models;
 
-//use \Illuminate\Database\Eloquent\Model;
-
-class Person extends CommonModel
+/**
+ * The person model.
+ * 
+ * @author Dewayne
+ *
+ */
+class Person extends AbstractModel
 {
-
+    // The table for this model
     protected $table = 'person';
 
     /**
@@ -14,7 +18,8 @@ class Person extends CommonModel
     public function user()
     {
         return $this->hasOne('FSS\Models\User', 'id', 'id');
-        // NOTE: indicate both the foreign and local keys for the one-to-one relationships
+        // NOTE: indicate both the foreign and 
+        // local keys for the one-to-one relationships
     }
 
     /**

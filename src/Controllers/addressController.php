@@ -1,27 +1,42 @@
 <?php
 namespace FSS\Controllers;
 
-//require '../src/Models/address.php';
-//require '../src/Models/city_data.php';
-//require '../src/Models/state_data.php';
-//require '../src/Models/county_data.php';
-
 use FSS\Models\Address;
 
+/**
+ * The controller for address-related actions.
+ * 
+ * Implements the ControllerInterface.
+ * 
+ * @author Dewayne
+ *
+ */
 class AddressController implements ControllerInterface
 {
-
+    // The DI container reference.
     private $container;
 
+    /**
+     * The constructor that sets the DI Container reference and 
+     * enable query logging if debug mode is true in settings.php
+     * 
+     * @param unknown $c
+     */
     public function __construct($c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug("Enabling query log for the Address Controller.");
+            $this->container['logger']
+                ->debug("Enabling query log for the Address Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::read()
+     */
     public function read($request, $response, $args)
     {
         $id = $args['id'];
@@ -34,6 +49,11 @@ class AddressController implements ControllerInterface
         return $this->readAllWithFilter($request, $response, $args);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::readAll()
+     */
     public function readAll($request, $response, $args)
     {
         $records = Address::with([
@@ -41,7 +61,8 @@ class AddressController implements ControllerInterface
             'state_data',
             'county_data'
         ])->get();
-        $this->container['logger']->debug("All addresses query: ", $this->container['db']::getQueryLog());
+        $this->container['logger']->debug("All addresses query: ", 
+            $this->container['db']::getQueryLog());
         // $records = Address::all();
         return $response->withJson([
             "success" => true,
@@ -50,6 +71,11 @@ class AddressController implements ControllerInterface
         ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     */
     public function readAllWithFilter($request, $response, $args)
     {
         $filter = $args['filter'];
@@ -62,7 +88,8 @@ class AddressController implements ControllerInterface
                 'state_data',
                 'county_data'
             ])->where($filter, $value)->get();
-            $this->container['logger']->debug("Address filter query: ", $this->container['db']::getQueryLog());
+            $this->container['logger']->debug("Address filter query: ", 
+                $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson([
                     "success" => true,
@@ -83,16 +110,24 @@ class AddressController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::create()
+     */
     public function create($request, $response, $args)
     {
-        // Make sure the frontend only puts the name attribute on form elements that actually contain data for the record.
+        // Make sure the frontend only puts the name attribute 
+        // on form elements that actually contain data 
+        // for the record.
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
                 Address::validateColumn('address', $key, $this->container);
             }
             $recordId = Address::insertGetId($recordData);
-            $this->container['logger']->debug("Address create query: ", $this->container['db']::getQueryLog());
+            $this->container['logger']->debug("Address create query: ", 
+                $this->container['db']::getQueryLog());
             return $response->withJson([
                 "success" => true,
                 "message" => "Address $recordId has been created."
@@ -105,6 +140,11 @@ class AddressController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::update()
+     */
     public function update($request, $response, $args)
     {
         //$id = $args['id'];
@@ -118,7 +158,8 @@ class AddressController implements ControllerInterface
                 ]);
             }
             $recordId = Address::update($updateData);
-            $this->container['logger']->debug("Address update query: ", $this->container['db']::getQueryLog());
+            $this->container['logger']->debug("Address update query: ", 
+                $this->container['db']::getQueryLog());
             return $response->withJson([
                 "success" => true,
                 "message" => "Updated Address $recordId"
@@ -131,13 +172,19 @@ class AddressController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::delete()
+     */
     public function delete($request, $response, $args)
     {
         $id = $args['id'];
         try {
             $record = Address::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Address delete query: ", $this->container['db']::getQueryLog());
+            $this->container['logger']->debug("Address delete query: ", 
+                $this->container['db']::getQueryLog());
             return $response->withJson([
                 "success" => true,
                 "message" => "Deleted Address $id"

@@ -1,11 +1,15 @@
 <?php
 namespace FSS\Models;
 
-//use \Illuminate\Database\Eloquent\Model;
-
-class State_data extends CommonModel
+/**
+ * The state_data model.
+ * 
+ * @author Dewayne
+ *
+ */
+class State_data extends AbstractModel
 {
-
+    // The table for this model
     protected $table = 'state_data';
 
     /**

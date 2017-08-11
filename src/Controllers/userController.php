@@ -5,20 +5,40 @@ use \DateTime;
 use \Exception;
 use FSS\Models\User;
 
+/**
+ * The user controller for all user-related actions.
+ * 
+ * @author Dewayne
+ *
+ */
 class UserController implements ControllerInterface
 {
-
+    // The DI container reference.
     private $container;
 
+    /**
+     * The create function is responsible for adding a record
+     * as indicated in the controller that implements this interface.
+     *
+     * @param unknown $request
+     * @param unknown $response
+     * @param unknown $args
+     */
     public function __construct($c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug("Enabling query log for the User Controller.");
+            $this->container['logger']
+                ->debug("Enabling query log for the User Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::read()
+     */
     public function read($request, $response, $args)
     {
         $id = $args['id'];
@@ -31,17 +51,26 @@ class UserController implements ControllerInterface
         return $this->readAllWithFilter($request, $response, $args);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::readAll()
+     */
     public function readAll($request, $response, $args)
     {
-        // $records = User::with(['person', 'gender'])->get(); // This doesn't work
+        // $records = User::with(['person', 'gender'])->get(); 
+        // The above doesn't work
         $records = User::with([
             'person' => function ($q) {
                 return $q->with('gender');
-                // NOTE: If you need to traverse the depths of more than two tables deep (in this case, the user, person and gender tables)
-                // you will need to handle the deeper relationships as done here.
+                // NOTE: If you need to traverse the depths of more
+                // than two tables (in this case, the user, person
+                // and gender tables) you will need to handle the
+                // deeper relationships as done here.
             }
         ])->get();
-        $this->container['logger']->debug("All Users query: ", $this->container['db']::getQueryLog());
+        $this->container['logger']->debug("All Users query: ", 
+            $this->container['db']::getQueryLog());
         return $response->withJson([
             "success" => true,
             "message" => "All users returned",
@@ -49,6 +78,11 @@ class UserController implements ControllerInterface
         ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     */
     public function readAllWithFilter($request, $response, $args)
     {
         $filter = $args['filter'];
@@ -60,11 +94,14 @@ class UserController implements ControllerInterface
             $records = User::with([
                 'person' => function ($q) {
                     return $q->with('gender');
-                    // NOTE: If you need to traverse the depths of more than two tables (in this case, the user, person and gender tables)
-                    // you will need to handle the deeper relationships as done here.
+                    // NOTE: If you need to traverse the depths of more 
+                    // than two tables (in this case, the user, person 
+                    // and gender tables) you will need to handle the 
+                    // deeper relationships as done here.
                 }
             ])->where($filter, $value)->get();
-            $this->container['logger']->debug("Users with filter query: ", $this->container['db']::getQueryLog());
+            $this->container['logger']->debug("Users with filter query: ", 
+                $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson([
                     "success" => true,
@@ -102,9 +139,11 @@ class UserController implements ControllerInterface
             if (! ($recordData['password'] === $checkPassword)) {
                 throw new Exception("The passwords do not match.");
             }
-            $recordData['password'] = password_hash($recordData['password'], PASSWORD_DEFAULT);
+            $recordData['password'] = 
+                password_hash($recordData['password'], PASSWORD_DEFAULT);
             $recordId = User::insertGetId($recordData);
-            $this->container['logger']->debug("Users create query: ", $this->container['db']::getQueryLog());
+            $this->container['logger']->debug("Users create query: ", 
+                $this->container['db']::getQueryLog());
             return $response->withJson([
                 "success" => true,
                 "message" => "User $recordId has been created."
@@ -117,6 +156,11 @@ class UserController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::update()
+     */
     public function update($request, $response, $args)
     {
         //$id = $args['id'];
@@ -130,7 +174,8 @@ class UserController implements ControllerInterface
                 ]);
             }
             $recordId = User::update($updateData);
-            $this->container['logger']->debug("Users update query: ", $this->container['db']::getQueryLog());
+            $this->container['logger']->debug("Users update query: ", 
+                $this->container['db']::getQueryLog());
             return $response->withJson([
                 "success" => true,
                 "message" => "Updated user $recordId"
@@ -143,6 +188,11 @@ class UserController implements ControllerInterface
         }
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     * @see \FSS\Controllers\ControllerInterface::delete()
+     */
     public function delete($request, $response, $args)
     {
         $id = $args['id'];
@@ -150,7 +200,8 @@ class UserController implements ControllerInterface
         try {
             $record = User::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Users delete query: ", $this->container['db']::getQueryLog());
+            $this->container['logger']->debug("Users delete query: ", 
+                $this->container['db']::getQueryLog());
             return $response->withJson([
                 "success" => true,
                 "message" => "Deleted user $id"
@@ -163,6 +214,15 @@ class UserController implements ControllerInterface
         }
     }
 
+    /**
+     * The login action for a user.
+     * 
+     * @param unknown $request
+     * @param unknown $response
+     * @param unknown $args
+     * @throws Exception
+     * @return unknown
+     */
     public function login($request, $response, $args)
     {
         $userData = $request->getParsedBody();
@@ -170,7 +230,8 @@ class UserController implements ControllerInterface
         try {
             $id = User::authenticate($userData, $this->container, 'user');
             $tokenData = $this->container['jwt']->generate($id);
-            // if(!setcookie('token', $tokenData['token'], (int)$tokenData['expires'], '/', "", false, true)) {
+            // if(!setcookie('token', $tokenData['token'], 
+            //   (int)$tokenData['expires'], '/', "", false, true)) {
             if (! setcookie(getenv('JWT_NAME'), $tokenData['token'], 0, '/', '', false, true)) {
                 throw new Exception("Cannot create the JWT Token. Disallowing authentication.");
             }
@@ -189,6 +250,15 @@ class UserController implements ControllerInterface
         }
     }
 
+    /**
+     * The logout action for the user.
+     * 
+     * @param unknown $request
+     * @param unknown $response
+     * @param unknown $args
+     * @throws Exception
+     * @return unknown
+     */
     public function logout($request, $response, $args)
     {
         $userIdFromToken = $this->container['jwt']->sub;

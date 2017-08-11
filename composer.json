@@ -7,7 +7,12 @@
 	"license" : "MIT",
 	"authors" : [{
 			"name" : "Dewayne Higgs",
-			"email" : "dewayne.higgs@gmail.com",
+			"role" : "Author"
+		}, {
+			"name" : "BJ Brooks",
+			"role" : "Author"
+		}, {
+			"name" : "Marshal Homfeld",
 			"role" : "Author"
 		}
 	],
