@@ -18,7 +18,7 @@ class User extends AbstractModel
      */
     public function __construct()
     {
-        array_push(parent::$hidden, 'password', 'password_created_at');
+        array_push(self::$hidden, 'password', 'password_created_at');
     }
 
     /**
