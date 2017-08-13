@@ -21,6 +21,16 @@ class Person extends AbstractModel
         // NOTE: indicate both the foreign and 
         // local keys for the one-to-one relationships
     }
+	
+	 /**
+     * Get the user that has this person.
+     */
+    public function client()
+    {
+        return $this->hasOne('FSS\Models\Client', 'id', 'id');
+        // NOTE: indicate both the foreign and 
+        // local keys for the one-to-one relationships
+    }
 
     /**
      * Get the gender that has this person.
