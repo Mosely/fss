@@ -12,6 +12,14 @@ class User extends AbstractModel
 {
     // The table for this model
     protected $table = 'user';
+    
+    /**
+     * The constructor for the User model class.
+     */
+    public function __construct()
+    {
+        array_push(parent::$hidden, 'password', 'password_created_at');
+    }
 
     /**
      * Checks to see if the password follows rules.
