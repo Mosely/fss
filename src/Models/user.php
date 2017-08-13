@@ -61,7 +61,15 @@ class User extends AbstractModel
      */
     public function verifyPassword(string $password, string $passwordHash)
     {
-        if (! password_verify($password, $passwordHash)) {
+        if (password_verify($password, $passwordHash)) {
+            if (password_needs_rehash($passwordHash, PASSWORD_DEFAULT)) {
+                // If so, create a new hash, and replace the old one
+                $newHash = password_hash($password, PASSWORD_DEFAULT);
+                $updateData = [];
+                $updateData['password'] = $newHash;
+                User::update($updateData);
+            }
+        } else {
             throw new Exception("Incorrect password.");
         }
     }
