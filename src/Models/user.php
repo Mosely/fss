@@ -13,13 +13,16 @@ class User extends AbstractModel
     // The table for this model
     protected $table = 'user';
     
-    /**
-     * The constructor for the User model class.
-     */
-    public function __construct()
-    {
-        array_push(self::$hidden, 'password', 'password_created_at');
-    }
+    // There's no need to return these five 
+    // columns with every request. Going to
+    // override the $hidden from AbstractModel
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'updated_by',
+        'password', 
+        'password_created_at'
+    ];
 
     /**
      * Checks to see if the password follows rules.
