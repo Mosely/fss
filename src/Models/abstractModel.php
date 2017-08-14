@@ -5,16 +5,16 @@ use \Illuminate\Database\Eloquent\Model;
 use \Exception;
 
 /**
- * The AbstractModel class will hold any 
+ * The AbstractModel class will hold any
  * common code that all models can use.
- * 
- * @author Dewayne
  *
+ * @author Dewayne
+ *        
  */
 abstract class AbstractModel extends Model
 {
 
-    // There's no need to return these three 
+    // There's no need to return these three
     // columns with every request.
     protected $hidden = [
         'created_at',
@@ -23,9 +23,9 @@ abstract class AbstractModel extends Model
     ];
 
     /**
-     * This will verify that the specified column 
+     * This will verify that the specified column
      * is indeed a column for the specified table.
-     * 
+     *
      * @param string $theTable
      * @param string $column
      * @param unknown $container
@@ -35,14 +35,14 @@ abstract class AbstractModel extends Model
     {
         $columns = null;
         if (($cacheValue = $container['cache']->get($theTable)) != false) {
-            $container['logger']
-                ->debug("Retrieved $theTable column listing from cache.");
+            $container['logger']->debug(
+                "Retrieved $theTable column listing from cache.");
             $columns = $cacheValue;
         } else {
-            $columns = 
-                $container['db']::getSchemaBuilder()->getColumnListing($theTable);
-            $container['logger']
-                ->debug("Retrieved $theTable column listing from database: ", 
+            $columns = $container['db']::getSchemaBuilder()->getColumnListing(
+                $theTable);
+            $container['logger']->debug(
+                "Retrieved $theTable column listing from database: ",
                 $container['db']::getQueryLog());
             $container['cache']->set($theTable, $columns);
         }

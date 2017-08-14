@@ -2,13 +2,14 @@
 namespace FSS\Models;
 
 /**
- * The address model.
- * 
- * @author Dewayne
+ * The "address" model.
  *
+ * @author Dewayne
+ *        
  */
 class Address extends AbstractModel
 {
+
     // The table for this model
     protected $table = 'address';
 

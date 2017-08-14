@@ -23,7 +23,8 @@ class OpCacheDataModel
 
     public function getPageTitle()
     {
-        return 'PHP ' . phpversion() . " with OpCache {$this->_configuration['version']['version']}";
+        return 'PHP ' . phpversion() .
+             " with OpCache {$this->_configuration['version']['version']}";
     }
 
     public function getStatusDataRows()
@@ -42,10 +43,12 @@ class OpCacheDataModel
                     if ($v === true) {
                         $value = 'true';
                     }
-                    if ($k === 'used_memory' || $k === 'free_memory' || $k === 'wasted_memory') {
+                    if ($k === 'used_memory' || $k === 'free_memory' ||
+                         $k === 'wasted_memory') {
                         $v = $this->_size_for_humans($v);
                     }
-                    if ($k === 'current_wasted_percentage' || $k === 'opcache_hit_rate') {
+                    if ($k === 'current_wasted_percentage' ||
+                         $k === 'opcache_hit_rate') {
                         $v = number_format($v, 2) . '%';
                     }
                     if ($k === 'blacklist_miss_ratio') {
@@ -97,10 +100,11 @@ class OpCacheDataModel
     {
         foreach ($this->_status['scripts'] as $key => $data) {
             $dirs[dirname($key)][basename($key)] = $data;
-            $this->_arrayPset($this->_d3Scripts, $key, array(
-                'name' => basename($key),
-                'size' => $data['memory_consumption']
-            ));
+            $this->_arrayPset($this->_d3Scripts, $key,
+                array(
+                    'name' => basename($key),
+                    'size' => $data['memory_consumption']
+                ));
         }
         
         asort($dirs);
@@ -113,7 +117,8 @@ class OpCacheDataModel
             $this->_d3Scripts = reset($this->_d3Scripts);
         }
         
-        $this->_d3Scripts = $this->_processPartition($this->_d3Scripts, $basename);
+        $this->_d3Scripts = $this->_processPartition($this->_d3Scripts,
+            $basename);
         $id = 1;
         
         $rows = array();
@@ -135,7 +140,9 @@ class OpCacheDataModel
             foreach ($files as $file => $data) {
                 $rows[] = "<tr id=\"row-{$id}\">";
                 $rows[] = "<td>" . $this->_format_value($data["hits"]) . "</td>";
-                $rows[] = "<td>" . $this->_size_for_humans($data["memory_consumption"]) . "</td>";
+                $rows[] = "<td>" .
+                     $this->_size_for_humans($data["memory_consumption"]) .
+                     "</td>";
                 $rows[] = $count > 1 ? "<td>{$file}</td>" : "<td>{$dir}/{$file}</td>";
                 $rows[] = '</tr>';
             }
@@ -162,8 +169,9 @@ class OpCacheDataModel
         
         $dataset['keys'] = array(
             $this->_status['opcache_statistics']['num_cached_keys'],
-            $this->_status['opcache_statistics']['max_cached_keys'] - $this->_status['opcache_statistics']['num_cached_keys'],
-            0
+            $this->_status['opcache_statistics']['max_cached_keys'] -
+                 $this->_status['opcache_statistics']['num_cached_keys'],
+                0
         );
         
         $dataset['hits'] = array(
@@ -219,7 +227,8 @@ class OpCacheDataModel
 
     public function getWastedMemoryPercentage()
     {
-        return number_format($this->_status['memory_usage']['current_wasted_percentage'], 2);
+        return number_format(
+            $this->_status['memory_usage']['current_wasted_percentage'], 2);
     }
 
     public function getD3Scripts()

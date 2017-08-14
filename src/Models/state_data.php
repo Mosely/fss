@@ -2,13 +2,14 @@
 namespace FSS\Models;
 
 /**
- * The state_data model.
- * 
- * @author Dewayne
+ * The "state_data" model.
  *
+ * @author Dewayne
+ *        
  */
 class State_data extends AbstractModel
 {
+
     // The table for this model
     protected $table = 'state_data';
 

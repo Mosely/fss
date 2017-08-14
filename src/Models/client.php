@@ -2,23 +2,23 @@
 namespace FSS\Models;
 
 /**
- * The "gender" model.
+ * The "client" model.
  *
  * @author Dewayne
  *        
  */
-class Gender extends AbstractModel
+class Client extends AbstractModel
 {
 
     // The table for this model
-    protected $table = 'gender';
+    protected $table = 'client';
 
     /**
-     * Get the person records that have this gender.
+     * Get the person records that have this client.
      */
     public function person()
     {
-        return $this->hasMany('FSS\Models\Person');
+        return $this->belongsTo('FSS\Models\Person', 'id', 'id');
     }
     // getters and setters if you want and other logic
 }
