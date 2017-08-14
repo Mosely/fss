@@ -1,38 +1,40 @@
 <?php
 namespace FSS\Models;
+
 use \Exception;
 
 /**
- * The user model.
- * 
- * @author Dewayne
+ * The "user" model.
  *
+ * @author Dewayne
+ *        
  */
 class User extends AbstractModel
 {
+
     // The table for this model
     protected $table = 'user';
-    
-    // There's no need to return these five 
+
+    // There's no need to return these five
     // columns with every request. Going to
     // override the $hidden from AbstractModel
     protected $hidden = [
         'created_at',
         'updated_at',
         'updated_by',
-        'password', 
+        'password',
         'password_created_at'
     ];
 
     /**
      * Checks to see if the password follows rules.
-     * 
+     *
      * @param string $password
      * @return boolean
      */
     public function validatePassword(string $password)
     {
-        // TODO Think about a way to dynamically load regex from a 
+        // TODO Think about a way to dynamically load regex from a
         // config.
         $r1 = '/[A-Z]/'; // Uppercase
         $r2 = '/[a-z]/'; // lowercase
@@ -51,10 +53,10 @@ class User extends AbstractModel
             return false;
         return true;
     }
-    
+
     /**
      * Verifies that the password matches the given password hash.
-     * 
+     *
      * @param string $password
      * @param string $passwordHash
      * @throws Exception
@@ -73,10 +75,10 @@ class User extends AbstractModel
             throw new Exception("Incorrect password.");
         }
     }
-    
+
     /**
-     * This will try to authenticate a user 
-     * 
+     * This will try to authenticate a user
+     *
      * @param unknown $userData
      * @param unknown $container
      * @param string $table
@@ -91,12 +93,10 @@ class User extends AbstractModel
                 parent::validateColumn($table, $key, $container);
             }
             
-            $user = User::select('password', 'id', 'username', 'is_disabled')
-                ->where('username', '=', $userData['username'])
-                ->firstOrFail();
+            $user = User::select('password', 'id', 'username', 'is_disabled')->where(
+                'username', '=', $userData['username'])->firstOrFail();
             
-            $container['logger']
-                ->debug("User login query: ", 
+            $container['logger']->debug("User login query: ",
                 $container['db']::getQueryLog());
             
             if ($user->is_disabled != 0) {

@@ -2,13 +2,14 @@
 namespace FSS\Models;
 
 /**
- * The gender model.
- * 
- * @author Dewayne
+ * The "gender" model.
  *
+ * @author Dewayne
+ *        
  */
 class Gender extends AbstractModel
 {
+
     // The table for this model
     protected $table = 'gender';
 

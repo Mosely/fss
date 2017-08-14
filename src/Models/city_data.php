@@ -2,13 +2,14 @@
 namespace FSS\Models;
 
 /**
- * The city_data model
- * 
- * @author Dewayne
+ * The "city_data" model
  *
+ * @author Dewayne
+ *        
  */
 class City_data extends AbstractModel
 {
+
     // The table for this model
     protected $table = 'city_data';
 

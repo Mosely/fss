@@ -2,13 +2,14 @@
 namespace FSS\Models;
 
 /**
- * The person model.
- * 
- * @author Dewayne
+ * The "person" model.
  *
+ * @author Dewayne
+ *        
  */
 class Person extends AbstractModel
 {
+
     // The table for this model
     protected $table = 'person';
 
@@ -18,17 +19,17 @@ class Person extends AbstractModel
     public function user()
     {
         return $this->hasOne('FSS\Models\User', 'id', 'id');
-        // NOTE: indicate both the foreign and 
+        // NOTE: indicate both the foreign and
         // local keys for the one-to-one relationships
     }
-	
-	 /**
+
+    /**
      * Get the user that has this person.
      */
     public function client()
     {
         return $this->hasOne('FSS\Models\Client', 'id', 'id');
-        // NOTE: indicate both the foreign and 
+        // NOTE: indicate both the foreign and
         // local keys for the one-to-one relationships
     }
 

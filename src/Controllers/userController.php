@@ -7,12 +7,13 @@ use FSS\Models\User;
 
 /**
  * The user controller for all user-related actions.
- * 
- * @author Dewayne
  *
+ * @author Dewayne
+ *        
  */
 class UserController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
 
@@ -28,15 +29,15 @@ class UserController implements ControllerInterface
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
-            $this->container['logger']
-                ->debug("Enabling query log for the User Controller.");
+            $this->container['logger']->debug(
+                "Enabling query log for the User Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
     public function read($request, $response, $args)
@@ -52,35 +53,37 @@ class UserController implements ControllerInterface
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
     public function readAll($request, $response, $args)
     {
-        // $records = User::with(['person', 'gender'])->get(); 
+        // $records = User::with(['person', 'gender'])->get();
         // The above doesn't work
-        $records = User::with([
-            'person' => function ($q) {
-                return $q->with('gender');
-                // NOTE: If you need to traverse the depths of more
-                // than two tables (in this case, the user, person
-                // and gender tables) you will need to handle the
-                // deeper relationships as done here.
-            }
-        ])->get();
-        $this->container['logger']->debug("All Users query: ", 
+        $records = User::with(
+            [
+                'person' => function ($q) {
+                    return $q->with('gender');
+                    // NOTE: If you need to traverse the depths of more
+                    // than two tables (in this case, the user, person
+                    // and gender tables) you will need to handle the
+                    // deeper relationships as done here.
+                }
+            ])->get();
+        $this->container['logger']->debug("All Users query: ",
             $this->container['db']::getQueryLog());
-        return $response->withJson([
-            "success" => true,
-            "message" => "All users returned",
-            "data" => $records
-        ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        return $response->withJson(
+            [
+                "success" => true,
+                "message" => "All users returned",
+                "data" => $records
+            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
     public function readAllWithFilter($request, $response, $args)
@@ -91,40 +94,44 @@ class UserController implements ControllerInterface
         try {
             User::validateColumn('user', $filter, $this->container);
             // $records = User::where($filter, $value)->get();
-            $records = User::with([
-                'person' => function ($q) {
-                    return $q->with('gender');
-                    // NOTE: If you need to traverse the depths of more 
-                    // than two tables (in this case, the user, person 
-                    // and gender tables) you will need to handle the 
-                    // deeper relationships as done here.
-                }
-            ])->where($filter, $value)->get();
-            $this->container['logger']->debug("Users with filter query: ", 
+            $records = User::with(
+                [
+                    'person' => function ($q) {
+                        return $q->with('gender');
+                        // NOTE: If you need to traverse the depths of more
+                        // than two tables (in this case, the user, person
+                        // and gender tables) you will need to handle the
+                        // deeper relationships as done here.
+                    }
+                ])->where($filter, $value)->get();
+            $this->container['logger']->debug("Users with filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
-                return $response->withJson([
-                    "success" => true,
-                    "message" => "No users found",
-                    "data" => $records
-                ], 404);
+                return $response->withJson(
+                    [
+                        "success" => true,
+                        "message" => "No users found",
+                        "data" => $records
+                    ], 404);
             }
-            return $response->withJson([
-                "success" => true,
-                "message" => "Filtered users by $filter",
-                "data" => $records
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return $response->withJson(
+                [
+                    "success" => true,
+                    "message" => "Filtered users by $filter",
+                    "data" => $records
+                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
-            return $response->withJson([
-                "success" => false,
-                "message" => "Error occured: " . $e->getMessage()
-            ], 400);
+            return $response->withJson(
+                [
+                    "success" => false,
+                    "message" => "Error occured: " . $e->getMessage()
+                ], 400);
         }
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
     public function create($request, $response, $args)
@@ -139,58 +146,63 @@ class UserController implements ControllerInterface
             if (! ($recordData['password'] === $checkPassword)) {
                 throw new Exception("The passwords do not match.");
             }
-            $recordData['password'] = 
-                password_hash($recordData['password'], PASSWORD_DEFAULT);
+            $recordData['password'] = password_hash($recordData['password'],
+                PASSWORD_DEFAULT);
             $recordId = User::insertGetId($recordData);
-            $this->container['logger']->debug("Users create query: ", 
+            $this->container['logger']->debug("Users create query: ",
                 $this->container['db']::getQueryLog());
-            return $response->withJson([
-                "success" => true,
-                "message" => "User $recordId has been created."
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return $response->withJson(
+                [
+                    "success" => true,
+                    "message" => "User $recordId has been created."
+                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
-            return $response->withJson([
-                "success" => false,
-                "message" => "Error occured: " . $e->getMessage()
-            ], 400);
+            return $response->withJson(
+                [
+                    "success" => false,
+                    "message" => "Error occured: " . $e->getMessage()
+                ], 400);
         }
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
     public function update($request, $response, $args)
     {
-        //$id = $args['id'];
+        // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 User::validateColumn('user', $key, $this->container);
-                $updateData = array_merge($updateData, [
-                    $key => $val
-                ]);
+                $updateData = array_merge($updateData,
+                    [
+                        $key => $val
+                    ]);
             }
             $recordId = User::update($updateData);
-            $this->container['logger']->debug("Users update query: ", 
+            $this->container['logger']->debug("Users update query: ",
                 $this->container['db']::getQueryLog());
-            return $response->withJson([
-                "success" => true,
-                "message" => "Updated user $recordId"
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return $response->withJson(
+                [
+                    "success" => true,
+                    "message" => "Updated user $recordId"
+                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
-            return $response->withJson([
-                "success" => false,
-                "message" => "Error occured: " . $e->getMessage()
-            ], 400);
+            return $response->withJson(
+                [
+                    "success" => false,
+                    "message" => "Error occured: " . $e->getMessage()
+                ], 400);
         }
     }
 
     /**
-     * 
-     * {@inheritDoc}
+     *
+     * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
     public function delete($request, $response, $args)
@@ -200,23 +212,25 @@ class UserController implements ControllerInterface
         try {
             $record = User::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Users delete query: ", 
+            $this->container['logger']->debug("Users delete query: ",
                 $this->container['db']::getQueryLog());
-            return $response->withJson([
-                "success" => true,
-                "message" => "Deleted user $id"
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return $response->withJson(
+                [
+                    "success" => true,
+                    "message" => "Deleted user $id"
+                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
-            return $response->withJson([
-                "success" => false,
-                "message" => "User not found"
-            ], 404);
+            return $response->withJson(
+                [
+                    "success" => false,
+                    "message" => "User not found"
+                ], 404);
         }
     }
 
     /**
      * The login action for a user.
-     * 
+     *
      * @param unknown $request
      * @param unknown $response
      * @param unknown $args
@@ -230,29 +244,33 @@ class UserController implements ControllerInterface
         try {
             $id = User::authenticate($userData, $this->container, 'user');
             $tokenData = $this->container['jwt']->generate($id);
-            // if(!setcookie('token', $tokenData['token'], 
-            //   (int)$tokenData['expires'], '/', "", false, true)) {
-            if (! setcookie(getenv('JWT_NAME'), $tokenData['token'], 0, '/', '', false, true)) {
-                throw new Exception("Cannot create the JWT Token. Disallowing authentication.");
+            // if(!setcookie('token', $tokenData['token'],
+            // (int)$tokenData['expires'], '/', "", false, true)) {
+            if (! setcookie(getenv('JWT_NAME'), $tokenData['token'], 0, '/', '',
+                false, true)) {
+                throw new Exception(
+                    "Cannot create the JWT Token. Disallowing authentication.");
             }
             $this->container['logger']->debug("Logging in user $id");
-            return $response->withJson([
-                "success" => true,
-                "message" => "$id logged in successfully.",
-                "id" => $id,
-                "token" => $tokenData['token']
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return $response->withJson(
+                [
+                    "success" => true,
+                    "message" => "$id logged in successfully.",
+                    "id" => $id,
+                    "token" => $tokenData['token']
+                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
-            return $response->withJson([
-                "success" => false,
-                "message" => $e->getMessage()
-            ], 404, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return $response->withJson(
+                [
+                    "success" => false,
+                    "message" => $e->getMessage()
+                ], 404, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         }
     }
 
     /**
      * The logout action for the user.
-     * 
+     *
      * @param unknown $request
      * @param unknown $response
      * @param unknown $args
@@ -265,20 +283,24 @@ class UserController implements ControllerInterface
         try {
             $expireTime = new DateTime("now -60 minutes");
             $expireTimestamp = $expireTime->getTimeStamp();
-            if (! setcookie(getenv('JWT_NAME'), '', $expireTimestamp, '/', '', false, true)) {
+            if (! setcookie(getenv('JWT_NAME'), '', $expireTimestamp, '/', '',
+                false, true)) {
                 throw new Exception("Cannot unset the JWT Token.");
             }
             unset($_COOKIE[getenv('JWT_NAME')]);
-            $this->container['logger']->debug("Logging out user $userIdFromToken");
-            return $response->withJson([
-                "success" => true,
-                "message" => "$userIdFromToken logged out successfully."
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $this->container['logger']->debug(
+                "Logging out user $userIdFromToken");
+            return $response->withJson(
+                [
+                    "success" => true,
+                    "message" => "$userIdFromToken logged out successfully."
+                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
-            return $response->withJson([
-                "success" => false,
-                "message" => $e->getMessage()
-            ], 404, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return $response->withJson(
+                [
+                    "success" => false,
+                    "message" => $e->getMessage()
+                ], 404, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         }
     }
 }

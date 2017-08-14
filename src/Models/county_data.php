@@ -2,13 +2,14 @@
 namespace FSS\Models;
 
 /**
- * The county_data model.
- * 
- * @author Dewayne
+ * The "county_data" model.
  *
+ * @author Dewayne
+ *        
  */
 class County_data extends AbstractModel
 {
+
     // The table for this model
     protected $table = 'county_data';
 

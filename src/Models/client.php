@@ -2,13 +2,14 @@
 namespace FSS\Models;
 
 /**
- * The client model.
- * 
- * @author Dewayne
+ * The "client" model.
  *
+ * @author Dewayne
+ *        
  */
 class Client extends AbstractModel
 {
+
     // The table for this model
     protected $table = 'client';
 
