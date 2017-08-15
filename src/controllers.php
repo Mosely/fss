@@ -15,3 +15,12 @@ $container['AddressController'] = function ($c) {
 $container['GenderController'] = function ($c) {
     return new FSS\Controllers\genderController($c);
 };
+$container['LanguageController'] = function ($c) {
+    return new FSS\Controllers\languageController($c);
+};
+$container['EthnicityController'] = function ($c) {
+    return new FSS\Controllers\ethnicityController($c);
+};
+$container['MedicationController'] = function ($c) {
+    return new FSS\Controllers\medicationController($c);
+};
