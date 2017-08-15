@@ -120,7 +120,7 @@ class GenderController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Address::validateColumn('gender', $key, $this->container);
+                Gender::validateColumn('gender', $key, $this->container);
             }
             $recordId = Gender::insertGetId($recordData);
             $this->container['logger']->debug("Gender create query: ",
