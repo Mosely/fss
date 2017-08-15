@@ -114,7 +114,7 @@ class LanguageController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Language::validateColumn('ethnicity', $key, $this->container);
+                Language::validateColumn('language', $key, $this->container);
             }
             $recordId = Language::insertGetId($recordData);
             $this->container['logger']->debug("Language create query: ",
