@@ -25,3 +25,7 @@ $app->get('/branchesofservice/{filter}/{value}', 'BranchOfServiceController:read
 $app->get('/addresses', 'AddressController:readAll');
 $app->get('/addresses/{id:[0-9]+}', 'AddressController:read');
 $app->get('/addresses/{filter}/{value}', 'AddressController:readAllWithFilter');
+
+$app->get('/genders', 'GenderController:readAll');
+$app->get('/genders/{id:[0-9]+}', 'GenderController:read');
+$app->get('/genders/{filter}/{value}', 'GenderController:readAllWithFilter');
