@@ -29,3 +29,15 @@ $app->get('/addresses/{filter}/{value}', 'AddressController:readAllWithFilter');
 $app->get('/genders', 'GenderController:readAll');
 $app->get('/genders/{id:[0-9]+}', 'GenderController:read');
 $app->get('/genders/{filter}/{value}', 'GenderController:readAllWithFilter');
+
+$app->get('/genders', 'LanguageController:readAll');
+$app->get('/genders/{id:[0-9]+}', 'LanguageController:read');
+$app->get('/genders/{filter}/{value}', 'LanguageController:readAllWithFilter');
+
+$app->get('/genders', 'EthnicityController:readAll');
+$app->get('/genders/{id:[0-9]+}', 'EthnicityController:read');
+$app->get('/genders/{filter}/{value}', 'EthnicityController:readAllWithFilter');
+
+$app->get('/genders', 'MedicationController:readAll');
+$app->get('/genders/{id:[0-9]+}', 'MedicationController:read');
+$app->get('/genders/{filter}/{value}', 'MedicationController:readAllWithFilter');
