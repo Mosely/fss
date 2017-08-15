@@ -53,10 +53,7 @@ class EthnicityController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Ethnicity::with(
-            [
-                'ethnicity'
-            ])->get();
+        $records = Ethnicity::all();
         $this->container['logger']->debug("All ethnicities query: ",
             $this->container['db']::getQueryLog());
         // $records = Ethnicity::all();
@@ -79,10 +76,7 @@ class EthnicityController implements ControllerInterface
         
         try {
             Ethnicity::validateColumn('ethnicity', $filter, $this->container);
-            $records = Ethnicity::with(
-                [
-                    'ethnicity'
-                ])->where($filter, $value)->get();
+            $records = Ethnicity::where($filter, $value)->get();
             $this->container['logger']->debug("Ethnicity filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
