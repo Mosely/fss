@@ -30,14 +30,14 @@ $app->get('/genders', 'GenderController:readAll');
 $app->get('/genders/{id:[0-9]+}', 'GenderController:read');
 $app->get('/genders/{filter}/{value}', 'GenderController:readAllWithFilter');
 
-$app->get('/genders', 'LanguageController:readAll');
-$app->get('/genders/{id:[0-9]+}', 'LanguageController:read');
-$app->get('/genders/{filter}/{value}', 'LanguageController:readAllWithFilter');
+$app->get('/languages', 'LanguageController:readAll');
+$app->get('/languages/{id:[0-9]+}', 'LanguageController:read');
+$app->get('/languages/{filter}/{value}', 'LanguageController:readAllWithFilter');
 
-$app->get('/genders', 'EthnicityController:readAll');
-$app->get('/genders/{id:[0-9]+}', 'EthnicityController:read');
-$app->get('/genders/{filter}/{value}', 'EthnicityController:readAllWithFilter');
+$app->get('/ethnicities', 'EthnicityController:readAll');
+$app->get('/ethnicities/{id:[0-9]+}', 'EthnicityController:read');
+$app->get('/ethnicities/{filter}/{value}', 'EthnicityController:readAllWithFilter');
 
-$app->get('/genders', 'MedicationController:readAll');
-$app->get('/genders/{id:[0-9]+}', 'MedicationController:read');
-$app->get('/genders/{filter}/{value}', 'MedicationController:readAllWithFilter');
+$app->get('/medications', 'MedicationController:readAll');
+$app->get('/medications/{id:[0-9]+}', 'MedicationController:read');
+$app->get('/medications/{filter}/{value}', 'MedicationController:readAllWithFilter');
