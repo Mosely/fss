@@ -53,10 +53,7 @@ class GenderController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Gender::with(
-            [
-                'gender'
-            ])->get();
+        $records = Gender::all();
         $this->container['logger']->debug("All genders query: ",
             $this->container['db']::getQueryLog());
         // $records = Gender::all();
@@ -79,10 +76,7 @@ class GenderController implements ControllerInterface
         
         try {
             Gender::validateColumn('gender', $filter, $this->container);
-            $records = Gender::with(
-                [
-                    'gender'
-                ])->where($filter, $value)->get();
+            $records = Gender::where($filter, $value)->get();
             $this->container['logger']->debug("Gender filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
