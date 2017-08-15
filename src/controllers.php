@@ -12,3 +12,6 @@ $container['BranchOfServiceController'] = function ($c) {
 $container['AddressController'] = function ($c) {
     return new FSS\Controllers\addressController($c);
 };
+$container['GenderController'] = function ($c) {
+    return new FSS\Controllers\genderController($c);
+};
