@@ -2,7 +2,7 @@
 namespace FSS\Controllers;
 use FSS\Models\Gender;
 /**
- * The controller for gender-related actions.
+ * The controller for gender-related actions
  *
  * Implements the ControllerInterface.
  *
