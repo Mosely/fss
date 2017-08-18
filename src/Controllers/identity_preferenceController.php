@@ -11,7 +11,7 @@ use FSS\Models\Identity_preference;
  * @author Marshal
  *        
  */
-class identity_preferenceController implements ControllerInterface
+class Identity_preferenceController implements ControllerInterface
 {
     // The DI container reference.
     private $container;
