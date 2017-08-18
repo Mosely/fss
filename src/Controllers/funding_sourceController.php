@@ -11,7 +11,7 @@ use FSS\Models\Funding_source;
  * @author Marshal
  *        
  */
-class funding_sourceController implements ControllerInterface
+class Funding_sourceController implements ControllerInterface
 {
     // The DI container reference.
     private $container;
