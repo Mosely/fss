@@ -11,7 +11,7 @@ use FSS\Models\Military_discharge_type;
  * @author Marshal
  *        
  */
-class military_discharge_typeController implements ControllerInterface
+class Military_discharge_typeController implements ControllerInterface
 {
     // The DI container reference.
     private $container;
