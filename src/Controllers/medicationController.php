@@ -54,7 +54,7 @@ class MedicationController implements ControllerInterface
     public function readAll($request, $response, $args)
     {
         $records = Medication::all();
-        $this->container['logger']->debug("All languages query: ",
+        $this->container['logger']->debug("All medications query: ",
             $this->container['db']::getQueryLog());
         // $records = Medication::all();
         return $response->withJson(
