@@ -11,7 +11,7 @@ use FSS\Models\Drug_use;
  * @author Marshal
  *        
  */
-class drug_useController implements ControllerInterface
+class Drug_useController implements ControllerInterface
 {
     // The DI container reference.
     private $container;
