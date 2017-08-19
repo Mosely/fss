@@ -6,19 +6,20 @@ use \Exception;
 use \DateTime;
 
 /**
- * The Token class provides functionality 
+ * The Token class provides functionality
  * to generate and verify JWT tokens.
- * 
- * @author Dewayne
  *
+ * @author Dewayne
+ *        
  */
 class Token
 {
+
     /**
-     * Generates a JWT token and returns 
-     * an array containig the token and 
+     * Generates a JWT token and returns
+     * an array containig the token and
      * expiry data.
-     * 
+     *
      * @param string $userId
      * @return array
      */
@@ -35,8 +36,7 @@ class Token
             'sub' => $userId
         ];
         
-        $token = JWT::encode($payload, 
-            getenv('JWT_SECRET'), 
+        $token = JWT::encode($payload, getenv('JWT_SECRET'),
             getenv('JWT_ALGORITHM'));
         $data = [];
         $data['token'] = $token;
@@ -46,9 +46,9 @@ class Token
     }
 
     /**
-     * Verifies the given token to see if 
+     * Verifies the given token to see if
      * it matches the indicated user.
-     * 
+     *
      * @param string $token
      * @param string $userId
      * @throws Exception
@@ -63,16 +63,17 @@ class Token
 
     /**
      * Decodes the given JWT token.
-     * 
+     *
      * @param string $token
      * @return array
      */
     private function decode(string $token)
     {
         JWT::$leeway = 60; // $leeway in seconds
-        $decoded = JWT::decode($token, getenv('JWT_SECRET'), array(
-            getenv('JWT_ALGORITHM')
-        ));
+        $decoded = JWT::decode($token, getenv('JWT_SECRET'),
+            array(
+                getenv('JWT_ALGORITHM')
+            ));
         return (array) $decoded;
     }
 }

@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Military_discharge_type;
+
 /**
  * The controller for military_discharge_type-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Military_discharge_type;
  */
 class Military_discharge_typeController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Military_discharge_typeController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Military_discharge_typeController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading military_discharge_type with id of $id");
-        $this->container['logger']->debug("Reading military_discharge_type with id of $id");
+        $this->container['logger']->debug(
+            "Reading military_discharge_type with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +71,7 @@ class Military_discharge_typeController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,9 +83,11 @@ class Military_discharge_typeController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Military_discharge_type::validateColumn('military_discharge_type', $filter, $this->container);
+            Military_discharge_type::validateColumn('military_discharge_type',
+                $filter, $this->container);
             $records = Military_discharge_type::where($filter, $value)->get();
-            $this->container['logger']->debug("Military_discharge_type filter query: ",
+            $this->container['logger']->debug(
+                "Military_discharge_type filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -101,6 +111,7 @@ class Military_discharge_typeController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,10 +125,12 @@ class Military_discharge_typeController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Military_discharge_type::validateColumn('military_discharge_type', $key, $this->container);
+                Military_discharge_type::validateColumn(
+                    'military_discharge_type', $key, $this->container);
             }
             $recordId = Military_discharge_type::insertGetId($recordData);
-            $this->container['logger']->debug("Military_discharge_type create query: ",
+            $this->container['logger']->debug(
+                "Military_discharge_type create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -132,6 +145,7 @@ class Military_discharge_typeController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,14 +158,16 @@ class Military_discharge_typeController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Military_discharge_type::validateColumn('military_discharge_type', $key, $this->container);
+                Military_discharge_type::validateColumn(
+                    'military_discharge_type', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = Military_discharge_type::update($updateData);
-            $this->container['logger']->debug("Military_discharge_type update query: ",
+            $this->container['logger']->debug(
+                "Military_discharge_type update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -166,6 +182,7 @@ class Military_discharge_typeController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -177,7 +194,8 @@ class Military_discharge_typeController implements ControllerInterface
         try {
             $record = Military_discharge_type::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Military_discharge_type delete query: ",
+            $this->container['logger']->debug(
+                "Military_discharge_type delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [

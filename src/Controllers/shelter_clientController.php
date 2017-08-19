@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Shelter_client;
+
 /**
  * The controller for shelter_client-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Shelter_client;
  */
 class Shelter_clientController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Shelter_clientController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Shelter_clientController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading shelter_client with id of $id");
-        $this->container['logger']->debug("Reading shelter_client with id of $id");
+        $this->container['logger']->debug(
+            "Reading shelter_client with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +71,7 @@ class Shelter_clientController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,7 +83,8 @@ class Shelter_clientController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Shelter_client::validateColumn('shelter_client', $filter, $this->container);
+            Shelter_client::validateColumn('shelter_client', $filter,
+                $this->container);
             $records = Shelter_client::where($filter, $value)->get();
             $this->container['logger']->debug("Shelter_client filter query: ",
                 $this->container['db']::getQueryLog());
@@ -101,6 +110,7 @@ class Shelter_clientController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,7 +124,8 @@ class Shelter_clientController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Shelter_client::validateColumn('shelter_client', $key, $this->container);
+                Shelter_client::validateColumn('shelter_client', $key,
+                    $this->container);
             }
             $recordId = Shelter_client::insertGetId($recordData);
             $this->container['logger']->debug("Shelter_client create query: ",
@@ -132,6 +143,7 @@ class Shelter_clientController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,7 +156,8 @@ class Shelter_clientController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Shelter_client::validateColumn('shelter_client', $key, $this->container);
+                Shelter_client::validateColumn('shelter_client', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -166,6 +179,7 @@ class Shelter_clientController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}

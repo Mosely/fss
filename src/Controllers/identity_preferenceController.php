@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Identity_preference;
+
 /**
  * The controller for identity_preference-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Identity_preference;
  */
 class Identity_preferenceController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Identity_preferenceController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Identity_preferenceController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading identity_preference with id of $id");
-        $this->container['logger']->debug("Reading identity_preference with id of $id");
+        $this->container['logger']->debug(
+            "Reading identity_preference with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +71,7 @@ class Identity_preferenceController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,9 +83,11 @@ class Identity_preferenceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Identity_preference::validateColumn('identity_preference', $filter, $this->container);
+            Identity_preference::validateColumn('identity_preference', $filter,
+                $this->container);
             $records = Identity_preference::where($filter, $value)->get();
-            $this->container['logger']->debug("Identity_preference filter query: ",
+            $this->container['logger']->debug(
+                "Identity_preference filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -101,6 +111,7 @@ class Identity_preferenceController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,10 +125,12 @@ class Identity_preferenceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Identity_preference::validateColumn('identity_preference', $key, $this->container);
+                Identity_preference::validateColumn('identity_preference', $key,
+                    $this->container);
             }
             $recordId = Identity_preference::insertGetId($recordData);
-            $this->container['logger']->debug("Identity_preference create query: ",
+            $this->container['logger']->debug(
+                "Identity_preference create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -132,6 +145,7 @@ class Identity_preferenceController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,14 +158,16 @@ class Identity_preferenceController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Identity_preference::validateColumn('identity_preference', $key, $this->container);
+                Identity_preference::validateColumn('identity_preference', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = Identity_preference::update($updateData);
-            $this->container['logger']->debug("Identity_preference update query: ",
+            $this->container['logger']->debug(
+                "Identity_preference update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -166,6 +182,7 @@ class Identity_preferenceController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -177,7 +194,8 @@ class Identity_preferenceController implements ControllerInterface
         try {
             $record = Identity_preference::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Identity_preference delete query: ",
+            $this->container['logger']->debug(
+                "Identity_preference delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [

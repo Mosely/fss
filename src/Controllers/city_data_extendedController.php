@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\City_data_extended;
+
 /**
  * The controller for city_data_extended-related actions.
  * (Not to be confused with city_data-related actions)
@@ -14,8 +16,10 @@ use FSS\Models\City_data_extended;
  */
 class City_data_extendedController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -31,6 +35,7 @@ class City_data_extendedController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -43,10 +48,12 @@ class City_data_extendedController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading city_data_extended with id of $id");
-        $this->container['logger']->debug("Reading city_data_extended with id of $id");
+        $this->container['logger']->debug(
+            "Reading city_data_extended with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -65,6 +72,7 @@ class City_data_extendedController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -76,9 +84,11 @@ class City_data_extendedController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            City_data_extended::validateColumn('city_data_extended', $filter, $this->container);
+            City_data_extended::validateColumn('city_data_extended', $filter,
+                $this->container);
             $records = City_data_extended::where($filter, $value)->get();
-            $this->container['logger']->debug("City_data_extended filter query: ",
+            $this->container['logger']->debug(
+                "City_data_extended filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -102,6 +112,7 @@ class City_data_extendedController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -115,10 +126,12 @@ class City_data_extendedController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                City_data_extended::validateColumn('city_data_extended', $key, $this->container);
+                City_data_extended::validateColumn('city_data_extended', $key,
+                    $this->container);
             }
             $recordId = City_data_extended::insertGetId($recordData);
-            $this->container['logger']->debug("City_data_extended create query: ",
+            $this->container['logger']->debug(
+                "City_data_extended create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -133,6 +146,7 @@ class City_data_extendedController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -145,14 +159,16 @@ class City_data_extendedController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                City_data_extended::validateColumn('city_data_extended', $key, $this->container);
+                City_data_extended::validateColumn('city_data_extended', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = City_data_extended::update($updateData);
-            $this->container['logger']->debug("City_data_extended update query: ",
+            $this->container['logger']->debug(
+                "City_data_extended update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -167,6 +183,7 @@ class City_data_extendedController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -178,7 +195,8 @@ class City_data_extendedController implements ControllerInterface
         try {
             $record = City_data_extended::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("City_data_extended delete query: ",
+            $this->container['logger']->debug(
+                "City_data_extended delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [

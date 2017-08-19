@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Phone;
+
 /**
  * The controller for phone-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Phone;
  */
 class PhoneController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class PhoneController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -46,6 +51,7 @@ class PhoneController implements ControllerInterface
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +70,7 @@ class PhoneController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -101,6 +108,7 @@ class PhoneController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -132,6 +140,7 @@ class PhoneController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -166,6 +175,7 @@ class PhoneController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}

@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Counselee_child_guardian;
+
 /**
  * The controller for counselee_child_guardian-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Counselee_child_guardian;
  */
 class Counselee_child_guardianController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Counselee_child_guardianController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Counselee_child_guardianController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading counselee_child_guardian with id of $id");
-        $this->container['logger']->debug("Reading counselee_child_guardian with id of $id");
+        $this->container['logger']->debug(
+            "Reading counselee_child_guardian with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -54,7 +61,8 @@ class Counselee_child_guardianController implements ControllerInterface
     public function readAll($request, $response, $args)
     {
         $records = Counselee_child_guardian::all();
-        $this->container['logger']->debug("All counselee_child_guardian query: ",
+        $this->container['logger']->debug(
+            "All counselee_child_guardian query: ",
             $this->container['db']::getQueryLog());
         // $records = Counselee_child_guardian::all();
         return $response->withJson(
@@ -64,6 +72,7 @@ class Counselee_child_guardianController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,9 +84,11 @@ class Counselee_child_guardianController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Counselee_child_guardian::validateColumn('counselee_child_guardian', $filter, $this->container);
+            Counselee_child_guardian::validateColumn('counselee_child_guardian',
+                $filter, $this->container);
             $records = Counselee_child_guardian::where($filter, $value)->get();
-            $this->container['logger']->debug("Counselee_child_guardian filter query: ",
+            $this->container['logger']->debug(
+                "Counselee_child_guardian filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -101,6 +112,7 @@ class Counselee_child_guardianController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,10 +126,12 @@ class Counselee_child_guardianController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Counselee_child_guardian::validateColumn('counselee_child_guardian', $key, $this->container);
+                Counselee_child_guardian::validateColumn(
+                    'counselee_child_guardian', $key, $this->container);
             }
             $recordId = Counselee_child_guardian::insertGetId($recordData);
-            $this->container['logger']->debug("Counselee_child_guardian create query: ",
+            $this->container['logger']->debug(
+                "Counselee_child_guardian create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -132,6 +146,7 @@ class Counselee_child_guardianController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,14 +159,16 @@ class Counselee_child_guardianController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Counselee_child_guardian::validateColumn('counselee_child_guardian', $key, $this->container);
+                Counselee_child_guardian::validateColumn(
+                    'counselee_child_guardian', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = Counselee_child_guardian::update($updateData);
-            $this->container['logger']->debug("Counselee_child_guardian update query: ",
+            $this->container['logger']->debug(
+                "Counselee_child_guardian update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -166,6 +183,7 @@ class Counselee_child_guardianController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -177,7 +195,8 @@ class Counselee_child_guardianController implements ControllerInterface
         try {
             $record = Counselee_child_guardian::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Counselee_child_guardian delete query: ",
+            $this->container['logger']->debug(
+                "Counselee_child_guardian delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [

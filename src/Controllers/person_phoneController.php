@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Person_phone;
+
 /**
  * The controller for person_phone-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Person_phone;
  */
 class Person_phoneController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Person_phoneController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -46,6 +51,7 @@ class Person_phoneController implements ControllerInterface
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +70,7 @@ class Person_phoneController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,7 +82,8 @@ class Person_phoneController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Person_phone::validateColumn('person_phone', $filter, $this->container);
+            Person_phone::validateColumn('person_phone', $filter,
+                $this->container);
             $records = Person_phone::where($filter, $value)->get();
             $this->container['logger']->debug("Person_phone filter query: ",
                 $this->container['db']::getQueryLog());
@@ -101,6 +109,7 @@ class Person_phoneController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,7 +123,8 @@ class Person_phoneController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Person_phone::validateColumn('person_phone', $key, $this->container);
+                Person_phone::validateColumn('person_phone', $key,
+                    $this->container);
             }
             $recordId = Person_phone::insertGetId($recordData);
             $this->container['logger']->debug("Person_phone create query: ",
@@ -132,6 +142,7 @@ class Person_phoneController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,7 +155,8 @@ class Person_phoneController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Person_phone::validateColumn('person_phone', $key, $this->container);
+                Person_phone::validateColumn('person_phone', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -166,6 +178,7 @@ class Person_phoneController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}

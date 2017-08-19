@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Person_address;
+
 /**
  * The controller for person_address-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Person_address;
  */
 class Person_addressController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Person_addressController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Person_addressController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading person_address with id of $id");
-        $this->container['logger']->debug("Reading person_address with id of $id");
+        $this->container['logger']->debug(
+            "Reading person_address with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +71,7 @@ class Person_addressController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,7 +83,8 @@ class Person_addressController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Person_address::validateColumn('person_address', $filter, $this->container);
+            Person_address::validateColumn('person_address', $filter,
+                $this->container);
             $records = Person_address::where($filter, $value)->get();
             $this->container['logger']->debug("Person_address filter query: ",
                 $this->container['db']::getQueryLog());
@@ -101,6 +110,7 @@ class Person_addressController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,7 +124,8 @@ class Person_addressController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Person_address::validateColumn('person_address', $key, $this->container);
+                Person_address::validateColumn('person_address', $key,
+                    $this->container);
             }
             $recordId = Person_address::insertGetId($recordData);
             $this->container['logger']->debug("Person_address create query: ",
@@ -132,6 +143,7 @@ class Person_addressController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,7 +156,8 @@ class Person_addressController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Person_address::validateColumn('person_address', $key, $this->container);
+                Person_address::validateColumn('person_address', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -166,6 +179,7 @@ class Person_addressController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}

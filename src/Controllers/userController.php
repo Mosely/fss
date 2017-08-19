@@ -4,6 +4,7 @@ namespace FSS\Controllers;
 use \DateTime;
 use \Exception;
 use FSS\Models\User;
+use Interop\Container\ContainerInterface;
 
 /**
  * The user controller for all user-related actions.
@@ -25,7 +26,7 @@ class UserController implements ControllerInterface
      * @param unknown $response
      * @param unknown $args
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {

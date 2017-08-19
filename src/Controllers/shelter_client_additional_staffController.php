@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Shelter_client_additional_staff;
+
 /**
  * The controller for shelter_client_additional_staff-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Shelter_client_additional_staff;
  */
 class Shelter_client_additional_staffController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Shelter_client_additional_staffController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading shelter_client_additional_staff with id of $id");
-        $this->container['logger']->debug("Reading shelter_client_additional_staff with id of $id");
+        $this->container['logger']->debug(
+            "Reading shelter_client_additional_staff with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -54,7 +61,8 @@ class Shelter_client_additional_staffController implements ControllerInterface
     public function readAll($request, $response, $args)
     {
         $records = Shelter_client_additional_staff::all();
-        $this->container['logger']->debug("All shelter_client_additional_staff query: ",
+        $this->container['logger']->debug(
+            "All shelter_client_additional_staff query: ",
             $this->container['db']::getQueryLog());
         // $records = Shelter_client_additional_staff::all();
         return $response->withJson(
@@ -64,6 +72,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,10 +84,11 @@ class Shelter_client_additional_staffController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Shelter_client_additional_staff::validateColumn('shelter_client_additional_staff',
-                $filter, $this->container);
+            Shelter_client_additional_staff::validateColumn(
+                'shelter_client_additional_staff', $filter, $this->container);
             $records = Shelter_client_additional_staff::where($filter, $value)->get();
-            $this->container['logger']->debug("Shelter_client_additional_staff filter query: ",
+            $this->container['logger']->debug(
+                "Shelter_client_additional_staff filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -102,6 +112,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -115,11 +126,13 @@ class Shelter_client_additional_staffController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Shelter_client_additional_staff::validateColumn('shelter_client_additional_staff',
-                    $key, $this->container);
+                Shelter_client_additional_staff::validateColumn(
+                    'shelter_client_additional_staff', $key, $this->container);
             }
-            $recordId = Shelter_client_additional_staff::insertGetId($recordData);
-            $this->container['logger']->debug("Shelter_client_additional_staff create query: ",
+            $recordId = Shelter_client_additional_staff::insertGetId(
+                $recordData);
+            $this->container['logger']->debug(
+                "Shelter_client_additional_staff create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -134,6 +147,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -146,15 +160,16 @@ class Shelter_client_additional_staffController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Shelter_client_additional_staff::validateColumn('shelter_client_additional_staff',
-                    $key, $this->container);
+                Shelter_client_additional_staff::validateColumn(
+                    'shelter_client_additional_staff', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = Shelter_client_additional_staff::update($updateData);
-            $this->container['logger']->debug("Shelter_client_additional_staff update query: ",
+            $this->container['logger']->debug(
+                "Shelter_client_additional_staff update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -169,6 +184,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -180,7 +196,8 @@ class Shelter_client_additional_staffController implements ControllerInterface
         try {
             $record = Shelter_client_additional_staff::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Shelter_client_additional_staff delete query: ",
+            $this->container['logger']->debug(
+                "Shelter_client_additional_staff delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [

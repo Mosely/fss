@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Counseling_topic;
+
 /**
  * The controller for counseling_topic-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Counseling_topic;
  */
 class Counseling_topicController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Counseling_topicController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Counseling_topicController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading counseling_topic with id of $id");
-        $this->container['logger']->debug("Reading counseling_topic with id of $id");
+        $this->container['logger']->debug(
+            "Reading counseling_topic with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +71,7 @@ class Counseling_topicController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,7 +83,8 @@ class Counseling_topicController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Counseling_topic::validateColumn('counseling_topic', $filter, $this->container);
+            Counseling_topic::validateColumn('counseling_topic', $filter,
+                $this->container);
             $records = Counseling_topic::where($filter, $value)->get();
             $this->container['logger']->debug("Counseling_topic filter query: ",
                 $this->container['db']::getQueryLog());
@@ -101,6 +110,7 @@ class Counseling_topicController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,7 +124,8 @@ class Counseling_topicController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Counseling_topic::validateColumn('counseling_topic', $key, $this->container);
+                Counseling_topic::validateColumn('counseling_topic', $key,
+                    $this->container);
             }
             $recordId = Counseling_topic::insertGetId($recordData);
             $this->container['logger']->debug("Counseling_topic create query: ",
@@ -132,6 +143,7 @@ class Counseling_topicController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,7 +156,8 @@ class Counseling_topicController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Counseling_topic::validateColumn('counseling_topic', $key, $this->container);
+                Counseling_topic::validateColumn('counseling_topic', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -166,6 +179,7 @@ class Counseling_topicController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}

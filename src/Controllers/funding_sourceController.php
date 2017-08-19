@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Funding_source;
+
 /**
  * The controller for funding_source-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Funding_source;
  */
 class Funding_sourceController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Funding_sourceController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Funding_sourceController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading funding_source with id of $id");
-        $this->container['logger']->debug("Reading funding_source with id of $id");
+        $this->container['logger']->debug(
+            "Reading funding_source with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +71,7 @@ class Funding_sourceController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,7 +83,8 @@ class Funding_sourceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Funding_source::validateColumn('funding_source', $filter, $this->container);
+            Funding_source::validateColumn('funding_source', $filter,
+                $this->container);
             $records = Funding_source::where($filter, $value)->get();
             $this->container['logger']->debug("Funding_source filter query: ",
                 $this->container['db']::getQueryLog());
@@ -101,6 +110,7 @@ class Funding_sourceController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,7 +124,8 @@ class Funding_sourceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Funding_source::validateColumn('funding_source', $key, $this->container);
+                Funding_source::validateColumn('funding_source', $key,
+                    $this->container);
             }
             $recordId = Funding_source::insertGetId($recordData);
             $this->container['logger']->debug("Funding_source create query: ",
@@ -132,6 +143,7 @@ class Funding_sourceController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,7 +156,8 @@ class Funding_sourceController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Funding_source::validateColumn('funding_source', $key, $this->container);
+                Funding_source::validateColumn('funding_source', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -166,6 +179,7 @@ class Funding_sourceController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}

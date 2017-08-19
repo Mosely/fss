@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Counselee_drug_use;
+
 /**
  * The controller for counselee_drug_use-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Counselee_drug_use;
  */
 class Counselee_drug_useController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Counselee_drug_useController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Counselee_drug_useController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading counselee_drug_use with id of $id");
-        $this->container['logger']->debug("Reading counselee_drug_use with id of $id");
+        $this->container['logger']->debug(
+            "Reading counselee_drug_use with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +71,7 @@ class Counselee_drug_useController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,9 +83,11 @@ class Counselee_drug_useController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Counselee_drug_use::validateColumn('counselee_drug_use', $filter, $this->container);
+            Counselee_drug_use::validateColumn('counselee_drug_use', $filter,
+                $this->container);
             $records = Counselee_drug_use::where($filter, $value)->get();
-            $this->container['logger']->debug("Counselee_drug_use filter query: ",
+            $this->container['logger']->debug(
+                "Counselee_drug_use filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -101,6 +111,7 @@ class Counselee_drug_useController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,10 +125,12 @@ class Counselee_drug_useController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Counselee_drug_use::validateColumn('counselee_drug_use', $key, $this->container);
+                Counselee_drug_use::validateColumn('counselee_drug_use', $key,
+                    $this->container);
             }
             $recordId = Counselee_drug_use::insertGetId($recordData);
-            $this->container['logger']->debug("Counselee_drug_use create query: ",
+            $this->container['logger']->debug(
+                "Counselee_drug_use create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -132,6 +145,7 @@ class Counselee_drug_useController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,14 +158,16 @@ class Counselee_drug_useController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Counselee_drug_use::validateColumn('counselee_drug_use', $key, $this->container);
+                Counselee_drug_use::validateColumn('counselee_drug_use', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = Counselee_drug_use::update($updateData);
-            $this->container['logger']->debug("Counselee_drug_use update query: ",
+            $this->container['logger']->debug(
+                "Counselee_drug_use update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -166,6 +182,7 @@ class Counselee_drug_useController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -177,7 +194,8 @@ class Counselee_drug_useController implements ControllerInterface
         try {
             $record = Counselee_drug_use::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Counselee_drug_use delete query: ",
+            $this->container['logger']->debug(
+                "Counselee_drug_use delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [

@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\County_data;
+
 /**
  * The controller for county_data-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\County_data;
  */
 class County_dataController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class County_dataController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -46,6 +51,7 @@ class County_dataController implements ControllerInterface
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +70,7 @@ class County_dataController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -101,6 +108,7 @@ class County_dataController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,7 +122,8 @@ class County_dataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                County_data::validateColumn('county_data', $key, $this->container);
+                County_data::validateColumn('county_data', $key,
+                    $this->container);
             }
             $recordId = County_data::insertGetId($recordData);
             $this->container['logger']->debug("County_data create query: ",
@@ -132,6 +141,7 @@ class County_dataController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,7 +154,8 @@ class County_dataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                County_data::validateColumn('county_data', $key, $this->container);
+                County_data::validateColumn('county_data', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -166,6 +177,7 @@ class County_dataController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}

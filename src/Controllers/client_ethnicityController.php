@@ -1,6 +1,8 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\Client_ethnicity;
+
 /**
  * The controller for client_ethnicity-related actions.
  *
@@ -13,8 +15,10 @@ use FSS\Models\Client_ethnicity;
  */
 class Client_ethnicityController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -30,6 +34,7 @@ class Client_ethnicityController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -42,10 +47,12 @@ class Client_ethnicityController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading client_ethnicity with id of $id");
-        $this->container['logger']->debug("Reading client_ethnicity with id of $id");
+        $this->container['logger']->debug(
+            "Reading client_ethnicity with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -64,6 +71,7 @@ class Client_ethnicityController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -75,7 +83,8 @@ class Client_ethnicityController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Client_ethnicity::validateColumn('client_ethnicity', $filter, $this->container);
+            Client_ethnicity::validateColumn('client_ethnicity', $filter,
+                $this->container);
             $records = Client_ethnicity::where($filter, $value)->get();
             $this->container['logger']->debug("Client_ethnicity filter query: ",
                 $this->container['db']::getQueryLog());
@@ -101,6 +110,7 @@ class Client_ethnicityController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -114,7 +124,8 @@ class Client_ethnicityController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Client_ethnicity::validateColumn('client_ethnicity', $key, $this->container);
+                Client_ethnicity::validateColumn('client_ethnicity', $key,
+                    $this->container);
             }
             $recordId = Client_ethnicity::insertGetId($recordData);
             $this->container['logger']->debug("Client_ethnicity create query: ",
@@ -132,6 +143,7 @@ class Client_ethnicityController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -144,7 +156,8 @@ class Client_ethnicityController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Client_ethnicity::validateColumn('client_ethnicity', $key, $this->container);
+                Client_ethnicity::validateColumn('client_ethnicity', $key,
+                    $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -166,6 +179,7 @@ class Client_ethnicityController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
