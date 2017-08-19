@@ -30,78 +30,78 @@ $app->get('/genders', 'GenderController:readAll');
 $app->get('/genders/{id:[0-9]+}', 'GenderController:read');
 $app->get('/genders/{filter}/{value}', 'GenderController:readAllWithFilter');
 
-$app->post('/users', 'GenderController:create');
-$app->put('/users/{id:[0-9]+}', 'GenderController:update');
-$app->delete('/users/{id:[0-9]+}', 'GenderController:delete');
+$app->post('/genders', 'GenderController:create');
+$app->put('/genders/{id:[0-9]+}', 'GenderController:update');
+$app->delete('/genders/{id:[0-9]+}', 'GenderController:delete');
 
 $app->get('/languages', 'LanguageController:readAll');
 $app->get('/languages/{id:[0-9]+}', 'LanguageController:read');
 $app->get('/languages/{filter}/{value}', 'LanguageController:readAllWithFilter');
 
-$app->post('/users', 'LanguageController:create');
-$app->put('/users/{id:[0-9]+}', 'LanguageController:update');
-$app->delete('/users/{id:[0-9]+}', 'LanguageController:delete');
+$app->post('/languages', 'LanguageController:create');
+$app->put('/languages/{id:[0-9]+}', 'LanguageController:update');
+$app->delete('/languages/{id:[0-9]+}', 'LanguageController:delete');
 
 $app->get('/ethnicities', 'EthnicityController:readAll');
 $app->get('/ethnicities/{id:[0-9]+}', 'EthnicityController:read');
 $app->get('/ethnicities/{filter}/{value}', 'EthnicityController:readAllWithFilter');
 
-$app->post('/users', 'EthnicityController:create');
-$app->put('/users/{id:[0-9]+}', 'EthnicityController:update');
-$app->delete('/users/{id:[0-9]+}', 'EthnicityController:delete');
+$app->post('/ethnicities', 'EthnicityController:create');
+$app->put('/ethnicities/{id:[0-9]+}', 'EthnicityController:update');
+$app->delete('/ethnicities/{id:[0-9]+}', 'EthnicityController:delete');
 
 $app->get('/medications', 'MedicationController:readAll');
 $app->get('/medications/{id:[0-9]+}', 'MedicationController:read');
 $app->get('/medications/{filter}/{value}', 'MedicationController:readAllWithFilter');
 
-$app->post('/users', 'MedicationController:create');
-$app->put('/users/{id:[0-9]+}', 'MedicationController:update');
-$app->delete('/users/{id:[0-9]+}', 'MedicationController:delete');
+$app->post('/medications', 'MedicationController:create');
+$app->put('/medications/{id:[0-9]+}', 'MedicationController:update');
+$app->delete('/medications/{id:[0-9]+}', 'MedicationController:delete');
 
-$app->get('/users', 'City_dataController:readAll');
-$app->get('/users/{id:[0-9]+}', 'City_dataController:read');
-$app->get('/users/{filter}/{value}', 'City_dataController:readAllWithFilter');
+$app->get('/citydata', 'City_dataController:readAll');
+$app->get('/citydata/{id:[0-9]+}', 'City_dataController:read');
+$app->get('/citydata/{filter}/{value}', 'City_dataController:readAllWithFilter');
 
-$app->post('/users', 'City_dataController:create');
-$app->put('/users/{id:[0-9]+}', 'City_dataController:update');
-$app->delete('/users/{id:[0-9]+}', 'City_dataController:delete');
+$app->post('/citydata', 'City_dataController:create');
+$app->put('/citydata/{id:[0-9]+}', 'City_dataController:update');
+$app->delete('/citydata/{id:[0-9]+}', 'City_dataController:delete');
 
-$app->get('/users', 'City_data_extendedController:readAll');
-$app->get('/users/{id:[0-9]+}', 'City_data_extendedController:read');
-$app->get('/users/{filter}/{value}', 'City_data_extendedController:readAllWithFilter');
+$app->get('/citydataextended', 'City_data_extendedController:readAll');
+$app->get('/citydataextended/{id:[0-9]+}', 'City_data_extendedController:read');
+$app->get('/citydataextended/{filter}/{value}', 'City_data_extendedController:readAllWithFilter');
 
-$app->post('/users', 'City_data_extendedController:create');
-$app->put('/users/{id:[0-9]+}', 'City_data_extendedController:update');
-$app->delete('/users/{id:[0-9]+}', 'City_data_extendedController:delete');
+$app->post('/citydataextended', 'City_data_extendedController:create');
+$app->put('/citydataextended/{id:[0-9]+}', 'City_data_extendedController:update');
+$app->delete('/citydataextended/{id:[0-9]+}', 'City_data_extendedController:delete');
 
-$app->get('/users', 'ClientController:readAll');
-$app->get('/users/{id:[0-9]+}', 'ClientController:read');
-$app->get('/users/{filter}/{value}', 'ClientController:readAllWithFilter');
+$app->get('/clients', 'ClientController:readAll');
+$app->get('/clients/{id:[0-9]+}', 'ClientController:read');
+$app->get('/clients/{filter}/{value}', 'ClientController:readAllWithFilter');
 
-$app->post('/users', 'ClientController:create');
-$app->put('/users/{id:[0-9]+}', 'ClientController:update');
-$app->delete('/users/{id:[0-9]+}', 'ClientController:delete');
+$app->post('/clients', 'ClientController:create');
+$app->put('/clients/{id:[0-9]+}', 'ClientController:update');
+$app->delete('/clients/{id:[0-9]+}', 'ClientController:delete');
 
-$app->get('/users', 'Client_ethnicityController:readAll');
-$app->get('/users/{id:[0-9]+}', 'Client_ethnicityController:read');
-$app->get('/users/{filter}/{value}', 'Client_ethnicityController:readAllWithFilter');
+$app->get('/clientethnicities', 'Client_ethnicityController:readAll');
+$app->get('/clientethnicities/{id:[0-9]+}', 'Client_ethnicityController:read');
+$app->get('/clientethnicities/{filter}/{value}', 'Client_ethnicityController:readAllWithFilter');
 
-$app->post('/users', 'Client_ethnicityController:create');
-$app->put('/users/{id:[0-9]+}', 'Client_ethnicityController:update');
-$app->delete('/users/{id:[0-9]+}', 'Client_ethnicityController:delete');
+$app->post('/clientethnicities', 'Client_ethnicityController:create');
+$app->put('/clientethnicities/{id:[0-9]+}', 'Client_ethnicityController:update');
+$app->delete('/clientethnicities/{id:[0-9]+}', 'Client_ethnicityController:delete');
 
-$app->get('/users', 'Client_languageController:readAll');
-$app->get('/users/{id:[0-9]+}', 'Client_languageController:read');
-$app->get('/users/{filter}/{value}', 'Client_languageController:readAllWithFilter');
+$app->get('/clientlanguages', 'Client_languageController:readAll');
+$app->get('/clientlanguages/{id:[0-9]+}', 'Client_languageController:read');
+$app->get('/clientlanguages/{filter}/{value}', 'Client_languageController:readAllWithFilter');
 
-$app->post('/users', 'Client_languageController:create');
-$app->put('/users/{id:[0-9]+}', 'Client_languageController:update');
-$app->delete('/users/{id:[0-9]+}', 'Client_languageController:delete');
+$app->post('/clientlanguages', 'Client_languageController:create');
+$app->put('/clientlanguages/{id:[0-9]+}', 'Client_languageController:update');
+$app->delete('/clientlanguages/{id:[0-9]+}', 'Client_languageController:delete');
 
-$app->get('/users', 'CounseleeController:readAll');
-$app->get('/users/{id:[0-9]+}', 'CounseleeController:read');
-$app->get('/users/{filter}/{value}', 'CounseleeController:readAllWithFilter');
+$app->get('/counselees', 'CounseleeController:readAll');
+$app->get('/counselees/{id:[0-9]+}', 'CounseleeController:read');
+$app->get('/counselees/{filter}/{value}', 'CounseleeController:readAllWithFilter');
 
-$app->post('/users', 'CounseleeController:create');
-$app->put('/users/{id:[0-9]+}', 'CounseleeController:update');
-$app->delete('/users/{id:[0-9]+}', 'CounseleeController:delete');
+$app->post('/counselees', 'CounseleeController:create');
+$app->put('/counselees/{id:[0-9]+}', 'CounseleeController:update');
+$app->delete('/counselees/{id:[0-9]+}', 'CounseleeController:delete');
