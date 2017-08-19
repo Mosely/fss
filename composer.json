@@ -31,7 +31,8 @@
 		"monolog/monolog" : "^1.17",
 		"illuminate/database" : "5.*",
 		"tuupola/slim-jwt-auth" : "2.*",
-		"vlucas/phpdotenv" : "2.*"
+		"vlucas/phpdotenv" : "2.*",
+		"kassko-php/unit-tests-generator" : "dev-master"
 	},
 	"autoload-dev" : {
 		"psr-4" : {
