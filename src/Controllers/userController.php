@@ -280,7 +280,7 @@ class UserController implements ControllerInterface
      */
     public function logout($request, $response, $args)
     {
-        $userIdFromToken = $this->container['jwt']->sub;
+        $userIdFromToken = $this->container['jwtToken']->sub;
         try {
             $expireTime = new DateTime("now -60 minutes");
             $expireTimestamp = $expireTime->getTimeStamp();
