@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Shelter_client_additional_staff;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for shelter_client_additional_staff-related actions.
@@ -23,9 +25,9 @@ class Shelter_client_additional_staffController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -104,7 +106,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
                     "message" => "Filtered Shelter_client_additional_staff by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -139,7 +141,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
                     "success" => true,
                     "message" => "Shelter_client_additional_staff $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -176,7 +178,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Shelter_client_additional_staff $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -204,7 +206,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Shelter_client_additional_staff $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

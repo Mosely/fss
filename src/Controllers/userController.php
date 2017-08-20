@@ -19,12 +19,10 @@ class UserController implements ControllerInterface
     private $container;
 
     /**
-     * The create function is responsible for adding a record
-     * as indicated in the controller that implements this interface.
-     *
-     * @param unknown $request
-     * @param unknown $response
-     * @param unknown $args
+     * The constructor that sets the DI Container reference and
+     * enable query logging if debug mode is true in settings.php
+     * 
+     * @param ContainerInterface $c
      */
     public function __construct(ContainerInterface $c)
     {

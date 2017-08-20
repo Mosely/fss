@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\County_data;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for county_data-related actions.
@@ -23,9 +25,9 @@ class County_dataController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -100,7 +102,7 @@ class County_dataController implements ControllerInterface
                     "message" => "Filtered County_data by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -133,7 +135,7 @@ class County_dataController implements ControllerInterface
                     "success" => true,
                     "message" => "County_data $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -169,7 +171,7 @@ class County_dataController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated County_data $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -196,7 +198,7 @@ class County_dataController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted County_data $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Funding_source;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for funding_source-related actions.
@@ -23,9 +25,9 @@ class Funding_sourceController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -102,7 +104,7 @@ class Funding_sourceController implements ControllerInterface
                     "message" => "Filtered funding_source by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -135,7 +137,7 @@ class Funding_sourceController implements ControllerInterface
                     "success" => true,
                     "message" => "Funding_source $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -171,7 +173,7 @@ class Funding_sourceController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Funding_source $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -198,7 +200,7 @@ class Funding_sourceController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Funding_source $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

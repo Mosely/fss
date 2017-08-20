@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Shelter_client;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for shelter_client-related actions.
@@ -23,9 +25,9 @@ class Shelter_clientController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -102,7 +104,7 @@ class Shelter_clientController implements ControllerInterface
                     "message" => "Filtered Shelter_client by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -135,7 +137,7 @@ class Shelter_clientController implements ControllerInterface
                     "success" => true,
                     "message" => "Shelter_client $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -171,7 +173,7 @@ class Shelter_clientController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Shelter_client $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -198,7 +200,7 @@ class Shelter_clientController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Shelter_client $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

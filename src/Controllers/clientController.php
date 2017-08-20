@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Client;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for client-related actions.
@@ -23,9 +25,9 @@ class ClientController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -46,7 +48,6 @@ class ClientController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading client with id of $id");
         $this->container['logger']->debug("Reading client with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
@@ -59,7 +60,8 @@ class ClientController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Client::all();
+        //$records = Client::all();
+        $records = Client::with('person')->get();
         $this->container['logger']->debug("All clients query: ",
             $this->container['db']::getQueryLog());
         // $records = Client::all();
@@ -83,7 +85,7 @@ class ClientController implements ControllerInterface
         
         try {
             Client::validateColumn('client', $filter, $this->container);
-            $records = Client::where($filter, $value)->get();
+            $records = Client::with('person')->where($filter, $value)->get();
             $this->container['logger']->debug("Client filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
@@ -100,7 +102,7 @@ class ClientController implements ControllerInterface
                     "message" => "Filtered Clients by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -132,7 +134,7 @@ class ClientController implements ControllerInterface
                     "success" => true,
                     "message" => "Client $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -167,7 +169,7 @@ class ClientController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Client $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -194,7 +196,7 @@ class ClientController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Client $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

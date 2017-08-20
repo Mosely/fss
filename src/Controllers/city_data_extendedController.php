@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\City_data_extended;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for city_data_extended-related actions.
@@ -24,9 +26,9 @@ class City_data_extendedController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -104,7 +106,7 @@ class City_data_extendedController implements ControllerInterface
                     "message" => "Filtered City_data_extended by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -138,7 +140,7 @@ class City_data_extendedController implements ControllerInterface
                     "success" => true,
                     "message" => "City_data_extended $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -175,7 +177,7 @@ class City_data_extendedController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated City_data_extended $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -203,7 +205,7 @@ class City_data_extendedController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted City_data_extended $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

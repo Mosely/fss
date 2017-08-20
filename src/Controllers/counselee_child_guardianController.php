@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Counselee_child_guardian;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for counselee_child_guardian-related actions.
@@ -23,9 +25,9 @@ class Counselee_child_guardianController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -104,7 +106,7 @@ class Counselee_child_guardianController implements ControllerInterface
                     "message" => "Filtered Counselee_child_guardian by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -138,7 +140,7 @@ class Counselee_child_guardianController implements ControllerInterface
                     "success" => true,
                     "message" => "Counselee_child_guardian $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -175,7 +177,7 @@ class Counselee_child_guardianController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Counselee_child_guardian $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -203,7 +205,7 @@ class Counselee_child_guardianController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Counselee_child_guardian $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

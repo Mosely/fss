@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Gender;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for gender-related actions
@@ -23,9 +25,9 @@ class GenderController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -100,7 +102,7 @@ class GenderController implements ControllerInterface
                     "message" => "Filtered Genders by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -132,7 +134,7 @@ class GenderController implements ControllerInterface
                     "success" => true,
                     "message" => "Gender $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -167,7 +169,7 @@ class GenderController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Gender $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -194,7 +196,7 @@ class GenderController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Gender $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Counselee_counseling_topic;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for counselee_counseling_topic-related actions.
@@ -23,9 +25,9 @@ class Counselee_counseling_topicController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -104,7 +106,7 @@ class Counselee_counseling_topicController implements ControllerInterface
                     "message" => "Filtered Counselee_counseling_topic by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -138,7 +140,7 @@ class Counselee_counseling_topicController implements ControllerInterface
                     "success" => true,
                     "message" => "Counselee_counseling_topic $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -175,7 +177,7 @@ class Counselee_counseling_topicController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Counselee_counseling_topic $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -203,7 +205,7 @@ class Counselee_counseling_topicController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Counselee_counseling_topic $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

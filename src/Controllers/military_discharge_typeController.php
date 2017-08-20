@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Military_discharge_type;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for military_discharge_type-related actions.
@@ -23,9 +25,9 @@ class Military_discharge_typeController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -103,7 +105,7 @@ class Military_discharge_typeController implements ControllerInterface
                     "message" => "Filtered military_discharge_type by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -137,7 +139,7 @@ class Military_discharge_typeController implements ControllerInterface
                     "success" => true,
                     "message" => "Military_discharge_type $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -174,7 +176,7 @@ class Military_discharge_typeController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Military_discharge_type $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -202,7 +204,7 @@ class Military_discharge_typeController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Military_discharge_type $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

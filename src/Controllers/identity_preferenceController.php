@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Identity_preference;
+use Interop\Container\ContainerInterface;
+use Exception;
 
 /**
  * The controller for identity_preference-related actions.
@@ -23,9 +25,9 @@ class Identity_preferenceController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -103,7 +105,7 @@ class Identity_preferenceController implements ControllerInterface
                     "message" => "Filtered identity_preference by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -137,7 +139,7 @@ class Identity_preferenceController implements ControllerInterface
                     "success" => true,
                     "message" => "Identity_preference $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -174,7 +176,7 @@ class Identity_preferenceController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Identity_preference $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -202,7 +204,7 @@ class Identity_preferenceController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Identity_preference $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
