@@ -1,6 +1,7 @@
 <?php
 namespace FSS\Models;
 
+use Interop\Container\ContainerInterface;
 use \Illuminate\Database\Eloquent\Model;
 use \Exception;
 
@@ -28,10 +29,11 @@ abstract class AbstractModel extends Model
      *
      * @param string $theTable
      * @param string $column
-     * @param unknown $container
+     * @param ContainerInterface $container
      * @throws Exception
      */
-    public function validateColumn(string $theTable, string $column, $container)
+    public function validateColumn(string $theTable, string $column,
+        ContainerInterface $container)
     {
         $columns = null;
         if (($cacheValue = $container['cache']->get($theTable)) != false) {

@@ -297,8 +297,8 @@ class OpCacheDataModel
 $dataModel = new OpCacheDataModel();
 ?>
 <!DOCTYPE html>
-<meta charset="utf-8">
 <html>
+<meta charset="utf-8">
 <head>
 <style>
 body {

@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Address;
+use Interop\Container\ContainerInterface;
+use \Exception;
 
 /**
  * The controller for address-related actions.
@@ -21,9 +23,9 @@ class AddressController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -108,7 +110,7 @@ class AddressController implements ControllerInterface
                     "message" => "Filtered Addresses by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -140,7 +142,7 @@ class AddressController implements ControllerInterface
                     "success" => true,
                     "message" => "Address $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -175,7 +177,7 @@ class AddressController implements ControllerInterface
                     "success" => true,
                     "message" => "Updated Address $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
@@ -202,7 +204,7 @@ class AddressController implements ControllerInterface
                     "success" => true,
                     "message" => "Deleted Address $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,

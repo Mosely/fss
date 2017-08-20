@@ -6,12 +6,9 @@ $container = $app->getContainer();
 $container['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];
     $logger = new Monolog\Logger($settings['name']);
-    $logger->pushProcessor(
-        new Monolog\Processor\UidProcessor());
+    $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(
-        new Monolog\Handler\StreamHandler(
-            $settings['path'], 
-            $settings['level']));
+        new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
     return $logger;
 };
 
@@ -38,6 +35,6 @@ $container['jwt'] = function ($c) {
     return new FSS\Utilities\Token();
 };
 
-// DJH juryrigging the Illuminate Manager object to 
+// DJH juryrigging the Illuminate Manager object to
 // be global here, so Model extensions work
 $container['db']->setAsGlobal();

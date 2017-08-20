@@ -1,15 +1,15 @@
 <?php
-// The settings array to be use by a variety 
+// The settings array to be use by a variety
 // of dependencies and midlewares
 return [
     'settings' => [
-    // DJH Adding a setting bool for checking if we're in debug mode
-        'debug' => ($debug = true), 
+        // DJH Adding a setting bool for checking if we're in debug mode
+        'debug' => ($debug = true),
         // set to false in production
-        'displayErrorDetails' => true, 
+        'displayErrorDetails' => true,
         // Allow the web server to send the content-length header
-        'addContentLengthHeader' => false, 
-                                           
+        'addContentLengthHeader' => false,
+        
         // Monolog settings
         'logger' => [
             'name' => 'slim-app',

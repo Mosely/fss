@@ -4,6 +4,7 @@ namespace FSS\Controllers;
 use \DateTime;
 use \Exception;
 use FSS\Models\User;
+use Interop\Container\ContainerInterface;
 
 /**
  * The user controller for all user-related actions.
@@ -18,14 +19,12 @@ class UserController implements ControllerInterface
     private $container;
 
     /**
-     * The create function is responsible for adding a record
-     * as indicated in the controller that implements this interface.
+     * The constructor that sets the DI Container reference and
+     * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $request
-     * @param unknown $response
-     * @param unknown $args
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {
@@ -279,7 +278,7 @@ class UserController implements ControllerInterface
      */
     public function logout($request, $response, $args)
     {
-        $userIdFromToken = $this->container['jwt']->sub;
+        $userIdFromToken = $this->container['jwtToken']->sub;
         try {
             $expireTime = new DateTime("now -60 minutes");
             $expireTimestamp = $expireTime->getTimeStamp();

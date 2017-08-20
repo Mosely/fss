@@ -2,6 +2,7 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Branch_of_service;
+use Interop\Container\ContainerInterface;
 use \Exception;
 
 /**
@@ -21,9 +22,9 @@ class BranchOfServiceController implements ControllerInterface
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param unknown $c
+     * @param ContainerInterface $c
      */
-    public function __construct($c)
+    public function __construct(ContainerInterface $c)
     {
         $this->container = $c;
         if ($this->container['settings']['debug']) {

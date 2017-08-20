@@ -1,15 +1,18 @@
 <?php
 namespace FSS\Utilities;
+
 use Interop\Container\ContainerInterface;
 
 /**
- * The Cache class provides caching 
+ * The Cache class provides caching
  * through the opcache functionality
- * in PHP.  THis should only be used 
- * for objects and arrays.
- * 
- * @author Dewayne
+ * in PHP.
  *
+ * This should only be used
+ * for objects and arrays.
+ *
+ * @author Dewayne
+ *        
  */
 class Cache
 {
@@ -18,8 +21,9 @@ class Cache
     private $container;
 
     /**
-     * The constructor.  It makes the DI container available.
-     * 
+     * The constructor.
+     * It makes the DI container available.
+     *
      * @param ContainerInterface $c
      */
     public function __construct(ContainerInterface $c)
@@ -31,16 +35,16 @@ class Cache
 
     /**
      * Makes a cache item.
-     * 
+     *
      * @param string $key
-     * @param unknown $val
+     * @param object $val
      */
     public function set(string $key, $val)
     {
         $val = var_export($val, true);
         
         // HHVM fails at __set_state, so just use object cast for now
-        $val = str_replace('stdClass::__set_state', '(object)', $val);
+        // $val = str_replace('stdClass::__set_state', '(object)', $val);
         
         // Write to temp file first to ensure atomicity
         $tmp = "/tmp/$key." . uniqid('', true) . '.tmp';
@@ -55,9 +59,9 @@ class Cache
     /**
      * Returns either the cached item at the specified $key or
      * false.
-     * 
+     *
      * @param string $key
-     * @return unknown|boolean
+     * @return object|boolean
      */
     public function get(string $key)
     {
@@ -65,12 +69,12 @@ class Cache
         $ttl = 3600;
         $val = null;
         $this->container['logger']->debug("Retrieving cache item $key.");
-        if (file_exists("/tmp/$key") && 
-            ((time() - filemtime("/tmp/$key")) > $ttl)) { 
+        if (file_exists("/tmp/$key") &&
+             ((time() - filemtime("/tmp/$key")) > $ttl)) {
             opcache_invalidate("/tmp/$key", true);
             unlink("/tmp/$key");
-            $this->container['logger']
-                ->debug("TTL exceeded. Cache item $key invalidated.");
+            $this->container['logger']->debug(
+                "TTL exceeded. Cache item $key invalidated.");
         }
         @include "/tmp/$key";
         return isset($val) ? $val : false;
