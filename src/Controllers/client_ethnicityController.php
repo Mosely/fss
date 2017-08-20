@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Client_ethnicity;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for client_ethnicity-related actions.

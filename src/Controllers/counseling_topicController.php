@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Counseling_topic;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for counseling_topic-related actions.

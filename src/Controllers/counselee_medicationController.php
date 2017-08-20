@@ -3,10 +3,11 @@ namespace FSS\Controllers;
 
 use FSS\Models\Counselee_medication;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
- * The controller for counselee_medication-related actions.
+ * The controller for
+ * counselee_medication-related actions.
  *
  * Implements the ControllerInterface.
  *
@@ -48,7 +49,6 @@ class Counselee_medicationController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading counselee_medication with id of $id");
         $this->container['logger']->debug(
             "Reading counselee_medication with id of $id");
         

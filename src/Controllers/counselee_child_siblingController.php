@@ -3,10 +3,11 @@ namespace FSS\Controllers;
 
 use FSS\Models\Counselee_child_sibling;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
- * The controller for counselee_child_sibling-related actions.
+ * The controller for
+ * counselee_child_sibling-related actions.
  *
  * Implements the ControllerInterface.
  *
@@ -48,7 +49,6 @@ class Counselee_child_siblingController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading counselee_child_sibling with id of $id");
         $this->container['logger']->debug(
             "Reading counselee_child_sibling with id of $id");
         

@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Client;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for client-related actions.
@@ -60,7 +60,7 @@ class ClientController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        //$records = Client::all();
+        // $records = Client::all();
         $records = Client::with('person')->get();
         $this->container['logger']->debug("All clients query: ",
             $this->container['db']::getQueryLog());

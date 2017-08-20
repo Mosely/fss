@@ -3,10 +3,11 @@ namespace FSS\Controllers;
 
 use FSS\Models\Shelter_client_funding_source;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
- * The controller for shelter_client_funding_source-related actions.
+ * The controller for
+ * shelter_client_funding_source-related actions.
  *
  * Implements the ControllerInterface.
  *
@@ -48,7 +49,6 @@ class Shelter_client_funding_sourceController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading shelter_client_funding_source with id of $id");
         $this->container['logger']->debug(
             "Reading shelter_client_funding_source with id of $id");
         

@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Shelter_client;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for shelter_client-related actions.

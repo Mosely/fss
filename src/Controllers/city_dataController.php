@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\City_data;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for city_data-related actions.

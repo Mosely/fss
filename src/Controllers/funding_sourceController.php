@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Funding_source;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for funding_source-related actions.

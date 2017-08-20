@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Gender;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for gender-related actions

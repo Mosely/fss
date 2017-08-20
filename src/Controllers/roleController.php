@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Role;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for role-related actions.

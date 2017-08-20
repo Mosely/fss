@@ -3,10 +3,11 @@ namespace FSS\Controllers;
 
 use FSS\Models\Military_discharge_type;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
- * The controller for military_discharge_type-related actions.
+ * The controller for
+ * military_discharge_type-related actions.
  *
  * Implements the ControllerInterface.
  *
@@ -48,7 +49,6 @@ class Military_discharge_typeController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading military_discharge_type with id of $id");
         $this->container['logger']->debug(
             "Reading military_discharge_type with id of $id");
         

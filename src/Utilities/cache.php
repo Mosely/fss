@@ -7,7 +7,7 @@ use Interop\Container\ContainerInterface;
  * The Cache class provides caching
  * through the opcache functionality
  * in PHP.
- * 
+ *
  * This should only be used
  * for objects and arrays.
  *
@@ -35,16 +35,16 @@ class Cache
 
     /**
      * Makes a cache item.
-     * 
+     *
      * @param string $key
-     * @param unknown $val
+     * @param object $val
      */
     public function set(string $key, $val)
     {
         $val = var_export($val, true);
         
         // HHVM fails at __set_state, so just use object cast for now
-        //$val = str_replace('stdClass::__set_state', '(object)', $val);
+        // $val = str_replace('stdClass::__set_state', '(object)', $val);
         
         // Write to temp file first to ensure atomicity
         $tmp = "/tmp/$key." . uniqid('', true) . '.tmp';
@@ -61,7 +61,7 @@ class Cache
      * false.
      *
      * @param string $key
-     * @return unknown|boolean
+     * @return object|boolean
      */
     public function get(string $key)
     {

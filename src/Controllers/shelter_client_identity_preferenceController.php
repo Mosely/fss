@@ -3,10 +3,11 @@ namespace FSS\Controllers;
 
 use FSS\Models\Shelter_client_identity_preference;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
- * The controller for shelter_client_identity_preference-related actions.
+ * The controller for
+ * shelter_client_identity_preference-related actions.
  *
  * Implements the ControllerInterface.
  *
@@ -49,7 +50,6 @@ class Shelter_client_identity_preferenceController implements
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading shelter_client_identity_preference with id of $id");
         $this->container['logger']->debug(
             "Reading shelter_client_identity_preference with id of $id");
         

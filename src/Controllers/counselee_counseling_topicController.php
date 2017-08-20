@@ -3,10 +3,11 @@ namespace FSS\Controllers;
 
 use FSS\Models\Counselee_counseling_topic;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
- * The controller for counselee_counseling_topic-related actions.
+ * The controller for
+ * counselee_counseling_topic-related actions.
  *
  * Implements the ControllerInterface.
  *
@@ -48,7 +49,6 @@ class Counselee_counseling_topicController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading counselee_counseling_topic with id of $id");
         $this->container['logger']->debug(
             "Reading counselee_counseling_topic with id of $id");
         

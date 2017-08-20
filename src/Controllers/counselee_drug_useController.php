@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Counselee_drug_use;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for counselee_drug_use-related actions.

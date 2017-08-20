@@ -32,7 +32,8 @@ abstract class AbstractModel extends Model
      * @param ContainerInterface $container
      * @throws Exception
      */
-    public function validateColumn(string $theTable, string $column, ContainerInterface $container)
+    public function validateColumn(string $theTable, string $column,
+        ContainerInterface $container)
     {
         $columns = null;
         if (($cacheValue = $container['cache']->get($theTable)) != false) {

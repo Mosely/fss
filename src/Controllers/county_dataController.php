@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\County_data;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for county_data-related actions.

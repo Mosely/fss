@@ -3,7 +3,7 @@ namespace FSS\Controllers;
 
 use FSS\Models\Client_language;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
  * The controller for client_language-related actions.

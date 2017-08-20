@@ -3,10 +3,11 @@ namespace FSS\Controllers;
 
 use FSS\Models\Identity_preference;
 use Interop\Container\ContainerInterface;
-use Exception;
+use \Exception;
 
 /**
- * The controller for identity_preference-related actions.
+ * The controller for
+ * identity_preference-related actions.
  *
  * Implements the ControllerInterface.
  *
@@ -48,7 +49,6 @@ class Identity_preferenceController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading identity_preference with id of $id");
         $this->container['logger']->debug(
             "Reading identity_preference with id of $id");
         

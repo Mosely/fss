@@ -21,7 +21,7 @@ class UserController implements ControllerInterface
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param ContainerInterface $c
      */
     public function __construct(ContainerInterface $c)
