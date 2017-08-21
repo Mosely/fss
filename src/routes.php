@@ -254,3 +254,84 @@ $app->get('/phones/{filter}/{value}', 'PhoneController:readAllWithFilter');
 $app->post('/phones', 'PhoneController:create');
 $app->put('/phones/{id:[0-9]+}', 'PhoneController:update');
 $app->delete('/phones/{id:[0-9]+}', 'PhoneController:delete');
+
+$app->get('/roles', 'RoleController:readAll');
+$app->get('/roles/{id:[0-9]+}', 'RoleController:read');
+$app->get('/roles/{filter}/{value}', 'RoleController:readAllWithFilter');
+
+$app->post('/roles', 'RoleController:create');
+$app->put('/roles/{id:[0-9]+}', 'RoleController:update');
+$app->delete('/roles/{id:[0-9]+}', 'RoleController:delete');
+
+$app->get('/schools', 'SchoolController:readAll');
+$app->get('/schools/{id:[0-9]+}', 'SchoolController:read');
+$app->get('/schools/{filter}/{value}', 'SchoolController:readAllWithFilter');
+
+$app->post('/schools', 'SchoolController:create');
+$app->put('/schools/{id:[0-9]+}', 'SchoolController:update');
+$app->delete('/schools/{id:[0-9]+}', 'SchoolController:delete');
+
+$app->get('/shelter_clients', 'Shelter_clientController:readAll');
+$app->get('/shelter_clients/{id:[0-9]+}', 'Shelter_clientController:read');
+$app->get('/shelter_clients/{filter}/{value}', 'Shelter_clientController:readAllWithFilter');
+
+$app->post('/shelter_clients', 'Shelter_clientController:create');
+$app->put('/shelter_clients/{id:[0-9]+}', 'Shelter_clientController:update');
+$app->delete('/shelter_clients/{id:[0-9]+}', 'Shelter_clientController:delete');
+
+$app->get('/shelter_client_additional_staff', 'Shelter_client_additional_staffController:readAll');
+$app->get('/shelter_client_additional_staff/{id:[0-9]+}', 'Shelter_client_additional_staffController:read');
+$app->get('/shelter_client_additional_staff/{filter}/{value}', 'Shelter_client_additional_staffController:readAllWithFilter');
+
+$app->post('/shelter_client_additional_staff', 'Shelter_client_additional_staffController:create');
+$app->put('/shelter_client_additional_staff/{id:[0-9]+}', 'Shelter_client_additional_staffController:update');
+$app->delete('/shelter_client_additional_staff/{id:[0-9]+}', 'Shelter_client_additional_staffController:delete');
+
+$app->get('/shelter_client_funding_sources', 'Shelter_client_funding_sourceController:readAll');
+$app->get('/shelter_client_funding_sources/{id:[0-9]+}', 'Shelter_client_funding_sourceController:read');
+$app->get('/shelter_client_funding_sources/{filter}/{value}', 'Shelter_client_funding_sourceController:readAllWithFilter');
+
+$app->post('/shelter_client_funding_sources', 'Shelter_client_funding_sourceController:create');
+$app->put('/shelter_client_funding_sources/{id:[0-9]+}', 'Shelter_client_funding_sourceController:update');
+$app->delete('/shelter_client_funding_sources/{id:[0-9]+}', 'Shelter_client_funding_sourceController:delete');
+
+$app->get('/shelter_client_identity_preferences', 'Shelter_client_identity_preferenceController:readAll');
+$app->get('/shelter_client_identity_preferences/{id:[0-9]+}', 'Shelter_client_identity_preferenceController:read');
+$app->get('/shelter_client_identity_preferences/{filter}/{value}',
+          'Shelter_client_identity_preferenceController:readAllWithFilter');
+
+$app->post('/shelter_client_identity_preferences', 'Shelter_client_identity_preferenceController:create');
+$app->put('/shelter_client_identity_preferences/{id:[0-9]+}', 'Shelter_client_identity_preferenceController:update');
+$app->delete('/shelter_client_identity_preferences/{id:[0-9]+}', 'Shelter_client_identity_preferenceController:delete');
+
+$app->get('/state_data', 'State_dataController:readAll');
+$app->get('/state_data/{id:[0-9]+}', 'State_dataController:read');
+$app->get('/state_data/{filter}/{value}', 'State_dataController:readAllWithFilter');
+
+$app->post('/state_data', 'State_dataController:create');
+$app->put('/state_data/{id:[0-9]+}', 'State_dataController:update');
+$app->delete('/state_data/{id:[0-9]+}', 'State_dataController:delete');
+
+$app->get('/user_roles', 'User_roleController:readAll');
+$app->get('/user_roles/{id:[0-9]+}', 'User_roleController:read');
+$app->get('/user_roles/{filter}/{value}', 'User_roleController:readAllWithFilter');
+
+$app->post('/user_roles', 'User_roleController:create');
+$app->put('/user_roles/{id:[0-9]+}', 'User_roleController:update');
+$app->delete('/user_roles/{id:[0-9]+}', 'User_roleController:delete');
+
+$app->get('/user_views', 'User_viewController:readAll');
+$app->get('/user_views/{id:[0-9]+}', 'User_viewController:read');
+$app->get('/user_views/{filter}/{value}', 'User_viewController:readAllWithFilter');
+
+$app->post('/user_views', 'User_viewController:create');
+$app->put('/user_views/{id:[0-9]+}', 'User_viewController:update');
+$app->delete('/user_views/{id:[0-9]+}', 'User_viewController:delete');
+
+$app->get('/veterans', 'VeteranController:readAll');
+$app->get('/veterans/{id:[0-9]+}', 'VeteranController:read');
+$app->get('/veterans/{filter}/{value}', 'VeteranController:readAllWithFilter');
+
+$app->post('/veterans', 'VeteranController:create');
+$app->put('/veterans/{id:[0-9]+}', 'VeteranController:update');
+$app->delete('/veterans/{id:[0-9]+}', 'VeteranController:delete');
