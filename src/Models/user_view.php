@@ -12,6 +12,17 @@ class User_view extends AbstractModel
 
     // The table for this model
     protected $table = "user_view";
+    
+    // There's no need to return these five
+    // columns with every request. Going to
+    // override the $hidden from AbstractModel
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+        'updated_by',
+        'password',
+        'password_created_at'
+    ];
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
