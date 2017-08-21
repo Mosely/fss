@@ -43,84 +43,84 @@ $container['CounseleeController'] = function ($c) {
     return new FSS\Controllers\counseleeController($c);
 };
 $container['Counselee_childController'] = function ($c) {
-    return new FSS\Controllers\Counselee_childController($c);
+    return new FSS\Controllers\counselee_childController($c);
 };
 $container['Counselee_child_bio_parentController'] = function ($c) {
-    return new FSS\Controllers\Counselee_child_bio_parentController($c);
+    return new FSS\Controllers\counselee_child_bio_parentController($c);
 };
 $container['Counselee_child_guardianController'] = function ($c) {
-    return new FSS\Controllers\Counselee_child_guardianController($c);
+    return new FSS\Controllers\counselee_child_guardianController($c);
 };
 $container['Counselee_child_siblingController'] = function ($c) {
-    return new FSS\Controllers\Counselee_child_siblingController($c);
+    return new FSS\Controllers\counselee_child_siblingController($c);
 };
 $container['Counselee_counseling_topicController'] = function ($c) {
-    return new FSS\Controllers\Counselee_counseling_topicController($c);
+    return new FSS\Controllers\counselee_counseling_topicController($c);
 };
 $container['Counselee_drug_useController'] = function ($c) {
-    return new FSS\Controllers\Counselee_drug_useController($c);
+    return new FSS\Controllers\counselee_drug_useController($c);
 };
 $container['Counselee_medicationController'] = function ($c) {
-    return new FSS\Controllers\Counselee_medicationController($c);
+    return new FSS\Controllers\counselee_medicationController($c);
 };
 $container['Counseling_topicController'] = function ($c) {
-    return new FSS\Controllers\Counseling_topicController($c);
+    return new FSS\Controllers\counseling_topicController($c);
 };
 $container['County_dataController'] = function ($c) {
-    return new FSS\Controllers\County_dataController($c);
+    return new FSS\Controllers\county_dataController($c);
 };
 $container['Drug_useController'] = function ($c) {
-    return new FSS\Controllers\Drug_useController($c);
+    return new FSS\Controllers\drug_useController($c);
 };
 $container['Funding_sourceController'] = function ($c) {
-    return new FSS\Controllers\Funding_sourceController($c);
+    return new FSS\Controllers\funding_sourceController($c);
 };
 $container['Identity_preferenceController'] = function ($c) {
-    return new FSS\Controllers\Identity_preferenceController($c);
+    return new FSS\Controllers\identity_preferenceController($c);
 };
 $container['Military_discharge_typeController'] = function ($c) {
-    return new FSS\Controllers\Military_discharge_typeController($c);
+    return new FSS\Controllers\military_discharge_typeController($c);
 };
 $container['PersonController'] = function ($c) {
-    return new FSS\Controllers\PersonController($c);
+    return new FSS\Controllers\personController($c);
 };
 $container['Person_addressController'] = function ($c) {
-    return new FSS\Controllers\Person_addressController($c);
+    return new FSS\Controllers\person_addressController($c);
 };
 $container['Person_phoneController'] = function ($c) {
-    return new FSS\Controllers\Person_phoneController($c);
+    return new FSS\Controllers\person_phoneController($c);
 };
 $container['PhoneController'] = function ($c) {
-    return new FSS\Controllers\PhoneController($c);
+    return new FSS\Controllers\phoneController($c);
 };
 $container['RoleController'] = function ($c) {
-    return new FSS\Controllers\RoleController($c);
+    return new FSS\Controllers\roleController($c);
 };
 $container['SchoolController'] = function ($c) {
-    return new FSS\Controllers\SchoolController($c);
+    return new FSS\Controllers\schoolController($c);
 };
 $container['Shelter_clientController'] = function ($c) {
-    return new FSS\Controllers\Shelter_clientController($c);
+    return new FSS\Controllers\shelter_clientController($c);
 };
 $container['Shelter_client_additional_staffController'] = function ($c) {
-    return new FSS\Controllers\Shelter_client_additional_staffController($c);
+    return new FSS\Controllers\shelter_client_additional_staffController($c);
 };
 $container['Shelter_client_funding_sourceController'] = function ($c) {
-    return new FSS\Controllers\Shelter_client_funding_sourceController($c);
+    return new FSS\Controllers\shelter_client_funding_sourceController($c);
 };
 $container['Shelter_client_identity_preferenceController'] = function ($c) {
-    return new FSS\Controllers\Shelter_client_identity_preferenceController($c);
+    return new FSS\Controllers\shelter_client_identity_preferenceController($c);
 };
 $container['State_dataController'] = function ($c) {
-    return new FSS\Controllers\State_dataController($c);
+    return new FSS\Controllers\state_dataController($c);
 };
 $container['User_roleController'] = function ($c) {
-    return new FSS\Controllers\User_roleController($c);
+    return new FSS\Controllers\user_roleController($c);
 };
 $container['User_viewController'] = function ($c) {
-    return new FSS\Controllers\User_viewController($c);
+    return new FSS\Controllers\user_viewController($c);
 };
 $container['VeteranController'] = function ($c) {
-    return new FSS\Controllers\VeteranController($c);
+    return new FSS\Controllers\veteranController($c);
 };
 
