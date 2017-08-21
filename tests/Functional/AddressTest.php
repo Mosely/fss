@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class AddressTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Address
      */
     protected $object;
@@ -17,7 +19,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Address;
+        $this->object = new Address();
     }
 
     /**
@@ -25,42 +27,38 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Models\Address::city_data
-     * @todo   Implement testCity_data().
+     * 
+     * @todo Implement testCity_data().
      */
     public function testCity_data()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Models\Address::state_data
-     * @todo   Implement testState_data().
+     * 
+     * @todo Implement testState_data().
      */
     public function testState_data()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Models\Address::county_data
-     * @todo   Implement testCounty_data().
+     * 
+     * @todo Implement testCounty_data().
      */
     public function testCounty_data()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

@@ -6,7 +6,9 @@ namespace FSS\Controllers;
  */
 class Shelter_client_identity_preferenceControllerTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Shelter_client_identity_preferenceController
      */
     protected $object;
@@ -17,7 +19,7 @@ class Shelter_client_identity_preferenceControllerTest extends \PHPUnit_Framewor
      */
     protected function setUp()
     {
-        $this->object = new Shelter_client_identity_preferenceController;
+        $this->object = new Shelter_client_identity_preferenceController();
     }
 
     /**
@@ -25,78 +27,71 @@ class Shelter_client_identity_preferenceControllerTest extends \PHPUnit_Framewor
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Controllers\Shelter_client_identity_preferenceController::read
-     * @todo   Implement testRead().
+     * 
+     * @todo Implement testRead().
      */
     public function testRead()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Shelter_client_identity_preferenceController::readAll
-     * @todo   Implement testReadAll().
+     * 
+     * @todo Implement testReadAll().
      */
     public function testReadAll()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Shelter_client_identity_preferenceController::readAllWithFilter
-     * @todo   Implement testReadAllWithFilter().
+     * 
+     * @todo Implement testReadAllWithFilter().
      */
     public function testReadAllWithFilter()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Shelter_client_identity_preferenceController::create
-     * @todo   Implement testCreate().
+     * 
+     * @todo Implement testCreate().
      */
     public function testCreate()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Shelter_client_identity_preferenceController::update
-     * @todo   Implement testUpdate().
+     * 
+     * @todo Implement testUpdate().
      */
     public function testUpdate()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Shelter_client_identity_preferenceController::delete
-     * @todo   Implement testDelete().
+     * 
+     * @todo Implement testDelete().
      */
     public function testDelete()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

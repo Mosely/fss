@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class Drug_useTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Drug_use
      */
     protected $object;
@@ -17,7 +19,7 @@ class Drug_useTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Drug_use;
+        $this->object = new Drug_use();
     }
 
     /**
@@ -25,6 +27,5 @@ class Drug_useTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

@@ -6,7 +6,9 @@ namespace FSS\Controllers;
  */
 class Counselee_child_bio_parentControllerTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Counselee_child_bio_parentController
      */
     protected $object;
@@ -17,7 +19,7 @@ class Counselee_child_bio_parentControllerTest extends \PHPUnit_Framework_TestCa
      */
     protected function setUp()
     {
-        $this->object = new Counselee_child_bio_parentController;
+        $this->object = new Counselee_child_bio_parentController();
     }
 
     /**
@@ -25,78 +27,71 @@ class Counselee_child_bio_parentControllerTest extends \PHPUnit_Framework_TestCa
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Controllers\Counselee_child_bio_parentController::read
-     * @todo   Implement testRead().
+     * 
+     * @todo Implement testRead().
      */
     public function testRead()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Counselee_child_bio_parentController::readAll
-     * @todo   Implement testReadAll().
+     * 
+     * @todo Implement testReadAll().
      */
     public function testReadAll()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Counselee_child_bio_parentController::readAllWithFilter
-     * @todo   Implement testReadAllWithFilter().
+     * 
+     * @todo Implement testReadAllWithFilter().
      */
     public function testReadAllWithFilter()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Counselee_child_bio_parentController::create
-     * @todo   Implement testCreate().
+     * 
+     * @todo Implement testCreate().
      */
     public function testCreate()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Counselee_child_bio_parentController::update
-     * @todo   Implement testUpdate().
+     * 
+     * @todo Implement testUpdate().
      */
     public function testUpdate()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Counselee_child_bio_parentController::delete
-     * @todo   Implement testDelete().
+     * 
+     * @todo Implement testDelete().
      */
     public function testDelete()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

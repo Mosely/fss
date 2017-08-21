@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class Branch_of_serviceTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Branch_of_service
      */
     protected $object;
@@ -17,7 +19,7 @@ class Branch_of_serviceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Branch_of_service;
+        $this->object = new Branch_of_service();
     }
 
     /**
@@ -25,6 +27,5 @@ class Branch_of_serviceTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

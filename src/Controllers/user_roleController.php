@@ -1,8 +1,10 @@
 <?php
 namespace FSS\Controllers;
+
 use FSS\Models\User_role;
 use Interop\Container\ContainerInterface;
 use \Exception;
+
 /**
  * The controller for user_role-related actions.
  *
@@ -15,8 +17,10 @@ use \Exception;
  */
 class User_roleController implements ControllerInterface
 {
+
     // The DI container reference.
     private $container;
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -32,6 +36,7 @@ class User_roleController implements ControllerInterface
             $this->container['db']::enableQueryLog();
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -47,6 +52,7 @@ class User_roleController implements ControllerInterface
         
         return $this->readAllWithFilter($request, $response, $args);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -65,6 +71,7 @@ class User_roleController implements ControllerInterface
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
+
     /**
      *
      * {@inheritdoc}
@@ -102,6 +109,7 @@ class User_roleController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -133,6 +141,7 @@ class User_roleController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}
@@ -167,6 +176,7 @@ class User_roleController implements ControllerInterface
                 ], 400);
         }
     }
+
     /**
      *
      * {@inheritdoc}

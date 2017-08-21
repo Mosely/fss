@@ -6,7 +6,9 @@ namespace FSS\Controllers;
  */
 class Drug_useControllerTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Drug_useController
      */
     protected $object;
@@ -17,7 +19,7 @@ class Drug_useControllerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Drug_useController;
+        $this->object = new Drug_useController();
     }
 
     /**
@@ -25,78 +27,71 @@ class Drug_useControllerTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Controllers\Drug_useController::read
-     * @todo   Implement testRead().
+     * 
+     * @todo Implement testRead().
      */
     public function testRead()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Drug_useController::readAll
-     * @todo   Implement testReadAll().
+     * 
+     * @todo Implement testReadAll().
      */
     public function testReadAll()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Drug_useController::readAllWithFilter
-     * @todo   Implement testReadAllWithFilter().
+     * 
+     * @todo Implement testReadAllWithFilter().
      */
     public function testReadAllWithFilter()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Drug_useController::create
-     * @todo   Implement testCreate().
+     * 
+     * @todo Implement testCreate().
      */
     public function testCreate()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Drug_useController::update
-     * @todo   Implement testUpdate().
+     * 
+     * @todo Implement testUpdate().
      */
     public function testUpdate()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Drug_useController::delete
-     * @todo   Implement testDelete().
+     * 
+     * @todo Implement testDelete().
      */
     public function testDelete()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

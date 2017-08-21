@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class County_dataTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var County_data
      */
     protected $object;
@@ -17,7 +19,7 @@ class County_dataTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new County_data;
+        $this->object = new County_data();
     }
 
     /**
@@ -25,18 +27,16 @@ class County_dataTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Models\County_data::address
-     * @todo   Implement testAddress().
+     * 
+     * @todo Implement testAddress().
      */
     public function testAddress()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

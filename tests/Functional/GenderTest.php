@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class GenderTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Gender
      */
     protected $object;
@@ -17,7 +19,7 @@ class GenderTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Gender;
+        $this->object = new Gender();
     }
 
     /**
@@ -25,18 +27,16 @@ class GenderTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Models\Gender::person
-     * @todo   Implement testPerson().
+     * 
+     * @todo Implement testPerson().
      */
     public function testPerson()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var AbstractModel
      */
     protected $object;
@@ -17,7 +19,8 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = $this->getMockForAbstractClass('AbstractModel');;
+        $this->object = $this->getMockForAbstractClass('AbstractModel');
+        ;
     }
 
     /**
@@ -25,18 +28,16 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Models\AbstractModel::validateColumn
-     * @todo   Implement testValidateColumn().
+     * 
+     * @todo Implement testValidateColumn().
      */
     public function testValidateColumn()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class Funding_sourceTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Funding_source
      */
     protected $object;
@@ -17,7 +19,7 @@ class Funding_sourceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Funding_source;
+        $this->object = new Funding_source();
     }
 
     /**
@@ -25,6 +27,5 @@ class Funding_sourceTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

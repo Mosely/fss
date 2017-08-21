@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class User_viewTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var User_view
      */
     protected $object;
@@ -17,7 +19,7 @@ class User_viewTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new User_view;
+        $this->object = new User_view();
     }
 
     /**
@@ -25,6 +27,5 @@ class User_viewTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

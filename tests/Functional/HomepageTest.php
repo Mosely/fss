@@ -37,6 +37,7 @@ class HomepageTest extends BaseTestCase
         ]);
         
         $this->assertEquals(405, $response->getStatusCode());
-        $this->assertContains('Method not allowed', (string) $response->getBody());
+        $this->assertContains('Method not allowed',
+            (string) $response->getBody());
     }
 }

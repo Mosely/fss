@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class Client_languageTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Client_language
      */
     protected $object;
@@ -17,7 +19,7 @@ class Client_languageTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Client_language;
+        $this->object = new Client_language();
     }
 
     /**
@@ -25,6 +27,5 @@ class Client_languageTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }
