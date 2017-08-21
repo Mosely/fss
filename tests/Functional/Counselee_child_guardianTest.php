@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class Counselee_child_guardianTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Counselee_child_guardian
      */
     protected $object;
@@ -17,7 +19,7 @@ class Counselee_child_guardianTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Counselee_child_guardian;
+        $this->object = new Counselee_child_guardian();
     }
 
     /**
@@ -25,6 +27,5 @@ class Counselee_child_guardianTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

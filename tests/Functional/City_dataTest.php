@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class City_dataTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var City_data
      */
     protected $object;
@@ -17,7 +19,7 @@ class City_dataTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new City_data;
+        $this->object = new City_data();
     }
 
     /**
@@ -25,18 +27,16 @@ class City_dataTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Models\City_data::address
-     * @todo   Implement testAddress().
+     * 
+     * @todo Implement testAddress().
      */
     public function testAddress()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

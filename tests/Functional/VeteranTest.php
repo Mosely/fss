@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class VeteranTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Veteran
      */
     protected $object;
@@ -17,7 +19,7 @@ class VeteranTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Veteran;
+        $this->object = new Veteran();
     }
 
     /**
@@ -25,6 +27,5 @@ class VeteranTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

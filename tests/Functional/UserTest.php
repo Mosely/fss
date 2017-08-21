@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class UserTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var User
      */
     protected $object;
@@ -17,7 +19,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new User;
+        $this->object = new User();
     }
 
     /**
@@ -25,54 +27,49 @@ class UserTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Models\User::validatePassword
-     * @todo   Implement testValidatePassword().
+     * 
+     * @todo Implement testValidatePassword().
      */
     public function testValidatePassword()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Models\User::verifyPassword
-     * @todo   Implement testVerifyPassword().
+     * 
+     * @todo Implement testVerifyPassword().
      */
     public function testVerifyPassword()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Models\User::authenticate
-     * @todo   Implement testAuthenticate().
+     * 
+     * @todo Implement testAuthenticate().
      */
     public function testAuthenticate()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Models\User::person
-     * @todo   Implement testPerson().
+     * 
+     * @todo Implement testPerson().
      */
     public function testPerson()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

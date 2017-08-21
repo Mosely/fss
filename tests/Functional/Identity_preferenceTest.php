@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class Identity_preferenceTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Identity_preference
      */
     protected $object;
@@ -17,7 +19,7 @@ class Identity_preferenceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Identity_preference;
+        $this->object = new Identity_preference();
     }
 
     /**
@@ -25,6 +27,5 @@ class Identity_preferenceTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

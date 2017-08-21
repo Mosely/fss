@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class SchoolTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var School
      */
     protected $object;
@@ -17,7 +19,7 @@ class SchoolTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new School;
+        $this->object = new School();
     }
 
     /**
@@ -25,6 +27,5 @@ class SchoolTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

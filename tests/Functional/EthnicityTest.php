@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class EthnicityTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Ethnicity
      */
     protected $object;
@@ -17,7 +19,7 @@ class EthnicityTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Ethnicity;
+        $this->object = new Ethnicity();
     }
 
     /**
@@ -25,6 +27,5 @@ class EthnicityTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

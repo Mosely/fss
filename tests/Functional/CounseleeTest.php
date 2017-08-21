@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class CounseleeTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Counselee
      */
     protected $object;
@@ -17,7 +19,7 @@ class CounseleeTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Counselee;
+        $this->object = new Counselee();
     }
 
     /**
@@ -25,6 +27,5 @@ class CounseleeTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

@@ -121,71 +121,108 @@ $app->delete('/counselees/{id:[0-9]+}', 'CounseleeController:delete');
 
 $app->get('/counselee_children', 'Counselee_childController:readAll');
 $app->get('/counselee_children/{id:[0-9]+}', 'Counselee_childController:read');
-$app->get('/counselee_children/{filter}/{value}', 'Counselee_childController:readAllWithFilter');
+$app->get('/counselee_children/{filter}/{value}',
+    'Counselee_childController:readAllWithFilter');
 
 $app->post('/counselee_children', 'Counselee_childController:create');
 $app->put('/counselee_children/{id:[0-9]+}', 'Counselee_childController:update');
-$app->delete('/counselee_children/{id:[0-9]+}', 'Counselee_childController:delete');
+$app->delete('/counselee_children/{id:[0-9]+}',
+    'Counselee_childController:delete');
 
-$app->get('/counselee_child_bio_parents', 'Counselee_child_bio_parentController:readAll');
-$app->get('/counselee_child_bio_parents/{id:[0-9]+}', 'Counselee_child_bio_parentController:read');
-$app->get('/counselee_child_bio_parents/{filter}/{value}', 'Counselee_child_bio_parentController:readAllWithFilter');
+$app->get('/counselee_child_bio_parents',
+    'Counselee_child_bio_parentController:readAll');
+$app->get('/counselee_child_bio_parents/{id:[0-9]+}',
+    'Counselee_child_bio_parentController:read');
+$app->get('/counselee_child_bio_parents/{filter}/{value}',
+    'Counselee_child_bio_parentController:readAllWithFilter');
 
-$app->post('/counselee_child_bio_parents', 'Counselee_child_bio_parentController:create');
-$app->put('/counselee_child_bio_parents/{id:[0-9]+}', 'Counselee_child_bio_parentController:update');
-$app->delete('/counselee_child_bio_parents/{id:[0-9]+}', 'Counselee_child_bio_parentController:delete');
+$app->post('/counselee_child_bio_parents',
+    'Counselee_child_bio_parentController:create');
+$app->put('/counselee_child_bio_parents/{id:[0-9]+}',
+    'Counselee_child_bio_parentController:update');
+$app->delete('/counselee_child_bio_parents/{id:[0-9]+}',
+    'Counselee_child_bio_parentController:delete');
 
-$app->get('/counselee_child_guardians', 'Counselee_child_guardianController:readAll');
-$app->get('/counselee_child_guardians/{id:[0-9]+}', 'Counselee_child_guardianController:read');
-$app->get('/counselee_child_guardians/{filter}/{value}', 'Counselee_child_guardianController:readAllWithFilter');
+$app->get('/counselee_child_guardians',
+    'Counselee_child_guardianController:readAll');
+$app->get('/counselee_child_guardians/{id:[0-9]+}',
+    'Counselee_child_guardianController:read');
+$app->get('/counselee_child_guardians/{filter}/{value}',
+    'Counselee_child_guardianController:readAllWithFilter');
 
-$app->post('/counselee_child_guardians', 'Counselee_child_guardianController:create');
-$app->put('/counselee_child_guardians/{id:[0-9]+}', 'Counselee_child_guardianController:update');
-$app->delete('/counselee_child_guardians/{id:[0-9]+}', 'Counselee_child_guardianController:delete');
+$app->post('/counselee_child_guardians',
+    'Counselee_child_guardianController:create');
+$app->put('/counselee_child_guardians/{id:[0-9]+}',
+    'Counselee_child_guardianController:update');
+$app->delete('/counselee_child_guardians/{id:[0-9]+}',
+    'Counselee_child_guardianController:delete');
 
-$app->get('/counselee_child_siblings', 'Counselee_child_siblingController:readAll');
-$app->get('/counselee_child_siblings/{id:[0-9]+}', 'Counselee_child_siblingController:read');
-$app->get('/counselee_child_siblings/{filter}/{value}', 'Counselee_child_siblingController:readAllWithFilter');
+$app->get('/counselee_child_siblings',
+    'Counselee_child_siblingController:readAll');
+$app->get('/counselee_child_siblings/{id:[0-9]+}',
+    'Counselee_child_siblingController:read');
+$app->get('/counselee_child_siblings/{filter}/{value}',
+    'Counselee_child_siblingController:readAllWithFilter');
 
-$app->post('/counselee_child_siblings', 'Counselee_child_siblingController:create');
-$app->put('/counselee_child_siblings/{id:[0-9]+}', 'Counselee_child_siblingController:update');
-$app->delete('/counselee_child_siblings/{id:[0-9]+}', 'Counselee_child_siblingController:delete');
+$app->post('/counselee_child_siblings',
+    'Counselee_child_siblingController:create');
+$app->put('/counselee_child_siblings/{id:[0-9]+}',
+    'Counselee_child_siblingController:update');
+$app->delete('/counselee_child_siblings/{id:[0-9]+}',
+    'Counselee_child_siblingController:delete');
 
-$app->get('/counselee_counseling_topics', 'Counselee_counseling_topicController:readAll');
-$app->get('/counselee_counseling_topics/{id:[0-9]+}', 'Counselee_counseling_topicController:read');
-$app->get('/counselee_counseling_topics/{filter}/{value}', 'Counselee_counseling_topicController:readAllWithFilter');
+$app->get('/counselee_counseling_topics',
+    'Counselee_counseling_topicController:readAll');
+$app->get('/counselee_counseling_topics/{id:[0-9]+}',
+    'Counselee_counseling_topicController:read');
+$app->get('/counselee_counseling_topics/{filter}/{value}',
+    'Counselee_counseling_topicController:readAllWithFilter');
 
-$app->post('/counselee_counseling_topics', 'Counselee_counseling_topicController:create');
-$app->put('/counselee_counseling_topics/{id:[0-9]+}', 'Counselee_counseling_topicController:update');
-$app->delete('/counselee_counseling_topics/{id:[0-9]+}', 'Counselee_counseling_topicController:delete');
+$app->post('/counselee_counseling_topics',
+    'Counselee_counseling_topicController:create');
+$app->put('/counselee_counseling_topics/{id:[0-9]+}',
+    'Counselee_counseling_topicController:update');
+$app->delete('/counselee_counseling_topics/{id:[0-9]+}',
+    'Counselee_counseling_topicController:delete');
 
 $app->get('/counselee_drug_uses', 'Counselee_drug_useController:readAll');
-$app->get('/counselee_drug_uses/{id:[0-9]+}', 'Counselee_drug_useController:read');
-$app->get('/counselee_drug_uses/{filter}/{value}', 'Counselee_drug_useController:readAllWithFilter');
+$app->get('/counselee_drug_uses/{id:[0-9]+}',
+    'Counselee_drug_useController:read');
+$app->get('/counselee_drug_uses/{filter}/{value}',
+    'Counselee_drug_useController:readAllWithFilter');
 
 $app->post('/counselee_drug_uses', 'Counselee_drug_useController:create');
-$app->put('/counselee_drug_uses/{id:[0-9]+}', 'Counselee_drug_useController:update');
-$app->delete('/counselee_drug_uses/{id:[0-9]+}', 'Counselee_drug_useController:delete');
+$app->put('/counselee_drug_uses/{id:[0-9]+}',
+    'Counselee_drug_useController:update');
+$app->delete('/counselee_drug_uses/{id:[0-9]+}',
+    'Counselee_drug_useController:delete');
 
 $app->get('/counselee_medications', 'Counselee_medicationController:readAll');
-$app->get('/counselee_medications/{id:[0-9]+}', 'Counselee_medicationController:read');
-$app->get('/counselee_medications/{filter}/{value}', 'Counselee_medicationController:readAllWithFilter');
+$app->get('/counselee_medications/{id:[0-9]+}',
+    'Counselee_medicationController:read');
+$app->get('/counselee_medications/{filter}/{value}',
+    'Counselee_medicationController:readAllWithFilter');
 
 $app->post('/counselee_medications', 'Counselee_medicationController:create');
-$app->put('/counselee_medications/{id:[0-9]+}', 'Counselee_medicationController:update');
-$app->delete('/counselee_medications/{id:[0-9]+}', 'Counselee_medicationController:delete');
+$app->put('/counselee_medications/{id:[0-9]+}',
+    'Counselee_medicationController:update');
+$app->delete('/counselee_medications/{id:[0-9]+}',
+    'Counselee_medicationController:delete');
 
 $app->get('/counseling_topics', 'Counseling_topicController:readAll');
 $app->get('/counseling_topics/{id:[0-9]+}', 'Counseling_topicController:read');
-$app->get('/counseling_topics/{filter}/{value}', 'Counseling_topicController:readAllWithFilter');
+$app->get('/counseling_topics/{filter}/{value}',
+    'Counseling_topicController:readAllWithFilter');
 
 $app->post('/counseling_topics', 'Counseling_topicController:create');
 $app->put('/counseling_topics/{id:[0-9]+}', 'Counseling_topicController:update');
-$app->delete('/counseling_topics/{id:[0-9]+}', 'Counseling_topicController:delete');
+$app->delete('/counseling_topics/{id:[0-9]+}',
+    'Counseling_topicController:delete');
 
 $app->get('/county_data', 'County_dataController:readAll');
 $app->get('/county_data/{id:[0-9]+}', 'County_dataController:read');
-$app->get('/county_data/{filter}/{value}', 'County_dataController:readAllWithFilter');
+$app->get('/county_data/{filter}/{value}',
+    'County_dataController:readAllWithFilter');
 
 $app->post('/county_data', 'County_dataController:create');
 $app->put('/county_data/{id:[0-9]+}', 'County_dataController:update');
@@ -201,27 +238,38 @@ $app->delete('/drug_use/{id:[0-9]+}', 'Drug_useController:delete');
 
 $app->get('/funding_sources', 'Funding_sourceController:readAll');
 $app->get('/funding_sources/{id:[0-9]+}', 'Funding_sourceController:read');
-$app->get('/funding_sources/{filter}/{value}', 'Funding_sourceController:readAllWithFilter');
+$app->get('/funding_sources/{filter}/{value}',
+    'Funding_sourceController:readAllWithFilter');
 
 $app->post('/funding_sources', 'Funding_sourceController:create');
 $app->put('/funding_sources/{id:[0-9]+}', 'Funding_sourceController:update');
 $app->delete('/funding_sources/{id:[0-9]+}', 'Funding_sourceController:delete');
 
 $app->get('/identity_preferences', 'Identity_preferenceController:readAll');
-$app->get('/identity_preferences/{id:[0-9]+}', 'Identity_preferenceController:read');
-$app->get('/identity_preferences/{filter}/{value}', 'Identity_preferenceController:readAllWithFilter');
+$app->get('/identity_preferences/{id:[0-9]+}',
+    'Identity_preferenceController:read');
+$app->get('/identity_preferences/{filter}/{value}',
+    'Identity_preferenceController:readAllWithFilter');
 
 $app->post('/identity_preferences', 'Identity_preferenceController:create');
-$app->put('/identity_preferences/{id:[0-9]+}', 'Identity_preferenceController:update');
-$app->delete('/identity_preferences/{id:[0-9]+}', 'Identity_preferenceController:delete');
+$app->put('/identity_preferences/{id:[0-9]+}',
+    'Identity_preferenceController:update');
+$app->delete('/identity_preferences/{id:[0-9]+}',
+    'Identity_preferenceController:delete');
 
-$app->get('/miltary_discharge_types', 'Military_discharge_typeController:readAll');
-$app->get('/miltary_discharge_types/{id:[0-9]+}', 'Military_discharge_typeController:read');
-$app->get('/miltary_discharge_types/{filter}/{value}', 'Military_discharge_typeController:readAllWithFilter');
+$app->get('/miltary_discharge_types',
+    'Military_discharge_typeController:readAll');
+$app->get('/miltary_discharge_types/{id:[0-9]+}',
+    'Military_discharge_typeController:read');
+$app->get('/miltary_discharge_types/{filter}/{value}',
+    'Military_discharge_typeController:readAllWithFilter');
 
-$app->post('/miltary_discharge_types', 'Military_discharge_typeController:create');
-$app->put('/miltary_discharge_types/{id:[0-9]+}', 'Military_discharge_typeController:update');
-$app->delete('/miltary_discharge_types/{id:[0-9]+}', 'Military_discharge_typeController:delete');
+$app->post('/miltary_discharge_types',
+    'Military_discharge_typeController:create');
+$app->put('/miltary_discharge_types/{id:[0-9]+}',
+    'Military_discharge_typeController:update');
+$app->delete('/miltary_discharge_types/{id:[0-9]+}',
+    'Military_discharge_typeController:delete');
 
 $app->get('/people', 'PersonController:readAll');
 $app->get('/people/{id:[0-9]+}', 'PersonController:read');
@@ -233,7 +281,8 @@ $app->delete('/people/{id:[0-9]+}', 'PersonController:delete');
 
 $app->get('/person_addresses', 'Person_addressController:readAll');
 $app->get('/person_addresses/{id:[0-9]+}', 'Person_addressController:read');
-$app->get('/person_addresses/{filter}/{value}', 'Person_addressController:readAllWithFilter');
+$app->get('/person_addresses/{filter}/{value}',
+    'Person_addressController:readAllWithFilter');
 
 $app->post('/person_addresses', 'Person_addressController:create');
 $app->put('/person_addresses/{id:[0-9]+}', 'Person_addressController:update');
@@ -241,7 +290,8 @@ $app->delete('/person_addresses/{id:[0-9]+}', 'Person_addressController:delete')
 
 $app->get('/person_phones', 'Person_phoneController:readAll');
 $app->get('/person_phones/{id:[0-9]+}', 'Person_phoneController:read');
-$app->get('/person_phones/{filter}/{value}', 'Person_phoneController:readAllWithFilter');
+$app->get('/person_phones/{filter}/{value}',
+    'Person_phoneController:readAllWithFilter');
 
 $app->post('/person_phones', 'Person_phoneController:create');
 $app->put('/person_phones/{id:[0-9]+}', 'Person_phoneController:update');
@@ -273,40 +323,59 @@ $app->delete('/schools/{id:[0-9]+}', 'SchoolController:delete');
 
 $app->get('/shelter_clients', 'Shelter_clientController:readAll');
 $app->get('/shelter_clients/{id:[0-9]+}', 'Shelter_clientController:read');
-$app->get('/shelter_clients/{filter}/{value}', 'Shelter_clientController:readAllWithFilter');
+$app->get('/shelter_clients/{filter}/{value}',
+    'Shelter_clientController:readAllWithFilter');
 
 $app->post('/shelter_clients', 'Shelter_clientController:create');
 $app->put('/shelter_clients/{id:[0-9]+}', 'Shelter_clientController:update');
 $app->delete('/shelter_clients/{id:[0-9]+}', 'Shelter_clientController:delete');
 
-$app->get('/shelter_client_additional_staff', 'Shelter_client_additional_staffController:readAll');
-$app->get('/shelter_client_additional_staff/{id:[0-9]+}', 'Shelter_client_additional_staffController:read');
-$app->get('/shelter_client_additional_staff/{filter}/{value}', 'Shelter_client_additional_staffController:readAllWithFilter');
+$app->get('/shelter_client_additional_staff',
+    'Shelter_client_additional_staffController:readAll');
+$app->get('/shelter_client_additional_staff/{id:[0-9]+}',
+    'Shelter_client_additional_staffController:read');
+$app->get('/shelter_client_additional_staff/{filter}/{value}',
+    'Shelter_client_additional_staffController:readAllWithFilter');
 
-$app->post('/shelter_client_additional_staff', 'Shelter_client_additional_staffController:create');
-$app->put('/shelter_client_additional_staff/{id:[0-9]+}', 'Shelter_client_additional_staffController:update');
-$app->delete('/shelter_client_additional_staff/{id:[0-9]+}', 'Shelter_client_additional_staffController:delete');
+$app->post('/shelter_client_additional_staff',
+    'Shelter_client_additional_staffController:create');
+$app->put('/shelter_client_additional_staff/{id:[0-9]+}',
+    'Shelter_client_additional_staffController:update');
+$app->delete('/shelter_client_additional_staff/{id:[0-9]+}',
+    'Shelter_client_additional_staffController:delete');
 
-$app->get('/shelter_client_funding_sources', 'Shelter_client_funding_sourceController:readAll');
-$app->get('/shelter_client_funding_sources/{id:[0-9]+}', 'Shelter_client_funding_sourceController:read');
-$app->get('/shelter_client_funding_sources/{filter}/{value}', 'Shelter_client_funding_sourceController:readAllWithFilter');
+$app->get('/shelter_client_funding_sources',
+    'Shelter_client_funding_sourceController:readAll');
+$app->get('/shelter_client_funding_sources/{id:[0-9]+}',
+    'Shelter_client_funding_sourceController:read');
+$app->get('/shelter_client_funding_sources/{filter}/{value}',
+    'Shelter_client_funding_sourceController:readAllWithFilter');
 
-$app->post('/shelter_client_funding_sources', 'Shelter_client_funding_sourceController:create');
-$app->put('/shelter_client_funding_sources/{id:[0-9]+}', 'Shelter_client_funding_sourceController:update');
-$app->delete('/shelter_client_funding_sources/{id:[0-9]+}', 'Shelter_client_funding_sourceController:delete');
+$app->post('/shelter_client_funding_sources',
+    'Shelter_client_funding_sourceController:create');
+$app->put('/shelter_client_funding_sources/{id:[0-9]+}',
+    'Shelter_client_funding_sourceController:update');
+$app->delete('/shelter_client_funding_sources/{id:[0-9]+}',
+    'Shelter_client_funding_sourceController:delete');
 
-$app->get('/shelter_client_identity_preferences', 'Shelter_client_identity_preferenceController:readAll');
-$app->get('/shelter_client_identity_preferences/{id:[0-9]+}', 'Shelter_client_identity_preferenceController:read');
+$app->get('/shelter_client_identity_preferences',
+    'Shelter_client_identity_preferenceController:readAll');
+$app->get('/shelter_client_identity_preferences/{id:[0-9]+}',
+    'Shelter_client_identity_preferenceController:read');
 $app->get('/shelter_client_identity_preferences/{filter}/{value}',
-          'Shelter_client_identity_preferenceController:readAllWithFilter');
+    'Shelter_client_identity_preferenceController:readAllWithFilter');
 
-$app->post('/shelter_client_identity_preferences', 'Shelter_client_identity_preferenceController:create');
-$app->put('/shelter_client_identity_preferences/{id:[0-9]+}', 'Shelter_client_identity_preferenceController:update');
-$app->delete('/shelter_client_identity_preferences/{id:[0-9]+}', 'Shelter_client_identity_preferenceController:delete');
+$app->post('/shelter_client_identity_preferences',
+    'Shelter_client_identity_preferenceController:create');
+$app->put('/shelter_client_identity_preferences/{id:[0-9]+}',
+    'Shelter_client_identity_preferenceController:update');
+$app->delete('/shelter_client_identity_preferences/{id:[0-9]+}',
+    'Shelter_client_identity_preferenceController:delete');
 
 $app->get('/state_data', 'State_dataController:readAll');
 $app->get('/state_data/{id:[0-9]+}', 'State_dataController:read');
-$app->get('/state_data/{filter}/{value}', 'State_dataController:readAllWithFilter');
+$app->get('/state_data/{filter}/{value}',
+    'State_dataController:readAllWithFilter');
 
 $app->post('/state_data', 'State_dataController:create');
 $app->put('/state_data/{id:[0-9]+}', 'State_dataController:update');
@@ -314,7 +383,8 @@ $app->delete('/state_data/{id:[0-9]+}', 'State_dataController:delete');
 
 $app->get('/user_roles', 'User_roleController:readAll');
 $app->get('/user_roles/{id:[0-9]+}', 'User_roleController:read');
-$app->get('/user_roles/{filter}/{value}', 'User_roleController:readAllWithFilter');
+$app->get('/user_roles/{filter}/{value}',
+    'User_roleController:readAllWithFilter');
 
 $app->post('/user_roles', 'User_roleController:create');
 $app->put('/user_roles/{id:[0-9]+}', 'User_roleController:update');
@@ -322,7 +392,8 @@ $app->delete('/user_roles/{id:[0-9]+}', 'User_roleController:delete');
 
 $app->get('/user_views', 'User_viewController:readAll');
 $app->get('/user_views/{id:[0-9]+}', 'User_viewController:read');
-$app->get('/user_views/{filter}/{value}', 'User_viewController:readAllWithFilter');
+$app->get('/user_views/{filter}/{value}',
+    'User_viewController:readAllWithFilter');
 
 $app->post('/user_views', 'User_viewController:create');
 $app->put('/user_views/{id:[0-9]+}', 'User_viewController:update');

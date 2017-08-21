@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class Shelter_client_identity_preferenceTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Shelter_client_identity_preference
      */
     protected $object;
@@ -17,7 +19,7 @@ class Shelter_client_identity_preferenceTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Shelter_client_identity_preference;
+        $this->object = new Shelter_client_identity_preference();
     }
 
     /**
@@ -25,6 +27,5 @@ class Shelter_client_identity_preferenceTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

@@ -6,7 +6,9 @@ namespace FSS\Controllers;
  */
 class Client_languageControllerTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Client_languageController
      */
     protected $object;
@@ -17,7 +19,7 @@ class Client_languageControllerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Client_languageController;
+        $this->object = new Client_languageController();
     }
 
     /**
@@ -25,78 +27,71 @@ class Client_languageControllerTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Controllers\Client_languageController::read
-     * @todo   Implement testRead().
+     * 
+     * @todo Implement testRead().
      */
     public function testRead()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Client_languageController::readAll
-     * @todo   Implement testReadAll().
+     * 
+     * @todo Implement testReadAll().
      */
     public function testReadAll()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Client_languageController::readAllWithFilter
-     * @todo   Implement testReadAllWithFilter().
+     * 
+     * @todo Implement testReadAllWithFilter().
      */
     public function testReadAllWithFilter()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Client_languageController::create
-     * @todo   Implement testCreate().
+     * 
+     * @todo Implement testCreate().
      */
     public function testCreate()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Client_languageController::update
-     * @todo   Implement testUpdate().
+     * 
+     * @todo Implement testUpdate().
      */
     public function testUpdate()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Controllers\Client_languageController::delete
-     * @todo   Implement testDelete().
+     * 
+     * @todo Implement testDelete().
      */
     public function testDelete()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

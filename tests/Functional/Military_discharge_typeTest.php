@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class Military_discharge_typeTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Military_discharge_type
      */
     protected $object;
@@ -17,7 +19,7 @@ class Military_discharge_typeTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Military_discharge_type;
+        $this->object = new Military_discharge_type();
     }
 
     /**
@@ -25,6 +27,5 @@ class Military_discharge_typeTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

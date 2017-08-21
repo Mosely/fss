@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class PhoneTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Phone
      */
     protected $object;
@@ -17,7 +19,7 @@ class PhoneTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Phone;
+        $this->object = new Phone();
     }
 
     /**
@@ -25,6 +27,5 @@ class PhoneTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 }

@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class ClientTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Client
      */
     protected $object;
@@ -17,7 +19,7 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Client;
+        $this->object = new Client();
     }
 
     /**
@@ -25,18 +27,16 @@ class ClientTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Models\Client::person
-     * @todo   Implement testPerson().
+     * 
+     * @todo Implement testPerson().
      */
     public function testPerson()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }

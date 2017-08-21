@@ -6,7 +6,9 @@ namespace FSS\Models;
  */
 class Client_ethnicityTest extends \PHPUnit_Framework_TestCase
 {
+
     /**
+     *
      * @var Client_ethnicity
      */
     protected $object;
@@ -17,7 +19,7 @@ class Client_ethnicityTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->object = new Client_ethnicity;
+        $this->object = new Client_ethnicity();
     }
 
     /**
@@ -25,30 +27,27 @@ class Client_ethnicityTest extends \PHPUnit_Framework_TestCase
      * This method is called after a test is executed.
      */
     protected function tearDown()
-    {
-    }
+    {}
 
     /**
      * @covers FSS\Models\Client_ethnicity::client
-     * @todo   Implement testClient().
+     * 
+     * @todo Implement testClient().
      */
     public function testClient()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 
     /**
      * @covers FSS\Models\Client_ethnicity::ethnicity
-     * @todo   Implement testEthnicity().
+     * 
+     * @todo Implement testEthnicity().
      */
     public function testEthnicity()
     {
         // Remove the following lines when you implement this test.
-        $this->markTestIncomplete(
-            'This test has not been implemented yet.'
-        );
+        $this->markTestIncomplete('This test has not been implemented yet.');
     }
 }
