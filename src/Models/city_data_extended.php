@@ -15,7 +15,6 @@ class City_data_extended extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'city',
         'state_code',
         'zip',

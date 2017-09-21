@@ -15,7 +15,6 @@ class Counselee_child extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'school_id',
         'school_problems',
         'long_standing_illnesses',

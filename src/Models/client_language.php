@@ -15,7 +15,6 @@ class Client_language extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'client_id',
         'language_id',
         'is_primary',

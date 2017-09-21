@@ -15,7 +15,6 @@ class Phone extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'area_code',
         'phone_number',
         'extension',

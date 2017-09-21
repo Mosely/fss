@@ -15,7 +15,6 @@ class Shelter_client_additional_staff extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'shelter_client_id',
         'user_id',
         'created_at',

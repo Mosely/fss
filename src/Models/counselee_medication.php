@@ -15,7 +15,6 @@ class Counselee_medication extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'counselee_id',
         'medication_id',
         'reason',

@@ -15,7 +15,6 @@ class Ethnicity extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'name',
         'created_at',
         'updated_at',

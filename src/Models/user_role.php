@@ -15,7 +15,6 @@ class User_role extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'user_id',
         'role_id',
         'created_at',

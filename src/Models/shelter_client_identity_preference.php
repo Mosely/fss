@@ -15,7 +15,6 @@ class Shelter_client_identity_preference extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'shelter_client_id',
         'identity_preference_id',
         'created_at',

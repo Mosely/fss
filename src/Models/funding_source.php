@@ -15,7 +15,6 @@ class Funding_source extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'name',
         'description',
         'created_at',

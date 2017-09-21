@@ -15,7 +15,6 @@ class Counselee_counseling_topic extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'counselee_id',
         'counseling_topic_id',
         'other_note',

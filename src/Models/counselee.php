@@ -15,7 +15,6 @@ class Counselee extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'has_been_abused',
         'abused_by_whom',
         'abused_count',

@@ -15,7 +15,6 @@ class Drug_use extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'type',
         'created_at',
         'updated_at',

@@ -15,7 +15,6 @@ class Counselee_child_bio_parent extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'counselee_child_id',
         'type',
         'name',

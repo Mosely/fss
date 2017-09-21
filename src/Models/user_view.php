@@ -26,7 +26,6 @@ class User_view extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'id',
         'first_name',
         'last_name',
         'middle_name',
