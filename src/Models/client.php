@@ -18,7 +18,7 @@ class Client extends AbstractModel
      */
     public function person()
     {
-        return $this->belongsTo('FSS\Models\Person',  'id');
+        return $this->belongsTo('FSS\Models\Person', 'id', 'id');
     }
     // getters and setters if you want and other logic
 }

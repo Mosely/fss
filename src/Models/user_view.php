@@ -12,7 +12,7 @@ class User_view extends AbstractModel
 
     // The table for this model
     protected $table = "user_view";
-    
+
     // There's no need to return these five
     // columns with every request. Going to
     // override the $hidden from AbstractModel
