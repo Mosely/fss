@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Models;
 
-class Report_column extends AbstractModel
+class ReportColumn extends AbstractModel
 {
 
     protected $table = "report_column";
