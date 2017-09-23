@@ -34,7 +34,7 @@ class Cache
     }
 
     /**
-     * Makes a cache item.
+     * Makes a Cache item.
      *
      * @param string $key
      * @param object $val
@@ -65,10 +65,10 @@ class Cache
      */
     public function get(string $key)
     {
-        // Arbitrarily setting max ttl to one hour for these cache items
+        // Arbitrarily setting max ttl to one hour for these Cache items
         $ttl = 3600;
         $val = null;
-        $this->container['logger']->debug("Retrieving cache item $key.");
+        $this->container['logger']->debug("Retrieving Cache item $key.");
         if (file_exists("/tmp/$key") &&
              ((time() - filemtime("/tmp/$key")) > $ttl)) {
             opcache_invalidate("/tmp/$key", true);

@@ -16,8 +16,8 @@ class Token
 {
 
     /**
-     * Generates a JWT token and returns
-     * an array containig the token and
+     * Generates a JWT Token and returns
+     * an array containig the Token and
      * expiry data.
      *
      * @param string $userId
@@ -46,7 +46,7 @@ class Token
     }
 
     /**
-     * Verifies the given token to see if
+     * Verifies the given Token to see if
      * it matches the indicated user.
      *
      * @param string $token
@@ -57,12 +57,12 @@ class Token
     {
         $payload = self::decode($token);
         if ($payload['sub'] != $userId) {
-            throw new Exception("This token does not match the user.");
+            throw new Exception("This Token does not match the user.");
         }
     }
 
     /**
-     * Decodes the given JWT token.
+     * Decodes the given JWT Token.
      *
      * @param string $token
      * @return array
