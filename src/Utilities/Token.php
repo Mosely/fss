@@ -40,7 +40,6 @@ class Token
             getenv('JWT_ALGORITHM'));
         $data = [];
         $data['token'] = $token;
-        // $data["expires"] = $future->getTimeStamp();
         $data['expires'] = $payload['exp'];
         return $data;
     }
