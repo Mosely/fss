@@ -11,7 +11,7 @@ class ClientEthnicity extends AbstractModel
 {
 
     // The table for this model
-    protected $table = 'ClientEthnicity';
+    protected $table = 'client_ethnicity';
 
     /**
      * Get the client records that have this client_ethnicity.
