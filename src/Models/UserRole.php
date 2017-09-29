@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class User_role extends AbstractModel
+class UserRole extends AbstractModel
 {
 
     // The table for this model
