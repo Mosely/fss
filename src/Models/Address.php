@@ -16,25 +16,25 @@ class Address extends AbstractModel
     /**
      * Get the city_data record associated with the address.
      */
-    public function city_data()
+    public function CityData()
     {
-        return $this->belongsTo('FSS\Models\City_data');
+        return $this->belongsTo('FSS\Models\CityData');
     }
 
     /**
      * Get the state_data record associated with the address.
      */
-    public function state_data()
+    public function StateData()
     {
-        return $this->belongsTo('FSS\Models\State_data');
+        return $this->belongsTo('FSS\Models\StateData');
     }
 
     /**
      * Get the county_data record associated with the address.
      */
-    public function county_data()
+    public function CountyData()
     {
-        return $this->belongsTo('FSS\Models\County_data');
+        return $this->belongsTo('FSS\Models\CountyData');
     }
     // getters and setters if you want and other logic
 }
