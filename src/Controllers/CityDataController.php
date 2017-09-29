@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\City_data;
+use FSS\Models\CityData;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class City_dataController implements ControllerInterface
+class CityDataController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -33,7 +33,7 @@ class City_dataController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the City_data Controller.");
+                "Enabling query log for the CityData Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -62,14 +62,14 @@ class City_dataController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = City_data::all();
+        $records = CityData::all();
         $this->container['logger']->debug("All city_data query: ",
             $this->container['db']::getQueryLog());
         // $records = City_data::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All City_data returned",
+                "message" => "All CityData returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -85,22 +85,22 @@ class City_dataController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            City_data::validateColumn('city_data', $filter, $this->container);
-            $records = City_data::where($filter, $value)->get();
-            $this->container['logger']->debug("City_data filter query: ",
+            CityData::validateColumn('city_data', $filter, $this->container);
+            $records = CityData::where($filter, $value)->get();
+            $this->container['logger']->debug("CityData filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No City_data found",
+                        "message" => "No CityData found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered City_data by $filter",
+                    "message" => "Filtered CityData by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -125,15 +125,15 @@ class City_dataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                City_data::validateColumn('city_data', $key, $this->container);
+                CityData::validateColumn('city_data', $key, $this->container);
             }
-            $recordId = City_data::insertGetId($recordData);
-            $this->container['logger']->debug("City_data create query: ",
+            $recordId = CityData::insertGetId($recordData);
+            $this->container['logger']->debug("CityData create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "City_data $recordId has been created."
+                    "message" => "CityData $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -156,19 +156,19 @@ class City_dataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                City_data::validateColumn('city_data', $key, $this->container);
+                CityData::validateColumn('city_data', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = City_data::update($updateData);
-            $this->container['logger']->debug("City_data update query: ",
+            $recordId = CityData::update($updateData);
+            $this->container['logger']->debug("CityData update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated City_data $recordId"
+                    "message" => "Updated CityData $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -188,20 +188,20 @@ class City_dataController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = City_data::findOrFail($id);
+            $record = CityData::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("City_data delete query: ",
+            $this->container['logger']->debug("CityData delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted City_data $id"
+                    "message" => "Deleted CityData $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "City_data not found"
+                    "message" => "CityData not found"
                 ], 404);
         }
     }
