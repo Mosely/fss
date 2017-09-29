@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Drug_use;
+use FSS\Models\DrugUse;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Drug_useController implements ControllerInterface
+class DrugUseController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class Drug_useController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the drug_use Controller.");
+                "Enabling query log for the DrugUse Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -49,7 +49,7 @@ class Drug_useController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading drug_use with id of $id");
-        $this->container['logger']->debug("Reading drug_use with id of $id");
+        $this->container['logger']->debug("Reading DrugUse with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -61,14 +61,14 @@ class Drug_useController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Drug_use::all();
-        $this->container['logger']->debug("All drug_use query: ",
+        $records = DrugUse::all();
+        $this->container['logger']->debug("All DrugUse query: ",
             $this->container['db']::getQueryLog());
         // $records = Drug_use::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All drug_use returned",
+                "message" => "All DrugUse returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -84,22 +84,22 @@ class Drug_useController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Drug_use::validateColumn('drug_use', $filter, $this->container);
-            $records = Drug_use::where($filter, $value)->get();
-            $this->container['logger']->debug("Drug_use filter query: ",
+            DrugUse::validateColumn('DrugUse', $filter, $this->container);
+            $records = DrugUse::where($filter, $value)->get();
+            $this->container['logger']->debug("DrugUse filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Drug_use found",
+                        "message" => "No DrugUse found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Drug_use by $filter",
+                    "message" => "Filtered DrugUse by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -124,15 +124,15 @@ class Drug_useController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Drug_use::validateColumn('drug_use', $key, $this->container);
+                DrugUse::validateColumn('drug_use', $key, $this->container);
             }
-            $recordId = Drug_use::insertGetId($recordData);
-            $this->container['logger']->debug("Drug_use create query: ",
+            $recordId = DrugUse::insertGetId($recordData);
+            $this->container['logger']->debug("DrugUse create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Drug_use $recordId has been created."
+                    "message" => "DrugUse $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -155,19 +155,19 @@ class Drug_useController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Drug_use::validateColumn('drug_use', $key, $this->container);
+                DrugUse::validateColumn('drug_use', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Drug_use::update($updateData);
-            $this->container['logger']->debug("Drug_use update query: ",
+            $recordId = DrugUse::update($updateData);
+            $this->container['logger']->debug("DrugUse update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Drug_use $recordId"
+                    "message" => "Updated DrugUse $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -187,20 +187,20 @@ class Drug_useController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Drug_use::findOrFail($id);
+            $record = DrugUse::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Drug_use delete query: ",
+            $this->container['logger']->debug("DrugUse delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Drug_use $id"
+                    "message" => "Deleted DrugUse $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Drug_use not found"
+                    "message" => "DrugUse not found"
                 ], 404);
         }
     }
