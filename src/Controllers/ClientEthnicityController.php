@@ -1,12 +1,12 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Client_ethnicity;
+use FSS\Models\ClientEthnicity;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
 /**
- * The controller for client_ethnicity-related actions.
+ * The controller for ClientEthnicity-related actions.
  *
  * Implements the ControllerInterface.
  *
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Client_ethnicityController implements ControllerInterface
+class ClientEthnicityController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class Client_ethnicityController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the client_ethnicity Controller.");
+                "Enabling query log for the ClientEthnicity Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -62,14 +62,14 @@ class Client_ethnicityController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Client_ethnicity::all();
+        $records = ClientEthnicity::all();
         $this->container['logger']->debug("All client_ethnicity query: ",
             $this->container['db']::getQueryLog());
         // $records = Client_ethnicity::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All client_ethnicities returned",
+                "message" => "All ClientEthnicities returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -85,23 +85,23 @@ class Client_ethnicityController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Client_ethnicity::validateColumn('client_ethnicity', $filter,
+            ClientEthnicity::validateColumn('client_ethnicity', $filter,
                 $this->container);
-            $records = Client_ethnicity::where($filter, $value)->get();
-            $this->container['logger']->debug("Client_ethnicity filter query: ",
+            $records = ClientEthnicity::where($filter, $value)->get();
+            $this->container['logger']->debug("ClientEthnicity filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Client_ethnicity found",
+                        "message" => "No ClientEthnicity found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Client_ethnicity by $filter",
+                    "message" => "Filtered ClientEthnicity by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -126,16 +126,16 @@ class Client_ethnicityController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Client_ethnicity::validateColumn('client_ethnicity', $key,
+                ClientEthnicity::validateColumn('client_ethnicity', $key,
                     $this->container);
             }
-            $recordId = Client_ethnicity::insertGetId($recordData);
-            $this->container['logger']->debug("Client_ethnicity create query: ",
+            $recordId = ClientEthnicity::insertGetId($recordData);
+            $this->container['logger']->debug("ClientEthnicity create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Client_ethnicity $recordId has been created."
+                    "message" => "ClientEthnicity $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -158,20 +158,20 @@ class Client_ethnicityController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Client_ethnicity::validateColumn('client_ethnicity', $key,
+                ClientEthnicity::validateColumn('ClientEthnicity', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Client_ethnicity::update($updateData);
-            $this->container['logger']->debug("Client_ethnicity update query: ",
+            $recordId = ClientEthnicity::update($updateData);
+            $this->container['logger']->debug("ClientEthnicity update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Client_ethnicity $recordId"
+                    "message" => "Updated ClientEthnicity $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -191,20 +191,20 @@ class Client_ethnicityController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Client_ethnicity::findOrFail($id);
+            $record = ClientEthnicity::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Client_ethnicity delete query: ",
+            $this->container['logger']->debug("ClientEthnicity delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Client_ethnicity $id"
+                    "message" => "Deleted ClientEthnicity $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Client_ethnicity not found"
+                    "message" => "ClientEthnicity not found"
                 ], 404);
         }
     }
