@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class User_view extends AbstractModel
+class UserView extends AbstractModel
 {
 
     // The table for this model
