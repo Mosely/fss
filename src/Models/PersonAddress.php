@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Person_address extends AbstractModel
+class PersonAddress extends AbstractModel
 {
 
     // The table for this model
