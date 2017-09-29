@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Shelter_client_funding_source;
+use FSS\Models\ShelterClientFundingSource;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Shelter_client_funding_sourceController implements ControllerInterface
+class ShelterClientFundingSourceController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -33,7 +33,7 @@ class Shelter_client_funding_sourceController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the Shelter_client_funding_source Controller.");
+                "Enabling query log for the ShelterClientFundingSource Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Shelter_client_funding_sourceController implements ControllerInterface
         $args['value'] = $id;
         
         $this->container['logger']->debug(
-            "Reading shelter_client_funding_source with id of $id");
+            "Reading ShelterClientFundingSource with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,15 +62,15 @@ class Shelter_client_funding_sourceController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Shelter_client_funding_source::all();
+        $records = ShelterClientFundingSource::all();
         $this->container['logger']->debug(
-            "All shelter_client_funding_source query: ",
+            "All ShelterClientFundingSource query: ",
             $this->container['db']::getQueryLog());
         // $records = Shelter_client_funding_source::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All shelter_client_funding_source returned",
+                "message" => "All ShelterClientFundingSource returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -86,24 +86,24 @@ class Shelter_client_funding_sourceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Shelter_client_funding_source::validateColumn(
-                'shelter_client_funding_source', $filter, $this->container);
-            $records = Shelter_client_funding_source::where($filter, $value)->get();
+            ShelterClientFundingSource::validateColumn(
+                'ShelterClientFundingSource', $filter, $this->container);
+            $records = ShelterClientFundingSource::where($filter, $value)->get();
             $this->container['logger']->debug(
-                "Shelter_client_funding_source filter query: ",
+                "ShelterClientFundingSource filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Shelter_client_funding_source found",
+                        "message" => "No ShelterClientFundingSource found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Shelter_client_funding_source by $filter",
+                    "message" => "Filtered ShelterClientFundingSource by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -128,17 +128,17 @@ class Shelter_client_funding_sourceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Shelter_client_funding_source::validateColumn(
-                    'shelter_client_funding_source', $key, $this->container);
+                ShelterClientFundingSource::validateColumn(
+                    'ShelterClientFundingSource', $key, $this->container);
             }
             $recordId = Shelter_client_funding_source::insertGetId($recordData);
             $this->container['logger']->debug(
-                "Shelter_client_funding_source create query: ",
+                "ShelterClientFundingSource create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Shelter_client_funding_source $recordId has been created."
+                    "message" => "ShelterClientFundingSource $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -161,21 +161,21 @@ class Shelter_client_funding_sourceController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Shelter_client_funding_source::validateColumn(
-                    'shelter_client_funding_source', $key, $this->container);
+                ShelterClientFundingSource::validateColumn(
+                    'ShelterClientFundingSource', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Shelter_client_funding_source::update($updateData);
+            $recordId = ShelterClientFundingSource::update($updateData);
             $this->container['logger']->debug(
-                "Shelter_client_funding_source update query: ",
+                "ShelterClientFundingSource update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Shelter_client_funding_source $recordId"
+                    "message" => "Updated ShelterClientFundingSource $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -195,21 +195,21 @@ class Shelter_client_funding_sourceController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Shelter_client_funding_source::findOrFail($id);
+            $record = ShelterClientFundingSource::findOrFail($id);
             $record->delete();
             $this->container['logger']->debug(
-                "Shelter_client_funding_source delete query: ",
+                "ShelterClientFundingSource delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Shelter_client_funding_source $id"
+                    "message" => "Deleted ShelterClientFundingSource $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Shelter_client_funding_source not found"
+                    "message" => "ShelterClientFundingSource not found"
                 ], 404);
         }
     }
