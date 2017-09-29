@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Counselee_counseling_topic;
+use FSS\Models\CounseleeCounselingTopic;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Counselee_counseling_topicController implements ControllerInterface
+class CounseleeCounselingTopicController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -33,7 +33,7 @@ class Counselee_counseling_topicController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the counselee_counseling_topic Controller.");
+                "Enabling query log for the CounseleeCounselingTopic Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Counselee_counseling_topicController implements ControllerInterface
         $args['value'] = $id;
         
         $this->container['logger']->debug(
-            "Reading counselee_counseling_topic with id of $id");
+            "Reading CounseleeCounselingTopic with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,15 +62,15 @@ class Counselee_counseling_topicController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Counselee_counseling_topic::all();
+        $records = CounseleeCounselingTopic::all();
         $this->container['logger']->debug(
-            "All counselee_counseling_topic query: ",
+            "All CounseleeCounselingTopic query: ",
             $this->container['db']::getQueryLog());
-        // $records = Counselee_counseling_topic::all();
+        // $records = CounseleeCounselingTopic::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All counselee_counseling_topic returned",
+                "message" => "All CounseleeCounselingTopic returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -86,24 +86,24 @@ class Counselee_counseling_topicController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Counselee_counseling_topic::validateColumn(
-                'counselee_counseling_topic', $filter, $this->container);
-            $records = Counselee_counseling_topic::where($filter, $value)->get();
+            CounseleeCounselingTopic::validateColumn(
+                'CounseleeCounselingTopic', $filter, $this->container);
+            $records = CounseleeCounselingTopic::where($filter, $value)->get();
             $this->container['logger']->debug(
-                "Counselee_counseling_topic filter query: ",
+                "CounseleeCounselingTopic filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Counselee_counseling_topic found",
+                        "message" => "No CounseleeCounselingTopic found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Counselee_counseling_topic by $filter",
+                    "message" => "Filtered CounseleeCounselingTopic by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -128,17 +128,17 @@ class Counselee_counseling_topicController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Counselee_counseling_topic::validateColumn(
-                    'counselee_counseling_topic', $key, $this->container);
+                CounseleeCounselingTopic::validateColumn(
+                    'CounseleeCounselingTopic', $key, $this->container);
             }
-            $recordId = Counselee_counseling_topic::insertGetId($recordData);
+            $recordId = CounseleeCounselingTopic::insertGetId($recordData);
             $this->container['logger']->debug(
-                "Counselee_counseling_topic create query: ",
+                "CounseleeCounselingTopic create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Counselee_counseling_topic $recordId has been created."
+                    "message" => "CounseleeCounselingTopic $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -161,21 +161,21 @@ class Counselee_counseling_topicController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Counselee_counseling_topic::validateColumn(
-                    'counselee_counseling_topic', $key, $this->container);
+                CounseleeCounselingTopic::validateColumn(
+                    'CounseleeCounselingTopic', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Counselee_counseling_topic::update($updateData);
+            $recordId = CounseleeCounselingTopic::update($updateData);
             $this->container['logger']->debug(
-                "Counselee_counseling_topic update query: ",
+                "CounseleeCounselingTopic update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Counselee_counseling_topic $recordId"
+                    "message" => "Updated CounseleeCounselingTopic $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -195,21 +195,21 @@ class Counselee_counseling_topicController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Counselee_counseling_topic::findOrFail($id);
+            $record = CounseleeCounselingTopic::findOrFail($id);
             $record->delete();
             $this->container['logger']->debug(
-                "Counselee_counseling_topic delete query: ",
+                "CounseleeCounselingTopic delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Counselee_counseling_topic $id"
+                    "message" => "Deleted CounseleeCounselingTopic $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Counselee_counseling_topic not found"
+                    "message" => "CounseleeCounselingTopic not found"
                 ], 404);
         }
     }
