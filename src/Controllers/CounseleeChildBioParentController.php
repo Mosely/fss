@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Counselee_child_bio_parent;
+use FSS\Models\CounseleeChildBioParent;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Counselee_child_bio_parentController implements ControllerInterface
+class CounseleeChildBioParentController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -33,7 +33,7 @@ class Counselee_child_bio_parentController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the counselee_child_bio_parent Controller.");
+                "Enabling query log for the CounseleeChildBioParent Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Counselee_child_bio_parentController implements ControllerInterface
         $args['value'] = $id;
         
         $this->container['logger']->debug(
-            "Reading counselee_child_bio_parent with id of $id");
+            "Reading CounseleeChildBioParent with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,15 +62,15 @@ class Counselee_child_bio_parentController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Counselee_child_bio_parent::all();
+        $records = CounseleeChildBioParent::all();
         $this->container['logger']->debug(
-            "All counselee_child_bio_parent query: ",
+            "All CounseleeChildBioParent query: ",
             $this->container['db']::getQueryLog());
         // $records = Counselee_child_bio_parent::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All counselee_child_bio_parent returned",
+                "message" => "All CounseleeChildBioParent returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -86,24 +86,24 @@ class Counselee_child_bio_parentController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Counselee_child_bio_parent::validateColumn(
-                'counselee_child_bio_parent', $filter, $this->container);
-            $records = Counselee_child_bio_parent::where($filter, $value)->get();
+            CounseleeChildBioParent::validateColumn(
+                'CounseleeChildBioParent', $filter, $this->container);
+            $records = CounseleeChildBioParent::where($filter, $value)->get();
             $this->container['logger']->debug(
-                "Counselee_child_bio_parent filter query: ",
+                "CounseleeChildBioParent filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Counselee_child_bio_parent found",
+                        "message" => "No CounseleeChildBioParent found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Counselee_child_bio_parent by $filter",
+                    "message" => "Filtered CounseleeChildBioParent by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -128,17 +128,17 @@ class Counselee_child_bio_parentController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Counselee_child_bio_parent::validateColumn(
-                    'counselee_child_bio_parent', $key, $this->container);
+                CounseleeChildBioParent::validateColumn(
+                    'CounseleeChildBioParent', $key, $this->container);
             }
-            $recordId = Counselee_child_bio_parent::insertGetId($recordData);
+            $recordId = CounseleeChildBioParent::insertGetId($recordData);
             $this->container['logger']->debug(
-                "Counselee_child_bio_parent create query: ",
+                "CounseleeChildBioParent create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Counselee_child_bio_parent $recordId has been created."
+                    "message" => "CounseleeChildBioParent $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -161,21 +161,21 @@ class Counselee_child_bio_parentController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Counselee_child_bio_parent::validateColumn(
-                    'counselee_child_bio_parent', $key, $this->container);
+                CounseleeChildBioParent::validateColumn(
+                    'CounseleeChildBioParent', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Counselee_child_bio_parent::update($updateData);
+            $recordId = CounseleeChildBioParent::update($updateData);
             $this->container['logger']->debug(
-                "Counselee_child_bio_parent update query: ",
+                "CounseleeChildBioParent update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Counselee_child_bio_parent $recordId"
+                    "message" => "Updated CounseleeChildBioParent $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -195,7 +195,7 @@ class Counselee_child_bio_parentController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Counselee_child_bio_parent::findOrFail($id);
+            $record = CounseleeChildBioParent::findOrFail($id);
             $record->delete();
             $this->container['logger']->debug(
                 "Counselee_child_bio_parent delete query: ",
@@ -203,13 +203,13 @@ class Counselee_child_bio_parentController implements ControllerInterface
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Counselee_child_bio_parent $id"
+                    "message" => "Deleted CounseleeChildBioParent $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Counselee_child_bio_parent not found"
+                    "message" => "CounseleeChildBioParent not found"
                 ], 404);
         }
     }
