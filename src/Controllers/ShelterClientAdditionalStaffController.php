@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Shelter_client_additional_staff;
+use FSS\Models\ShelterClientAdditionalStaff;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Shelter_client_additional_staffController implements ControllerInterface
+class ShelterClientAdditionalStaff implements ControllerInterface
 {
 
     // The DI container reference.
@@ -33,7 +33,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the Shelter_client_additional_staff Controller.");
+                "Enabling query log for the ShelterClientAdditionalStaff Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Shelter_client_additional_staffController implements ControllerInterface
         $args['value'] = $id;
         
         $this->container['logger']->debug(
-            "Reading shelter_client_additional_staff with id of $id");
+            "Reading ShelterClientAdditionalStaff with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,15 +62,15 @@ class Shelter_client_additional_staffController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Shelter_client_additional_staff::all();
+        $records = ShelterClientAdditionalStaff::all();
         $this->container['logger']->debug(
-            "All shelter_client_additional_staff query: ",
+            "All ShelterClientAdditionalStaff query: ",
             $this->container['db']::getQueryLog());
         // $records = Shelter_client_additional_staff::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All shelter_client_additional_staff returned",
+                "message" => "All ShelterClientAdditionalStaff returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -86,24 +86,24 @@ class Shelter_client_additional_staffController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Shelter_client_additional_staff::validateColumn(
-                'shelter_client_additional_staff', $filter, $this->container);
-            $records = Shelter_client_additional_staff::where($filter, $value)->get();
+            ShelterClientAdditionalStaff::validateColumn(
+                'ShelterClientAdditionalStaff', $filter, $this->container);
+            $records = ShelterClientAdditionalStaff::where($filter, $value)->get();
             $this->container['logger']->debug(
-                "Shelter_client_additional_staff filter query: ",
+                "ShelterClientAdditionalStaff filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Shelter_client_additional_staff found",
+                        "message" => "No ShelterClientAdditionalStaff found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Shelter_client_additional_staff by $filter",
+                    "message" => "Filtered ShelterClientAdditionalStaff by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -128,18 +128,18 @@ class Shelter_client_additional_staffController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Shelter_client_additional_staff::validateColumn(
-                    'shelter_client_additional_staff', $key, $this->container);
+                ShelterClientAdditionalStaff::validateColumn(
+                    'ShelterClientAdditionalStaff', $key, $this->container);
             }
-            $recordId = Shelter_client_additional_staff::insertGetId(
+            $recordId = ShelterClientAdditionalStaff::insertGetId(
                 $recordData);
             $this->container['logger']->debug(
-                "Shelter_client_additional_staff create query: ",
+                "ShelterClientAdditionalStaff create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Shelter_client_additional_staff $recordId has been created."
+                    "message" => "ShelterClientAdditionalStaff $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -162,21 +162,21 @@ class Shelter_client_additional_staffController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Shelter_client_additional_staff::validateColumn(
-                    'shelter_client_additional_staff', $key, $this->container);
+                ShelterClientAdditionalStaff::validateColumn(
+                    'ShelterClientAdditionalStaff', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Shelter_client_additional_staff::update($updateData);
+            $recordId = ShelterClientAdditionalStaff::update($updateData);
             $this->container['logger']->debug(
-                "Shelter_client_additional_staff update query: ",
+                "ShelterClientAdditionalStaff update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Shelter_client_additional_staff $recordId"
+                    "message" => "Updated ShelterClientAdditionalStaff $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -196,21 +196,21 @@ class Shelter_client_additional_staffController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Shelter_client_additional_staff::findOrFail($id);
+            $record = ShelterClientAdditionalStaff::findOrFail($id);
             $record->delete();
             $this->container['logger']->debug(
-                "Shelter_client_additional_staff delete query: ",
+                "ShelterClientAdditionalStaff delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Shelter_client_additional_staff $id"
+                    "message" => "Deleted ShelterClientAdditionalStaff $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Shelter_client_additional_staff not found"
+                    "message" => "ShelterClientAdditionalStaff not found"
                 ], 404);
         }
     }
