@@ -16,7 +16,7 @@ class Gender extends AbstractModel
     /**
      * Get the person records that have this gender.
      */
-    public function person()
+    public function Person()
     {
         return $this->hasMany('FSS\Models\Person');
     }
