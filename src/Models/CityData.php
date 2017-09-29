@@ -11,7 +11,7 @@ class CityData extends AbstractModel
 {
 
     // The table for this model
-    protected $table = 'CityData';
+    protected $table = 'city_data';
 
     /**
      * Get the addresses that have this city.
