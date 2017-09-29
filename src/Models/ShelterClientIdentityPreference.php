@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Shelter_client_identity_preference extends AbstractModel
+class ShelterClientIdentityPreference extends AbstractModel
 {
 
     // The table for this model
