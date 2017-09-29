@@ -7,16 +7,16 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Client_ethnicity extends AbstractModel
+class ClientEthnicity extends AbstractModel
 {
 
     // The table for this model
-    protected $table = 'client_ethnicity';
+    protected $table = 'ClientEthnicity';
 
     /**
      * Get the client records that have this client_ethnicity.
      */
-    public function client()
+    public function Client()
     {
         return $this->belongsTo('FSS\Models\Client');
     }
@@ -24,7 +24,7 @@ class Client_ethnicity extends AbstractModel
     /**
      * Get the ethnicity records that have this client_ethnicity.
      */
-    public function ethnicity()
+    public function Ethnicity()
     {
         return $this->belongsTo('FSS\Models\Ethnicity');
     }
