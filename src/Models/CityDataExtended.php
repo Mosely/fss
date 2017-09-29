@@ -7,11 +7,11 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class City_data_extended extends AbstractModel
+class CityDataExtended extends AbstractModel
 {
 
     // The table for this model
-    protected $table = "city_data_extended";
+    protected $table = "CityDataExtended";
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
