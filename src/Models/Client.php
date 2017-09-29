@@ -11,12 +11,12 @@ class Client extends AbstractModel
 {
 
     // The table for this model
-    protected $table = 'client';
+    protected $table = 'Client';
 
     /**
      * Get the person records that have this client.
      */
-    public function person()
+    public function Person()
     {
         return $this->belongsTo('FSS\Models\Person', 'id', 'id');
     }
