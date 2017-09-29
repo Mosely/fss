@@ -16,7 +16,7 @@ class Person extends AbstractModel
     /**
      * Get the user that has this person.
      */
-    public function user()
+    public function User()
     {
         return $this->hasOne('FSS\Models\User', 'id', 'id');
         // NOTE: indicate both the foreign and
@@ -26,7 +26,7 @@ class Person extends AbstractModel
     /**
      * Get the user that has this person.
      */
-    public function client()
+    public function Client()
     {
         return $this->hasOne('FSS\Models\Client', 'id', 'id');
         // NOTE: indicate both the foreign and
@@ -36,7 +36,7 @@ class Person extends AbstractModel
     /**
      * Get the gender that has this person.
      */
-    public function gender()
+    public function Gender()
     {
         return $this->belongsTo('FSS\Models\Gender');
     }
