@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Shelter_client_funding_source extends AbstractModel
+class ShelterClientFundingSource extends AbstractModel
 {
 
     // The table for this model
