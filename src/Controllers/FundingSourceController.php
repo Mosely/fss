@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Funding_source;
+use FSS\Models\FundingSource;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Funding_sourceController implements ControllerInterface
+class FundingSourceController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class Funding_sourceController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the funding_source Controller.");
+                "Enabling query log for the FundingSource Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -48,9 +48,9 @@ class Funding_sourceController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading funding_source with id of $id");
+        // $this->container['logger']->info("Reading FundingSource with id of $id");
         $this->container['logger']->debug(
-            "Reading funding_source with id of $id");
+            "Reading FundingSource with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,14 +62,14 @@ class Funding_sourceController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Funding_source::all();
-        $this->container['logger']->debug("All funding_source query: ",
+        $records = FundingSource::all();
+        $this->container['logger']->debug("All FundingSource query: ",
             $this->container['db']::getQueryLog());
         // $records = Funding_source::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All funding_source returned",
+                "message" => "All FundingSource returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -85,23 +85,23 @@ class Funding_sourceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Funding_source::validateColumn('funding_source', $filter,
+            Funding_source::validateColumn('FundingSource', $filter,
                 $this->container);
-            $records = Funding_source::where($filter, $value)->get();
-            $this->container['logger']->debug("Funding_source filter query: ",
+            $records = FundingSource::where($filter, $value)->get();
+            $this->container['logger']->debug("FundingSource filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No funding_source found",
+                        "message" => "No FundingSource found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered funding_source by $filter",
+                    "message" => "Filtered FundingSource by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -126,16 +126,16 @@ class Funding_sourceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Funding_source::validateColumn('funding_source', $key,
+                FundingSource::validateColumn('FundingSource', $key,
                     $this->container);
             }
-            $recordId = Funding_source::insertGetId($recordData);
-            $this->container['logger']->debug("Funding_source create query: ",
+            $recordId = FundingSource::insertGetId($recordData);
+            $this->container['logger']->debug("FundingSource create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Funding_source $recordId has been created."
+                    "message" => "FundingSource $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -158,20 +158,20 @@ class Funding_sourceController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Funding_source::validateColumn('funding_source', $key,
+                FundingSource::validateColumn('FundingSource', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Funding_source::update($updateData);
-            $this->container['logger']->debug("Funding_source update query: ",
+            $recordId = FundingSource::update($updateData);
+            $this->container['logger']->debug("FundingSource update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Funding_source $recordId"
+                    "message" => "Updated FundingSource $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -191,9 +191,9 @@ class Funding_sourceController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Funding_source::findOrFail($id);
+            $record = FundingSource::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Funding_source delete query: ",
+            $this->container['logger']->debug("FundingSource delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -204,7 +204,7 @@ class Funding_sourceController implements ControllerInterface
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Funding_source not found"
+                    "message" => "FundingSource not found"
                 ], 404);
         }
     }
