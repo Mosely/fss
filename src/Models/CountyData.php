@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class County_data extends AbstractModel
+class CountyData extends AbstractModel
 {
 
     // The table for this model
@@ -16,7 +16,7 @@ class County_data extends AbstractModel
     /**
      * Get the addresses that have this county.
      */
-    public function address()
+    public function Address()
     {
         return $this->hasMany('FSS\Models\Address');
     }
