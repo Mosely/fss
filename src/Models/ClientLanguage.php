@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Client_language extends AbstractModel
+class ClientLanguage extends AbstractModel
 {
 
     // The table for this model
