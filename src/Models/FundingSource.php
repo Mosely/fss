@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Funding_source extends AbstractModel
+class FundingSource extends AbstractModel
 {
 
     // The table for this model
