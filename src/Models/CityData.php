@@ -7,16 +7,16 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class City_data extends AbstractModel
+class CityData extends AbstractModel
 {
 
     // The table for this model
-    protected $table = 'city_data';
+    protected $table = 'CityData';
 
     /**
      * Get the addresses that have this city.
      */
-    public function address()
+    public function Address()
     {
         return $this->hasMany('FSS\Models\Address');
     }
