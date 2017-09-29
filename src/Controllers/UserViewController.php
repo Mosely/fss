@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\User_view;
+use FSS\Models\UserView;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class User_viewController implements ControllerInterface
+class UserViewController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class User_viewController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the user_view Controller.");
+                "Enabling query log for the UserView Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -48,7 +48,7 @@ class User_viewController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug("Reading user_view with id of $id");
+        $this->container['logger']->debug("Reading UserView with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -60,14 +60,14 @@ class User_viewController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = User_view::all();
-        $this->container['logger']->debug("All user_view query: ",
+        $records = UserView::all();
+        $this->container['logger']->debug("All UserView query: ",
             $this->container['db']::getQueryLog());
         // $records = User_view::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All user_view returned",
+                "message" => "All UserView returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -83,22 +83,22 @@ class User_viewController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            User_view::validateColumn('user_view', $filter, $this->container);
-            $records = User_view::where($filter, $value)->get();
-            $this->container['logger']->debug("User_view filter query: ",
+            User_view::validateColumn('UserView', $filter, $this->container);
+            $records = UserView::where($filter, $value)->get();
+            $this->container['logger']->debug("UserView filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No User_view found",
+                        "message" => "No UserView found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered User_view by $filter",
+                    "message" => "Filtered UserView by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -123,15 +123,15 @@ class User_viewController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                User_view::validateColumn('user_view', $key, $this->container);
+                UserView::validateColumn('UserView', $key, $this->container);
             }
-            $recordId = User_view::insertGetId($recordData);
-            $this->container['logger']->debug("User_view create query: ",
+            $recordId = UserView::insertGetId($recordData);
+            $this->container['logger']->debug("UserView create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "User_view $recordId has been created."
+                    "message" => "UserView $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -154,19 +154,19 @@ class User_viewController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                User_view::validateColumn('user_view', $key, $this->container);
+                UserView::validateColumn('UserView', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = User_view::update($updateData);
-            $this->container['logger']->debug("User_view update query: ",
+            $recordId = UserView::update($updateData);
+            $this->container['logger']->debug("UserView update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated User_view $recordId"
+                    "message" => "Updated UserView $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -186,20 +186,20 @@ class User_viewController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = User_view::findOrFail($id);
+            $record = UserView::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("User_view delete query: ",
+            $this->container['logger']->debug("UserView delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted User_view $id"
+                    "message" => "Deleted UserView $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "User_view not found"
+                    "message" => "UserView not found"
                 ], 404);
         }
     }
