@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class State_data extends AbstractModel
+class StateData extends AbstractModel
 {
 
     // The table for this model
@@ -16,7 +16,7 @@ class State_data extends AbstractModel
     /**
      * Get the addresses that have this state.
      */
-    public function address()
+    public function Address()
     {
         return $this->hasMany('FSS\Models\Address');
     }
