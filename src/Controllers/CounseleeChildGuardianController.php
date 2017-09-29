@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Counselee_child_guardian;
+use FSS\Models\CounseleeChildGuardian;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Counselee_child_guardianController implements ControllerInterface
+class CounseleeChildGuardianController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -33,7 +33,7 @@ class Counselee_child_guardianController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the counselee_child_guardian Controller.");
+                "Enabling query log for the CounseleeChildGuardian Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Counselee_child_guardianController implements ControllerInterface
         $args['value'] = $id;
         
         $this->container['logger']->debug(
-            "Reading counselee_child_guardian with id of $id");
+            "Reading CounseleeChildGuardian with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,15 +62,15 @@ class Counselee_child_guardianController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Counselee_child_guardian::all();
+        $records = CounseleeChildGuardian::all();
         $this->container['logger']->debug(
-            "All counselee_child_guardian query: ",
+            "All CounseleeChildGuardian query: ",
             $this->container['db']::getQueryLog());
-        // $records = Counselee_child_guardian::all();
+        // $records = CounseleeChildGuardian::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All counselee_child_guardian returned",
+                "message" => "All CounseleeChildGuardian returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -86,24 +86,24 @@ class Counselee_child_guardianController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Counselee_child_guardian::validateColumn('counselee_child_guardian',
+            CounseleeChildGuardian::validateColumn('counselee_child_guardian',
                 $filter, $this->container);
-            $records = Counselee_child_guardian::where($filter, $value)->get();
+            $records = CounseleeChildGuardian::where($filter, $value)->get();
             $this->container['logger']->debug(
-                "Counselee_child_guardian filter query: ",
+                "CounseleeChildGuardian filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Counselee_child_guardian found",
+                        "message" => "No CounseleeChildGuardian found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Counselee_child_guardian by $filter",
+                    "message" => "Filtered CounseleeChildGuardian by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -128,17 +128,17 @@ class Counselee_child_guardianController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Counselee_child_guardian::validateColumn(
-                    'counselee_child_guardian', $key, $this->container);
+                CounseleeChildGuardian::validateColumn(
+                    'CounseleeChildGuardian', $key, $this->container);
             }
-            $recordId = Counselee_child_guardian::insertGetId($recordData);
+            $recordId = CounseleeChildGuardian::insertGetId($recordData);
             $this->container['logger']->debug(
-                "Counselee_child_guardian create query: ",
+                "CounseleeChildGuardian create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Counselee_child_guardian $recordId has been created."
+                    "message" => "CounseleeChildGuardian $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -161,21 +161,21 @@ class Counselee_child_guardianController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Counselee_child_guardian::validateColumn(
-                    'counselee_child_guardian', $key, $this->container);
+                CounseleeChildGuardian::validateColumn(
+                    'CounseleeChildGuardian', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Counselee_child_guardian::update($updateData);
+            $recordId = CounseleeChildGuardian::update($updateData);
             $this->container['logger']->debug(
-                "Counselee_child_guardian update query: ",
+                "CounseleeChildGuardian update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Counselee_child_guardian $recordId"
+                    "message" => "Updated CounseleeChildGuardian $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -195,21 +195,21 @@ class Counselee_child_guardianController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Counselee_child_guardian::findOrFail($id);
+            $record = CounseleeChildGuardian::findOrFail($id);
             $record->delete();
             $this->container['logger']->debug(
-                "Counselee_child_guardian delete query: ",
+                "CounseleeChildGuardian delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Counselee_child_guardian $id"
+                    "message" => "Deleted CounseleeChildGuardian $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Counselee_child_guardian not found"
+                    "message" => "CounseleeChildGuardian not found"
                 ], 404);
         }
     }
