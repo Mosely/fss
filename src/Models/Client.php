@@ -11,7 +11,7 @@ class Client extends AbstractModel
 {
 
     // The table for this model
-    protected $table = 'Client';
+    protected $table = 'client';
 
     /**
      * Get the person records that have this client.
