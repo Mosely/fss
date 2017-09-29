@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\County_data;
+use FSS\Models\CountyData;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class County_dataController implements ControllerInterface
+class CountyDataController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class County_dataController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the county_data Controller.");
+                "Enabling query log for the CountyData Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -61,14 +61,14 @@ class County_dataController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = County_data::all();
-        $this->container['logger']->debug("All county_data query: ",
+        $records = CountyData::all();
+        $this->container['logger']->debug("All CountyData query: ",
             $this->container['db']::getQueryLog());
         // $records = County_data::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All county_data returned",
+                "message" => "All CountyData returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -84,22 +84,22 @@ class County_dataController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            County_data::validateColumn('county_data', $filter, $this->container);
-            $records = County_data::where($filter, $value)->get();
-            $this->container['logger']->debug("County_data filter query: ",
+            CountyData::validateColumn('CountyData', $filter, $this->container);
+            $records = CountyData::where($filter, $value)->get();
+            $this->container['logger']->debug("CountyData filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No County_data found",
+                        "message" => "No CountyData found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered County_data by $filter",
+                    "message" => "Filtered CountyData by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -124,16 +124,16 @@ class County_dataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                County_data::validateColumn('county_data', $key,
+                CountyData::validateColumn('CountyData', $key,
                     $this->container);
             }
-            $recordId = County_data::insertGetId($recordData);
-            $this->container['logger']->debug("County_data create query: ",
+            $recordId = CountyData::insertGetId($recordData);
+            $this->container['logger']->debug("CountyData create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "County_data $recordId has been created."
+                    "message" => "CountyData $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -156,20 +156,20 @@ class County_dataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                County_data::validateColumn('county_data', $key,
+                CountyData::validateColumn('CountyData', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = County_data::update($updateData);
-            $this->container['logger']->debug("County_data update query: ",
+            $recordId = CountyData::update($updateData);
+            $this->container['logger']->debug("CountyData update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated County_data $recordId"
+                    "message" => "Updated CountyData $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -189,20 +189,20 @@ class County_dataController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = County_data::findOrFail($id);
+            $record = CountyData::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("County_data delete query: ",
+            $this->container['logger']->debug("CountyData delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted County_data $id"
+                    "message" => "Deleted CountyData $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "County_data not found"
+                    "message" => "CountyData not found"
                 ], 404);
         }
     }
