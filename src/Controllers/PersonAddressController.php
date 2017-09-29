@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Person_addressController implements ControllerInterface
+class PersonAddressController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class Person_addressController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the Person_address Controller.");
+                "Enabling query log for the PersonAddress Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Person_addressController implements ControllerInterface
         
         // $this->container['logger']->info("Reading person_address with id of $id");
         $this->container['logger']->debug(
-            "Reading person_address with id of $id");
+            "Reading PersonAddress with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,14 +62,14 @@ class Person_addressController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Person_address::all();
+        $records = PersonAddress::all();
         $this->container['logger']->debug("All person_address query: ",
             $this->container['db']::getQueryLog());
         // $records = Person_address::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All Person_address returned",
+                "message" => "All PersonAddress returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -85,23 +85,23 @@ class Person_addressController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Person_address::validateColumn('person_address', $filter,
+            PersonAddress::validateColumn('person_address', $filter,
                 $this->container);
-            $records = Person_address::where($filter, $value)->get();
-            $this->container['logger']->debug("Person_address filter query: ",
+            $records = PersonAddress::where($filter, $value)->get();
+            $this->container['logger']->debug("PersonAddress filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Person_address found",
+                        "message" => "No PersonAddress found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Person_address by $filter",
+                    "message" => "Filtered PersonAddress by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -126,11 +126,11 @@ class Person_addressController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Person_address::validateColumn('person_address', $key,
+                PersonAddress::validateColumn('PersonAddress', $key,
                     $this->container);
             }
-            $recordId = Person_address::insertGetId($recordData);
-            $this->container['logger']->debug("Person_address create query: ",
+            $recordId = PersonAddress::insertGetId($recordData);
+            $this->container['logger']->debug("PersonAddress create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -158,20 +158,20 @@ class Person_addressController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Person_address::validateColumn('person_address', $key,
+                PersonAddress::validateColumn('PersonAddress', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Person_address::update($updateData);
-            $this->container['logger']->debug("Person_address update query: ",
+            $recordId = PersonAddress::update($updateData);
+            $this->container['logger']->debug("PersonAddress update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Person_address $recordId"
+                    "message" => "Updated PersonAddress $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -191,20 +191,20 @@ class Person_addressController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Person_address::findOrFail($id);
+            $record = PersonAddress::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Person_address delete query: ",
+            $this->container['logger']->debug("PersonAddress delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Person_address $id"
+                    "message" => "Deleted PersonAddress $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Person_address not found"
+                    "message" => "PersonAddress not found"
                 ], 404);
         }
     }
