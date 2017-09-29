@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Counselee_drug_use extends AbstractModel
+class CounseleeDrugUse extends AbstractModel
 {
 
     // The table for this model
