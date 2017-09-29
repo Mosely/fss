@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Identity_preference;
+use FSS\Models\IdentityPreference;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Identity_preferenceController implements ControllerInterface
+class IdentityPreferenceController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -33,7 +33,7 @@ class Identity_preferenceController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the identity_preference Controller.");
+                "Enabling query log for the IdentityPreference Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Identity_preferenceController implements ControllerInterface
         $args['value'] = $id;
         
         $this->container['logger']->debug(
-            "Reading identity_preference with id of $id");
+            "Reading IdentityPreference with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,14 +62,14 @@ class Identity_preferenceController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Identity_preference::all();
-        $this->container['logger']->debug("All identity_preference query: ",
+        $records = IdentityPreference::all();
+        $this->container['logger']->debug("All IdentityPreference query: ",
             $this->container['db']::getQueryLog());
         // $records = Identity_preference::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All identity_preference returned",
+                "message" => "All IdentityPreference returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -85,24 +85,24 @@ class Identity_preferenceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Identity_preference::validateColumn('identity_preference', $filter,
+            IdentityPreference::validateColumn('IdentityPreference', $filter,
                 $this->container);
-            $records = Identity_preference::where($filter, $value)->get();
+            $records = IdentityPreference::where($filter, $value)->get();
             $this->container['logger']->debug(
-                "Identity_preference filter query: ",
+                "IdentityPreference filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No identity_preference found",
+                        "message" => "No IdentityPreference found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered identity_preference by $filter",
+                    "message" => "Filtered IdentityPreference by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -127,17 +127,17 @@ class Identity_preferenceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Identity_preference::validateColumn('identity_preference', $key,
+                IdentityPreference::validateColumn('IdentityPreference', $key,
                     $this->container);
             }
-            $recordId = Identity_preference::insertGetId($recordData);
+            $recordId = IdentityPreference::insertGetId($recordData);
             $this->container['logger']->debug(
-                "Identity_preference create query: ",
+                "IdentityPreference create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Identity_preference $recordId has been created."
+                    "message" => "IdentityPreference $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -160,21 +160,21 @@ class Identity_preferenceController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Identity_preference::validateColumn('identity_preference', $key,
+                IdentityPreference::validateColumn('IdentityPreference', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Identity_preference::update($updateData);
+            $recordId = IdentityPreference::update($updateData);
             $this->container['logger']->debug(
-                "Identity_preference update query: ",
+                "IdentityPreference update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Identity_preference $recordId"
+                    "message" => "Updated IdentityPreference $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -194,21 +194,21 @@ class Identity_preferenceController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Identity_preference::findOrFail($id);
+            $record = IdentityPreference::findOrFail($id);
             $record->delete();
             $this->container['logger']->debug(
-                "Identity_preference delete query: ",
+                "IdentityPreference delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Identity_preference $id"
+                    "message" => "Deleted IdentityPreference $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Identity_preference not found"
+                    "message" => "IdentityPreference not found"
                 ], 404);
         }
     }
