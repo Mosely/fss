@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Identity_preference extends AbstractModel
+class IdentityPreference extends AbstractModel
 {
 
     // The table for this model
