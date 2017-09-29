@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Person_phone;
+use FSS\Models\PersonPhone;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Person_phoneController implements ControllerInterface
+class PersonPhoneController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class Person_phoneController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the Person_phone Controller.");
+                "Enabling query log for the PersonPhone Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -49,7 +49,7 @@ class Person_phoneController implements ControllerInterface
         $args['value'] = $id;
         
         // $this->container['logger']->info("Reading person_phone with id of $id");
-        $this->container['logger']->debug("Reading person_phone with id of $id");
+        $this->container['logger']->debug("Reading PersonPhone with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -61,14 +61,14 @@ class Person_phoneController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Person_phone::all();
-        $this->container['logger']->debug("All person_phone query: ",
+        $records = PersonPhone::all();
+        $this->container['logger']->debug("All PersonPhone query: ",
             $this->container['db']::getQueryLog());
         // $records = Person_phone::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All Person_phone returned",
+                "message" => "All PersonPhone returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -84,23 +84,23 @@ class Person_phoneController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Person_phone::validateColumn('person_phone', $filter,
+            PersonPhone::validateColumn('PersonPhone', $filter,
                 $this->container);
-            $records = Person_phone::where($filter, $value)->get();
-            $this->container['logger']->debug("Person_phone filter query: ",
+            $records = PersonPhone::where($filter, $value)->get();
+            $this->container['logger']->debug("PersonPhone filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Person_phone found",
+                        "message" => "No PersonPhone found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Person_phone by $filter",
+                    "message" => "Filtered PersonPhone by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -125,16 +125,16 @@ class Person_phoneController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Person_phone::validateColumn('person_phone', $key,
+                PersonPhone::validateColumn('PersonPhone', $key,
                     $this->container);
             }
-            $recordId = Person_phone::insertGetId($recordData);
-            $this->container['logger']->debug("Person_phone create query: ",
+            $recordId = PersonPhone::insertGetId($recordData);
+            $this->container['logger']->debug("PersonPhone create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Person_phone $recordId has been created."
+                    "message" => "PersonPhone $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -157,20 +157,20 @@ class Person_phoneController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Person_phone::validateColumn('person_phone', $key,
+                PersonPhone::validateColumn('PersonPhone', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Person_phone::update($updateData);
-            $this->container['logger']->debug("Person_phone update query: ",
+            $recordId = PersonPhone::update($updateData);
+            $this->container['logger']->debug("PersonPhone update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Person_phone $recordId"
+                    "message" => "Updated PersonPhone $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -190,20 +190,20 @@ class Person_phoneController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Person_phone::findOrFail($id);
+            $record = PersonPhone::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Person_phone delete query: ",
+            $this->container['logger']->debug("PersonPhone delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Person_phone $id"
+                    "message" => "Deleted PersonPhone $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Person_phone not found"
+                    "message" => "PersonPhone not found"
                 ], 404);
         }
     }
