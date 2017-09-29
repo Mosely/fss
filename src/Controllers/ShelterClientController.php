@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Shelter_clientController implements ControllerInterface
+class ShelterClientController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class Shelter_clientController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the Shelter_client Controller.");
+                "Enabling query log for the ShelterClient Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Shelter_clientController implements ControllerInterface
         
         // $this->container['logger']->info("Reading shelter_client with id of $id");
         $this->container['logger']->debug(
-            "Reading shelter_client with id of $id");
+            "Reading ShelterClient with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,14 +62,14 @@ class Shelter_clientController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Shelter_client::all();
-        $this->container['logger']->debug("All shelter_clients query: ",
+        $records = ShelterClient::all();
+        $this->container['logger']->debug("All ShelterClient query: ",
             $this->container['db']::getQueryLog());
         // $records = Shelter_client::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All shelter_clients returned",
+                "message" => "All ShelterClient returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -85,23 +85,23 @@ class Shelter_clientController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Shelter_client::validateColumn('shelter_client', $filter,
+            ShelterClient::validateColumn('ShelterClient', $filter,
                 $this->container);
-            $records = Shelter_client::where($filter, $value)->get();
-            $this->container['logger']->debug("Shelter_client filter query: ",
+            $records = ShelterClient::where($filter, $value)->get();
+            $this->container['logger']->debug("ShelterClient filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Shelter_client found",
+                        "message" => "No ShelterClient found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Shelter_client by $filter",
+                    "message" => "Filtered ShelterClient by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -126,16 +126,16 @@ class Shelter_clientController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Shelter_client::validateColumn('shelter_client', $key,
+                ShelterClient::validateColumn('ShelterClient', $key,
                     $this->container);
             }
-            $recordId = Shelter_client::insertGetId($recordData);
-            $this->container['logger']->debug("Shelter_client create query: ",
+            $recordId = ShelterClient::insertGetId($recordData);
+            $this->container['logger']->debug("ShelterClient create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Shelter_client $recordId has been created."
+                    "message" => "ShelterClient $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -158,20 +158,20 @@ class Shelter_clientController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Shelter_client::validateColumn('shelter_client', $key,
+                ShelterClient::validateColumn('ShelterClient', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Shelter_client::update($updateData);
-            $this->container['logger']->debug("Shelter_client update query: ",
+            $recordId = ShelterClient::update($updateData);
+            $this->container['logger']->debug("ShelterClient update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Shelter_client $recordId"
+                    "message" => "Updated ShelterClient $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -191,20 +191,20 @@ class Shelter_clientController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Shelter_client::findOrFail($id);
+            $record = ShelterClient::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Shelter_client delete query: ",
+            $this->container['logger']->debug("ShelterClient delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Shelter_client $id"
+                    "message" => "Deleted ShelterClient $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Shelter_client not found"
+                    "message" => "ShelterClient not found"
                 ], 404);
         }
     }
