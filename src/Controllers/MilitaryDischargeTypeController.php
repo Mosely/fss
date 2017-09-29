@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Military_discharge_typeController implements ControllerInterface
+class MilitaryDischargeTypeController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -33,7 +33,7 @@ class Military_discharge_typeController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the military_discharge_type Controller.");
+                "Enabling query log for the MilitaryDischargeType Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Military_discharge_typeController implements ControllerInterface
         $args['value'] = $id;
         
         $this->container['logger']->debug(
-            "Reading military_discharge_type with id of $id");
+            "Reading MilitaryDischargeType with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,14 +62,14 @@ class Military_discharge_typeController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Military_discharge_type::all();
-        $this->container['logger']->debug("All military_discharge_type query: ",
+        $records = MilitaryDischargeType::all();
+        $this->container['logger']->debug("All MilitaryDischargeType query: ",
             $this->container['db']::getQueryLog());
         // $records = Military_discharge_type::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All military_discharge_type returned",
+                "message" => "All MilitaryDischargeType returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -87,22 +87,22 @@ class Military_discharge_typeController implements ControllerInterface
         try {
             Military_discharge_type::validateColumn('military_discharge_type',
                 $filter, $this->container);
-            $records = Military_discharge_type::where($filter, $value)->get();
+            $records = MilitaryDischargeType::where($filter, $value)->get();
             $this->container['logger']->debug(
-                "Military_discharge_type filter query: ",
+                "MilitaryDischargeType filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No military_discharge_type found",
+                        "message" => "No MilitaryDischargeType found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered military_discharge_type by $filter",
+                    "message" => "Filtered MilitaryDischargeType by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -127,17 +127,17 @@ class Military_discharge_typeController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Military_discharge_type::validateColumn(
-                    'military_discharge_type', $key, $this->container);
+                MilitaryDischargeType::validateColumn(
+                    'MilitaryDischargeType', $key, $this->container);
             }
-            $recordId = Military_discharge_type::insertGetId($recordData);
+            $recordId = MilitaryDischargeType::insertGetId($recordData);
             $this->container['logger']->debug(
-                "Military_discharge_type create query: ",
+                "MilitaryDischargeType create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Military_discharge_type $recordId has been created."
+                    "message" => "MilitaryDischargeType $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -160,21 +160,21 @@ class Military_discharge_typeController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Military_discharge_type::validateColumn(
+                MilitaryDischargeType::validateColumn(
                     'military_discharge_type', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Military_discharge_type::update($updateData);
+            $recordId = MilitaryDischargeType::update($updateData);
             $this->container['logger']->debug(
-                "Military_discharge_type update query: ",
+                "MilitaryDischargeType update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Military_discharge_type $recordId"
+                    "message" => "Updated MilitaryDischargeType $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -194,21 +194,21 @@ class Military_discharge_typeController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Military_discharge_type::findOrFail($id);
+            $record = MilitaryDischargeType::findOrFail($id);
             $record->delete();
             $this->container['logger']->debug(
-                "Military_discharge_type delete query: ",
+                "MilitaryDischargeType delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Military_discharge_type $id"
+                    "message" => "Deleted MilitaryDischargeType $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Military_discharge_type not found"
+                    "message" => "MilitaryDischargeType not found"
                 ], 404);
         }
     }
