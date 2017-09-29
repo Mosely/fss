@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Counselee_child_bio_parent extends AbstractModel
+class CounseleeChildBioParent extends AbstractModel
 {
 
     // The table for this model
