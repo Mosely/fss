@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Counselee_drug_use;
+use FSS\Models\CounseleeDrugUse;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Counselee_drug_useController implements ControllerInterface
+class CounseleeDrugUseController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class Counselee_drug_useController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the counselee_drug_use Controller.");
+                "Enabling query log for the CounseleeDrugUse Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -50,7 +50,7 @@ class Counselee_drug_useController implements ControllerInterface
         
         // $this->container['logger']->info("Reading counselee_drug_use with id of $id");
         $this->container['logger']->debug(
-            "Reading counselee_drug_use with id of $id");
+            "Reading CounseleeDrugUse with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,14 +62,14 @@ class Counselee_drug_useController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Counselee_drug_use::all();
-        $this->container['logger']->debug("All counselee_drug_use query: ",
+        $records = CounseleeDrugUse::all();
+        $this->container['logger']->debug("All CounseleeDrugUse query: ",
             $this->container['db']::getQueryLog());
-        // $records = Counselee_drug_use::all();
+        // $records = CounseleeDrugUse::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All counselee_drug_use returned",
+                "message" => "All CounseleeDrugUse returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -85,24 +85,24 @@ class Counselee_drug_useController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Counselee_drug_use::validateColumn('counselee_drug_use', $filter,
+            CounseleeDrugUse::validateColumn('counselee_drug_use', $filter,
                 $this->container);
-            $records = Counselee_drug_use::where($filter, $value)->get();
+            $records = CounseleeDrugUse::where($filter, $value)->get();
             $this->container['logger']->debug(
-                "Counselee_drug_use filter query: ",
+                "CounseleeDrugUse filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Counselee_drug_use found",
+                        "message" => "No CounseleeDrugUse found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Counselee_drug_use by $filter",
+                    "message" => "Filtered CounseleeDrugUse by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -127,17 +127,17 @@ class Counselee_drug_useController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Counselee_drug_use::validateColumn('counselee_drug_use', $key,
+                CounseleeDrugUse::validateColumn('counselee_drug_use', $key,
                     $this->container);
             }
-            $recordId = Counselee_drug_use::insertGetId($recordData);
+            $recordId = CounseleeDrugUse::insertGetId($recordData);
             $this->container['logger']->debug(
-                "Counselee_drug_use create query: ",
+                "CounseleeDrugUse create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Counselee_drug_use $recordId has been created."
+                    "message" => "CounseleeDrugUse $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -160,21 +160,21 @@ class Counselee_drug_useController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Counselee_drug_use::validateColumn('counselee_drug_use', $key,
+                CounseleeDrugUse::validateColumn('counselee_drug_use', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Counselee_drug_use::update($updateData);
+            $recordId = CounseleeDrugUse::update($updateData);
             $this->container['logger']->debug(
-                "Counselee_drug_use update query: ",
+                "CounseleeDrugUse update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Counselee_drug_use $recordId"
+                    "message" => "Updated CounseleeDrugUse $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -194,21 +194,21 @@ class Counselee_drug_useController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Counselee_drug_use::findOrFail($id);
+            $record = CounseleeDrugUse::findOrFail($id);
             $record->delete();
             $this->container['logger']->debug(
-                "Counselee_drug_use delete query: ",
+                "CounseleeDrugUse delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Counselee_drug_use $id"
+                    "message" => "Deleted CounseleeDrugUse $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Counselee_drug_use not found"
+                    "message" => "CounseleeDrugUse not found"
                 ], 404);
         }
     }
