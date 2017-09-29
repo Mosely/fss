@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Military_discharge_type;
+use FSS\Models\MilitaryDischargeType;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
