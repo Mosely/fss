@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Client_language;
+use FSS\Models\ClientLanguage;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Client_languageController implements ControllerInterface
+class ClientLanguageController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -50,7 +50,7 @@ class Client_languageController implements ControllerInterface
         
         // $this->container['logger']->info("Reading client_language with id of $id");
         $this->container['logger']->debug(
-            "Reading client_language with id of $id");
+            "Reading ClientLanguage with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -62,14 +62,14 @@ class Client_languageController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Client_language::all();
-        $this->container['logger']->debug("All client_language query: ",
+        $records = ClientLanguage::all();
+        $this->container['logger']->debug("All ClientLanguage query: ",
             $this->container['db']::getQueryLog());
-        // $records = Client_language::all();
+        // $records = ClientLanguage::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All client_languages returned",
+                "message" => "All ClientLanguages returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -85,23 +85,23 @@ class Client_languageController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Client_language::validateColumn('client_language', $filter,
+            ClientLanguage::validateColumn('ClientLanguage', $filter,
                 $this->container);
-            $records = Client_language::where($filter, $value)->get();
-            $this->container['logger']->debug("Client_language filter query: ",
+            $records = ClientLanguage::where($filter, $value)->get();
+            $this->container['logger']->debug("ClientLanguage filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Client_language found",
+                        "message" => "No ClientLanguage found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Client_language by $filter",
+                    "message" => "Filtered ClientLanguage by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -126,16 +126,16 @@ class Client_languageController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Client_language::validateColumn('client_language', $key,
+                ClientLanguage::validateColumn('ClientLanguage', $key,
                     $this->container);
             }
-            $recordId = Client_language::insertGetId($recordData);
-            $this->container['logger']->debug("Client_language create query: ",
+            $recordId = ClientLanguage::insertGetId($recordData);
+            $this->container['logger']->debug("ClientLanguage create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Client_language $recordId has been created."
+                    "message" => "ClientLanguage $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -158,20 +158,20 @@ class Client_languageController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Client_language::validateColumn('client_language', $key,
+                ClientLanguage::validateColumn('ClientLanguage', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Client_language::update($updateData);
-            $this->container['logger']->debug("Client_language update query: ",
+            $recordId = ClientLanguage::update($updateData);
+            $this->container['logger']->debug("ClientLanguage update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Client_language $recordId"
+                    "message" => "Updated ClientLanguage $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -191,20 +191,20 @@ class Client_languageController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Client_language::findOrFail($id);
+            $record = ClientLanguage::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Client_language delete query: ",
+            $this->container['logger']->debug("ClientLanguage delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Client_language $id"
+                    "message" => "Deleted ClientLanguage $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Client_language not found"
+                    "message" => "ClientLanguage not found"
                 ], 404);
         }
     }
