@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Military_discharge_type extends AbstractModel
+class MilitaryDischargeType extends AbstractModel
 {
 
     // The table for this model
