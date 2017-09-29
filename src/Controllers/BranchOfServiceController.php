@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Branch_of_service;
+use FSS\Models\BranchOfService;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
