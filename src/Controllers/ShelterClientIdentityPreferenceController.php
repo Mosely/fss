@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Shelter_client_identity_preference;
+use FSS\Models\ShelterClientIdentityPreference;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class Shelter_client_identity_preferenceController implements 
+class ShelterClientIdentityPreferenceController implements 
     ControllerInterface
 {
 
@@ -34,7 +34,7 @@ class Shelter_client_identity_preferenceController implements
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the Shelter_client_identity_preference Controller.");
+                "Enabling query log for the ShelterClientIdentityPreference Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -51,7 +51,7 @@ class Shelter_client_identity_preferenceController implements
         $args['value'] = $id;
         
         $this->container['logger']->debug(
-            "Reading shelter_client_identity_preference with id of $id");
+            "Reading ShelterClientIdentityPreference with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -63,15 +63,15 @@ class Shelter_client_identity_preferenceController implements
      */
     public function readAll($request, $response, $args)
     {
-        $records = Shelter_client_identity_preference::all();
+        $records = ShelterClientIdentityPreference::all();
         $this->container['logger']->debug(
-            "All shelter_client_identity_preference query: ",
+            "All ShelterClientIdentityPreference query: ",
             $this->container['db']::getQueryLog());
-        // $records = Shelter_client_identity_preference::all();
+        // $records = ShelterClientIdentityPreference::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All shelter_client_identity_preference returned",
+                "message" => "All ShelterClientIdentityPreference returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -87,24 +87,24 @@ class Shelter_client_identity_preferenceController implements
         $value = $args['value'];
         
         try {
-            Shelter_client_identity_preference::validateColumn(
-                'shelter_client_identity_preference', $filter, $this->container);
-            $records = Shelter_client_identity_preference::where($filter, $value)->get();
+            ShelterClientIdentityPreference::validateColumn(
+                'ShelterClientIdentityPreference', $filter, $this->container);
+            $records = ShelterClientIdentityPreference::where($filter, $value)->get();
             $this->container['logger']->debug(
-                "Shelter_client_identity_preference filter query: ",
+                "ShelterClientIdentityPreference filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No Shelter_client_identity_preference found",
+                        "message" => "No ShelterClientIdentityPreference found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered Shelter_client_identity_preference by $filter",
+                    "message" => "Filtered ShelterClientIdentityPreference by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -129,18 +129,18 @@ class Shelter_client_identity_preferenceController implements
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Shelter_client_identity_preference::validateColumn(
-                    'shelter_client_identity_preference', $key, $this->container);
+                ShelterClientIdentityPreference::validateColumn(
+                    'ShelterClientIdentityPreference', $key, $this->container);
             }
-            $recordId = Shelter_client_identity_preference::insertGetId(
+            $recordId = ShelterClientIdentityPreference::insertGetId(
                 $recordData);
             $this->container['logger']->debug(
-                "Shelter_client_identity_preference create query: ",
+                "ShelterClientIdentityPreference create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Shelter_client_identity_preference $recordId has been created."
+                    "message" => "ShelterClientIdentityPreference $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -163,21 +163,21 @@ class Shelter_client_identity_preferenceController implements
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Shelter_client_identity_preference::validateColumn(
-                    'shelter_client_identity_preference', $key, $this->container);
+                ShelterClientIdentityPreference::validateColumn(
+                    'ShelterClientIdentityPreference', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Shelter_client_identity_preference::update($updateData);
+            $recordId = ShelterClientIdentityPreference::update($updateData);
             $this->container['logger']->debug(
-                "Shelter_client_identity_preference update query: ",
+                "ShelterClientIdentityPreference update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated Shelter_client_identity_preference $recordId"
+                    "message" => "Updated ShelterClientIdentityPreference $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -197,21 +197,21 @@ class Shelter_client_identity_preferenceController implements
     {
         $id = $args['id'];
         try {
-            $record = Shelter_client_identity_preference::findOrFail($id);
+            $record = ShelterClientIdentityPreference::findOrFail($id);
             $record->delete();
             $this->container['logger']->debug(
-                "Shelter_client_identity_preference delete query: ",
+                "ShelterClientIdentityPreference delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted Shelter_client_identity_preference $id"
+                    "message" => "Deleted ShelterClientIdentityPreference $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "Shelter_client_identity_preference not found"
+                    "message" => "ShelterClientIdentityPreference not found"
                 ], 404);
         }
     }
