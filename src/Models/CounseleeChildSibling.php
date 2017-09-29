@@ -7,7 +7,7 @@ namespace FSS\Models;
  * @author Dewayne
  *        
  */
-class Counselee_child_sibling extends AbstractModel
+class CounseleeChildSibling extends AbstractModel
 {
 
     // The table for this model
