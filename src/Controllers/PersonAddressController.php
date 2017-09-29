@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Person_address;
+use FSS\Models\PersonAddress;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
