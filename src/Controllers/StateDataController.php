@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\State_data;
+use FSS\Models\StateData;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class State_dataController implements ControllerInterface
+class StateDataController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class State_dataController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the state_data Controller.");
+                "Enabling query log for the StateData Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -48,7 +48,7 @@ class State_dataController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug("Reading state_data with id of $id");
+        $this->container['logger']->debug("Reading StateData with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -60,14 +60,14 @@ class State_dataController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = State_data::all();
-        $this->container['logger']->debug("All state_data query: ",
+        $records = StateData::all();
+        $this->container['logger']->debug("All StateData query: ",
             $this->container['db']::getQueryLog());
         // $records = State_data::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All state_data returned",
+                "message" => "All StateData returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -83,22 +83,22 @@ class State_dataController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            State_data::validateColumn('state_data', $filter, $this->container);
-            $records = State_data::where($filter, $value)->get();
-            $this->container['logger']->debug("State_data filter query: ",
+            StateData::validateColumn('state_data', $filter, $this->container);
+            $records = StateData::where($filter, $value)->get();
+            $this->container['logger']->debug("StateData filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No State_data found",
+                        "message" => "No StateData found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered State_data by $filter",
+                    "message" => "Filtered StateData by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -123,15 +123,15 @@ class State_dataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                State_data::validateColumn('state_data', $key, $this->container);
+                StateData::validateColumn('state_data', $key, $this->container);
             }
-            $recordId = State_data::insertGetId($recordData);
-            $this->container['logger']->debug("State_data create query: ",
+            $recordId = StateData::insertGetId($recordData);
+            $this->container['logger']->debug("StateData create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "State_data $recordId has been created."
+                    "message" => "StateData $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -154,14 +154,14 @@ class State_dataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                State_data::validateColumn('state_data', $key, $this->container);
+                StateData::validateColumn('StateData', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = State_data::update($updateData);
-            $this->container['logger']->debug("State_data update query: ",
+            $recordId = StateData::update($updateData);
+            $this->container['logger']->debug("StateData update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -186,14 +186,14 @@ class State_dataController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = State_data::findOrFail($id);
+            $record = StateData::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("State_data delete query: ",
+            $this->container['logger']->debug("StateData delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted State_data $id"
+                    "message" => "Deleted StateData $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
