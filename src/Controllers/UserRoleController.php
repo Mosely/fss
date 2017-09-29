@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\User_role;
+use FSS\Models\UserRole;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -15,7 +15,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class User_roleController implements ControllerInterface
+class UserRoleController implements ControllerInterface
 {
 
     // The DI container reference.
@@ -32,7 +32,7 @@ class User_roleController implements ControllerInterface
         $this->container = $c;
         if ($this->container['settings']['debug']) {
             $this->container['logger']->debug(
-                "Enabling query log for the user_role Controller.");
+                "Enabling query log for the UserRole Controller.");
             $this->container['db']::enableQueryLog();
         }
     }
@@ -48,7 +48,7 @@ class User_roleController implements ControllerInterface
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug("Reading user_role with id of $id");
+        $this->container['logger']->debug("Reading UserRole with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -60,14 +60,14 @@ class User_roleController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = User_role::all();
-        $this->container['logger']->debug("All user_role query: ",
+        $records = UserRole::all();
+        $this->container['logger']->debug("All UserRole query: ",
             $this->container['db']::getQueryLog());
         // $records = User_role::all();
         return $response->withJson(
             [
                 "success" => true,
-                "message" => "All user_role returned",
+                "message" => "All UserRole returned",
                 "data" => $records
             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
     }
@@ -83,22 +83,22 @@ class User_roleController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            User_role::validateColumn('user_role', $filter, $this->container);
-            $records = User_role::where($filter, $value)->get();
-            $this->container['logger']->debug("User_role filter query: ",
+            UserRole::validateColumn('user_role', $filter, $this->container);
+            $records = UserRole::where($filter, $value)->get();
+            $this->container['logger']->debug("UserRole filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "No User_role found",
+                        "message" => "No UserRole found",
                         "data" => $records
                     ], 404);
             }
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Filtered User_role by $filter",
+                    "message" => "Filtered UserRole by $filter",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
@@ -123,15 +123,15 @@ class User_roleController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                User_role::validateColumn('user_role', $key, $this->container);
+                UserRole::validateColumn('user_role', $key, $this->container);
             }
-            $recordId = User_role::insertGetId($recordData);
-            $this->container['logger']->debug("User_role create query: ",
+            $recordId = UserRole::insertGetId($recordData);
+            $this->container['logger']->debug("UserRole create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "User_role $recordId has been created."
+                    "message" => "UserRole $recordId has been created."
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -154,19 +154,19 @@ class User_roleController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                User_role::validateColumn('user_role', $key, $this->container);
+                UserRole::validateColumn('UserRole', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = User_role::update($updateData);
-            $this->container['logger']->debug("User_role update query: ",
+            $recordId = UserRole::update($updateData);
+            $this->container['logger']->debug("UserRole update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Updated User_role $recordId"
+                    "message" => "Updated UserRole $recordId"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -186,20 +186,20 @@ class User_roleController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = User_role::findOrFail($id);
+            $record = UserRole::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("User_role delete query: ",
+            $this->container['logger']->debug("UserRole delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Deleted User_role $id"
+                    "message" => "Deleted UserRole $id"
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
                     "success" => false,
-                    "message" => "User_role not found"
+                    "message" => "UserRole not found"
                 ], 404);
         }
     }
