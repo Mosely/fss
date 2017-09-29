@@ -11,7 +11,7 @@ class BranchOfService extends AbstractModel
 {
 
     // The table for this model
-    protected $table = 'BranchOfService';
+    protected $table = 'branch_of_service';
     
     // getters and setters if you want and other logic
 }
