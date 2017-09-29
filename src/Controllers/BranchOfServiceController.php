@@ -54,7 +54,7 @@ class BranchOfServiceController implements ControllerInterface
      */
     public function readAll($request, $response, $args)
     {
-        $records = Branch_of_service::all();
+        $records = BranchOfService::all();
         return $response->withJson(
             [
                 "success" => true,
@@ -76,7 +76,7 @@ class BranchOfServiceController implements ControllerInterface
         try {
             Branch_of_service::validateColumn('branch_of_service', $filter,
                 $this->container);
-            $records = Branch_of_service::where($filter, $value)->get();
+            $records = BranchOfService::where($filter, $value)->get();
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -113,10 +113,10 @@ class BranchOfServiceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Branch_of_service::validateColumn('branch_of_service', $key,
+                BranchOfService::validateColumn('branch_of_service', $key,
                     $this->container);
             }
-            $recordId = Branch_of_service::insertGetId($recordData);
+            $recordId = BranchOfService::insertGetId($recordData);
             return $response->withJson(
                 [
                     "success" => true,
@@ -143,14 +143,14 @@ class BranchOfServiceController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Branch_of_service::validateColumn('branch_of_service', $key,
+                BranchOfService::validateColumn('branch_of_service', $key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
-            $recordId = Branch_of_service::update($updateData);
+            $recordId = BranchOfService::update($updateData);
             return $response->withJson(
                 [
                     "success" => true,
@@ -174,7 +174,7 @@ class BranchOfServiceController implements ControllerInterface
     {
         $id = $args['id'];
         try {
-            $record = Branch_of_service::findOrFail($id);
+            $record = BranchOfService::findOrFail($id);
             $record->delete();
             return $response->withJson(
                 [
