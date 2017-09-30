@@ -16,7 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class ShelterClientAdditionalStaff implements ControllerInterface
+class ShelterClientAdditionalStaffController implements ControllerInterface
 {
 
     // The DI container reference.

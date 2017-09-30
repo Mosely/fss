@@ -74,7 +74,7 @@ class BranchOfServiceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Branch_of_service::validateColumn('branch_of_service', $filter,
+            BranchOfService::validateColumn('branch_of_service', $filter,
                 $this->container);
             $records = BranchOfService::where($filter, $value)->get();
             if ($records->isEmpty()) {

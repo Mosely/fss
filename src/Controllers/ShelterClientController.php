@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\Shelter_client;
+use FSS\Models\ShelterClient;
 use Interop\Container\ContainerInterface;
 use \Exception;
 

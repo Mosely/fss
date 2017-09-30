@@ -83,7 +83,7 @@ class UserViewController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            User_view::validateColumn('UserView', $filter, $this->container);
+            UserView::validateColumn('UserView', $filter, $this->container);
             $records = UserView::where($filter, $value)->get();
             $this->container['logger']->debug("UserView filter query: ",
                 $this->container['db']::getQueryLog());

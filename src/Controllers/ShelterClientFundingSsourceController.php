@@ -131,7 +131,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
                 ShelterClientFundingSource::validateColumn(
                     'ShelterClientFundingSource', $key, $this->container);
             }
-            $recordId = Shelter_client_funding_source::insertGetId($recordData);
+            $recordId = ShelterClientFundingSource::insertGetId($recordData);
             $this->container['logger']->debug(
                 "ShelterClientFundingSource create query: ",
                 $this->container['db']::getQueryLog());

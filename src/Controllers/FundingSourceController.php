@@ -85,7 +85,7 @@ class FundingSourceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Funding_source::validateColumn('FundingSource', $filter,
+            FundingSource::validateColumn('FundingSource', $filter,
                 $this->container);
             $records = FundingSource::where($filter, $value)->get();
             $this->container['logger']->debug("FundingSource filter query: ",

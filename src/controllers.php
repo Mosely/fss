@@ -94,7 +94,7 @@ $container['PhoneController'] = function ($c) {
     return new FSS\Controllers\PhoneController($c);
 };
 $container['RoleController'] = function ($c) {
-    return new FSS\ControllersRoleController($c);
+    return new FSS\Controllers\RoleController($c);
 };
 $container['SchoolController'] = function ($c) {
     return new FSS\Controllers\SchoolController($c);
