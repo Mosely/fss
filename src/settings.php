@@ -1,5 +1,5 @@
 <?php
-// The settings array to be use by a variety
+// The settings array to be used by a variety
 // of dependencies and midlewares
 return [
     'settings' => [
