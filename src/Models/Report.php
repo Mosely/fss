@@ -11,8 +11,19 @@ class Report extends AbstractModel
     protected $fillable = array(
         'name',
         'type',
-        'created_at',
-        'updated_at',
         'updated_by'
     );
+    
+    public function reportColumns()
+    {
+        return $this->hasMany('FSS\Models\ReportColumn');
+    }
+    
+    public function run(array $columns)
+    {
+        $reportingTable = new Dynamic([]);
+        $reportingTable->setTable($columns['table_name']);
+        $query = $reportingTable->query();
+        $query->where($columns['column_name']);
+    }
 }

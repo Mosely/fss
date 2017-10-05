@@ -61,9 +61,9 @@ class AddressController implements ControllerInterface
     {
         $records = Address::with(
             [
-                'city_data',
-                'state_data',
-                'county_data'
+                'CityData',
+                'StateData',
+                'CountyData'
             ])->get();
         $this->container['logger']->debug("All addresses query: ",
             $this->container['db']::getQueryLog());
@@ -90,9 +90,9 @@ class AddressController implements ControllerInterface
             Address::validateColumn('address', $filter, $this->container);
             $records = Address::with(
                 [
-                    'city_data',
-                    'state_data',
-                    'county_data'
+                    'CityData',
+                    'StateData',
+                    'CountyData'
                 ])->where($filter, $value)->get();
             $this->container['logger']->debug("Address filter query: ",
                 $this->container['db']::getQueryLog());

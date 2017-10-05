@@ -14,6 +14,13 @@ class ReportColumn extends AbstractModel
         'table_name',
         'column_name',
         'column_order',
-        'width'
+        'width',
+        'updated_by'
     );
+    
+    public function report()
+    {
+        return $this->belongsTo('FSS\Models\Report');
+    }
+
 }
