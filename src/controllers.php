@@ -123,4 +123,6 @@ $container['User_viewController'] = function ($c) {
 $container['VeteranController'] = function ($c) {
     return new FSS\Controllers\VeteranController($c);
 };
-
+$container['ReportController'] = function ($c) {
+    return new FSS\Controllers\ReportController($c);
+};

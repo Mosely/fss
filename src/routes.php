@@ -406,3 +406,11 @@ $app->get('/veterans/{filter}/{value}', 'VeteranController:readAllWithFilter');
 $app->post('/veterans', 'VeteranController:create');
 $app->put('/veterans/{id:[0-9]+}', 'VeteranController:update');
 $app->delete('/veterans/{id:[0-9]+}', 'VeteranController:delete');
+
+$app->get('/reports', 'ReportController:readAll');
+$app->get('/reports/{id:[0-9]+}', 'ReportController:read');
+$app->get('/reports/{filter}/{value}', 'ReportController:readAllWithFilter');
+
+$app->post('/reports', 'ReportController:create');
+$app->put('/reports/{id:[0-9]+}', 'ReportController:update');
+$app->delete('/reports/{id:[0-9]+}', 'ReportController:delete');
