@@ -14,7 +14,7 @@ class Report extends AbstractModel
         'updated_by'
     );
     
-    public function reportColumns()
+    public function reportColumn()
     {
         return $this->hasMany('FSS\Models\ReportColumn');
     }
