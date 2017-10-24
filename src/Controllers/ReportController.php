@@ -45,6 +45,8 @@ class ReportController implements ControllerInterface {
         
         try {
             $records = $query->get();
+            $this->container['logger']->debug("Generated Report query: ",
+                $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
