@@ -45,6 +45,9 @@ class ReportController implements ControllerInterface {
         //print_r($report);
         //print "</pre>";
         $columns = $report->data[0]->report_column;
+        print "<pre>";
+        print_r($columns);
+        print "</pre>";
         $query = Report::run($columns);
         
         try {
