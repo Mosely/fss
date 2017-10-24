@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Models;
 
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Capsule\Manager as DB;
 
 class Report extends AbstractModel
 {
