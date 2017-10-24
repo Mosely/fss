@@ -45,9 +45,9 @@ class Report extends AbstractModel
         switch ($order)
         {
             case 'asc':
-                usort($columns, function($b, $a) use ($properties, $sorterFunc)
+                usort($columns, function($a, $b) use ($properties, $sorterFunc)
                 {
-                    $sorterFunc($a, $b, $properties);
+                    $sorterFunc($b, $a, $properties);
                 });
                 break;
             case 'desc':
