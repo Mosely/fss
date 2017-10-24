@@ -99,6 +99,6 @@ class ReportGenerator {
     }
     
     public function save() {
-        call_user_func(array($this, "savePointer"));
+        $this->savePointer();
     }
 }
