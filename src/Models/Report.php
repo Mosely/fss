@@ -53,6 +53,7 @@ class Report extends AbstractModel
          * get all of the conditions
          */
         $tables = array_column($columns, "table_name");
+        $tables = array_unique($tables);
         
         $query = DB::table($tables[0]);
         if(count($tables) > 1)
