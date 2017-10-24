@@ -45,13 +45,16 @@ class ReportController implements ControllerInterface {
         print_r($report);
         print "</pre>";
         $columns = $report->data[0]->report_column;
+        $reportName = $report->data[0]->name;
+        $reportType = $report->data[0]->type;
         print "<pre>";
         print_r($columns);
         print "</pre>";
-        $query = Report::run($columns);
+
         
         try {
-            $records = $query->get();
+            $records = Report::run($columns, $reportName, $reportType);
+            //$records = $query->get();
             $this->container['logger']->debug("Generated Report query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(

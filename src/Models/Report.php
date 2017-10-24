@@ -1,7 +1,9 @@
 <?php
 namespace FSS\Models;
 
+use Interop\Container\ContainerInterface;
 use Illuminate\Database\Capsule\Manager as DB;
+use FSS\Utilities\ReportGenerator;
 
 class Report extends AbstractModel
 {
@@ -42,7 +44,7 @@ class Report extends AbstractModel
         });
     }
     
-    public function run($columns)
+    public function run(array $columns, string $reportName, string $reportType, ContainerInterface $container)
     {
         // Sort the array of ReportColumn objects by column_order, 
         Report::sortReportColumns($columns, array("column_order"));
@@ -63,11 +65,13 @@ class Report extends AbstractModel
                 $query->join($tables[$i], $tables[0] . '.id', '=', $tables[$i] . '.' . $tables[0] . '_id');
             }
         }
+        $headerArray = [];
         $selectArray = [];
         $criteriaArray = [];
         for($i = 0; $i < count($columns); $i++) 
         {
-            array_push($selectArray, $columns[$i]-> table_name . '.' . $columns[$i]->column_name);
+            array_push($headerArray, $columns[$i]->header);
+            array_push($selectArray, $columns[$i]->table_name . '.' . $columns[$i]->column_name);
             if(isset($columns[$i]->report_criteria))
             {
                 array_push($criteriaArray, 
@@ -78,6 +82,16 @@ class Report extends AbstractModel
         }
         $query->select($selectArray);
         $query->where($criteriaArray);
-        return $query;
+        
+        $records = $query->get();
+        
+        $reportPath = "php://output";
+        $report = new ReportGenerator($container, $reportPath, $reportName);
+        $report->SetHeader($headerArray);
+        foreach ($records as $record) {
+            $report->AddRow($record);
+        }
+        $report->Save();
+        return $records;
     }
 }
