@@ -59,18 +59,18 @@ class Report extends AbstractModel
         {
             for ($i = 1; $i < count($tables); $i++)
             {
-                $query->join($tables[$i], $tables[0] . 'id', '=', $tables[$i] . '.' . $tables[0] . '_id');
+                $query->join($tables[$i], $tables[0] . '.id', '=', $tables[$i] . '.' . $tables[0] . '_id');
             }
         }
         $selectArray = [];
         $criteriaArray = [];
         for($i = 0; $i < count($columns); $i++) 
         {
-            array_push($selectArray, $columns[$i]-> table_name . $columns[$i]->column_name);
+            array_push($selectArray, $columns[$i]-> table_name . '.' . $columns[$i]->column_name);
             if(isset($columns[$i]->report_criteria))
             {
                 array_push($criteriaArray, 
-                    array($columns[$i]-> table_name . $columns[$i]->column_name, 
+                    array($columns[$i]-> table_name . '.' . $columns[$i]->column_name, 
                         $columns[$i]->report_criteria->relation, 
                         $columns[$i]->report_criteria->criteria_value));
             }
