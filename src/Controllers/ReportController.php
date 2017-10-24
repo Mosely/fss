@@ -56,8 +56,13 @@ class ReportController implements ControllerInterface {
             Report::validateColumn('report', $filter, $this->container);
             $records = Report::with(
                 [
-                    'reportColumn', 
-                    'reportCriteria'
+                    'reportColumn' => function ($q) {
+                        return $q->with('reportCriteria');
+                    // NOTE: If you need to traverse the depths of more
+                    // than two tables (in this case, the user, person
+                    // and gender tables) you will need to handle the
+                    // deeper relationships as done here.
+                    }
                 ])->where($filter, $value)->get();
                 $this->container['logger']->debug("Report filter query: ",
                     $this->container['db']::getQueryLog());
