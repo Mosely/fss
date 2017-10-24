@@ -29,9 +29,25 @@ class Report extends AbstractModel
      * TODO: consider making this function more generalized.
      * This could be useful elsewhere in the System.
      */
-    private function sortReportColumns(&$columns, $properties, $order = 'asc')
+    private function sortReportColumnsDesc(&$columns, $properties)
     {
-        $sorterFunc = function($a, $b, $properties) {
+        usort($columns, function($a, $b) use ($properties) 
+        {
+            for($i = 1; $i < count($properties); $i++) 
+            {
+                if($a->{ $properties[$i-1] } == $b->{ $properties[$i-1] }) 
+                {
+                    return $a->{ $properties[$i] } < $b->{ $properties[$i] } ? 1 : -1;
+                }
+            }
+            return $a->{ $properties[0] } < $b->{ $properties[0] } ? 1 : -1;
+        });
+    }
+    
+    private function sortReportColumnsAsc(&$columns, $properties)
+    {
+        usort($columns, function($b, $a) use ($properties)
+        {
             for($i = 1; $i < count($properties); $i++)
             {
                 if($a->{ $properties[$i-1] } == $b->{ $properties[$i-1] })
@@ -40,29 +56,13 @@ class Report extends AbstractModel
                 }
             }
             return $a->{ $properties[0] } < $b->{ $properties[0] } ? 1 : -1;
-        };
-        
-        switch ($order)
-        {
-            case 'asc':
-                usort($columns, function($a, $b) use ($properties, $sorterFunc)
-                {
-                    $sorterFunc($b, $a, $properties);
-                });
-                break;
-            case 'desc':
-                usort($columns, function($a, $b) use ($properties, $sorterFunc)
-                {
-                    $sorterFunc($a, $b, $properties);
-                });
-                break;
-        }
+        });
     }
     
     public function run(array $columns, string $reportName, string $reportType, ContainerInterface $container)
     {
         // Sort the array of ReportColumn objects by column_order, 
-        Report::sortReportColumns($columns, array("column_order"), 'asc');
+        Report::sortReportColumnsAsc($columns, array("column_order"));
         /*
          * Steps for the report builder:
          * get all the columns,
