@@ -57,7 +57,7 @@ class ReportController implements ControllerInterface {
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Report Data for report $report->data->id",
+                    "message" => "Report Data for report $report->data[0]->id",
                     "data" => $records
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         }
