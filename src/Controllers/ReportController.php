@@ -40,8 +40,11 @@ class ReportController implements ControllerInterface {
     {
         $reportJson = $this->read($request, $response, $args);
         $report = json_decode($reportJson, false);
+        print "<pre>";
+        print_r($report);
+        print "</pre>";
         $columns = $report->data->report_column;
-        $query = Report::run($columns);
+        /*$query = Report::run($columns);
         
         try {
             $records = $query->get();
@@ -60,7 +63,7 @@ class ReportController implements ControllerInterface {
                     "success" => false,
                     "message" => "Error occured: " . $e->getMessage()
                 ], 400);
-        }
+        }*/
     }
     
     public function read($request, $response, $args)
