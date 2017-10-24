@@ -38,7 +38,7 @@ class ReportController implements ControllerInterface {
     
     public function generateReportOutput($request, $response, $args)
     {
-        $reportJson = $this->read($request, $response, $args);
+        $reportJson = $this->read($request, $response, $args)->getBody();
         $report = json_decode($reportJson, false);
         print "<pre>";
         print_r($reportJson);
