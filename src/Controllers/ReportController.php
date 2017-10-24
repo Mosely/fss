@@ -36,6 +36,30 @@ class ReportController implements ControllerInterface {
         }
     }
     
+    public function generateReportOutput($request, $response, $args)
+    {
+        $report = $this->read($request, $response, $args);
+        $columns = $report->data->report_column;
+        $query = Report::run($columns);
+        
+        try {
+            $records = $query->get();
+            return $response->withJson(
+                [
+                    "success" => true,
+                    "message" => "Report Data for report $report->data->id",
+                    "data" => $records
+                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        }
+        catch (Exception $e) {
+            return $response->withJson(
+                [
+                    "success" => false,
+                    "message" => "Error occured: " . $e->getMessage()
+                ], 400);
+        }
+    }
+    
     public function read($request, $response, $args)
     {
         $id = $args['id'];

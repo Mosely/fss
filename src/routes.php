@@ -414,3 +414,5 @@ $app->get('/reports/{filter}/{value}', 'ReportController:readAllWithFilter');
 $app->post('/reports', 'ReportController:create');
 $app->put('/reports/{id:[0-9]+}', 'ReportController:update');
 $app->delete('/reports/{id:[0-9]+}', 'ReportController:delete');
+
+$app->get('/reportOutput/{id:[0-9]+}', 'ReportController:generateReportOutput');

@@ -63,18 +63,20 @@ class Report extends AbstractModel
             }
         }
         $selectArray = [];
+        $criteriaArray = [];
         for($i = 0; $i < count($columns); $i++) 
         {
             array_push($selectArray, $columns[$i]-> table_name . $columns[$i]->column_name);
+            if(isset($columns[$i]->report_criteria))
+            {
+                array_push($criteriaArray, 
+                    array($columns[$i]-> table_name . $columns[$i]->column_name, 
+                        $columns[$i]->report_criteria->relation, 
+                        $columns[$i]->report_criteria->criteria_value));
+            }
         }
         $query->select($selectArray);
-        
-        // TODO Now need to figure out where criteria.  
-        // Maybe left-joined table for ReportColumn?
-        
-        //->join('contacts', 'users.id', '=', 'contacts.user_id')
-        //->join('orders', 'users.id', '=', 'orders.user_id')
-        //->select('users.*', 'contacts.phone', 'orders.price')
-        //->get();
+        $query->where($criteriaArray);
+        return $query;
     }
 }
