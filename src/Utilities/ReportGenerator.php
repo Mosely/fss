@@ -40,15 +40,15 @@ class ReportGenerator {
                 ->setTitle($this->reportTitle)
                 ->setSubject($this->reportTitle)
                 ->setDescription(
-                    $this->reportTitle + ", generated for use by FSS."
+                    $this->reportTitle . ", generated for use by FSS."
                     )
                 ->setKeywords("fss")
                 ->setCategory("FSS report file");
         switch($this->reportType) {
-            case 'csv':
+            case 'CSV':
                 $this->InitCsv();
                 break;
-            case 'excel':
+            case 'EXCEL':
                 $this->InitExcel();
                 break;
         }
