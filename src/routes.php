@@ -415,4 +415,4 @@ $app->post('/reports', 'ReportController:create');
 $app->put('/reports/{id:[0-9]+}', 'ReportController:update');
 $app->delete('/reports/{id:[0-9]+}', 'ReportController:delete');
 
-$app->get('/reportOutput/{id:[0-9]+}', 'ReportController:generateReportOutput');
+$app->get('/reportoutput/{id:[0-9]+}', 'ReportController:generateReportOutput');
