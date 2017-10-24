@@ -89,7 +89,7 @@ class Report extends AbstractModel
         $report = new ReportGenerator($container, $reportPath, $reportName);
         $report->SetHeader($headerArray);
         foreach ($records as $record) {
-            $report->AddRow($record);
+            $report->AddRow((array)$record);
         }
         $report->Save();
         return $records;
