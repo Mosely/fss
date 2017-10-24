@@ -39,12 +39,12 @@ class ReportController implements ControllerInterface {
     public function generateReportOutput($request, $response, $args)
     {
         $reportJson = $this->read($request, $response, $args)->getBody();
-        $report = json_decode($reportJson, false);
+        $report = json_decode($reportJson, true);
         print "<pre>";
         print_r($reportJson);
         print_r($report);
         print "</pre>";
-        $columns = $report->data->report_column;
+        $columns = $report->data[0]->report_column;
         /*$query = Report::run($columns);
         
         try {
