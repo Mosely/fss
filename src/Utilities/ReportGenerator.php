@@ -57,7 +57,7 @@ class ReportGenerator {
     private function initCsv() {
         $this->savePointer = function() {
             $arrayData = [];
-            $arrayData[] = $this->header;
+            $arrayData[] = $this->headerRow;
             for($i = 0; $i < count($this->body); $i++) {
                 $arrayData[] = $this->body[$i];
             }
