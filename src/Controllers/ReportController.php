@@ -53,7 +53,7 @@ class ReportController implements ControllerInterface {
 
         
         try {
-            $records = Report::run($columns, $reportName, $reportType);
+            $records = Report::run($columns, $reportName, $reportType, $this->container);
             //$records = $query->get();
             $this->container['logger']->debug("Generated Report query: ",
                 $this->container['db']::getQueryLog());

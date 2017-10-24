@@ -1,8 +1,8 @@
 <?php
 namespace FSS\Models;
 
-use Interop\Container\ContainerInterface;
 use Illuminate\Database\Capsule\Manager as DB;
+use Interop\Container\ContainerInterface;
 use FSS\Utilities\ReportGenerator;
 
 class Report extends AbstractModel
