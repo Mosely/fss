@@ -45,7 +45,7 @@ class Report extends AbstractModel
     public function run($columns)
     {
         // Sort the array of ReportColumn objects by column_order, 
-        $this->sortReportColumns($columns, array("column_order"));
+        Report::sortReportColumns($columns, array("column_order"));
         /*
          * Steps for the report builder:
          * get all the columns,
