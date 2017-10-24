@@ -33,12 +33,12 @@ class Report extends AbstractModel
         {
             for($i = 1; $i < count($properties); $i++) 
             {
-                if($a->$properties[$i-1] == $b->$properties[$i-1]) 
+                if($a->{ $properties[$i-1] } == $b->{ $properties[$i-1] }) 
                 {
-                    return $a->$properties[$i] < $b->$properties[$i] ? 1 : -1;
+                    return $a->{ $properties[$i] } < $b->{ $properties[$i] } ? 1 : -1;
                 }
             }
-            return $a->$properties[0] < $b->$properties[0] ? 1 : -1;
+            return $a->{ $properties[0] } < $b->{ $properties[0] } ? 1 : -1;
         });
     }
     
