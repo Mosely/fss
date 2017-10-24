@@ -20,7 +20,7 @@ class ReportGenerator {
     public function __construct(ContainerInterface $c, 
         string $reportPath, 
         string $reportTitle, 
-        string $reportType = 'csv') {
+        string $reportType = 'CSV') {
         
         StringHelper::setDecimalSeparator('.');
         StringHelper::setThousandsSeparator(',');
@@ -28,10 +28,10 @@ class ReportGenerator {
         $this->reportPath  = $reportPath;
         $this->reportTitle = $reportTitle;
         $this->reportType  = $reportType;
-        $this->Initialize();
+        $this->initialize();
     }
     
-    private function Initialize() {
+    private function initialize() {
         $this->dataCollection = new Spreadsheet();
         $this->dataCollection
             ->getProperties()
@@ -46,19 +46,19 @@ class ReportGenerator {
                 ->setCategory("FSS report file");
         switch($this->reportType) {
             case 'CSV':
-                $this->InitCsv();
+                $this->initCsv();
                 break;
             case 'EXCEL':
-                $this->InitExcel();
+                $this->initExcel();
                 break;
         }
     }
     
-    private function InitCsv() {
+    private function initCsv() {
         $this->savePointer = function() {
             $arrayData = [];
             $arrayData[] = $this->header;
-            for($i = 0; i < count($this->body); $i++) {
+            for($i = 0; $i < count($this->body); $i++) {
                 $arrayData[] = $this->body[$i];
             }
             $this->dataCollection->getActiveSheet()
@@ -74,7 +74,7 @@ class ReportGenerator {
         };
     }
     
-    private function InitExcel() {
+    private function initExcel() {
         $this->savePointer = function() {
             $arrayData = [];
             $arrayData[] = $this->header;
@@ -90,15 +90,15 @@ class ReportGenerator {
         };
     }
     
-    public function SetHeader(array $headerRow) {
+    public function setHeader(array $headerRow) {
         $this->headerRow = $headerRow;
     }
     
-    public function AddRow(array $row) {
+    public function addRow(array $row) {
         $this->body[] = $row;
     }
     
-    public function Save() {
+    public function save() {
         $this->savePointer();
     }
 }

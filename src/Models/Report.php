@@ -91,7 +91,7 @@ class Report extends AbstractModel
         foreach ($records as $record) {
             $report->AddRow((array)$record);
         }
-        $report->Save();
+        $report->save();
         return $records;
     }
 }
