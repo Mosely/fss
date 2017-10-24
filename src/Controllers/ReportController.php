@@ -54,7 +54,11 @@ class ReportController implements ControllerInterface {
         
         try {
             Report::validateColumn('report', $filter, $this->container);
-            $records = Report::with('reportColumn')->where($filter, $value)->get();
+            $records = Report::with(
+                [
+                    'reportColumn', 
+                    'reportCriteria'
+                ])->where($filter, $value)->get();
                 $this->container['logger']->debug("Report filter query: ",
                     $this->container['db']::getQueryLog());
                 if ($records->isEmpty()) {

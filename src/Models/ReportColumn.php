@@ -22,5 +22,10 @@ class ReportColumn extends AbstractModel
     {
         return $this->belongsTo('FSS\Models\Report');
     }
+    
+    public function reportCriteria()
+    {
+        return $this->hasOne('FSS\Models\ReportCriteria');
+    }
 
 }
