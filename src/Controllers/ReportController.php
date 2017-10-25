@@ -2,8 +2,6 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Report;
-use FSS\Models\ReportColumn;
-use FSS\Models\Dynamic;
 use Interop\Container\ContainerInterface;
 use \Exception;
 
@@ -40,21 +38,12 @@ class ReportController implements ControllerInterface {
     {
         $reportJson = $this->read($request, $response, $args)->getBody();
         $report = json_decode($reportJson, false);
-        //print "<pre>";
-        //print_r($reportJson);
-        //print_r($report);
-        //print "</pre>";
         $columns = $report->data[0]->report_column;
         $reportName = $report->data[0]->name;
         $reportType = $report->data[0]->type;
-        //print "<pre>";
-        //print_r($columns);
-        //print "</pre>";
-
         
         try {
             $records = Report::run($columns, $reportName, $reportType, $this->container);
-            //$records = $query->get();
             $this->container['logger']->debug("Generated Report query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(

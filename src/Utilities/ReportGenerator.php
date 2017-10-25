@@ -71,6 +71,9 @@ class ReportGenerator {
             $writer->save($this->reportPath);
             $this->dataCollection->disconnectWorksheets();
             unset($this->dataCollection);
+            header('Content-Type: application/csv');
+            header('Content-Disposition: attachment; filename=' . $this->reportTitle . '.csv');
+            header('Pragma: no-cache');
         };
     }
     
@@ -87,6 +90,8 @@ class ReportGenerator {
             $writer->save($this->reportPath);
             $this->dataCollection->disconnectWorksheets();
             unset($this->dataCollection);
+            header('Content-type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment; filename=' . $this->reportTitle . '.xls');
         };
     }
     
