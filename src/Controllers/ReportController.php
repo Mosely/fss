@@ -43,22 +43,23 @@ class ReportController implements ControllerInterface {
         $reportType = $report->data[0]->type;
         
         try {
-            $records = Report::run($columns, $reportName, $reportType, $this->container);
+            //$records = Report::run($columns, $reportName, $reportType, $this->container);
+            Report::run($columns, $reportName, $reportType, $this->container);
             $this->container['logger']->debug("Generated Report query: ",
                 $this->container['db']::getQueryLog());
-            return $response->withJson(
+            /*return $response->withJson(
                 [
                     "success" => true,
                     "message" => "Report Data for report " . $report->data[0]->id,
                     "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);*/
         }
         catch (Exception $e) {
-            return $response->withJson(
+            /*return $response->withJson(
                 [
                     "success" => false,
                     "message" => "Error occured: " . $e->getMessage()
-                ], 400);
+                ], 400);*/
         }
     }
     
