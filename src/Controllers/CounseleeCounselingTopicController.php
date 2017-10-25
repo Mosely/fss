@@ -86,8 +86,8 @@ class CounseleeCounselingTopicController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CounseleeCounselingTopic::validateColumn(
-                'CounseleeCounselingTopic', $filter, $this->container);
+            CounseleeCounselingTopic::validateColumn('CounseleeCounselingTopic',
+                $filter, $this->container);
             $records = CounseleeCounselingTopic::where($filter, $value)->get();
             $this->container['logger']->debug(
                 "CounseleeCounselingTopic filter query: ",

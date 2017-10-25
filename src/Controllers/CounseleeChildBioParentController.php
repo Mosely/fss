@@ -63,8 +63,7 @@ class CounseleeChildBioParentController implements ControllerInterface
     public function readAll($request, $response, $args)
     {
         $records = CounseleeChildBioParent::all();
-        $this->container['logger']->debug(
-            "All CounseleeChildBioParent query: ",
+        $this->container['logger']->debug("All CounseleeChildBioParent query: ",
             $this->container['db']::getQueryLog());
         // $records = Counselee_child_bio_parent::all();
         return $response->withJson(
@@ -86,8 +85,8 @@ class CounseleeChildBioParentController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CounseleeChildBioParent::validateColumn(
-                'CounseleeChildBioParent', $filter, $this->container);
+            CounseleeChildBioParent::validateColumn('CounseleeChildBioParent',
+                $filter, $this->container);
             $records = CounseleeChildBioParent::where($filter, $value)->get();
             $this->container['logger']->debug(
                 "CounseleeChildBioParent filter query: ",

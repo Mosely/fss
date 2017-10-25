@@ -11,13 +11,14 @@ use \Exception;
  * Implements the ControllerInterface.
  *
  * @author Dewayne
- *
+ *        
  */
-class ReportController implements ControllerInterface {
-    
+class ReportController implements ControllerInterface
+{
+
     // The DI container reference.
     private $container;
-    
+
     /**
      * The constructor that sets the DI Container reference and
      * enable query logging if debug mode is true in settings.php
@@ -33,7 +34,7 @@ class ReportController implements ControllerInterface {
             $this->container['db']::enableQueryLog();
         }
     }
-    
+
     public function generateReportOutput($request, $response, $args)
     {
         $reportJson = $this->read($request, $response, $args)->getBody();
@@ -43,26 +44,29 @@ class ReportController implements ControllerInterface {
         $reportType = $report->data[0]->type;
         
         try {
-            //$records = Report::run($columns, $reportName, $reportType, $this->container);
+            // $records = Report::run($columns, $reportName, $reportType, $this->container);
             Report::run($columns, $reportName, $reportType, $this->container);
             $this->container['logger']->debug("Generated Report query: ",
                 $this->container['db']::getQueryLog());
-            /*return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Report Data for report " . $report->data[0]->id,
-                    "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);*/
-        }
-        catch (Exception $e) {
-            /*return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);*/
+            /*
+             * return $response->withJson(
+             * [
+             * "success" => true,
+             * "message" => "Report Data for report " . $report->data[0]->id,
+             * "data" => $records
+             * ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+             */
+        } catch (Exception $e) {
+            /*
+             * return $response->withJson(
+             * [
+             * "success" => false,
+             * "message" => "Error occured: " . $e->getMessage()
+             * ], 400);
+             */
         }
     }
-    
+
     public function read($request, $response, $args)
     {
         $id = $args['id'];
@@ -85,28 +89,28 @@ class ReportController implements ControllerInterface {
                 [
                     'reportColumn' => function ($q) {
                         return $q->with('reportCriteria');
-                    // NOTE: If you need to traverse the depths of more
-                    // than two tables (in this case, the user, person
-                    // and gender tables) you will need to handle the
-                    // deeper relationships as done here.
+                        // NOTE: If you need to traverse the depths of more
+                        // than two tables (in this case, the user, person
+                        // and gender tables) you will need to handle the
+                        // deeper relationships as done here.
                     }
                 ])->where($filter, $value)->get();
-                $this->container['logger']->debug("Report filter query: ",
-                    $this->container['db']::getQueryLog());
-                if ($records->isEmpty()) {
-                    return $response->withJson(
-                        [
-                            "success" => true,
-                            "message" => "No Report found",
-                            "data" => $records
-                        ], 404);
-                }
+            $this->container['logger']->debug("Report filter query: ",
+                $this->container['db']::getQueryLog());
+            if ($records->isEmpty()) {
                 return $response->withJson(
                     [
                         "success" => true,
-                        "message" => "Filtered Reports by $filter",
+                        "message" => "No Report found",
                         "data" => $records
-                    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                    ], 404);
+            }
+            return $response->withJson(
+                [
+                    "success" => true,
+                    "message" => "Filtered Reports by $filter",
+                    "data" => $records
+                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
                 [
@@ -117,22 +121,14 @@ class ReportController implements ControllerInterface {
     }
 
     public function create($request, $response, $args)
-    {
-        
-    }
+    {}
 
     public function update($request, $response, $args)
-    {
-        
-    }
+    {}
 
     public function delete($request, $response, $args)
-    {
-        
-    }
+    {}
 
     public function readAll($request, $response, $args)
-    {
-        
-    }
+    {}
 }

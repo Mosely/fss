@@ -131,8 +131,7 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
                 ShelterClientAdditionalStaff::validateColumn(
                     'ShelterClientAdditionalStaff', $key, $this->container);
             }
-            $recordId = ShelterClientAdditionalStaff::insertGetId(
-                $recordData);
+            $recordId = ShelterClientAdditionalStaff::insertGetId($recordData);
             $this->container['logger']->debug(
                 "ShelterClientAdditionalStaff create query: ",
                 $this->container['db']::getQueryLog());

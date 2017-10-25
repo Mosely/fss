@@ -124,8 +124,7 @@ class CountyDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CountyData::validateColumn('CountyData', $key,
-                    $this->container);
+                CountyData::validateColumn('CountyData', $key, $this->container);
             }
             $recordId = CountyData::insertGetId($recordData);
             $this->container['logger']->debug("CountyData create query: ",
@@ -156,8 +155,7 @@ class CountyDataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CountyData::validateColumn('CountyData', $key,
-                    $this->container);
+                CountyData::validateColumn('CountyData', $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val

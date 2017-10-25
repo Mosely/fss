@@ -16,8 +16,7 @@ use \Exception;
  * @author Marshal
  *        
  */
-class ShelterClientIdentityPreferenceController implements 
-    ControllerInterface
+class ShelterClientIdentityPreferenceController implements ControllerInterface
 {
 
     // The DI container reference.

@@ -88,8 +88,7 @@ class CounseleeDrugUseController implements ControllerInterface
             CounseleeDrugUse::validateColumn('counselee_drug_use', $filter,
                 $this->container);
             $records = CounseleeDrugUse::where($filter, $value)->get();
-            $this->container['logger']->debug(
-                "CounseleeDrugUse filter query: ",
+            $this->container['logger']->debug("CounseleeDrugUse filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -131,8 +130,7 @@ class CounseleeDrugUseController implements ControllerInterface
                     $this->container);
             }
             $recordId = CounseleeDrugUse::insertGetId($recordData);
-            $this->container['logger']->debug(
-                "CounseleeDrugUse create query: ",
+            $this->container['logger']->debug("CounseleeDrugUse create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -168,8 +166,7 @@ class CounseleeDrugUseController implements ControllerInterface
                     ]);
             }
             $recordId = CounseleeDrugUse::update($updateData);
-            $this->container['logger']->debug(
-                "CounseleeDrugUse update query: ",
+            $this->container['logger']->debug("CounseleeDrugUse update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -196,8 +193,7 @@ class CounseleeDrugUseController implements ControllerInterface
         try {
             $record = CounseleeDrugUse::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug(
-                "CounseleeDrugUse delete query: ",
+            $this->container['logger']->debug("CounseleeDrugUse delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [

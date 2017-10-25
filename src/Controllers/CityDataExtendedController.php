@@ -89,8 +89,7 @@ class CityDataExtendedController implements ControllerInterface
             CityDataExtended::validateColumn('CityDataExtended', $filter,
                 $this->container);
             $records = CityDataExtended::where($filter, $value)->get();
-            $this->container['logger']->debug(
-                "CityDataExtended filter query: ",
+            $this->container['logger']->debug("CityDataExtended filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -132,8 +131,7 @@ class CityDataExtendedController implements ControllerInterface
                     $this->container);
             }
             $recordId = CityDataExtended::insertGetId($recordData);
-            $this->container['logger']->debug(
-                "CityDataExtended create query: ",
+            $this->container['logger']->debug("CityDataExtended create query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -169,8 +167,7 @@ class CityDataExtendedController implements ControllerInterface
                     ]);
             }
             $recordId = CityDataExtended::update($updateData);
-            $this->container['logger']->debug(
-                "CityDataExtended update query: ",
+            $this->container['logger']->debug("CityDataExtended update query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [
@@ -197,8 +194,7 @@ class CityDataExtendedController implements ControllerInterface
         try {
             $record = CityDataExtended::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug(
-                "CityDataExtended delete query: ",
+            $this->container['logger']->debug("CityDataExtended delete query: ",
                 $this->container['db']::getQueryLog());
             return $response->withJson(
                 [

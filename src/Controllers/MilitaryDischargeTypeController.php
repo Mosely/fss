@@ -127,8 +127,8 @@ class MilitaryDischargeTypeController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                MilitaryDischargeType::validateColumn(
-                    'MilitaryDischargeType', $key, $this->container);
+                MilitaryDischargeType::validateColumn('MilitaryDischargeType',
+                    $key, $this->container);
             }
             $recordId = MilitaryDischargeType::insertGetId($recordData);
             $this->container['logger']->debug(
@@ -160,8 +160,8 @@ class MilitaryDischargeTypeController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                MilitaryDischargeType::validateColumn(
-                    'military_discharge_type', $key, $this->container);
+                MilitaryDischargeType::validateColumn('military_discharge_type',
+                    $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val

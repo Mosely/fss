@@ -63,8 +63,7 @@ class CounseleeChildGuardianController implements ControllerInterface
     public function readAll($request, $response, $args)
     {
         $records = CounseleeChildGuardian::all();
-        $this->container['logger']->debug(
-            "All CounseleeChildGuardian query: ",
+        $this->container['logger']->debug("All CounseleeChildGuardian query: ",
             $this->container['db']::getQueryLog());
         // $records = CounseleeChildGuardian::all();
         return $response->withJson(
@@ -128,8 +127,8 @@ class CounseleeChildGuardianController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CounseleeChildGuardian::validateColumn(
-                    'CounseleeChildGuardian', $key, $this->container);
+                CounseleeChildGuardian::validateColumn('CounseleeChildGuardian',
+                    $key, $this->container);
             }
             $recordId = CounseleeChildGuardian::insertGetId($recordData);
             $this->container['logger']->debug(
@@ -161,8 +160,8 @@ class CounseleeChildGuardianController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CounseleeChildGuardian::validateColumn(
-                    'CounseleeChildGuardian', $key, $this->container);
+                CounseleeChildGuardian::validateColumn('CounseleeChildGuardian',
+                    $key, $this->container);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val

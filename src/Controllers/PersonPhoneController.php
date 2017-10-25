@@ -84,8 +84,7 @@ class PersonPhoneController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            PersonPhone::validateColumn('PersonPhone', $filter,
-                $this->container);
+            PersonPhone::validateColumn('PersonPhone', $filter, $this->container);
             $records = PersonPhone::where($filter, $value)->get();
             $this->container['logger']->debug("PersonPhone filter query: ",
                 $this->container['db']::getQueryLog());
