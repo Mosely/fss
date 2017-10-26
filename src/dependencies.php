@@ -27,7 +27,7 @@ $container['db'] = function ($c) {
 
 // opcache magic
 $container['cache'] = function ($c) {
-    return new FSS\Utilities\Cache($c);
+    return new FSS\Utilities\Cache($c->get('logger'));
 };
 
 // JWT Token Generator
