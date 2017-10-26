@@ -32,7 +32,7 @@ $app->add(
                     return false;
                 }
                 // DJH NOTE: this is the JWT that auth'ed this call, not the new JWT.
-                $container["jwtToken"] = $arguments["decoded"];
+                $container['jwt']->decoded = $arguments["decoded"];
             },
             "error" => function ($request, $response, $arguments) {
                 $data = [];

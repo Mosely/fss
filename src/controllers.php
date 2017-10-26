@@ -8,7 +8,7 @@ $container['UserController'] = function ($c) {
     $db = $c->get('db');
     $cache = $c->get('cache');
     $jwt = $c->get('jwt');
-    $jwtToken = $c->get('jwtToken');
+    $jwtToken = $jwt->decoded;
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\UserController(
         $logger, $db, $cache, $jwt, $jwtToken, $debug);
