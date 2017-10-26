@@ -282,7 +282,7 @@ class UserController implements ControllerInterface
         $userData = $request->getParsedBody();
         
         try {
-            $id = User::authenticate($userData, $this->logger, 'user');
+            $id = User::authenticate($userData, $this->logger, $this->cache, $this->db, 'user');
             $tokenData = $this->jwt->generate($id);
             // if(!setcookie('token', $tokenData['token'],
             // (int)$tokenData['expires'], '/', "", false, true)) {
