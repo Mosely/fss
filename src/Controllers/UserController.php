@@ -4,7 +4,13 @@ namespace FSS\Controllers;
 use \DateTime;
 use \Exception;
 use FSS\Models\User;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
+use FSS\Utilities\Token;
+
 
 /**
  * The user controller for all user-related actions.
@@ -15,22 +21,43 @@ use Interop\Container\ContainerInterface;
 class UserController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+    private $db;
+    private $cache;
+    private $jwt;
+    private $jwtToken;
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets the dependencies and
      * enable query logging if debug mode is true in settings.php
-     *
-     * @param ContainerInterface $c
+     * 
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param Token $jwt
+     * @param object $jwtToken
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(
+        Logger $logger, 
+        Manager $db, 
+        Cache $cache, 
+        Token $jwt, 
+        $jwtToken, 
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->jwt = $jwt;
+        $this->jwtToken = $jwtToken;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the User Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -39,13 +66,15 @@ class UserController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args) : ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug("Reading user with id of $id");
+        $this->logger->debug("Reading user with id of $id");
         
         // $user = User::findOrFail($id);
         return $this->readAllWithFilter($request, $response, $args);
@@ -56,7 +85,9 @@ class UserController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args) : ResponseInterface
     {
         // $records = User::with(['person', 'gender'])->get();
         // The above doesn't work
@@ -70,8 +101,8 @@ class UserController implements ControllerInterface
                     // deeper relationships as done here.
                 }
             ])->get();
-        $this->container['logger']->debug("All Users query: ",
-            $this->container['db']::getQueryLog());
+        $this->logger->debug("All Users query: ",
+            $this->db::getQueryLog());
         return $response->withJson(
             [
                 "success" => true,
@@ -85,13 +116,15 @@ class UserController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args) : ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            User::validateColumn('user', $filter, $this->container);
+            User::validateColumn('user', $filter, $this->logger, $this->cache, $this->db);
             // $records = User::where($filter, $value)->get();
             $records = User::with(
                 [
@@ -103,8 +136,8 @@ class UserController implements ControllerInterface
                         // deeper relationships as done here.
                     }
                 ])->where($filter, $value)->get();
-            $this->container['logger']->debug("Users with filter query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("Users with filter query: ",
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -133,14 +166,16 @@ class UserController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args) : ResponseInterface
     {
         $recordData = $request->getParsedBody();
         $checkPassword = $recordData['password2'];
         unset($recordData['password2']);
         try {
             foreach ($recordData as $key => $val) {
-                User::validateColumn('user', $key, $this->container);
+                User::validateColumn('user', $key, $this->logger, $this->cache, $this->db);
             }
             if (! ($recordData['password'] === $checkPassword)) {
                 throw new Exception("The passwords do not match.");
@@ -148,8 +183,8 @@ class UserController implements ControllerInterface
             $recordData['password'] = password_hash($recordData['password'],
                 PASSWORD_DEFAULT);
             $recordId = User::insertGetId($recordData);
-            $this->container['logger']->debug("Users create query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("Users create query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -169,22 +204,24 @@ class UserController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args) : ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                User::validateColumn('user', $key, $this->container);
+                User::validateColumn('user', $key, $this->logger, $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = User::update($updateData);
-            $this->container['logger']->debug("Users update query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("Users update query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -204,15 +241,17 @@ class UserController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args) : ResponseInterface
     {
         $id = $args['id'];
         
         try {
             $record = User::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Users delete query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("Users delete query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -230,19 +269,21 @@ class UserController implements ControllerInterface
     /**
      * The login action for a user.
      *
-     * @param unknown $request
-     * @param unknown $response
-     * @param unknown $args
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
      * @throws Exception
-     * @return unknown
+     * @return ResponseInterface
      */
-    public function login($request, $response, $args)
+    public function login(ServerRequestInterface $request,
+        ResponseInterface $response,
+        array $args) : ResponseInterface
     {
         $userData = $request->getParsedBody();
         
         try {
-            $id = User::authenticate($userData, $this->container, 'user');
-            $tokenData = $this->container['jwt']->generate($id);
+            $id = User::authenticate($userData, $this->logger, 'user');
+            $tokenData = $this->jwt->generate($id);
             // if(!setcookie('token', $tokenData['token'],
             // (int)$tokenData['expires'], '/', "", false, true)) {
             if (! setcookie(getenv('JWT_NAME'), $tokenData['token'], 0, '/', '',
@@ -250,7 +291,7 @@ class UserController implements ControllerInterface
                 throw new Exception(
                     "Cannot create the JWT Token. Disallowing authentication.");
             }
-            $this->container['logger']->debug("Logging in user $id");
+            $this->logger->debug("Logging in user $id");
             return $response->withJson(
                 [
                     "success" => true,
@@ -269,16 +310,18 @@ class UserController implements ControllerInterface
 
     /**
      * The logout action for the user.
-     *
-     * @param unknown $request
-     * @param unknown $response
-     * @param unknown $args
+     * 
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
      * @throws Exception
-     * @return unknown
+     * @return ResponseInterface
      */
-    public function logout($request, $response, $args)
+    public function logout(ServerRequestInterface $request, 
+        ResponseInterface $response, 
+        array $args) : ResponseInterface
     {
-        $userIdFromToken = $this->container['jwtToken']->sub;
+        $userIdFromToken = $this->jwtToken->sub;
         try {
             $expireTime = new DateTime("now -60 minutes");
             $expireTimestamp = $expireTime->getTimeStamp();
@@ -287,7 +330,7 @@ class UserController implements ControllerInterface
                 throw new Exception("Cannot unset the JWT Token.");
             }
             unset($_COOKIE[getenv('JWT_NAME')]);
-            $this->container['logger']->debug(
+            $this->logger->debug(
                 "Logging out user $userIdFromToken");
             return $response->withJson(
                 [

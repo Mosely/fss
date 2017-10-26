@@ -2,6 +2,9 @@
 namespace FSS\Models;
 
 use \Exception;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
 
 /**
  * The "user" model.
@@ -32,7 +35,7 @@ class User extends AbstractModel
      * @param string $password
      * @return boolean
      */
-    public function validatePassword(string $password)
+    public function validatePassword(string $password) : bool
     {
         // TODO Think about a way to dynamically load regex from a
         // config.
@@ -78,26 +81,34 @@ class User extends AbstractModel
 
     /**
      * This will try to authenticate a user
-     *
-     * @param unknown $userData
-     * @param unknown $container
+     * 
+     * @param array $userData
+     * @param Logger $logger
+     * @param Cache $cache
+     * @param Manager $db
      * @param string $table
      * @throws Exception
      * @return string
      */
-    public function authenticate($userData, $container, string $table)
+    public function authenticate(
+        array $userData, 
+        Logger $logger, 
+        Cache $cache, 
+        Manager $db, 
+        string $table) : string
     {
         try {
             
             foreach ($userData as $key => $val) {
-                parent::validateColumn($table, $key, $container);
+                parent::validateColumn($table, $key, $logger, $cache, $db);
             }
             
-            $user = User::select('password', 'id', 'username', 'is_disabled')->where(
+            $user = User::select('password', 'id', 
+                'username', 'is_disabled')->where(
                 'username', '=', $userData['username'])->firstOrFail();
             
-            $container['logger']->debug("User login query: ",
-                $container['db']::getQueryLog());
+            $logger->debug("User login query: ",
+                $db::getQueryLog());
             
             if ($user->is_disabled != 0) {
                 throw new Exception("Your account has been disabled.");

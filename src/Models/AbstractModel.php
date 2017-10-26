@@ -1,8 +1,10 @@
 <?php
 namespace FSS\Models;
 
-use Interop\Container\ContainerInterface;
-use \Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
 use \Exception;
 
 /**
@@ -26,27 +28,29 @@ abstract class AbstractModel extends Model
     /**
      * This will verify that the specified column
      * is indeed a column for the specified table.
-     *
+     * 
      * @param string $theTable
      * @param string $column
-     * @param ContainerInterface $container
+     * @param Logger $logger
+     * @param Cache $cache
+     * @param Manager $db
      * @throws Exception
      */
     public function validateColumn(string $theTable, string $column,
-        ContainerInterface $container)
+        Logger $logger, Cache $cache, Manager $db)
     {
         $columns = null;
-        if (($cacheValue = $container['cache']->get($theTable)) != false) {
-            $container['logger']->debug(
+        if (($cacheValue = $cache->get($theTable)) != false) {
+            $logger->debug(
                 "Retrieved $theTable column listing from cache.");
             $columns = $cacheValue;
         } else {
-            $columns = $container['db']::getSchemaBuilder()->getColumnListing(
+            $columns = $db::getSchemaBuilder()->getColumnListing(
                 $theTable);
-            $container['logger']->debug(
+            $logger->debug(
                 "Retrieved $theTable column listing from database: ",
-                $container['db']::getQueryLog());
-            $container['cache']->set($theTable, $columns);
+                $db::getQueryLog());
+            $cache->set($theTable, $columns);
         }
         if (! in_array($column, $columns)) {
             throw new Exception("$column is not a valid column option.");

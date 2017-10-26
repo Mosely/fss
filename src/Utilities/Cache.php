@@ -1,7 +1,6 @@
 <?php
 namespace FSS\Utilities;
 
-use Interop\Container\ContainerInterface;
 use Monolog\Logger;
 
 /**

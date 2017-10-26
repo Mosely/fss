@@ -4,7 +4,14 @@ $container['DefaultController'] = function ($c) {
     return new FSS\Controllers\DefaultController();
 };
 $container['UserController'] = function ($c) {
-    return new FSS\Controllers\UserController($c);
+    $logger = $c->get('logger');
+    $db = $c->get('db');
+    $cache = $c->get('cache');
+    $jwt = $c->get('jwt');
+    $jwtToken = $c->get('jwtToken');
+    $debug = $c->get('settings')['debug'];
+    return new FSS\Controllers\UserController(
+        $logger, $db, $cache, $jwt, $jwtToken, $debug);
 };
 $container['BranchOfServiceController'] = function ($c) {
     return new FSS\Controllers\BranchOfServiceController($c);
