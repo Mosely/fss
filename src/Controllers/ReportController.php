@@ -24,6 +24,7 @@ class ReportController implements ControllerInterface
     private $logger;
     private $db;
     private $cache;
+    private $jwtToken;
     private $debug;
 
     /**
@@ -39,11 +40,13 @@ class ReportController implements ControllerInterface
         Logger $logger,
         Manager $db,
         Cache $cache,
+        $jwtToken,
         bool $debug)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
+        $this->jwtToken = $jwtToken;
         $this->debug = $debug;
         if ($this->debug) {
             $this->logger->debug(
@@ -62,7 +65,7 @@ class ReportController implements ControllerInterface
         
         try {
             // $records = Report::run($columns, $reportName, $reportType, $this->container);
-            Report::run($columns, $reportName, $reportType, $this->container);
+            Report::run($columns, $reportName, $reportType, $this->jwtToken);
             $this->logger->debug("Generated Report query: ",
                 $this->db::getQueryLog());
             /*

@@ -1,7 +1,6 @@
 <?php
 namespace FSS\Utilities;
 
-use Interop\Container\ContainerInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
@@ -10,28 +9,21 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ReportGenerator
 {
 
-    private $container;
-
     private $savePointer;
-
     private $reportPath;
-
     private $reportType;
-
     private $reportTitle;
-
     private $dataCollection;
-
     private $headerRow = [];
-
     private $body = [];
+    private $jwtToken;
 
-    public function __construct(ContainerInterface $c, string $reportPath,
+    public function __construct($jwtToken, string $reportPath,
         string $reportTitle, string $reportType = 'CSV')
     {
         StringHelper::setDecimalSeparator('.');
         StringHelper::setThousandsSeparator(',');
-        $this->container = $c;
+        $this->jwtToken = $jwtToken;
         $this->reportPath = $reportPath;
         $this->reportTitle = $reportTitle;
         $this->reportType = $reportType;
@@ -42,8 +34,8 @@ class ReportGenerator
     {
         $this->dataCollection = new Spreadsheet();
         $this->dataCollection->getProperties()
-            ->setCreator($this->container["jwtToken"]->sub)
-            ->setLastModifiedBy($this->container["jwtToken"]->sub)
+            ->setCreator($this->jwtToken->sub)
+            ->setLastModifiedBy($this->jwtToken->sub)
             ->setTitle($this->reportTitle)
             ->setSubject($this->reportTitle)
             ->setDescription($this->reportTitle . ", generated for use by FSS.")

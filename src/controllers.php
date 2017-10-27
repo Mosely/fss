@@ -329,7 +329,9 @@ $container['ReportController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
+    $jwt = $c->get('jwt');
+    $jwtToken = $jwt->decoded;
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\ReportController(
-        $logger, $db, $cache, $debug);
+        $logger, $db, $cache, $jwtToken, $debug);
 };

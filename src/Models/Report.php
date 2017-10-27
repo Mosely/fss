@@ -55,7 +55,7 @@ class Report extends AbstractModel
     }
 
     public function run(array $columns, string $reportName, string $reportType,
-        ContainerInterface $container)
+        $jwtToken)
     {
         // Sort the array of ReportColumn objects by column_order,
         Report::sortReportColumnsAsc($columns, array(
@@ -88,7 +88,7 @@ class Report extends AbstractModel
                 array_push($criteriaArray,
                     array(
                         $columns[$i]->table_name . '.' .
-                             $columns[$i]->column_name,
+                            $columns[$i]->column_name,
                             $columns[$i]->report_criteria->relation,
                             $columns[$i]->report_criteria->criteria_value
                     ));
@@ -100,7 +100,7 @@ class Report extends AbstractModel
         $records = $query->get();
         
         $reportPath = "php://output";
-        $report = new ReportGenerator($container, $reportPath, $reportName);
+        $report = new ReportGenerator($jwtToken, $reportPath, $reportName);
         $report->SetHeader($headerArray);
         foreach ($records as $record) {
             $report->AddRow((array) $record);
