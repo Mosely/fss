@@ -105,6 +105,6 @@ class Report extends AbstractModel
             $report->AddRow((array) $record);
         }
         $report->save();
-        return $records;
+        //return $records;
     }
 }
