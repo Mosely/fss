@@ -14,7 +14,12 @@ $container['UserController'] = function ($c) {
         $logger, $db, $cache, $jwt, $jwtToken, $debug);
 };
 $container['BranchOfServiceController'] = function ($c) {
-    return new FSS\Controllers\BranchOfServiceController($c);
+    $logger = $c->get('logger');
+    $db = $c->get('db');
+    $cache = $c->get('cache');
+    $debug = $c->get('settings')['debug'];
+    return new FSS\Controllers\BranchOfServiceController(
+        $logger, $db, $cache, $debug);
 };
 $container['AddressController'] = function ($c) {
     return new FSS\Controllers\AddressController($c);

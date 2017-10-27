@@ -2,7 +2,11 @@
 namespace FSS\Controllers;
 
 use FSS\Models\ShelterClientIdentityPreference;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
 use \Exception;
 
 /**
@@ -19,22 +23,35 @@ use \Exception;
 class ShelterClientIdentityPreferenceController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+    private $db;
+    private $cache;
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     *
-     * @param ContainerInterface $c
+     * 
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(
+        Logger $logger,
+        Manager $db,
+        Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the ShelterClientIdentityPreference Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -43,13 +60,13 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug(
+        $this->logger->debug(
             "Reading ShelterClientIdentityPreference with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
@@ -60,12 +77,12 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $records = ShelterClientIdentityPreference::all();
-        $this->container['logger']->debug(
+        $this->logger->debug(
             "All ShelterClientIdentityPreference query: ",
-            $this->container['db']::getQueryLog());
+            $this->db::getQueryLog());
         // $records = ShelterClientIdentityPreference::all();
         return $response->withJson(
             [
@@ -80,18 +97,18 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
             ShelterClientIdentityPreference::validateColumn(
-                'ShelterClientIdentityPreference', $filter, $this->container);
+                'ShelterClientIdentityPreference', $filter, $this->logger, $this->cache, $this->db);
             $records = ShelterClientIdentityPreference::where($filter, $value)->get();
-            $this->container['logger']->debug(
+            $this->logger->debug(
                 "ShelterClientIdentityPreference filter query: ",
-                $this->container['db']::getQueryLog());
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -120,7 +137,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -129,13 +146,13 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 ShelterClientIdentityPreference::validateColumn(
-                    'ShelterClientIdentityPreference', $key, $this->container);
+                    'ShelterClientIdentityPreference', $key, $this->logger, $this->cache, $this->db);
             }
             $recordId = ShelterClientIdentityPreference::insertGetId(
                 $recordData);
-            $this->container['logger']->debug(
+            $this->logger->debug(
                 "ShelterClientIdentityPreference create query: ",
-                $this->container['db']::getQueryLog());
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -155,7 +172,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
@@ -163,16 +180,16 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 ShelterClientIdentityPreference::validateColumn(
-                    'ShelterClientIdentityPreference', $key, $this->container);
+                    'ShelterClientIdentityPreference', $key, $this->logger, $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = ShelterClientIdentityPreference::update($updateData);
-            $this->container['logger']->debug(
+            $this->logger->debug(
                 "ShelterClientIdentityPreference update query: ",
-                $this->container['db']::getQueryLog());
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -192,15 +209,15 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = ShelterClientIdentityPreference::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug(
+            $this->logger->debug(
                 "ShelterClientIdentityPreference delete query: ",
-                $this->container['db']::getQueryLog());
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,

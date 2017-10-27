@@ -2,7 +2,11 @@
 namespace FSS\Controllers;
 
 use FSS\Models\CounseleeChildBioParent;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
 use \Exception;
 
 /**
@@ -19,22 +23,35 @@ use \Exception;
 class CounseleeChildBioParentController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+    private $db;
+    private $cache;
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     *
-     * @param ContainerInterface $c
+     * 
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(
+        Logger $logger,
+        Manager $db,
+        Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the CounseleeChildBioParent Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -43,13 +60,13 @@ class CounseleeChildBioParentController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug(
+        $this->logger->debug(
             "Reading CounseleeChildBioParent with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
@@ -60,11 +77,11 @@ class CounseleeChildBioParentController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $records = CounseleeChildBioParent::all();
-        $this->container['logger']->debug("All CounseleeChildBioParent query: ",
-            $this->container['db']::getQueryLog());
+        $this->logger->debug("All CounseleeChildBioParent query: ",
+            $this->db::getQueryLog());
         // $records = Counselee_child_bio_parent::all();
         return $response->withJson(
             [
@@ -79,7 +96,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
@@ -88,9 +105,9 @@ class CounseleeChildBioParentController implements ControllerInterface
             CounseleeChildBioParent::validateColumn('CounseleeChildBioParent',
                 $filter, $this->container);
             $records = CounseleeChildBioParent::where($filter, $value)->get();
-            $this->container['logger']->debug(
+            $this->logger->debug(
                 "CounseleeChildBioParent filter query: ",
-                $this->container['db']::getQueryLog());
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -119,7 +136,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -128,12 +145,12 @@ class CounseleeChildBioParentController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 CounseleeChildBioParent::validateColumn(
-                    'CounseleeChildBioParent', $key, $this->container);
+                    'CounseleeChildBioParent', $key, $this->logger, $this->cache, $this->db);
             }
             $recordId = CounseleeChildBioParent::insertGetId($recordData);
-            $this->container['logger']->debug(
+            $this->logger->debug(
                 "CounseleeChildBioParent create query: ",
-                $this->container['db']::getQueryLog());
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -153,7 +170,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
@@ -161,16 +178,16 @@ class CounseleeChildBioParentController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 CounseleeChildBioParent::validateColumn(
-                    'CounseleeChildBioParent', $key, $this->container);
+                    'CounseleeChildBioParent', $key, $this->logger, $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = CounseleeChildBioParent::update($updateData);
-            $this->container['logger']->debug(
+            $this->logger->debug(
                 "CounseleeChildBioParent update query: ",
-                $this->container['db']::getQueryLog());
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -190,15 +207,15 @@ class CounseleeChildBioParentController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = CounseleeChildBioParent::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug(
+            $this->logger->debug(
                 "Counselee_child_bio_parent delete query: ",
-                $this->container['db']::getQueryLog());
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
