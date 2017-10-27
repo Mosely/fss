@@ -34,8 +34,8 @@ class ReportGenerator
     {
         $this->dataCollection = new Spreadsheet();
         $this->dataCollection->getProperties()
-            ->setCreator($this->jwtToken->sub)
-            ->setLastModifiedBy($this->jwtToken->sub)
+            //->setCreator($this->jwtToken->sub)
+            //->setLastModifiedBy($this->jwtToken->sub)
             ->setTitle($this->reportTitle)
             ->setSubject($this->reportTitle)
             ->setDescription($this->reportTitle . ", generated for use by FSS.")
