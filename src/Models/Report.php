@@ -2,7 +2,6 @@
 namespace FSS\Models;
 
 use Illuminate\Database\Capsule\Manager as DB;
-use Interop\Container\ContainerInterface;
 use FSS\Utilities\ReportGenerator;
 
 class Report extends AbstractModel
@@ -100,7 +99,7 @@ class Report extends AbstractModel
         $records = $query->get();
         
         $reportPath = "php://output";
-        $report = new ReportGenerator($jwtToken, $reportPath, $reportName);
+        $report = new ReportGenerator($jwtToken, $reportPath, $reportName, $reportType);
         $report->SetHeader($headerArray);
         foreach ($records as $record) {
             $report->AddRow((array) $record);

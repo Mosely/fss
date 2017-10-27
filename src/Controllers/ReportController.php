@@ -77,13 +77,11 @@ class ReportController implements ControllerInterface
              * ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
              */
         } catch (Exception $e) {
-            /*
-             * return $response->withJson(
-             * [
-             * "success" => false,
-             * "message" => "Error occured: " . $e->getMessage()
-             * ], 400);
-             */
+             return $response->withJson(
+             [
+             "success" => false,
+             "message" => "Error occured: " . $e->getMessage()
+             ], 400);
         }
     }
 
