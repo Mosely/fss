@@ -69,12 +69,13 @@ class ReportController implements ControllerInterface
             $this->logger->debug("Generated Report query: ",
                 $this->db::getQueryLog());
             
-             return $response->withJson(
-             [
-             "success" => true,
-             "message" => "Report Data for report " . $report->data[0]->id,
-             "data" => $records
-             ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+             //return $response->withJson(
+             //[
+             //"success" => true,
+             //"message" => "Report Data for report " . $report->data[0]->id,
+             //"data" => $records
+             //], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+             return $response;
             
         } catch (Exception $e) {
              return $response->withJson(
