@@ -28,7 +28,7 @@ abstract class AbstractModel extends Model
     /**
      * This will verify that the specified column
      * is indeed a column for the specified table.
-     * 
+     *
      * @param string $theTable
      * @param string $column
      * @param Logger $logger
@@ -41,14 +41,11 @@ abstract class AbstractModel extends Model
     {
         $columns = null;
         if (($cacheValue = $cache->get($theTable)) != false) {
-            $logger->debug(
-                "Retrieved $theTable column listing from cache.");
+            $logger->debug("Retrieved $theTable column listing from cache.");
             $columns = $cacheValue;
         } else {
-            $columns = $db::getSchemaBuilder()->getColumnListing(
-                $theTable);
-            $logger->debug(
-                "Retrieved $theTable column listing from database: ",
+            $columns = $db::getSchemaBuilder()->getColumnListing($theTable);
+            $logger->debug("Retrieved $theTable column listing from database: ",
                 $db::getQueryLog());
             $cache->set($theTable, $columns);
         }

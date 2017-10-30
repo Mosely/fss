@@ -35,7 +35,7 @@ class User extends AbstractModel
      * @param string $password
      * @return boolean
      */
-    public function validatePassword(string $password) : bool
+    public function validatePassword(string $password): bool
     {
         // TODO Think about a way to dynamically load regex from a
         // config.
@@ -81,7 +81,7 @@ class User extends AbstractModel
 
     /**
      * This will try to authenticate a user
-     * 
+     *
      * @param array $userData
      * @param Logger $logger
      * @param Cache $cache
@@ -90,12 +90,8 @@ class User extends AbstractModel
      * @throws Exception
      * @return string
      */
-    public function authenticate(
-        array $userData, 
-        Logger $logger, 
-        Cache $cache, 
-        Manager $db, 
-        string $table) : string
+    public function authenticate(array $userData, Logger $logger, Cache $cache,
+        Manager $db, string $table): string
     {
         try {
             
@@ -103,12 +99,10 @@ class User extends AbstractModel
                 parent::validateColumn($table, $key, $logger, $cache, $db);
             }
             
-            $user = User::select('password', 'id', 
-                'username', 'is_disabled')->where(
+            $user = User::select('password', 'id', 'username', 'is_disabled')->where(
                 'username', '=', $userData['username'])->firstOrFail();
             
-            $logger->debug("User login query: ",
-                $db::getQueryLog());
+            $logger->debug("User login query: ", $db::getQueryLog());
             
             if ($user->is_disabled != 0) {
                 throw new Exception("Your account has been disabled.");

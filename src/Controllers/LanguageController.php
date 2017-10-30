@@ -24,23 +24,23 @@ class LanguageController implements ControllerInterface
 
     // The dependencies.
     private $logger;
+
     private $db;
+
     private $cache;
+
     private $debug;
 
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
      */
-    public function __construct(
-        Logger $logger,
-        Manager $db,
-        Cache $cache,
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
         bool $debug)
     {
         $this->logger = $logger;
@@ -59,7 +59,8 @@ class LanguageController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
-    public function read(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
@@ -76,11 +77,11 @@ class LanguageController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
-    public function readAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $records = Language::all();
-        $this->logger->debug("All languages query: ",
-            $this->db::getQueryLog());
+        $this->logger->debug("All languages query: ", $this->db::getQueryLog());
         // $records = Language::all();
         return $response->withJson(
             [
@@ -95,13 +96,15 @@ class LanguageController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
-    public function readAllWithFilter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            Language::validateColumn('language', $filter, $this->logger, $this->cache, $this->db);
+            Language::validateColumn('language', $filter, $this->logger,
+                $this->cache, $this->db);
             $records = Language::where($filter, $value)->get();
             $this->logger->debug("Language filter query: ",
                 $this->db::getQueryLog());
@@ -133,7 +136,8 @@ class LanguageController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
-    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -141,7 +145,8 @@ class LanguageController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Language::validateColumn('language', $key, $this->logger, $this->cache, $this->db);
+                Language::validateColumn('language', $key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = Language::insertGetId($recordData);
             $this->logger->debug("Language create query: ",
@@ -165,14 +170,16 @@ class LanguageController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
-    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Language::validateColumn('language', $key, $this->logger, $this->cache, $this->db);
+                Language::validateColumn('language', $key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -200,7 +207,8 @@ class LanguageController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {

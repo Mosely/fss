@@ -24,23 +24,23 @@ class RoleController implements ControllerInterface
 
     // The dependencies.
     private $logger;
+
     private $db;
+
     private $cache;
+
     private $debug;
 
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
      */
-    public function __construct(
-        Logger $logger,
-        Manager $db,
-        Cache $cache,
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
         bool $debug)
     {
         $this->logger = $logger;
@@ -48,8 +48,7 @@ class RoleController implements ControllerInterface
         $this->cache = $cache;
         $this->debug = $debug;
         if ($this->debug) {
-            $this->logger->debug(
-                "Enabling query log for the Role Controller.");
+            $this->logger->debug("Enabling query log for the Role Controller.");
             $this->db::enableQueryLog();
         }
     }
@@ -59,7 +58,8 @@ class RoleController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
-    public function read(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
@@ -76,11 +76,11 @@ class RoleController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
-    public function readAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $records = Role::all();
-        $this->logger->debug("All roles query: ",
-            $this->db::getQueryLog());
+        $this->logger->debug("All roles query: ", $this->db::getQueryLog());
         // $records = Role::all();
         return $response->withJson(
             [
@@ -95,16 +95,17 @@ class RoleController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
-    public function readAllWithFilter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            Role::validateColumn('role', $filter, $this->logger, $this->cache, $this->db);
+            Role::validateColumn('role', $filter, $this->logger, $this->cache,
+                $this->db);
             $records = Role::where($filter, $value)->get();
-            $this->logger->debug("Role filter query: ",
-                $this->db::getQueryLog());
+            $this->logger->debug("Role filter query: ", $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -133,7 +134,8 @@ class RoleController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
-    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -141,11 +143,11 @@ class RoleController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Role::validateColumn('role', $key, $this->logger, $this->cache, $this->db);
+                Role::validateColumn('role', $key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordId = Role::insertGetId($recordData);
-            $this->logger->debug("Role create query: ",
-                $this->db::getQueryLog());
+            $this->logger->debug("Role create query: ", $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -165,22 +167,23 @@ class RoleController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
-    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Role::validateColumn('role', $key, $this->logger, $this->cache, $this->db);
+                Role::validateColumn('role', $key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = Role::update($updateData);
-            $this->logger->debug("Role update query: ",
-                $this->db::getQueryLog());
+            $this->logger->debug("Role update query: ", $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -200,14 +203,14 @@ class RoleController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = Role::findOrFail($id);
             $record->delete();
-            $this->logger->debug("Role delete query: ",
-                $this->db::getQueryLog());
+            $this->logger->debug("Role delete query: ", $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,

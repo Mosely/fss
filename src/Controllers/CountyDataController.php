@@ -24,23 +24,23 @@ class CountyDataController implements ControllerInterface
 
     // The dependencies.
     private $logger;
+
     private $db;
+
     private $cache;
+
     private $debug;
 
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
      */
-    public function __construct(
-        Logger $logger,
-        Manager $db,
-        Cache $cache,
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
         bool $debug)
     {
         $this->logger = $logger;
@@ -59,7 +59,8 @@ class CountyDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
-    public function read(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
@@ -76,11 +77,11 @@ class CountyDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
-    public function readAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $records = CountyData::all();
-        $this->logger->debug("All CountyData query: ",
-            $this->db::getQueryLog());
+        $this->logger->debug("All CountyData query: ", $this->db::getQueryLog());
         // $records = County_data::all();
         return $response->withJson(
             [
@@ -95,13 +96,15 @@ class CountyDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
-    public function readAllWithFilter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            CountyData::validateColumn('CountyData', $filter, $this->logger, $this->cache, $this->db);
+            CountyData::validateColumn('CountyData', $filter, $this->logger,
+                $this->cache, $this->db);
             $records = CountyData::where($filter, $value)->get();
             $this->logger->debug("CountyData filter query: ",
                 $this->db::getQueryLog());
@@ -133,7 +136,8 @@ class CountyDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
-    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -141,7 +145,8 @@ class CountyDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CountyData::validateColumn('CountyData', $key, $this->logger, $this->cache, $this->db);
+                CountyData::validateColumn('CountyData', $key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = CountyData::insertGetId($recordData);
             $this->logger->debug("CountyData create query: ",
@@ -165,14 +170,16 @@ class CountyDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
-    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CountyData::validateColumn('CountyData', $key, $this->logger, $this->cache, $this->db);
+                CountyData::validateColumn('CountyData', $key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -200,7 +207,8 @@ class CountyDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {

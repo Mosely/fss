@@ -17,7 +17,7 @@ use Monolog\Logger;
 class Cache
 {
 
-    // The DI container, referenced in the constructor.
+    // The logger, referenced in the constructor.
     private $logger;
 
     /**
@@ -70,8 +70,7 @@ class Cache
              ((time() - filemtime("/tmp/$key")) > $ttl)) {
             opcache_invalidate("/tmp/$key", true);
             unlink("/tmp/$key");
-            $this->logger->debug(
-                "TTL exceeded. Cache item $key invalidated.");
+            $this->logger->debug("TTL exceeded. Cache item $key invalidated.");
         }
         @include "/tmp/$key";
         return isset($val) ? $val : false;

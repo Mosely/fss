@@ -25,23 +25,23 @@ class CounseleeChildSiblingController implements ControllerInterface
 
     // The dependencies.
     private $logger;
+
     private $db;
+
     private $cache;
+
     private $debug;
 
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
      */
-    public function __construct(
-        Logger $logger,
-        Manager $db,
-        Cache $cache,
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
         bool $debug)
     {
         $this->logger = $logger;
@@ -60,14 +60,14 @@ class CounseleeChildSiblingController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
-    public function read(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->logger->debug(
-            "Reading CounseleeChildSibling with id of $id");
+        $this->logger->debug("Reading CounseleeChildSibling with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -77,7 +77,8 @@ class CounseleeChildSiblingController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
-    public function readAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $records = CounseleeChildSibling::all();
         $this->logger->debug("All CounseleeChildSibling query: ",
@@ -96,7 +97,8 @@ class CounseleeChildSiblingController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
-    public function readAllWithFilter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
@@ -105,8 +107,7 @@ class CounseleeChildSiblingController implements ControllerInterface
             CounseleeChildSibling::validateColumn('CounseleeChildSibling',
                 $filter, $this->container);
             $records = CounseleeChildSibling::where($filter, $value)->get();
-            $this->logger->debug(
-                "CounseleeChildSibling filter query: ",
+            $this->logger->debug("CounseleeChildSibling filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -136,7 +137,8 @@ class CounseleeChildSiblingController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
-    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -148,8 +150,7 @@ class CounseleeChildSiblingController implements ControllerInterface
                     $key, $this->container);
             }
             $recordId = CounseleeChildSibling::insertGetId($recordData);
-            $this->logger->debug(
-                "CounseleeChildSibling create query: ",
+            $this->logger->debug("CounseleeChildSibling create query: ",
                 $this->db::getQueryLog());
             return $response->withJson(
                 [
@@ -170,7 +171,8 @@ class CounseleeChildSiblingController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
-    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
@@ -185,8 +187,7 @@ class CounseleeChildSiblingController implements ControllerInterface
                     ]);
             }
             $recordId = CounseleeChildSibling::update($updateData);
-            $this->logger->debug(
-                "CounseleeChildSibling update query: ",
+            $this->logger->debug("CounseleeChildSibling update query: ",
                 $this->db::getQueryLog());
             return $response->withJson(
                 [
@@ -207,14 +208,14 @@ class CounseleeChildSiblingController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = CounseleeChildSibling::findOrFail($id);
             $record->delete();
-            $this->logger->debug(
-                "CounseleeChildSibling delete query: ",
+            $this->logger->debug("CounseleeChildSibling delete query: ",
                 $this->db::getQueryLog());
             return $response->withJson(
                 [

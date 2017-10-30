@@ -13,15 +13,16 @@ use Psr\Http\Message\ServerRequestInterface;
 class DefaultController
 {
 
-   /**
-    * The default action when [url]/ is invoked.
-    * 
-    * @param ServerRequestInterface $request
-    * @param ResponseInterface $response
-    * @param array $args
-    * @return ResponseInterface
-    */
-    public function indexAction(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    /**
+     * The default action when [url]/ is invoked.
+     *
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
+     */
+    public function indexAction(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         return $response->withJson(
             [

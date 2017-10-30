@@ -11,7 +11,6 @@ use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use FSS\Utilities\Token;
 
-
 /**
  * The user controller for all user-related actions.
  *
@@ -23,16 +22,21 @@ class UserController implements ControllerInterface
 
     // The dependencies.
     private $logger;
+
     private $db;
+
     private $cache;
+
     private $jwt;
+
     private $jwtToken;
+
     private $debug;
 
     /**
      * The constructor that sets the dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
@@ -40,13 +44,8 @@ class UserController implements ControllerInterface
      * @param object $jwtToken
      * @param bool $debug
      */
-    public function __construct(
-        Logger $logger, 
-        Manager $db, 
-        Cache $cache, 
-        Token $jwt, 
-        $jwtToken, 
-        bool $debug)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        Token $jwt, $jwtToken, bool $debug)
     {
         $this->logger = $logger;
         $this->db = $db;
@@ -55,8 +54,7 @@ class UserController implements ControllerInterface
         $this->jwtToken = $jwtToken;
         $this->debug = $debug;
         if ($this->debug) {
-            $this->logger->debug(
-                "Enabling query log for the User Controller.");
+            $this->logger->debug("Enabling query log for the User Controller.");
             $this->db::enableQueryLog();
         }
     }
@@ -67,8 +65,7 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      */
     public function read(ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args) : ResponseInterface
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
@@ -86,8 +83,7 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
     public function readAll(ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args) : ResponseInterface
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $records = User::with(['person', 'gender'])->get();
         // The above doesn't work
@@ -101,8 +97,7 @@ class UserController implements ControllerInterface
                     // deeper relationships as done here.
                 }
             ])->get();
-        $this->logger->debug("All Users query: ",
-            $this->db::getQueryLog());
+        $this->logger->debug("All Users query: ", $this->db::getQueryLog());
         return $response->withJson(
             [
                 "success" => true,
@@ -117,14 +112,14 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
     public function readAllWithFilter(ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args) : ResponseInterface
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            User::validateColumn('user', $filter, $this->logger, $this->cache, $this->db);
+            User::validateColumn('user', $filter, $this->logger, $this->cache,
+                $this->db);
             // $records = User::where($filter, $value)->get();
             $records = User::with(
                 [
@@ -167,15 +162,15 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      */
     public function create(ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args) : ResponseInterface
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $recordData = $request->getParsedBody();
         $checkPassword = $recordData['password2'];
         unset($recordData['password2']);
         try {
             foreach ($recordData as $key => $val) {
-                User::validateColumn('user', $key, $this->logger, $this->cache, $this->db);
+                User::validateColumn('user', $key, $this->logger, $this->cache,
+                    $this->db);
             }
             if (! ($recordData['password'] === $checkPassword)) {
                 throw new Exception("The passwords do not match.");
@@ -205,15 +200,15 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      */
     public function update(ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args) : ResponseInterface
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                User::validateColumn('user', $key, $this->logger, $this->cache, $this->db);
+                User::validateColumn('user', $key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -242,8 +237,7 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
     public function delete(ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args) : ResponseInterface
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         
@@ -276,13 +270,13 @@ class UserController implements ControllerInterface
      * @return ResponseInterface
      */
     public function login(ServerRequestInterface $request,
-        ResponseInterface $response,
-        array $args) : ResponseInterface
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $userData = $request->getParsedBody();
         
         try {
-            $id = User::authenticate($userData, $this->logger, $this->cache, $this->db, 'user');
+            $id = User::authenticate($userData, $this->logger, $this->cache,
+                $this->db, 'user');
             $tokenData = $this->jwt->generate($id);
             // if(!setcookie('token', $tokenData['token'],
             // (int)$tokenData['expires'], '/', "", false, true)) {
@@ -310,16 +304,15 @@ class UserController implements ControllerInterface
 
     /**
      * The logout action for the user.
-     * 
+     *
      * @param ServerRequestInterface $request
      * @param ResponseInterface $response
      * @param array $args
      * @throws Exception
      * @return ResponseInterface
      */
-    public function logout(ServerRequestInterface $request, 
-        ResponseInterface $response, 
-        array $args) : ResponseInterface
+    public function logout(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $userIdFromToken = $this->jwtToken->sub;
         try {
@@ -330,8 +323,7 @@ class UserController implements ControllerInterface
                 throw new Exception("Cannot unset the JWT Token.");
             }
             unset($_COOKIE[getenv('JWT_NAME')]);
-            $this->logger->debug(
-                "Logging out user $userIdFromToken");
+            $this->logger->debug("Logging out user $userIdFromToken");
             return $response->withJson(
                 [
                     "success" => true,

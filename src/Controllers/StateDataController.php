@@ -24,23 +24,23 @@ class StateDataController implements ControllerInterface
 
     // The dependencies.
     private $logger;
+
     private $db;
+
     private $cache;
+
     private $debug;
 
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
      */
-    public function __construct(
-        Logger $logger,
-        Manager $db,
-        Cache $cache,
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
         bool $debug)
     {
         $this->logger = $logger;
@@ -59,7 +59,8 @@ class StateDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
-    public function read(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
@@ -75,11 +76,11 @@ class StateDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
-    public function readAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $records = StateData::all();
-        $this->logger->debug("All StateData query: ",
-            $this->db::getQueryLog());
+        $this->logger->debug("All StateData query: ", $this->db::getQueryLog());
         // $records = State_data::all();
         return $response->withJson(
             [
@@ -94,13 +95,15 @@ class StateDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
-    public function readAllWithFilter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            StateData::validateColumn('state_data', $filter, $this->logger, $this->cache, $this->db);
+            StateData::validateColumn('state_data', $filter, $this->logger,
+                $this->cache, $this->db);
             $records = StateData::where($filter, $value)->get();
             $this->logger->debug("StateData filter query: ",
                 $this->db::getQueryLog());
@@ -132,7 +135,8 @@ class StateDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
-    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -140,7 +144,8 @@ class StateDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                StateData::validateColumn('state_data', $key, $this->logger, $this->cache, $this->db);
+                StateData::validateColumn('state_data', $key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = StateData::insertGetId($recordData);
             $this->logger->debug("StateData create query: ",
@@ -164,14 +169,16 @@ class StateDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
-    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                StateData::validateColumn('StateData', $key, $this->logger, $this->cache, $this->db);
+                StateData::validateColumn('StateData', $key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -199,7 +206,8 @@ class StateDataController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {

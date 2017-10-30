@@ -22,26 +22,26 @@ class ReportController implements ControllerInterface
 
     // The dependencies.
     private $logger;
+
     private $db;
+
     private $cache;
+
     private $jwtToken;
+
     private $debug;
 
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
      */
-    public function __construct(
-        Logger $logger,
-        Manager $db,
-        Cache $cache,
-        $jwtToken,
-        bool $debug)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        $jwtToken, bool $debug)
     {
         $this->logger = $logger;
         $this->db = $db;
@@ -55,7 +55,8 @@ class ReportController implements ControllerInterface
         }
     }
 
-    public function generateReportOutput(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function generateReportOutput(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $reportJson = $this->read($request, $response, $args)->getBody();
         $report = json_decode($reportJson, false);
@@ -64,29 +65,30 @@ class ReportController implements ControllerInterface
         $reportType = $report->data[0]->type;
         
         try {
-            $records = Report::run($columns, $reportName, $reportType, $this->jwtToken);
-            //Report::run($columns, $reportName, $reportType, $this->jwtToken);
+            // $records = Report::run($columns, 
+            // $reportName, $reportType, $this->jwtToken);
+            Report::run($columns, $reportName, $reportType, $this->jwtToken);
             $this->logger->debug("Generated Report query: ",
                 $this->db::getQueryLog());
             
-             //return $response->withJson(
-             //[
-             //"success" => true,
-             //"message" => "Report Data for report " . $report->data[0]->id,
-             //"data" => $records
-             //], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-             return $response;
-            
+            // return $response->withJson(
+            // [
+            // "success" => true,
+            // "message" => "Report Data for report " . $report->data[0]->id,
+            // "data" => $records
+            // ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return $response;
         } catch (Exception $e) {
-             return $response->withJson(
-             [
-             "success" => false,
-             "message" => "Error occured: " . $e->getMessage()
-             ], 400);
+            return $response->withJson(
+                [
+                    "success" => false,
+                    "message" => "Error occured: " . $e->getMessage()
+                ], 400);
         }
     }
 
-    public function read(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
@@ -97,13 +99,15 @@ class ReportController implements ControllerInterface
         return $this->readAllWithFilter($request, $response, $args);
     }
 
-    public function readAllWithFilter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            Report::validateColumn('report', $filter, $this->logger, $this->cache, $this->db);
+            Report::validateColumn('report', $filter, $this->logger,
+                $this->cache, $this->db);
             $records = Report::with(
                 [
                     'reportColumn' => function ($q) {
@@ -139,15 +143,19 @@ class ReportController implements ControllerInterface
         }
     }
 
-    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {}
 
-    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {}
 
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {}
 
-    public function readAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {}
 }

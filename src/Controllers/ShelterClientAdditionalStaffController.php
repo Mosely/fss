@@ -25,23 +25,23 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
 
     // The dependencies.
     private $logger;
+
     private $db;
+
     private $cache;
+
     private $debug;
 
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
      */
-    public function __construct(
-        Logger $logger,
-        Manager $db,
-        Cache $cache,
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
         bool $debug)
     {
         $this->logger = $logger;
@@ -60,7 +60,8 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      */
-    public function read(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
@@ -77,11 +78,11 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      */
-    public function readAll(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $records = ShelterClientAdditionalStaff::all();
-        $this->logger->debug(
-            "All ShelterClientAdditionalStaff query: ",
+        $this->logger->debug("All ShelterClientAdditionalStaff query: ",
             $this->db::getQueryLog());
         // $records = Shelter_client_additional_staff::all();
         return $response->withJson(
@@ -97,17 +98,18 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
-    public function readAllWithFilter(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
             ShelterClientAdditionalStaff::validateColumn(
-                'ShelterClientAdditionalStaff', $filter, $this->logger, $this->cache, $this->db);
+                'ShelterClientAdditionalStaff', $filter, $this->logger,
+                $this->cache, $this->db);
             $records = ShelterClientAdditionalStaff::where($filter, $value)->get();
-            $this->logger->debug(
-                "ShelterClientAdditionalStaff filter query: ",
+            $this->logger->debug("ShelterClientAdditionalStaff filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -137,7 +139,8 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
      */
-    public function create(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -146,11 +149,11 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 ShelterClientAdditionalStaff::validateColumn(
-                    'ShelterClientAdditionalStaff', $key, $this->logger, $this->cache, $this->db);
+                    'ShelterClientAdditionalStaff', $key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = ShelterClientAdditionalStaff::insertGetId($recordData);
-            $this->logger->debug(
-                "ShelterClientAdditionalStaff create query: ",
+            $this->logger->debug("ShelterClientAdditionalStaff create query: ",
                 $this->db::getQueryLog());
             return $response->withJson(
                 [
@@ -171,7 +174,8 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
      */
-    public function update(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
@@ -179,15 +183,15 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 ShelterClientAdditionalStaff::validateColumn(
-                    'ShelterClientAdditionalStaff', $key, $this->logger, $this->cache, $this->db);
+                    'ShelterClientAdditionalStaff', $key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = ShelterClientAdditionalStaff::update($updateData);
-            $this->logger->debug(
-                "ShelterClientAdditionalStaff update query: ",
+            $this->logger->debug("ShelterClientAdditionalStaff update query: ",
                 $this->db::getQueryLog());
             return $response->withJson(
                 [
@@ -208,14 +212,14 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      */
-    public function delete(ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = ShelterClientAdditionalStaff::findOrFail($id);
             $record->delete();
-            $this->logger->debug(
-                "ShelterClientAdditionalStaff delete query: ",
+            $this->logger->debug("ShelterClientAdditionalStaff delete query: ",
                 $this->db::getQueryLog());
             return $response->withJson(
                 [
