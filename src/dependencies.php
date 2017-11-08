@@ -2,6 +2,9 @@
 // Dependency Injection Container configuration
 $container = $app->getContainer();
 
+// Adding the Illuminate ExceptionHandler to the App
+$app->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class);
+
 // monolog
 $container['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];
@@ -24,9 +27,6 @@ $container['db'] = function ($c) {
     
     return $capsule;
 };
-
-// Adding the Illuminate ExceptionHandler to the DI Container
-// $container->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class);
 
 // opcache magic
 $container['cache'] = function ($c) {
