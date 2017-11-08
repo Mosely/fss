@@ -2,9 +2,6 @@
 // Dependency Injection Container configuration
 $container = $app->getContainer();
 
-// Adding the Illuminate ExceptionHandler to the App
-$app->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class);
-
 // monolog
 $container['logger'] = function ($c) {
     $settings = $c->get('settings')['logger'];
