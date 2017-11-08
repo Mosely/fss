@@ -34,10 +34,11 @@ class ReportController implements ControllerInterface
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     *
+     * 
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
+     * @param object $jwtToken
      * @param bool $debug
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
