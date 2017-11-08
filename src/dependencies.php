@@ -26,7 +26,7 @@ $container['db'] = function ($c) {
 };
 
 // Adding the Illuminate ExceptionHandler to the DI Container
-$container->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class);
+// $container->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class);
 
 // opcache magic
 $container['cache'] = function ($c) {
