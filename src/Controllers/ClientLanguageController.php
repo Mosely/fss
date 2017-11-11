@@ -106,7 +106,7 @@ class ClientLanguageController implements ControllerInterface
         try {
             ClientLanguage::validateColumn('ClientLanguage', $filter,
                 $this->container);
-            $records = ClientLanguage::where($filter, $value)->get();
+            $records = ClientLanguage::where($filter, $value)->limit(200)->get();
             $this->logger->debug("ClientLanguage filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
