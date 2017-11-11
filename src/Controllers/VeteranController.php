@@ -104,7 +104,7 @@ class VeteranController implements ControllerInterface
         try {
             Veteran::validateColumn('veteran', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = Veteran::where($filter, $value)->get();
+            $records = Veteran::where($filter, $value)->limit(200)->get();
             $this->logger->debug("Veteran filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
