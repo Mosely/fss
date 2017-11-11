@@ -108,7 +108,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
             ShelterClientIdentityPreference::validateColumn(
                 'ShelterClientIdentityPreference', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = ShelterClientIdentityPreference::where($filter, $value)->get();
+            $records = ShelterClientIdentityPreference::where($filter, $value)->limit(200)->get();
             $this->logger->debug(
                 "ShelterClientIdentityPreference filter query: ",
                 $this->db::getQueryLog());
