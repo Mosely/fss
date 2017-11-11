@@ -105,7 +105,7 @@ class CountyDataController implements ControllerInterface
         try {
             CountyData::validateColumn('CountyData', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = CountyData::where($filter, $value)->get();
+            $records = CountyData::where($filter, $value)->limit(200)->get();
             $this->logger->debug("CountyData filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
