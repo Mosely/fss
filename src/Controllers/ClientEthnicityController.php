@@ -106,7 +106,7 @@ class ClientEthnicityController implements ControllerInterface
         try {
             ClientEthnicity::validateColumn('client_ethnicity', $filter,
                 $this->container);
-            $records = ClientEthnicity::where($filter, $value)->get();
+            $records = ClientEthnicity::where($filter, $value)->limit(200)->get();
             $this->logger->debug("ClientEthnicity filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
