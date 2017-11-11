@@ -106,7 +106,7 @@ class CounseleeChildSiblingController implements ControllerInterface
         try {
             CounseleeChildSibling::validateColumn('CounseleeChildSibling',
                 $filter, $this->container);
-            $records = CounseleeChildSibling::where($filter, $value)->get();
+            $records = CounseleeChildSibling::where($filter, $value)->limit(200)->get();
             $this->logger->debug("CounseleeChildSibling filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
