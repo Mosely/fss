@@ -108,7 +108,7 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
             ShelterClientAdditionalStaff::validateColumn(
                 'ShelterClientAdditionalStaff', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = ShelterClientAdditionalStaff::where($filter, $value)->get();
+            $records = ShelterClientAdditionalStaff::where($filter, $value)->limit(200)->get();
             $this->logger->debug("ShelterClientAdditionalStaff filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
