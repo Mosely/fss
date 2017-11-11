@@ -105,7 +105,7 @@ class CounseleeController implements ControllerInterface
         try {
             Counselee::validateColumn('counselee', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = Counselee::where($filter, $value)->get();
+            $records = Counselee::where($filter, $value)->limit(200)->get();
             $this->logger->debug("Counselee filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
