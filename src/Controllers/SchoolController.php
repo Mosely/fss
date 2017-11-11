@@ -105,7 +105,7 @@ class SchoolController implements ControllerInterface
         try {
             School::validateColumn('school', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = School::where($filter, $value)->get();
+            $records = School::where($filter, $value)->limit(200)->get();
             $this->logger->debug("School filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
