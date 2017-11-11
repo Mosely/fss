@@ -104,7 +104,7 @@ class PhoneController implements ControllerInterface
         try {
             Phone::validateColumn('phone', $filter, $this->logger, $this->cache,
                 $this->db);
-            $records = Phone::where($filter, $value)->get();
+            $records = Phone::where($filter, $value)->limit(200)->get();
             $this->logger->debug("Phone filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
