@@ -106,7 +106,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
         try {
             MilitaryDischargeType::validateColumn('military_discharge_type',
                 $filter, $this->container);
-            $records = MilitaryDischargeType::where($filter, $value)->get();
+            $records = MilitaryDischargeType::where($filter, $value)->limit(200)->get();
             $this->logger->debug("MilitaryDischargeType filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
