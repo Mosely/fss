@@ -105,7 +105,7 @@ class PersonPhoneController implements ControllerInterface
         try {
             PersonPhone::validateColumn('PersonPhone', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = PersonPhone::where($filter, $value)->get();
+            $records = PersonPhone::where($filter, $value)->limit(200)->get();
             $this->logger->debug("PersonPhone filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
