@@ -106,7 +106,7 @@ class CounseleeDrugUseController implements ControllerInterface
         try {
             CounseleeDrugUse::validateColumn('counselee_drug_use', $filter,
                 $this->container);
-            $records = CounseleeDrugUse::where($filter, $value)->get();
+            $records = CounseleeDrugUse::where($filter, $value)->limit(200)->get();
             $this->logger->debug("CounseleeDrugUse filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
