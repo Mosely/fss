@@ -106,7 +106,7 @@ class ShelterClientController implements ControllerInterface
         try {
             ShelterClient::validateColumn('ShelterClient', $filter,
                 $this->container);
-            $records = ShelterClient::where($filter, $value)->get();
+            $records = ShelterClient::where($filter, $value)->limit(200)->get();
             $this->logger->debug("ShelterClient filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
