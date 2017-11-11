@@ -106,7 +106,7 @@ class CounseleeChildBioParentController implements ControllerInterface
         try {
             CounseleeChildBioParent::validateColumn('CounseleeChildBioParent',
                 $filter, $this->container);
-            $records = CounseleeChildBioParent::where($filter, $value)->get();
+            $records = CounseleeChildBioParent::where($filter, $value)->limit(200)->get();
             $this->logger->debug("CounseleeChildBioParent filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
