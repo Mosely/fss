@@ -64,7 +64,7 @@ class AddressController implements ControllerInterface
                 'city_data',
                 'state_data',
                 'county_data'
-            ])->get();
+            ])->limit(200)->get();
         $this->container['logger']->debug("All addresses query: ",
             $this->container['db']::getQueryLog());
         // $records = Address::all();
@@ -93,7 +93,7 @@ class AddressController implements ControllerInterface
                     'city_data',
                     'state_data',
                     'county_data'
-                ])->where($filter, $value)->get();
+                ])->where($filter, $value)->limit(200)->get();
             $this->container['logger']->debug("Address filter query: ",
                 $this->container['db']::getQueryLog());
             if ($records->isEmpty()) {
