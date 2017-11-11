@@ -106,7 +106,7 @@ class CounselingTopicController implements ControllerInterface
         try {
             CounselingTopic::validateColumn('CounselingTopic', $filter,
                 $this->container);
-            $records = CounselingTopic::where($filter, $value)->get();
+            $records = CounselingTopic::where($filter, $value)->limit(200)->get();
             $this->logger->debug("CounselingTopic filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
