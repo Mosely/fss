@@ -96,7 +96,7 @@ class UserController implements ControllerInterface
                     // and gender tables) you will need to handle the
                     // deeper relationships as done here.
                 }
-            ])->get();
+            ])->limit(200)->get();
         $this->logger->debug("All Users query: ", $this->db::getQueryLog());
         return $response->withJson(
             [
@@ -130,7 +130,7 @@ class UserController implements ControllerInterface
                         // and gender tables) you will need to handle the
                         // deeper relationships as done here.
                     }
-                ])->where($filter, $value)->get();
+                ])->where($filter, $value)->limit(200)->get();
             $this->logger->debug("Users with filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
