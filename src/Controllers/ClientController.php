@@ -80,7 +80,7 @@ class ClientController implements ControllerInterface
         ResponseInterface $response, array $args): ResponseInterface
     {
         // $records = Client::all();
-        $records = Client::with('person')->get();
+        $records = Client::with('person')->limit(200)->get();
         $this->logger->debug("All clients query: ", $this->db::getQueryLog());
         // $records = Client::all();
         return $response->withJson(
@@ -105,7 +105,7 @@ class ClientController implements ControllerInterface
         try {
             Client::validateColumn('client', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = Client::with('person')->where($filter, $value)->get();
+            $records = Client::with('person')->where($filter, $value)->limit(200)->get();
             $this->logger->debug("Client filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
