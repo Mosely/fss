@@ -86,6 +86,7 @@ class ReportGenerator
 
     private function initExcel()
     {
+        //TODO: need to fix this.
         $this->savePointer = function () {
             $arrayData = [];
             $arrayData[] = $this->headerRow;
