@@ -83,7 +83,7 @@ class AddressController implements ControllerInterface
                 'CityData',
                 'StateData',
                 'CountyData'
-            ])->get();
+            ])->limit(200)->get();
         $this->logger->debug("All addresses query: ", $this->db::getQueryLog());
         // $records = Address::all();
         return $response->withJson(
@@ -113,7 +113,7 @@ class AddressController implements ControllerInterface
                     'CityData',
                     'StateData',
                     'CountyData'
-                ])->where($filter, $value)->get();
+                ])->where($filter, $value)->limit(200)->get();
             $this->logger->debug("Address filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

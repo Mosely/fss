@@ -118,7 +118,7 @@ class ReportController implements ControllerInterface
                         // and gender tables) you will need to handle the
                         // deeper relationships as done here.
                     }
-                ])->where($filter, $value)->get();
+                ])->where($filter, $value)->limit(200)->get();
             $this->logger->debug("Report filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

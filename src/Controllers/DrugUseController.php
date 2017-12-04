@@ -105,7 +105,7 @@ class DrugUseController implements ControllerInterface
         try {
             DrugUse::validateColumn('DrugUse', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = DrugUse::where($filter, $value)->get();
+            $records = DrugUse::where($filter, $value)->limit(200)->get();
             $this->logger->debug("DrugUse filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

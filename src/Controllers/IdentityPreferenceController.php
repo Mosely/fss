@@ -106,7 +106,7 @@ class IdentityPreferenceController implements ControllerInterface
         try {
             IdentityPreference::validateColumn('IdentityPreference', $filter,
                 $this->container);
-            $records = IdentityPreference::where($filter, $value)->get();
+            $records = IdentityPreference::where($filter, $value)->limit(200)->get();
             $this->logger->debug("IdentityPreference filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

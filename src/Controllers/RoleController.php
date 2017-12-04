@@ -104,7 +104,7 @@ class RoleController implements ControllerInterface
         try {
             Role::validateColumn('role', $filter, $this->logger, $this->cache,
                 $this->db);
-            $records = Role::where($filter, $value)->get();
+            $records = Role::where($filter, $value)->limit(200)->get();
             $this->logger->debug("Role filter query: ", $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(

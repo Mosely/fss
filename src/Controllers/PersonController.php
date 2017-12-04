@@ -85,7 +85,7 @@ class PersonController implements ControllerInterface
                 'user',
                 'client',
                 'gender'
-            ])->get();
+            ])->limit(200)->get();
         $this->logger->debug("All persons query: ", $this->db::getQueryLog());
         // $records = Person::all();
         return $response->withJson(
@@ -115,7 +115,7 @@ class PersonController implements ControllerInterface
                     'user',
                     'client',
                     'gender'
-                ])->where($filter, $value)->get();
+                ])->where($filter, $value)->limit(200)->get();
             $this->logger->debug("Person filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

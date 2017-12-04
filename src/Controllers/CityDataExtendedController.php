@@ -107,7 +107,7 @@ class CityDataExtendedController implements ControllerInterface
         try {
             CityDataExtended::validateColumn('CityDataExtended', $filter,
                 $this->container);
-            $records = CityDataExtended::where($filter, $value)->get();
+            $records = CityDataExtended::where($filter, $value)->limit(200)->get();
             $this->logger->debug("CityDataExtended filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

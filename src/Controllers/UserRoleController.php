@@ -104,7 +104,7 @@ class UserRoleController implements ControllerInterface
         try {
             UserRole::validateColumn('user_role', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = UserRole::where($filter, $value)->get();
+            $records = UserRole::where($filter, $value)->limit(200)->get();
             $this->logger->debug("UserRole filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

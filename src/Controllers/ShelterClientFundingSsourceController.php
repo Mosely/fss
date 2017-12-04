@@ -108,7 +108,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
             ShelterClientFundingSource::validateColumn(
                 'ShelterClientFundingSource', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = ShelterClientFundingSource::where($filter, $value)->get();
+            $records = ShelterClientFundingSource::where($filter, $value)->limit(200)->get();
             $this->logger->debug("ShelterClientFundingSource filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

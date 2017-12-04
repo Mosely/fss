@@ -106,7 +106,7 @@ class PersonAddressController implements ControllerInterface
         try {
             PersonAddress::validateColumn('person_address', $filter,
                 $this->container);
-            $records = PersonAddress::where($filter, $value)->get();
+            $records = PersonAddress::where($filter, $value)->limit(200)->get();
             $this->logger->debug("PersonAddress filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

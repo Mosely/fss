@@ -106,7 +106,7 @@ class FundingSourceController implements ControllerInterface
         try {
             FundingSource::validateColumn('FundingSource', $filter,
                 $this->container);
-            $records = FundingSource::where($filter, $value)->get();
+            $records = FundingSource::where($filter, $value)->limit(200)->get();
             $this->logger->debug("FundingSource filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

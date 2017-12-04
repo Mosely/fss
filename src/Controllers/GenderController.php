@@ -105,7 +105,7 @@ class GenderController implements ControllerInterface
         try {
             Gender::validateColumn('gender', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = Gender::where($filter, $value)->get();
+            $records = Gender::where($filter, $value)->limit(200)->get();
             $this->logger->debug("Gender filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
