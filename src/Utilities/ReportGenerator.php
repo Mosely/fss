@@ -45,7 +45,8 @@ class ReportGenerator
             ->setLastModifiedBy($this->jwtToken->sub)
             ->setTitle($this->reportTitle)
             ->setSubject($this->reportTitle)
-            ->setDescription($this->reportTitle . ", generated for use by FSS.")
+            ->setDescription($this->reportTitle . 
+                ", generated for use by FSS.")
             ->setKeywords("fss")
             ->setCategory("FSS report file");
         switch ($this->reportType) {
@@ -66,7 +67,8 @@ class ReportGenerator
             for ($i = 0; $i < count($this->body); $i ++) {
                 $arrayData[] = $this->body[$i];
             }
-            $this->dataCollection->getActiveSheet()->fromArray($arrayData, NULL,
+            $this->dataCollection->getActiveSheet()->fromArray(
+                $arrayData, NULL,
                 'A1');
             $writer = new Csv($this->dataCollection);
             $writer->setDelimiter(',');
@@ -78,7 +80,8 @@ class ReportGenerator
             unset($this->dataCollection);
             header('Content-Type: application/csv');
             header(
-                'Content-Disposition: attachment; filename=' . $this->reportTitle .
+                'Content-Disposition: attachment; filename=' . 
+                $this->reportTitle .
                      '.csv');
             header('Pragma: no-cache');
         };
@@ -93,7 +96,8 @@ class ReportGenerator
             for ($i = 0; i < count($this->body); $i ++) {
                 $arrayData[] = $this->body[$i];
             }
-            $this->dataCollection->getActiveSheet()->fromArray($arrayData, NULL,
+            $this->dataCollection->getActiveSheet()->fromArray(
+                $arrayData, NULL,
                 'A1');
             $writer = new Xlsx($this->dataCollection);
             $writer->save($this->reportPath);
@@ -101,7 +105,8 @@ class ReportGenerator
             unset($this->dataCollection);
             header('Content-type: application/vnd.ms-excel');
             header(
-                'Content-Disposition: attachment; filename=' . $this->reportTitle .
+                'Content-Disposition: attachment; filename=' . 
+                $this->reportTitle .
                      '.xls');
         };
     }
