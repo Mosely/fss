@@ -20,4 +20,9 @@ class Medication extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function CounseleeMedication()
+    {
+        return $this->hasMany('FSS\Models\CounseleeMedication');
+    }
 }
