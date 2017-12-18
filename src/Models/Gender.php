@@ -20,5 +20,10 @@ class Gender extends AbstractModel
     {
         return $this->hasMany('FSS\Models\Person');
     }
+    
+    public function CounseleeChildSibling()
+    {
+        return $this->hasMany('FSS\Models\CounseleeChildSibling');
+    }
     // getters and setters if you want and other logic
 }
