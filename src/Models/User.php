@@ -125,5 +125,20 @@ class User extends AbstractModel
     {
         return $this->belongsTo('FSS\Models\Person', 'id', 'id');
     }
+    
+    public function ShelterClient()
+    {
+        return $this->hasMany('FSS\Models\ShelterClient');
+    }
+    
+    public function UserRole()
+    {
+        return $this->hasMany('FSS\Models\UserRole');
+    }    
+    
+    public function ShelterClientAdditionalStaff()
+    {
+        return $this->hasOne('FSS\Models\ShelterClientAdditionalStaff');
+    }
     // getters and setters if you want and other logic
 }
