@@ -22,4 +22,14 @@ class PersonAddress extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function Person()
+    {
+        return $this->belongsTo('FSS\Models\Person');
+    }
+    
+    public function Address()
+    {
+        return $this->belongsTo('FSS\Models\Address');
+    }
 }
