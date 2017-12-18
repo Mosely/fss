@@ -40,4 +40,24 @@ class Counselee extends AbstractModel
         'currently_in_counseling',
         'current_counselor'
     );
+    
+    public function CounseleeCounselingTopic()
+    {
+        return $this->hasMany('FSS\Models\CounseleeCounselingTopic');
+    }
+    
+    public function CounseleeDrugUse()
+    {
+        return $this->hasMany('FSS\Models\CounseleeDrugUse');
+    }
+    
+    public function CounseleeMedication()
+    {
+        return $this->hasMany('FSS\Models\CounseleeMedication');
+    }
+    
+    public function CounseleeChild()
+    {
+        return $this->hasOne('FSS\Models\CounseleeChild');
+    }
 }
