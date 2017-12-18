@@ -40,5 +40,20 @@ class Person extends AbstractModel
     {
         return $this->belongsTo('FSS\Models\Gender');
     }
+        
+    public function PersonAddress()
+    {
+        return $this->hasMany('FSS\Models\PersonAddress');
+    }
+    
+    public function PersonPhone()
+    {
+        return $this->hasMany('FSS\Models\PersonPhone');
+    }
+    
+    public function Veteran()
+    {
+        return $this->hasMany('FSS\Models\Veteran');
+    }
     // getters and setters if you want and other logic
 }
