@@ -21,4 +21,14 @@ class UserRole extends AbstractModel
         'updated_at',
         'updated_by'
     );
+        
+    public function User()
+    {
+        return $this->belongsTo('FSS\Models\User');
+    }
+        
+    public function Role()
+    {
+        return $this->belongsTo('FSS\Models\Role');
+    }
 }
