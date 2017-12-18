@@ -29,4 +29,29 @@ class ShelterClient extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function Client()
+    {
+        return $this->belongsTo('FSS\Models\Client');
+    }
+    
+    public function ShelterClientAdditionalStaff()
+    {
+        return $this->hasMany('FSS\Models\ShelterClientAdditionalStaff');
+    }
+    
+    public function ShelterClientFundingSource()
+    {
+        return $this->hasMany('FSS\Models\ShelterClientFundingSource');
+    }
+    
+    public function ShelterClientIdentityPreference()
+    {
+        return $this->hasMany('FSS\Models\ShelterClientIdentityPreference');
+    }
+    
+    public function User()
+    {
+        return $this->belongsTo('FSS\Models\User', 'advocate_user_id');
+    }
 }
