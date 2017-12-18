@@ -20,4 +20,8 @@ class Language extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    public function ClientLanguage()
+    {
+        return $this->hasMany('FSS\Models\ClientLanguage');
+    }
 }
