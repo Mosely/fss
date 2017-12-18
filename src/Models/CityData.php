@@ -21,5 +21,9 @@ class CityData extends AbstractModel
         return $this->hasMany('FSS\Models\Address');
     }
     
+    public function CityDataExtended()
+    {
+        return $this->hasOne('FSS\Models\CityDataExtended');
+    }
     // getters and setters if you want and other logic
 }
