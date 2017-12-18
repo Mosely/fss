@@ -23,4 +23,9 @@ class Phone extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function PersonPhone()
+    {
+        return $this->hasMany('FSS\Models\PersonPhone');
+    }
 }
