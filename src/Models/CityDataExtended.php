@@ -25,4 +25,8 @@ class CityDataExtended extends AbstractModel
         'updated_at',
         'updated_by'
     );
+        public function CityData()
+    {
+        return $this->belongsTo('FSS\Models\CityData');
+    }
 }
