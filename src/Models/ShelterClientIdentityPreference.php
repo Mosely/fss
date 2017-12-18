@@ -21,4 +21,14 @@ class ShelterClientIdentityPreference extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function ShelterClient()
+    {
+        return $this->belongsTo('FSS\Models\ShelterClient');
+    }
+    
+    public function IdentityPreference()
+    {
+        return $this->belongsTo('FSS\Models\IdentityPreference');
+    }
 }
