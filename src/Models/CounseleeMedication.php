@@ -22,4 +22,14 @@ class CounseleeMedication extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function Counselee()
+    {
+        return $this->belongsTo('FSS\Models\Counselee');
+    }
+    
+    public function Medication()
+    {
+        return $this->belongsTo('FSS\Models\Medication');
+    }
 }
