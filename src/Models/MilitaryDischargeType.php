@@ -20,4 +20,9 @@ class MilitaryDischargeType extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function Veteran()
+    {
+        return $this->hasMany('FSS\Models\Veteran');
+    }
 }
