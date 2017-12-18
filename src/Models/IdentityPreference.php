@@ -21,4 +21,9 @@ class IdentityPreference extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function ShelterClientIdentityPreference()
+    {
+        return $this->hasMany('FSS\Models\ShelterClientIdentityPreference');
+    }
 }
