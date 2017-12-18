@@ -21,4 +21,9 @@ class FundingSource extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function ShelterClientFundingSource()
+    {
+        return $this->hasMany('FSS\Models\ShelterClientFundingSource');
+    }
 }
