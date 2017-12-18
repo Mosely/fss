@@ -29,4 +29,19 @@ class Veteran extends AbstractModel
         'updated_at',
         'updated_by'
     );
+        
+    public function BranchOfService()
+    {
+        return $this->belongsTo('FSS\Models\BranchOfService');
+    }
+        
+    public function MilitaryDischargeType()
+    {
+        return $this->belongsTo('FSS\Models\MilitaryDischargeType');
+    }
+        
+    public function Person()
+    {
+        return $this->belongsTo('FSS\Models\Person', 'va_id');
+    }
 }
