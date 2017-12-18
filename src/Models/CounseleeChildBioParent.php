@@ -29,4 +29,9 @@ class CounseleeChildBioParent extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function CounseleeChild()
+    {
+        return $this->belongsTo('FSS\Models\CounseleeChild');
+    }
 }
