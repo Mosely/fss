@@ -20,5 +20,13 @@ class Client extends AbstractModel
     {
         return $this->belongsTo('FSS\Models\Person', 'id', 'id');
     }
+    public function ClientEthnicity()
+    {
+        return $this->hasMany('FSS\Models\ClientEthnicity');
+    }
+    public function ClientLanguage()
+    {
+        return $this->hasMany('FSS\Models\ClientLanguage');
+    }
     // getters and setters if you want and other logic
 }
