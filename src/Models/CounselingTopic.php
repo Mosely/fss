@@ -21,4 +21,9 @@ class CounselingTopic extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function CounseleeCounselingTopic()
+    {
+        return $this->hasMany('FSS\Models\CounseleeCounselingTopic');
+    }
 }
