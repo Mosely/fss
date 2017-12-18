@@ -33,6 +33,6 @@ class CityDataExtended extends AbstractModel
     
     public function StateData()
     {
-        return $this->belongsTo('FSS\Models\StateData', 'state_code');
+        return $this->belongsTo('FSS\Models\StateData', 'state_code', 'state_code');
     }
 }
