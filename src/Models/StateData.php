@@ -21,5 +21,14 @@ class StateData extends AbstractModel
         return $this->hasMany('FSS\Models\Address');
     }
     
+    public function School()
+    {
+        return $this->hasMany('FSS\Models\School');
+    }
+    
+    public function CityDataExtended()
+    {
+        return $this->hasMany('FSS\Models\CityDataExtended', 'state_code', 'state_code');
+    }
     // getters and setters if you want and other logic
 }
