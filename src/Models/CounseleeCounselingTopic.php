@@ -22,4 +22,14 @@ class CounseleeCounselingTopic extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function Counselee()
+    {
+        return $this->belongsTo('FSS\Models\Counselee');
+    }
+    
+    public function CounselingTopic()
+    {
+        return $this->belongsTo('FSS\Models\CounselingTopic');
+    }
 }
