@@ -23,4 +23,14 @@ class ClientLanguage extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function Client()
+    {
+        return $this->belongsTo('FSS\Models\Client');
+    }
+
+    public function Language()
+    {
+        return $this->belongsTo('FSS\Models\Language');
+    }
 }
