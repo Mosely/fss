@@ -21,4 +21,14 @@ class ShelterClientFundingSource extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function ShelterClient()
+    {
+        return $this->belongsTo('FSS\Models\ShelterClient');
+    }
+    
+    public function FundingSource()
+    {
+        return $this->belongsTo('FSS\Models\FundingSource');
+    }
 }
