@@ -25,4 +25,19 @@ class School extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function CityData()
+    {
+        return $this->belongsTo('FSS\Models\CityData');
+    }
+    
+    public function StateData()
+    {
+        return $this->belongsTo('FSS\Models\StateData');
+    }
+    
+    public function CounseleeChild()
+    {
+        return $this->hasMany('FSS\Models\CounseleeChild');
+    }
 }
