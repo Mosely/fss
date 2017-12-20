@@ -106,8 +106,8 @@ class VeteranController implements ControllerInterface
                 $this->cache, $this->db);
             $records = Veteran::with(
                     [
-                        'branch_of_service', 
-                        'military_discharge_type'
+                        'BranchOfService', 
+                        'MilitaryDischargeType'
                     ]
                 )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("Veteran filter query: ",
