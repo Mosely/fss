@@ -113,7 +113,12 @@ class VeteranController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = Veteran::all();
+        $records = Veteran::with(
+            [
+                'BranchOfService',
+                'MilitaryDischargeType'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All Veteran query: ", $this->db::getQueryLog());
         // $records = Veteran::all();
         return $response->withJson(
