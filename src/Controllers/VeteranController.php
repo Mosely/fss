@@ -2,11 +2,12 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Veteran;
+use FSS\Utilities\Cache;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
-use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -17,8 +18,14 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
- */
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/veterans",
+ *     description="Veteran operations",
+ *     produces="['application/json']"
+ * )       
+*/
 class VeteranController implements ControllerInterface
 {
 
@@ -58,6 +65,24 @@ class VeteranController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     * 
+     * @SWG\Api(
+     *     path="/veterans/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a veteran",
+     *         type="Veteran",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of veteran to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="veteran not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -75,6 +100,15 @@ class VeteranController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     * 
+     * @SWG\Api(
+     *     path="/veterans",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch veterans",
+     *         type="Veteran"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -94,6 +128,32 @@ class VeteranController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     * 
+     * @SWG\Api(
+     *     path="/veterans/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays veterans that meet the property=value search criteria",
+     *         type="Veteran",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="veteran not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -139,6 +199,16 @@ class VeteranController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     * 
+     * @SWG\Api(
+     *     path="/veterans",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a veteran.  See Veteran model for details.",
+     *         type="Veteran",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -173,6 +243,24 @@ class VeteranController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     * 
+     * @SWG\Api(
+     *     path="/veterans/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a veteran.  See the Veteran model for details.",
+     *         type="Veteran",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of veteran to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -210,6 +298,24 @@ class VeteranController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     * 
+     * @SWG\Api(
+     *     path="/veterans/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a veteran",
+     *         type="Veteran",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of veteran to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="veteran not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
