@@ -5,12 +5,25 @@ use \Exception;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 
 /**
  * The "user" model.
  *
  * @author Dewayne
  *        
+ * @SWG\Model(
+ *     id="user",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="username", type="string", required=true),
+ *     @SWG\Property(name="email", type="string", required=true),
+ *     @SWG\Property(name="password", type="string", required=true), 
+ *     @SWG\Property(name="password_created_at", type="integer", required=true),
+ *     @SWG\Property(name="is_disabled", type="boolean", required=true),  
+ *     @SWG\Property(name="created_at", type="integer", required=true),  
+ *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  */
 class User extends AbstractModel
 {
