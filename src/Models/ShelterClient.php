@@ -3,7 +3,7 @@ namespace FSS\Models;
 
 use Swagger\Annotations as SWG;
 /**
- * The "shelter_client" model.
+ * The "shelter_client" model
  *
  * @author Dewayne
  *        
