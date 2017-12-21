@@ -1,11 +1,22 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "person_address" model.
  *
  * @author Dewayne
  *        
+ * @SWG\Model(
+ *     id="person_address",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="person_id", type="integer", required=true),
+ *     @SWG\Property(name="address_id", type="integer", required=true),
+ *     @SWG\Property(name="is_primary", type="boolean", required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  */
 class PersonAddress extends AbstractModel
 {
