@@ -15,7 +15,7 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="age_when_first_used", type="integer", required=true),
  *     @SWG\Property(name="created_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_by", type="integer", required=false)
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )   
  */
 class CounseleeDrugUse extends AbstractModel
