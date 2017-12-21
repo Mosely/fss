@@ -19,7 +19,7 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="advocate_user_id", type="integer", required=false),
  *     @SWG\Property(name="enter_date", type="date", required=false),
  *     @SWG\Property(name="exit_date", type="date", required=false), 
-       @SWG\Property(name="notes", type="string", required=false),
+ *     @SWG\Property(name="notes", type="string", required=false),
  *     @SWG\Property(name="created_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)
