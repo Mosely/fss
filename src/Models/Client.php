@@ -1,11 +1,22 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "client" model.
  *
  * @author Dewayne
- *        
+ * 
+ * @SWG\Model(
+ *     id="client",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="social_security_number", type="integer", required=true),
+ *     @SWG\Property(name="place_of_employment", type="string", required=true),
+ *     @SWG\Property(name="is_service_member_or_veteran", type="integer", required=true),
+ *     @SWG\Property(name="has_family_who_is_service_member_or_veteran", type="integer", required=true),
+ *     @SWG\Property(name="is_referred_by_veteran_resource_center", type="integer", required=true),
+ *     @SWG\Property(name="referral", type="string", required=false)
+ * )
  */
 class Client extends AbstractModel
 {
