@@ -6,13 +6,21 @@ use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use \Exception;
+use Swagger\Annotations as SWG;
 
 /**
  * The AbstractModel class will hold any
  * common code that all models can use.
  *
  * @author Dewayne
- *        
+ *
+ * @SWG\Model (
+ *     id="AbstractModel",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="created_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  */
 abstract class AbstractModel extends Model
 {
