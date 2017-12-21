@@ -1,11 +1,20 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "drug_use" model.
  *
  * @author Dewayne
  *        
+ * @SWG\Model(
+ *     id="drug_use",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="type", type="string", required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  */
 class DrugUse extends AbstractModel
 {
