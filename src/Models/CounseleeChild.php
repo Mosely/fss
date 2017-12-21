@@ -1,11 +1,20 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "counselee_child" model.
  *
  * @author Dewayne
  *        
+ * @SWG\Model(
+ *     id="counselee_child",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="school_id", type="integer", required=true),
+ *     @SWG\Property(name="school_problems", type="string", required=false),
+ *     @SWG\Property(name="long_standing_illnesses", type="string", required=false),
+ *     @SWG\Property(name="who_else_raised_child", type="string", required=false)
+ * )
  */
 class CounseleeChild extends AbstractModel
 {
