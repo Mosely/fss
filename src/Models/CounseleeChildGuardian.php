@@ -18,7 +18,7 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="date_first_lived_with_child", type="date", required=true),
  *     @SWG\Property(name="created_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_by", type="integer", required=false)
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )  
  */
 class CounseleeChildGuardian extends AbstractModel
