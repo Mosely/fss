@@ -1,10 +1,20 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "city_data" model
  *
  * @author Dewayne
+ *
+ * @SWG\Model(
+ *     id="city_data",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="name", type="varchar", required=true),
+ *     @SWG\Property(name="created_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  *        
  */
 class CityData extends AbstractModel
