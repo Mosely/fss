@@ -1,11 +1,39 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "counselee" model.
  *
  * @author Dewayne
- *        
+ * 
+ * @SWG\Model(
+ *     id="counselee",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="has_been_abused", type="boolean", required=true),
+ *     @SWG\Property(name="abused_by_whom", type="string", required=true),
+ *     @SWG\Property(name="abused_count", type="integer", required=true),
+ *     @SWG\Property(name="serious_problems_in_family", type="boolean", required=true),
+ *     @SWG\Property(name="serious_family_problems_desc", type="string", required=false),
+ *     @SWG\Property(name="alcohol_problem", type="boolean", required=true),
+ *     @SWG\Property(name="had_black_out", type="boolean", required=true),
+ *     @SWG\Property(name="black_out_location", type="string", required=false),
+ *     @SWG\Property(name="black_out_date", type="boolean", required=true),
+ *     @SWG\Property(name="family_drug_alcohol_problem", type="enum", required=true),
+ *     @SWG\Property(name="famil_drug_problem_other_detail", type="string" required=false),
+ *     @SWG\Property(name="current_harm_self", type="boolean" required=true),
+ *     @SWG\Property(name="past_harm_self", type="boolean", required=true),
+ *     @SWG\Property(name="current_harm_others", type="boolean", required=true),
+ *     @SWG\Property(name="past_harm_others", type="boolean", required=true),
+ *     @SWG\Property(name="current_harm_self_example", type="string", required=true),
+ *     @SWG\Property(name="past_harm_self_example", type="string", required=true),
+ *     @SWG\Property(name="past_harm_others_example", type="string", required=true),
+ *     @SWG\Property(name="had_previous_counseling", type="boolean", required=true),
+ *     @SWG\Property(name="previous_counseling_where", type="integer", required=true),
+ *     @SWG\Property(name="previous_counseling_when", type="date", required=true),
+ *     @SWG\Property(name="currently_in_counseling", type="boolean" required=true),
+ *     @SWG\Property(name="current_counselor", type="string", required=true)
+ * )
  */
 class Counselee extends AbstractModel
 {
