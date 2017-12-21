@@ -1,11 +1,21 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "shelter_client_additional_staff" model.
  *
  * @author Dewayne
  *        
+ * @SWG\Model(
+ *     id="shelter_client_additional_staff",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="shelter_client_id", type="integer", required=true),
+ *     @SWG\Property(name="user_id", type="integer", required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  */
 class ShelterClientAdditionalStaff extends AbstractModel
 {
