@@ -22,7 +22,7 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="cause_of_death", type="string", required=false),
  *     @SWG\Property(name="created_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_by", type="integer", required=false)
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
  * ) 
  */
 class CounseleeChildBioParent extends AbstractModel
