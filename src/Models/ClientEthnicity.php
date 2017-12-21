@@ -1,11 +1,21 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "client_ethnicity" model.
  *
  * @author Dewayne
- *        
+ *  
+ * @SWG\Model(
+ *     id="client_ethnicity",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="client_id", type="integer", required=true),
+ *     @SWG\Property(name="ethnicity_id", type="integer", required=true),
+ *     @SWG\Property(name="created_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * ) 
  */
 class ClientEthnicity extends AbstractModel
 {
