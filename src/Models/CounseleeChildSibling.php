@@ -1,11 +1,26 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "counselee_child_sibling" model.
  *
  * @author Dewayne
  *        
+ * @SWG\Model(
+ *     id="counselee_child_sibling",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="counselee_child_id", type="integer", required=true),
+ *     @SWG\Property(name="type", type="enum", required=true),
+ *     @SWG\Property(name="gender_id", type="integer", required=true),
+ *     @SWG\Property(name="age", type="integer", required=true),
+ *     @SWG\Property(name="relationship_desc", type="string", required=true),
+ *     @SWG\Property(name="is_dead", type="boolean", required=true),
+ *     @SWG\Property(name="age_at_death", type="integer", required=true), 
+ *     @SWG\Property(name="created_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_by", type="integer", required=false)
+ * )  
  */
 class CounseleeChildSibling extends AbstractModel
 {
