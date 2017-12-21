@@ -12,7 +12,7 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="client_id", type="integer", required=true),
  *     @SWG\Property(name="language_id", type="integer", required=true),
- *     @SWG\Property(name="is_primary", type="integer", required=true),
+ *     @SWG\Property(name="is_primary", type="boolean", required=true),
  *     @SWG\Property(name="other_note", type="string", required=false),
  *     @SWG\Property(name="created_at", type="integer" required=true),
  *     @SWG\Property(name="updated_at", type="integer" required=true),
