@@ -1,11 +1,20 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "branch_of_service" model.
  *
  * @author Dewayne
  *        
+ * @SWG\Model(
+ *     id="branch_of_service",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="name", type="varchar", required=true),
+ *     @SWG\Property(name="created_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  */
 class BranchOfService extends AbstractModel
 {
