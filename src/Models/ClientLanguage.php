@@ -1,11 +1,23 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "client_language" model.
  *
  * @author Dewayne
- *        
+ * 
+ * @SWG\Model(
+ *     id="client_language",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="client_id", type="integer", required=true),
+ *     @SWG\Property(name="language_id", type="integer", required=true),
+ *     @SWG\Property(name="is_primary", type="integer", required=true),
+ *     @SWG\Property(name="other_note", type="string", required=false),
+ *     @SWG\Property(name="created_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_at", type="integer" required=true),
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * ) 
  */
 class ClientLanguage extends AbstractModel
 {
