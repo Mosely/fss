@@ -171,7 +171,7 @@ class CityDataController implements ControllerInterface
         try {
             CityData::validateColumn('city_data', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = CityData::::with(
+            $records = CityData::with(
             [
                 'Address',
                 'School'
