@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -17,7 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/personaddress",
+ *     description="PersonAddress operations",
+ *     produces="['application/json']"
+ * )
  */
 class PersonAddressController implements ControllerInterface
 {
@@ -58,6 +65,24 @@ class PersonAddressController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/personaddress/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a PersonAddress",
+     *         type="PersonAddress",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of PersonAddress to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="PersonAddress not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +101,25 @@ class PersonAddressController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/personaddress",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch PersonAddress",
+     *         type="PersonAddress"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = PersonAddress::all();
+        $records = PersonAddress::with(
+            [
+                'Person',
+                'Address'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All person_address query: ",
             $this->db::getQueryLog());
         // $records = Person_address::all();
@@ -96,6 +135,32 @@ class PersonAddressController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/personaddress/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays PersonAddress that meet the property=value search criteria",
+     *         type="PersonAddress",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="PersonAddress not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -106,7 +171,12 @@ class PersonAddressController implements ControllerInterface
         try {
             PersonAddress::validateColumn('person_address', $filter,
                 $this->container);
-            $records = PersonAddress::where($filter, $value)->limit(200)->get();
+            $records = PersonAddress::with(
+            [
+                'Person',
+                'Address'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("PersonAddress filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -136,6 +206,16 @@ class PersonAddressController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/personaddress",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a PersonAddress.  See PersonAddress model for details.",
+     *         type="PersonAddress",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -170,6 +250,24 @@ class PersonAddressController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/personaddress/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a PersonAddress.  See the PersonAddress model for details.",
+     *         type="PersonAddress",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of PersonAddress to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -207,6 +305,24 @@ class PersonAddressController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/personaddress/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a PersonAddress",
+     *         type="PersonAddress",
+     *         @SFWG\Parameter(
+     *             name="id",
+     *             description="id of PersonAddress to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="PersonAddress not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
