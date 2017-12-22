@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -17,7 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/druguse",
+ *     description="DrugUse operations",
+ *     produces="['application/json']"
+ * )
  */
 class DrugUseController implements ControllerInterface
 {
@@ -58,6 +65,24 @@ class DrugUseController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/druguse/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a DrugUse",
+     *         type="DrugUse",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of DrugUse to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="DrugUse not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +101,24 @@ class DrugUseController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/druguse",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch DrugUse",
+     *         type="DrugUse"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = DrugUse::all();
+        $records = DrugUse::with(
+            [
+                'CounseleeDrugUse'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All DrugUse query: ", $this->db::getQueryLog());
         // $records = Drug_use::all();
         return $response->withJson(
@@ -95,6 +133,32 @@ class DrugUseController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/druguse/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays DrugUse that meet the property=value search criteria",
+     *         type="DrugUse",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="DrugUse not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -105,7 +169,11 @@ class DrugUseController implements ControllerInterface
         try {
             DrugUse::validateColumn('DrugUse', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = DrugUse::where($filter, $value)->limit(200)->get();
+            $records = DrugUse::with(
+            [
+                'CounseleeDrugUse'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("DrugUse filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -135,6 +203,16 @@ class DrugUseController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/druguse",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a DrugUse.  See DrugUse model for details.",
+     *         type="DrugUse",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -169,6 +247,24 @@ class DrugUseController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/druguse/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a DrugUse.  See the DrugUse model for details.",
+     *         type="DrugUse",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of DrugUse to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -206,6 +302,24 @@ class DrugUseController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/druguse/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a DrugUse",
+     *         type="DrugUse",
+     *         @SFWG\Parameter(
+     *             name="id",
+     *             description="id of DrugUse to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="DrugUse not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
