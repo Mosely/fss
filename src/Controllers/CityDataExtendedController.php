@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -18,7 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ *
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/citydataextended",
+ *     description="Extended city data operations",
+ *     produces="['application/json']"
+ * ) 
  */
 class CityDataExtendedController implements ControllerInterface
 {
@@ -59,6 +66,24 @@ class CityDataExtendedController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     * 
+     * @SWG\Api(
+     *     path="/citydataextended/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays an extended city data record",
+     *         type="CityDataExtended",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of extended city data to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="extended city data not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -77,11 +102,25 @@ class CityDataExtendedController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     * 
+     * @SWG\Api(
+     *     path="/citydataextended",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch extended city data",
+     *         type="CityDataExtended"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = CityDataExtended::all();
+        $records = CityDataExtended::with(
+            [
+                'CityData',
+                'StateData'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All city_data_extended query: ",
             $this->db::getQueryLog());
         // $records = City_data_extended::all();
@@ -96,7 +135,33 @@ class CityDataExtendedController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()]
+     * 
+     * @SWG\Api(
+     *     path="/citydataextended/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays extended city data that meet the property=value search criteria",
+     *         type="CityDataExtended",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="extended city data not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -107,7 +172,12 @@ class CityDataExtendedController implements ControllerInterface
         try {
             CityDataExtended::validateColumn('CityDataExtended', $filter,
                 $this->container);
-            $records = CityDataExtended::where($filter, $value)->limit(200)->get();
+            $records = CityDataExtended::with(
+                [
+                    'CityData',
+                    'StateData'
+                ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("CityDataExtended filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -137,6 +207,16 @@ class CityDataExtendedController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     * 
+     * @SWG\Api(
+     *     path="/citydataextended",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates an extended city data record.  See CityDataExtended model for details.",
+     *         type="CityDataExtended",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -171,6 +251,24 @@ class CityDataExtendedController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     * 
+     * @SWG\Api(
+     *     path="/citydataextended/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates an extended city data record.  See the CityDataExtended model for details.",
+     *         type="CityDataExtended",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of extended city data record to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -208,6 +306,24 @@ class CityDataExtendedController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     * 
+     * @SWG\Api(
+     *     path="/citydataextended/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes an extended city data record",
+     *         type="CityDataExtended",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of extended city data record to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="extended city data not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
