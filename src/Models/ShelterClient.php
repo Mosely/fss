@@ -8,7 +8,7 @@ use Swagger\Annotations as SWG;
  * @author Dewayne
  *        
  * @SWG\Model(
- *     id="shelter_client",
+ *     id="ShelterClient",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="used_form_assistance", type="boolean", required=true),
  *     @SWG\Property(name="assistant_name", type="string", required=false),
@@ -17,8 +17,8 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="is_urban", type="boolean", required=false),
  *     @SWG\Property(name="has_tanf_form_", type="boolean", required=false), 
  *     @SWG\Property(name="advocate_user_id", type="integer", required=false),
- *     @SWG\Property(name="enter_date", type="date", required=false),
- *     @SWG\Property(name="exit_date", type="date", required=false), 
+ *     @SWG\Property(name="enter_date", type="string", required=false),
+ *     @SWG\Property(name="exit_date", type="string", required=false), 
  *     @SWG\Property(name="notes", type="string", required=false),
  *     @SWG\Property(name="created_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_at", type="integer", required=true), 

@@ -13,7 +13,7 @@ use Swagger\Annotations as SWG;
  * @author Dewayne
  *        
  * @SWG\Model(
- *     id="user",
+ *     id="User",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="username", type="string", required=true),
  *     @SWG\Property(name="email", type="string", required=true),

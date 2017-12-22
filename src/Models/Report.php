@@ -10,10 +10,10 @@ use Swagger\Annotations as SWG;
  * @author Dewayne
  *        
  * @SWG\Model(
- *     id="report",
+ *     id="Report",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="name", type="string", required=true),
- *     @SWG\Property(name="type", type="enum", required=true),
+ *     @SWG\Property(name="type", type="string", required=true),
  *     @SWG\Property(name="created_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)

@@ -1,14 +1,14 @@
 <?php
 namespace FSS\Models;
 
-use Swagger\Annotation as SWG;
+use Swagger\Annotations as SWG;
 /**
  * The "identity_preference" model.
  *
  * @author Dewayne
  *        
  * @SWG\Model(
- *     id="identity_preference",
+ *     id="IdentityPreference",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="name", type="string", required=true),
  *     @SWG\Property(name="description", type="string", required=false),

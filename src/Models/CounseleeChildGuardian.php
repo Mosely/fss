@@ -8,14 +8,14 @@ use Swagger\Annotations as SWG;
  * @author Dewayne
  *   
  * @SWG\Model(
- *     id="counselee_child_guardian",
+ *     id="CounseleeChildGuardian",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="counselee_child_id", type="integer", required=true),
  *     @SWG\Property(name="name", type="string", required=true),
  *     @SWG\Property(name="age", type="integer", required=true),
  *     @SWG\Property(name="occupation", type="string", required=true),
  *     @SWG\Property(name="is_currently_living_with_child", type="boolean", required=true),
- *     @SWG\Property(name="date_first_lived_with_child", type="date", required=true),
+ *     @SWG\Property(name="date_first_lived_with_child", type="string", required=true),
  *     @SWG\Property(name="created_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_at", type="integer", required=true), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)

@@ -8,7 +8,7 @@ use Swagger\Annotations as SWG;
  * @author Dewayne
  *        
  * @SWG\Model(
- *     id="shelter_client_funding_source",
+ *     id="ShelterClientFundingSource",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="shelter_client_id", type="integer", required=true),
  *     @SWG\Property(name="funding_source_id", type="integer", required=true),

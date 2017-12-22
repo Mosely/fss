@@ -8,12 +8,12 @@ use Swagger\Annotations as SWG;
  * @author Dewayne
  *        
  * @SWG\Model(
- *     id="person",
+ *     id="Person",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="first_name", type="string", required=true),
  *     @SWG\Property(name="last_name", type="string", required=true),
  *     @SWG\Property(name="middle_name", type="string", required=false),
- *     @SWG\Property(name="date_of_birth", type="date", required=true),
+ *     @SWG\Property(name="date_of_birth", type="string", required=true),
  *     @SWG\Property(name="age", type="integer", required=false),
  *     @SWG\Property(name="gender_id", type="integer", required=true), 
  *     @SWG\Property(name="created_at", type="integer", required=true), 

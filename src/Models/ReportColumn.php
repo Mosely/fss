@@ -1,14 +1,14 @@
 <?php
 namespace FSS\Models;
 
-use Swagger\Annotation as SWG;
+use Swagger\Annotations as SWG;
 /**
  * The "report column" model.
  *
  * @author Dewayne
  *        
  * @SWG\Model(
- *     id="report_column",
+ *     id="ReportColumn",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="report_id", type="integer", required=true),
  *     @SWG\Property(name="header", type="string", required=true),

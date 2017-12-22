@@ -8,10 +8,10 @@ use Swagger\Annotations as SWG;
  * @author Dewayne
  *        
  * @SWG\Model(
- *     id="counselee_child_sibling",
+ *     id="CounseleeChildSibling",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="counselee_child_id", type="integer", required=true),
- *     @SWG\Property(name="type", type="enum", required=true),
+ *     @SWG\Property(name="type", type="string", required=true),
  *     @SWG\Property(name="gender_id", type="integer", required=true),
  *     @SWG\Property(name="age", type="integer", required=true),
  *     @SWG\Property(name="relationship_desc", type="string", required=true),

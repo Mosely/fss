@@ -8,13 +8,13 @@ use Swagger\Annotations as SWG;
  * @author Dewayne
  *
  * @SWG\Model(
- *     id="city_data_extended",
+ *     id="CityDataExtended",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="city", type="string", required=true),
  *     @SWG\Property(name="state_code", type="string", required=true),
  *     @SWG\Property(name="zip", type="integer", required=true),
- *     @SWG\Property(name="latitude", type="double", required=true),
- *     @SWG\Property(name="longitude", type="double", required=true),
+ *     @SWG\Property(name="latitude", type="number", required=true),
+ *     @SWG\Property(name="longitude", type="number", required=true),
  *     @SWG\Property(name="county", type="string", required=true),
  *     @SWG\Property(name="created_at", type="integer" required=true),
  *     @SWG\Property(name="updated_at", type="integer" required=true),
