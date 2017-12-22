@@ -120,8 +120,7 @@ class PersonController implements ControllerInterface
                 'Client',
                 'Gender',
                 'PersonAddress',
-                'PersonPhone',
-                'Veteran'
+                'PersonPhone'
             ])->limit(200)->get();
         $this->logger->debug("All persons query: ", $this->db::getQueryLog());
         // $records = Person::all();
