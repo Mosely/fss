@@ -16,8 +16,8 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="latitude", type="number", required=true),
  *     @SWG\Property(name="longitude", type="number", required=true),
  *     @SWG\Property(name="county", type="string", required=true),
- *     @SWG\Property(name="created_at", type="integer" required=true),
- *     @SWG\Property(name="updated_at", type="integer" required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true),
+ *     @SWG\Property(name="updated_at", type="integer", required=true),
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */

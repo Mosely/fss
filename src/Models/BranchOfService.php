@@ -11,8 +11,8 @@ use Swagger\Annotations as SWG;
  *     id="BranchOfService",
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="name", type="string", required=true),
- *     @SWG\Property(name="created_at", type="integer" required=true),
- *     @SWG\Property(name="updated_at", type="integer" required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true),
+ *     @SWG\Property(name="updated_at", type="integer", required=true),
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */

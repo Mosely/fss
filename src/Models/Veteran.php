@@ -20,8 +20,8 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="is_on_disability", type="boolean", required=true),
  *     @SWG\Property(name="is_homeless", type="boolean", required=true),
  *     @SWG\Property(name="household_income", type="integer", required=true),
- *     @SWG\Property(name="created_at", type="integer" required=true),
- *     @SWG\Property(name="updated_at", type="integer" required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true),
+ *     @SWG\Property(name="updated_at", type="integer", required=true),
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */

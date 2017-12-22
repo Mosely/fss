@@ -19,8 +19,8 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="state_data_id", type="integer", required=true),
  *     @SWG\Property(name="county_data_id", type="integer", required=false),
  *     @SWG\Property(name="apartment_number", type="integer", required=false),
- *     @SWG\Property(name="created_at", type="integer" required=true),
- *     @SWG\Property(name="updated_at", type="integer" required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true),
+ *     @SWG\Property(name="updated_at", type="integer", required=true),
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */

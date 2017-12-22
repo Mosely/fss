@@ -20,8 +20,8 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="black_out_location", type="string", required=false),
  *     @SWG\Property(name="black_out_date", type="boolean", required=true),
  *     @SWG\Property(name="family_drug_alcohol_problem", type="string", required=true),
- *     @SWG\Property(name="famil_drug_problem_other_detail", type="string" required=false),
- *     @SWG\Property(name="current_harm_self", type="boolean" required=true),
+ *     @SWG\Property(name="famil_drug_problem_other_detail", type="string", required=false),
+ *     @SWG\Property(name="current_harm_self", type="boolean", required=true),
  *     @SWG\Property(name="past_harm_self", type="boolean", required=true),
  *     @SWG\Property(name="current_harm_others", type="boolean", required=true),
  *     @SWG\Property(name="past_harm_others", type="boolean", required=true),
@@ -31,8 +31,11 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="had_previous_counseling", type="boolean", required=true),
  *     @SWG\Property(name="previous_counseling_where", type="integer", required=true),
  *     @SWG\Property(name="previous_counseling_when", type="string", required=true),
- *     @SWG\Property(name="currently_in_counseling", type="boolean" required=true),
- *     @SWG\Property(name="current_counselor", type="string", required=true)
+ *     @SWG\Property(name="currently_in_counseling", type="boolean", required=true),
+ *     @SWG\Property(name="current_counselor", type="string", required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true),
+ *     @SWG\Property(name="updated_at", type="integer", required=true),
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
 class Counselee extends AbstractModel
