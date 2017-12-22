@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use \Exception;
+use Swagger\Annotations as SWG;
 
 /**
  * The controller for
@@ -18,7 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/shelterclientidentitypreference",
+ *     description="ShelterClientIdentityPreference operations",
+ *     produces="['application/json']"
+ * )
  */
 class ShelterClientIdentityPreferenceController implements ControllerInterface
 {
@@ -59,6 +66,24 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientidentitypreference/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a ShelterClientIdentityPreference",
+     *         type="ShelterClientIdentityPreference",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientIdentityPreference to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientIdentityPreference not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -77,11 +102,25 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientidentitypreference",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch ShelterClientIdentityPreference",
+     *         type="ShelterClientIdentityPreference"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = ShelterClientIdentityPreference::all();
+        $records = ShelterClientIdentityPreference::with(
+            [
+                'ShelterClient',
+                'IdentityPreference'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All ShelterClientIdentityPreference query: ",
             $this->db::getQueryLog());
         // $records = ShelterClientIdentityPreference::all();
@@ -97,6 +136,32 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientidentitypreference/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays ShelterClientIdentityPreference that meet the property=value search criteria",
+     *         type="ShelterClientIdentityPreference",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientIdentityPreference not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -108,7 +173,12 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
             ShelterClientIdentityPreference::validateColumn(
                 'ShelterClientIdentityPreference', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = ShelterClientIdentityPreference::where($filter, $value)->limit(200)->get();
+            $records = ShelterClientIdentityPreference::with(
+            [
+                'ShelterClient',
+                'IdentityPreference'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug(
                 "ShelterClientIdentityPreference filter query: ",
                 $this->db::getQueryLog());
@@ -139,6 +209,16 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientidentitypreference",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a ShelterClientIdentityPreference.  See ShelterClientIdentityPreference model for details.",
+     *         type="ShelterClientIdentityPreference",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -176,6 +256,24 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientidentitypreference/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a ShelterClientIdentityPreference.  See the ShelterClientIdentityPreference model for details.",
+     *         type="ShelterClientIdentityPreference",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientIdentityPreference to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -215,6 +313,24 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientidentitypreference/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a ShelterClientIdentityPreference",
+     *         type="ShelterClientIdentityPreference",
+     *         @SFWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientIdentityPreference to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientIdentityPreference not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
