@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -17,7 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/personphone",
+ *     description="PersonPhone operations",
+ *     produces="['application/json']"
+ * )
  */
 class PersonPhoneController implements ControllerInterface
 {
@@ -58,6 +65,24 @@ class PersonPhoneController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/personphone/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a PersonPhone",
+     *         type="PersonPhone",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of PersonPhone to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="PersonPhone not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +101,25 @@ class PersonPhoneController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/personphone",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch PersonPhone",
+     *         type="PersonPhone"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = PersonPhone::all();
+        $records = PersonPhone::with(
+            [
+                'Person',
+                'Phone'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All PersonPhone query: ", $this->db::getQueryLog());
         // $records = Person_phone::all();
         return $response->withJson(
@@ -95,6 +134,32 @@ class PersonPhoneController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/personphone/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays PersonPhone that meet the property=value search criteria",
+     *         type="PersonPhone",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="PersonPhone not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -105,7 +170,12 @@ class PersonPhoneController implements ControllerInterface
         try {
             PersonPhone::validateColumn('PersonPhone', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = PersonPhone::where($filter, $value)->limit(200)->get();
+            $records = PersonPhone::with(
+                [
+                    'Person',
+                    'Phone'
+                ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("PersonPhone filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -135,6 +205,16 @@ class PersonPhoneController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/personphone",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a PersonPhone.  See PersonPhone model for details.",
+     *         type="PersonPhone",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -169,6 +249,24 @@ class PersonPhoneController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/personphone/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a PersonPhone.  See the PersonPhone model for details.",
+     *         type="PersonPhone",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of PersonPhone to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -206,6 +304,24 @@ class PersonPhoneController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/personphone/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a PersonPhone",
+     *         type="PersonPhone",
+     *         @SFWG\Parameter(
+     *             name="id",
+     *             description="id of PersonPhone to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="PersonPhone not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
