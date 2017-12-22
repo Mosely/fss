@@ -117,7 +117,6 @@ class CityDataController implements ControllerInterface
         $records = CityData::with(
             [
                 'Address',
-                'CityDataExtended',
                 'School'
             ]
             )->limit(200)->get();
@@ -174,7 +173,6 @@ class CityDataController implements ControllerInterface
             $records = CityData::::with(
             [
                 'Address',
-                'CityDataExtended',
                 'School'
             ]
             )->where($filter, $value)->limit(200)->get();
