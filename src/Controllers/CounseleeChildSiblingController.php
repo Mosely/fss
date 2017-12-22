@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -18,7 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ *
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/counseleechildsibling",
+ *     description="CounseleeChildSibling operations",
+ *     produces="['application/json']"
+ * )
  */
 class CounseleeChildSiblingController implements ControllerInterface
 {
@@ -59,6 +66,23 @@ class CounseleeChildSiblingController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     * @SWG\Api(
+     *     path="/counseleechildsibling/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a CounseleeChildSibling",
+     *         type="CounseleeChildSibling",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeChildSibling to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeChildSibling not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +100,25 @@ class CounseleeChildSiblingController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildsibling",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch CounseleeChildSibling",
+     *         type="CounseleeChildSibling"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = CounseleeChildSibling::all();
+        $records = CounseleeChildSibling::with(
+            [
+                'CounseleeChild',
+                'Gender'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All CounseleeChildSibling query: ",
             $this->db::getQueryLog());
         // $records = CounseleeChildSibling::all();
@@ -96,6 +134,32 @@ class CounseleeChildSiblingController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildsibling/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays CounseleeChildSibling that meet the property=value search criteria",
+     *         type="CounseleeChildSibling",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeChildSibling not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -106,7 +170,12 @@ class CounseleeChildSiblingController implements ControllerInterface
         try {
             CounseleeChildSibling::validateColumn('CounseleeChildSibling',
                 $filter, $this->container);
-            $records = CounseleeChildSibling::where($filter, $value)->limit(200)->get();
+            $records = CounseleeChildSibling::with(
+            [
+                'CounseleeChild',
+                'Gender'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("CounseleeChildSibling filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -136,6 +205,16 @@ class CounseleeChildSiblingController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildsibling",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a CounseleeChildSibling.  See CounseleeChildSibling model for details.",
+     *         type="CounseleeChildSibling",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -170,6 +249,24 @@ class CounseleeChildSiblingController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildsibling/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a CounseleeChildSibling.  See the CounseleeChildSibling model for details.",
+     *         type="CounseleeChildSibling",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeChildSibling to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -207,6 +304,24 @@ class CounseleeChildSiblingController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildsibling/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a CounseleeChildSibling",
+     *         type="CounseleeChildSibling",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeChildSibling to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeChildSibling not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
