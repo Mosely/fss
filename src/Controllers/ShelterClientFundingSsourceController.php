@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use \Exception;
+use Swagger\Annotations as SWG;
 
 /**
  * The controller for
@@ -18,7 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/shelterclientfundingsource",
+ *     description="ShelterClientFundingSource operations",
+ *     produces="['application/json']"
+ * )
  */
 class ShelterClientFundingSourceController implements ControllerInterface
 {
@@ -59,6 +66,24 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsource/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a ShelterClientFundingSource",
+     *         type="ShelterClientFundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientFundingSource to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientFundingSource not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -77,11 +102,25 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsource",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch ShelterClientFundingSource",
+     *         type="ShelterClientFundingSource"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = ShelterClientFundingSource::all();
+        $records = ShelterClientFundingSource::with(
+            [
+                'ShelterClient',
+                'FundingSource'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All ShelterClientFundingSource query: ",
             $this->db::getQueryLog());
         // $records = Shelter_client_funding_source::all();
@@ -97,6 +136,32 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsource/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays ShelterClientFundingSource that meet the property=value search criteria",
+     *         type="ShelterClientFundingSource",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientFundingSource not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -108,7 +173,12 @@ class ShelterClientFundingSourceController implements ControllerInterface
             ShelterClientFundingSource::validateColumn(
                 'ShelterClientFundingSource', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = ShelterClientFundingSource::where($filter, $value)->limit(200)->get();
+            $records = ShelterClientFundingSource::with(
+            [
+                'ShelterClient',
+                'FundingSource'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("ShelterClientFundingSource filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -138,6 +208,16 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsource",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a ShelterClientFundingSource.  See ShelterClientFundingSource model for details.",
+     *         type="ShelterClientFundingSource",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -173,6 +253,24 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsource/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a ShelterClientFundingSource.  See the ShelterClientFundingSource model for details.",
+     *         type="ShelterClientFundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientFundingSource to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -211,6 +309,24 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsource/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a ShelterClientFundingSource",
+     *         type="ShelterClientFundingSource",
+     *         @SFWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientFundingSource to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientFundingSource not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
