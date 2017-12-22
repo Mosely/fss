@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -17,7 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/role",
+ *     description="Role operations",
+ *     produces="['application/json']"
+ * )
  */
 class RoleController implements ControllerInterface
 {
@@ -57,6 +64,24 @@ class RoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/role/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a Role",
+     *         type="Role",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of Role to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="Role not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -75,11 +100,24 @@ class RoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/role",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch Role",
+     *         type="Role"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = Role::all();
+        $records = Role::with(
+            [
+                'UserRole
+'            ]
+            )->limit(200)->get();
         $this->logger->debug("All roles query: ", $this->db::getQueryLog());
         // $records = Role::all();
         return $response->withJson(
@@ -94,6 +132,32 @@ class RoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/role/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays Role that meet the property=value search criteria",
+     *         type="Role",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="Role not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -104,7 +168,11 @@ class RoleController implements ControllerInterface
         try {
             Role::validateColumn('role', $filter, $this->logger, $this->cache,
                 $this->db);
-            $records = Role::where($filter, $value)->limit(200)->get();
+            $records = Role::with(
+                [
+                    'UserRole
+'               ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("Role filter query: ", $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
@@ -133,6 +201,16 @@ class RoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/role",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a Role.  See Role model for details.",
+     *         type="Role",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -166,6 +244,24 @@ class RoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/role/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a Role.  See the Role model for details.",
+     *         type="Role",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of Role to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -202,6 +298,24 @@ class RoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/role/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a Role",
+     *         type="Role",
+     *         @SFWG\Parameter(
+     *             name="id",
+     *             description="id of Role to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="Role not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
