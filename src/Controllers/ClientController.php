@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -17,7 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ *
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/clients",
+ *     description="Client operations",
+ *     produces="['application/json']"
+ * )   
  */
 class ClientController implements ControllerInterface
 {
@@ -58,6 +65,24 @@ class ClientController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     * 
+     * @SWG\Api(
+     *     path="/clients/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a client",
+     *         type="Client",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of client to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="client not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -75,12 +100,27 @@ class ClientController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     * 
+     * @SWG\Api(
+     *     path="/clients",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch clients",
+     *         type="Client"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
         // $records = Client::all();
-        $records = Client::with('person')->limit(200)->get();
+        $records = Client::with(
+            [
+                'Person',
+                'ClientEthnicity',
+                'ClientLanguage'
+            ]
+        )->limit(200)->get();
         $this->logger->debug("All clients query: ", $this->db::getQueryLog());
         // $records = Client::all();
         return $response->withJson(
@@ -95,6 +135,32 @@ class ClientController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     * 
+     * @SWG\Api(
+     *     path="/clients/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays clients that meet the property=value search criteria",
+     *         type="Client",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="client not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -105,7 +171,13 @@ class ClientController implements ControllerInterface
         try {
             Client::validateColumn('client', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = Client::with('person')->where($filter, $value)->limit(200)->get();
+            $records = Client::with(
+                [
+                    'Person',
+                    'ClientEthnicity',
+                    'ClientLanguage'
+                ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("Client filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -135,6 +207,16 @@ class ClientController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     * 
+     * @SWG\Api(
+     *     path="/clients",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a client.  See Client model for details.",
+     *         type="Client",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -169,6 +251,24 @@ class ClientController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     * 
+     * @SWG\Api(
+     *     path="/clients/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a client.  See the Client model for details.",
+     *         type="Client",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of client to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -206,6 +306,24 @@ class ClientController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     * 
+     * @SWG\Api(
+     *     path="/clients/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a client",
+     *         type="Client",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of client to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="client not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
