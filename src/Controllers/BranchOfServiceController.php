@@ -14,7 +14,13 @@ use \Exception;
  * the branch_of_service model.
  *
  * @author Dewayne
- *        
+ *
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/branchofservice",
+ *     description="Branch Of Service operations",
+ *     produces="['application/json']"
+ * )  
  */
 class BranchOfServiceController implements ControllerInterface
 {
@@ -56,6 +62,24 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/branchofservice/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a branch of service",
+     *         type="BranchOfService",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of branch of service to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="branch of service not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -70,11 +94,24 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/branchofservice",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch branches of service",
+     *         type="BranchOfService"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = BranchOfService::all();
+        $records = BranchOfService::with(
+            [
+                'Veteran'
+            ]
+            )->limit(200)->get();
         return $response->withJson(
             [
                 "success" => true,
@@ -87,6 +124,32 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/branchofservice/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays branches of service that meet the property=value search criteria",
+     *         type="BranchOfService",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="branch of service not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -97,7 +160,11 @@ class BranchOfServiceController implements ControllerInterface
         try {
             BranchOfService::validateColumn('branch_of_service', $filter,
                 $this->container);
-            $records = BranchOfService::where($filter, $value)->limit(200)->get();
+            $records = BranchOfService::with(
+                [
+                    'Veteran'
+                ]
+            )->where($filter, $value)->limit(200)->get();
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -125,6 +192,16 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     * 
+     * @SWG\Api(
+     *     path="/branchofservice",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a branch of service.  See BranchOfService model for details.",
+     *         type="BranchOfService",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -157,6 +234,24 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     * 
+     * @SWG\Api(
+     *     path="/branchofservice/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a branch of service.  See the BranchOfService model for details.",
+     *         type="BranchOfService",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of branch of service to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -193,6 +288,24 @@ class BranchOfServiceController implements ControllerInterface
      * 
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     * 
+     * @SWG\Api(
+     *     path="/branchofservice/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a branch of service",
+     *         type="BranchOfService",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of branch of service to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="branch of service not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
