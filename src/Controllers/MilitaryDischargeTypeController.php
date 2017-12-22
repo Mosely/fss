@@ -22,7 +22,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/militarydischargetype",
+ *     resourcePath="/militarydischargetypes",
  *     description="MilitaryDischargeType operations",
  *     produces="['application/json']"
  * )
@@ -68,7 +68,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/militarydischargetype/{id}",
+     *     path="/militarydischargetypes/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a MilitaryDischargeType",
@@ -103,7 +103,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/militarydischargetype",
+     *     path="/militarydischargetypes",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch MilitaryDischargeType",
@@ -136,7 +136,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/militarydischargetype/{filter}/{value}",
+     *     path="/militarydischargetypes/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays MilitaryDischargeType that meet the property=value search criteria",
@@ -206,7 +206,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/militarydischargetype",
+     *     path="/militarydischargetypes",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a MilitaryDischargeType.  See MilitaryDischargeType model for details.",
@@ -250,7 +250,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/militarydischargetype/{id}",
+     *     path="/militarydischargetypes/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a MilitaryDischargeType.  See the MilitaryDischargeType model for details.",
@@ -305,7 +305,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/militarydischargetype/{id}",
+     *     path="/militarydischargetypes/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a MilitaryDischargeType",

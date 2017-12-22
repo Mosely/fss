@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/counseleedruguse",
+ *     resourcePath="/counseleedruguses",
  *     description="CounseleeDrugUse operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class CounseleeDrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/counseleedruguse/{id}",
+     *     path="/counseleedruguses/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a CounseleeDrugUse",
@@ -103,7 +103,7 @@ class CounseleeDrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/counseleedruguse",
+     *     path="/counseleedruguses",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch CounseleeDrugUse",
@@ -137,7 +137,7 @@ class CounseleeDrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/counseleedruguse/{filter}/{value}",
+     *     path="/counseleedruguses/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays CounseleeDrugUse that meet the property=value search criteria",
@@ -208,7 +208,7 @@ class CounseleeDrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/counseleedruguse",
+     *     path="/counseleedruguses",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a CounseleeDrugUse.  See CounseleeDrugUse model for details.",
@@ -252,7 +252,7 @@ class CounseleeDrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/counseleedruguse/{id}",
+     *     path="/counseleedruguses/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a CounseleeDrugUse.  See the CounseleeDrugUse model for details.",
@@ -307,7 +307,7 @@ class CounseleeDrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/counseleedruguse/{id}",
+     *     path="/counseleedruguses/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a CounseleeDrugUse",

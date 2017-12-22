@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/medication",
+ *     resourcePath="/medications",
  *     description="Medication operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class MedicationController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/medication/{id}",
+     *     path="/medications/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a Medication",
@@ -103,7 +103,7 @@ class MedicationController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/medication",
+     *     path="/medications",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch Medication",
@@ -135,7 +135,7 @@ class MedicationController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/medication/{filter}/{value}",
+     *     path="/medications/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays Medication that meet the property=value search criteria",
@@ -205,7 +205,7 @@ class MedicationController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/medication",
+     *     path="/medications",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a Medication.  See Medication model for details.",
@@ -249,7 +249,7 @@ class MedicationController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/medication/{id}",
+     *     path="/medications/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a Medication.  See the Medication model for details.",
@@ -304,7 +304,7 @@ class MedicationController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/medication/{id}",
+     *     path="/medications/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a Medication",

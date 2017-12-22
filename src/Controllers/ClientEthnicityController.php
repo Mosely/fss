@@ -21,7 +21,7 @@ use \Exception;
  * 
   * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/clientethnicity",
+ *     resourcePath="/clientethnicities",
  *     description="ClientEthnicity operations",
  *     produces="['application/json']"
  * )  
@@ -67,7 +67,7 @@ class ClientEthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      * 
      * @SWG\Api(
-     *     path="/clientethnicity/{id}",
+     *     path="/clientethnicities/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a client ethnicity",
@@ -103,7 +103,7 @@ class ClientEthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      * 
      * @SWG\Api(
-     *     path="/clientethnicity",
+     *     path="/clientethnicities",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch client ethnicities",
@@ -138,7 +138,7 @@ class ClientEthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      * 
      * @SWG\Api(
-     *     path="/clientethnicity/{filter}/{value}",
+     *     path="/clientethnicities/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays client ethnicity that meet the property=value search criteria",
@@ -210,7 +210,7 @@ class ClientEthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      * 
      * @SWG\Api(
-     *     path="/clientethnicity",
+     *     path="/clientethnicities",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a client ethnicity record.  See ClientEthnicity model for details.",
@@ -254,7 +254,7 @@ class ClientEthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      * 
      * @SWG\Api(
-     *     path="/clientethnicity/{id}",
+     *     path="/clientethnicities/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a client ethnicity record.  See the ClientEthnicity model for details.",
@@ -309,7 +309,7 @@ class ClientEthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      * 
      * @SWG\Api(
-     *     path="/clientethnicity/{id}",
+     *     path="/clientethnicities/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a client ethnicity",

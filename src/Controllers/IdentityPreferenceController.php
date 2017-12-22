@@ -22,7 +22,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/identitypreference",
+ *     resourcePath="/identitypreferences",
  *     description="IdentityPreference operations",
  *     produces="['application/json']"
  * )
@@ -68,7 +68,7 @@ class IdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/identitypreference/{id}",
+     *     path="/identitypreferences/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a IdentityPreference",
@@ -103,7 +103,7 @@ class IdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/identitypreference",
+     *     path="/identitypreferences",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch IdentityPreference",
@@ -136,7 +136,7 @@ class IdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/identitypreference/{filter}/{value}",
+     *     path="/identitypreferences/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays IdentityPreference that meet the property=value search criteria",
@@ -206,7 +206,7 @@ class IdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/identitypreference",
+     *     path="/identitypreferences",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a IdentityPreference.  See IdentityPreference model for details.",
@@ -250,7 +250,7 @@ class IdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/identitypreference/{id}",
+     *     path="/identitypreferences/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a IdentityPreference.  See the IdentityPreference model for details.",
@@ -305,7 +305,7 @@ class IdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/identitypreference/{id}",
+     *     path="/identitypreferences/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a IdentityPreference",

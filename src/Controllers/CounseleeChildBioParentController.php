@@ -22,7 +22,7 @@ use \Exception;
  *
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/counseleechildbioparent",
+ *     resourcePath="/counseleechildbioparents",
  *     description="Counselee Child Bio Parent operations",
  *     produces="['application/json']"
  * )
@@ -68,7 +68,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/counseleechildbioparent/{id}",
+     *     path="/counseleechildbioparents/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a counselee child bio parent record",
@@ -103,7 +103,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/counseleechildbioparent",
+     *     path="/counseleechildbioparents",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch counselee child bio parents",
@@ -136,7 +136,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/counseleechildbioparent/{filter}/{value}",
+     *     path="/counseleechildbioparents/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays counselee child bio parents that meet the property=value search criteria",
@@ -206,7 +206,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/counseleechildbioparent",
+     *     path="/counseleechildbioparents",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a counselee child bio parent record.  See CounseleeChildBioParent model for details.",
@@ -251,7 +251,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/counseleechildbioparent/{id}",
+     *     path="/counseleechildbioparents/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a counselee child bio parent record.  See the CounseleeChldBioParent model for details.",
@@ -307,7 +307,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/counseleechildbioparent/{id}",
+     *     path="/counseleechildbioparents/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a counselee child bio parent record",

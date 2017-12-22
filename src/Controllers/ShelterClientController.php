@@ -21,7 +21,7 @@ use Swagger\Annotations as SWG;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/shelterclient",
+ *     resourcePath="/shelterclients",
  *     description="ShelterClient operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class ShelterClientController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/shelterclient/{id}",
+     *     path="/shelterclients/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a ShelterClient",
@@ -103,7 +103,7 @@ class ShelterClientController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/shelterclient",
+     *     path="/shelterclients",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch ShelterClient",
@@ -140,7 +140,7 @@ class ShelterClientController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/shelterclient/{filter}/{value}",
+     *     path="/shelterclients/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays ShelterClient that meet the property=value search criteria",
@@ -206,7 +206,7 @@ class ShelterClientController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/shelterclient",
+     *     path="/shelterclients",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a ShelterClient.  See ShelterClient model for details.",
@@ -250,7 +250,7 @@ class ShelterClientController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/shelterclient/{id}",
+     *     path="/shelterclients/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a ShelterClient.  See the ShelterClient model for details.",
@@ -305,7 +305,7 @@ class ShelterClientController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/shelterclient/{id}",
+     *     path="/shelterclients/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a ShelterClient",

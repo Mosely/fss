@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/phone",
+ *     resourcePath="/phones",
  *     description="Phone operations",
  *     produces="['application/json']"
  * )
@@ -66,7 +66,7 @@ class PhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/phone/{id}",
+     *     path="/phones/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a Phone",
@@ -102,7 +102,7 @@ class PhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/phone",
+     *     path="/phones",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch Phone",
@@ -134,7 +134,7 @@ class PhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/phone/{filter}/{value}",
+     *     path="/phones/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays Phone that meet the property=value search criteria",
@@ -204,7 +204,7 @@ class PhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/phone",
+     *     path="/phones",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a Phone.  See Phone model for details.",
@@ -248,7 +248,7 @@ class PhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/phone/{id}",
+     *     path="/phones/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a Phone.  See the Phone model for details.",
@@ -303,7 +303,7 @@ class PhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/phone/{id}",
+     *     path="/phones/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a Phone",

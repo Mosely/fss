@@ -22,7 +22,7 @@ use \Exception;
  *
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/counseleechildguardian",
+ *     resourcePath="/counseleechildguardians",
  *     description="CounseleeChildGuardian operations",
  *     produces="['application/json']"
  * )
@@ -68,7 +68,7 @@ class CounseleeChildGuardianController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/counseleechildguardian/{id}",
+     *     path="/counseleechildguardians/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a CounseleeChildGuardian",
@@ -103,7 +103,7 @@ class CounseleeChildGuardianController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/counseleechildguardian",
+     *     path="/counseleechildguardians",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch counseleechildguardian",
@@ -136,7 +136,7 @@ class CounseleeChildGuardianController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/counseleechildguardian/{filter}/{value}",
+     *     path="/counseleechildguardians/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays counseleechildguardian that meet the property=value search criteria",
@@ -206,7 +206,7 @@ class CounseleeChildGuardianController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/counseleechildguardian",
+     *     path="/counseleechildguardians",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a CounseleeChildGuardian.  See CounseleeChildGuardian model for details.",
@@ -250,7 +250,7 @@ class CounseleeChildGuardianController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/counseleechildguardian/{id}",
+     *     path="/counseleechildguardians/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a CounseleeChildGuardian.  See the CounseleeChildGuardian model for details.",
@@ -305,7 +305,7 @@ class CounseleeChildGuardianController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/counseleechildguardian/{id}",
+     *     path="/counseleechildguardians/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a CounseleeChildGuardian",

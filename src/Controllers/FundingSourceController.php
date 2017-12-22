@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/fundingsource",
+ *     resourcePath="/fundingsources",
  *     description="FundingSource operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class FundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/fundingsource/{id}",
+     *     path="/fundingsources/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a FundingSource",
@@ -103,7 +103,7 @@ class FundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/fundingsource",
+     *     path="/fundingsources",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch FundingSource",
@@ -135,7 +135,7 @@ class FundingSourceController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      * @SWG\Api(
-     *     path="/fundingsource/{filter}/{value}",
+     *     path="/fundingsources/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays FundingSource that meet the property=value search criteria",
@@ -205,7 +205,7 @@ class FundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/fundingsource",
+     *     path="/fundingsources",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a FundingSource.  See FundingSource model for details.",
@@ -249,7 +249,7 @@ class FundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/fundingsource/{id}",
+     *     path="/fundingsources/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a FundingSource.  See the FundingSource model for details.",
@@ -304,7 +304,7 @@ class FundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/fundingsource/{id}",
+     *     path="/fundingsources/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a FundingSource",

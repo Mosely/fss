@@ -19,7 +19,7 @@ use \Exception;
  *
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/address",
+ *     resourcePath="/addresses",
  *     description="Address operations",
  *     produces="['application/json']"
  * )  
@@ -65,7 +65,7 @@ class AddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      * 
      * @SWG\Api(
-     *     path="/address/{id}",
+     *     path="/addresses/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays an address",
@@ -101,7 +101,7 @@ class AddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/address",
+     *     path="/addresses",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch addresses",
@@ -134,7 +134,7 @@ class AddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      * 
      * @SWG\Api(
-     *     path="/address/{filter}/{value}",
+     *     path="/addresses/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays addresses that meet the property=value search criteria",
@@ -205,7 +205,7 @@ class AddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      * 
      * @SWG\Api(
-     *     path="/address",
+     *     path="/addresses",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates an address.  See Address model for details.",
@@ -249,7 +249,7 @@ class AddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      * 
      * @SWG\Api(
-     *     path="/address/{id}",
+     *     path="/addresses/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates an address.  See the Address model for details.",
@@ -304,7 +304,7 @@ class AddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      * 
      * @SWG\Api(
-     *     path="/address/{id}",
+     *     path="/addresses/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes an address",

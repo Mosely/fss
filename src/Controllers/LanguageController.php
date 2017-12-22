@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/language",
+ *     resourcePath="/languages",
  *     description="Language operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class LanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/language/{id}",
+     *     path="/languages/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a Language",
@@ -103,7 +103,7 @@ class LanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/language",
+     *     path="/languages",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch Language",
@@ -135,7 +135,7 @@ class LanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/language/{filter}/{value}",
+     *     path="/languages/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays Language that meet the property=value search criteria",
@@ -205,7 +205,7 @@ class LanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/language",
+     *     path="/languages",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a Language.  See Language model for details.",
@@ -249,7 +249,7 @@ class LanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/language/{id}",
+     *     path="/languages/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a Language.  See the Language model for details.",
@@ -304,7 +304,7 @@ class LanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/language/{id}",
+     *     path="/languages/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a Language",

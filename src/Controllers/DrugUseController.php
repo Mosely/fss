@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/druguse",
+ *     resourcePath="/druguses",
  *     description="DrugUse operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class DrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/druguse/{id}",
+     *     path="/druguses/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a DrugUse",
@@ -103,7 +103,7 @@ class DrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/druguse",
+     *     path="/druguses",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch DrugUse",
@@ -135,7 +135,7 @@ class DrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/druguse/{filter}/{value}",
+     *     path="/druguses/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays DrugUse that meet the property=value search criteria",
@@ -205,7 +205,7 @@ class DrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/druguse",
+     *     path="/druguses",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a DrugUse.  See DrugUse model for details.",
@@ -249,7 +249,7 @@ class DrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/druguse/{id}",
+     *     path="/druguses/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a DrugUse.  See the DrugUse model for details.",
@@ -304,7 +304,7 @@ class DrugUseController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/druguse/{id}",
+     *     path="/druguses/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a DrugUse",

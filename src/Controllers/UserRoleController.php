@@ -21,7 +21,7 @@ use Swagger\Annotations as SWG;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/userrole",
+ *     resourcePath="/userroles",
  *     description="UserRole operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class UserRoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/userrole/{id}",
+     *     path="/userroles/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a UserRole",
@@ -102,7 +102,7 @@ class UserRoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/userrole",
+     *     path="/userroles",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch UserRole",
@@ -135,7 +135,7 @@ class UserRoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/userrole/{filter}/{value}",
+     *     path="/userroles/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays UserRole that meet the property=value search criteria",
@@ -206,7 +206,7 @@ class UserRoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/userrole",
+     *     path="/userroles",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a UserRole.  See UserRole model for details.",
@@ -250,7 +250,7 @@ class UserRoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/userrole/{id}",
+     *     path="/userroles/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a UserRole.  See the UserRole model for details.",
@@ -305,7 +305,7 @@ class UserRoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/userrole/{id}",
+     *     path="/userroles/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a UserRole",

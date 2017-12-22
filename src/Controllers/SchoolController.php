@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/school",
+ *     resourcePath="/schools",
  *     description="School operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class SchoolController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/school/{id}",
+     *     path="/schools/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a School",
@@ -103,7 +103,7 @@ class SchoolController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/school",
+     *     path="/schools",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch School",
@@ -137,7 +137,7 @@ class SchoolController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/school/{filter}/{value}",
+     *     path="/schools/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays School that meet the property=value search criteria",
@@ -209,7 +209,7 @@ class SchoolController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/school",
+     *     path="/schools",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a School.  See School model for details.",
@@ -253,7 +253,7 @@ class SchoolController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/school/{id}",
+     *     path="/schools/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a School.  See the School model for details.",
@@ -308,7 +308,7 @@ class SchoolController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/school/{id}",
+     *     path="/schools/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a School",

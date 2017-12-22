@@ -21,7 +21,7 @@ use \Exception;
  *
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/counselingtopic",
+ *     resourcePath="/counselingtopics",
  *     description="CounselingTopic operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class CounselingTopicController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/counselingtopic/{id}",
+     *     path="/counselingtopics/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a CounselingTopic",
@@ -103,7 +103,7 @@ class CounselingTopicController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/counselingtopic",
+     *     path="/counselingtopics",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch CounselingTopic",
@@ -136,7 +136,7 @@ class CounselingTopicController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/counselingtopic/{filter}/{value}",
+     *     path="/counselingtopics/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays CounselingTopic that meet the property=value search criteria",
@@ -206,7 +206,7 @@ class CounselingTopicController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/counselingtopic",
+     *     path="/counselingtopics",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a CounselingTopic.  See CounselingTopic model for details.",
@@ -250,7 +250,7 @@ class CounselingTopicController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/counselingtopic/{id}",
+     *     path="/counselingtopics/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a CounselingTopic.  See the CounselingTopic model for details.",
@@ -305,7 +305,7 @@ class CounselingTopicController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/counselingtopic/{id}",
+     *     path="/counselingtopics/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a CounselingTopic",

@@ -21,7 +21,7 @@ use \Exception;
  *
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/counseleechild",
+ *     resourcePath="/counseleechildren",
  *     description="CounseleeChild operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class CounseleeChildController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/counseleechild/{id}",
+     *     path="/counseleechildren/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a counselee child",
@@ -103,7 +103,7 @@ class CounseleeChildController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/counseleechild",
+     *     path="/counseleechildren",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch counselee children",
@@ -140,7 +140,7 @@ class CounseleeChildController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/counseleechild/{filter}/{value}",
+     *     path="/counseleechildren/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays counselee children that meet the property=value search criteria",
@@ -214,7 +214,7 @@ class CounseleeChildController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/counseleechild",
+     *     path="/counseleechildren",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a counselee child.  See CounseleeChild model for details.",
@@ -258,7 +258,7 @@ class CounseleeChildController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/counseleechild/{id}",
+     *     path="/counseleechildren/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a counselee child.  See the CounseleeChild model for details.",
@@ -313,7 +313,7 @@ class CounseleeChildController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/counseleechild/{id}",
+     *     path="/counseleechildren/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a counselee child",

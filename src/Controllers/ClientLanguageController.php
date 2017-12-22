@@ -21,7 +21,7 @@ use \Exception;
  *
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/clientlanguage",
+ *     resourcePath="/clientlanguages",
  *     description="Client Language operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class ClientLanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/clientlanguage/{id}",
+     *     path="/clientlanguages/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a client language record",
@@ -102,7 +102,7 @@ class ClientLanguageController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
      * @SWG\Api(
-     *     path="/clientlanguage",
+     *     path="/clientlanguages",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch client languages",
@@ -136,7 +136,7 @@ class ClientLanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/clientlanguage/{filter}/{value}",
+     *     path="/clientlanguages/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays client languages that meet the property=value search criteria",
@@ -207,7 +207,7 @@ class ClientLanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/clientlanguage",
+     *     path="/clientlanguages",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a client language.  See ClientLanguage model for details.",
@@ -251,7 +251,7 @@ class ClientLanguageController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/clientlanguage/{id}",
+     *     path="/clientlanguages/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a client language record.  See the ClientLanguage model for details.",
@@ -305,7 +305,7 @@ class ClientLanguageController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
      * @SWG\Api(
-     *     path="/clientlanguage/{id}",
+     *     path="/clientlanguages/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a client language record",

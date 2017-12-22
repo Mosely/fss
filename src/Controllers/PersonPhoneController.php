@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/personphone",
+ *     resourcePath="/personphones",
  *     description="PersonPhone operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class PersonPhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/personphone/{id}",
+     *     path="/personphones/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a PersonPhone",
@@ -103,7 +103,7 @@ class PersonPhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/personphone",
+     *     path="/personphones",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch PersonPhone",
@@ -136,7 +136,7 @@ class PersonPhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/personphone/{filter}/{value}",
+     *     path="/personphones/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays PersonPhone that meet the property=value search criteria",
@@ -207,7 +207,7 @@ class PersonPhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/personphone",
+     *     path="/personphones",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a PersonPhone.  See PersonPhone model for details.",
@@ -251,7 +251,7 @@ class PersonPhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/personphone/{id}",
+     *     path="/personphones/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a PersonPhone.  See the PersonPhone model for details.",
@@ -306,7 +306,7 @@ class PersonPhoneController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/personphone/{id}",
+     *     path="/personphones/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a PersonPhone",

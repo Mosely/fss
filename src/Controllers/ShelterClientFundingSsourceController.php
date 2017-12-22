@@ -22,7 +22,7 @@ use Swagger\Annotations as SWG;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/shelterclientfundingsource",
+ *     resourcePath="/shelterclientfundingsources",
  *     description="ShelterClientFundingSource operations",
  *     produces="['application/json']"
  * )
@@ -68,7 +68,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/shelterclientfundingsource/{id}",
+     *     path="/shelterclientfundingsources/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a ShelterClientFundingSource",
@@ -104,7 +104,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/shelterclientfundingsource",
+     *     path="/shelterclientfundingsources",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch ShelterClientFundingSource",
@@ -138,7 +138,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/shelterclientfundingsource/{filter}/{value}",
+     *     path="/shelterclientfundingsources/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays ShelterClientFundingSource that meet the property=value search criteria",
@@ -210,7 +210,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/shelterclientfundingsource",
+     *     path="/shelterclientfundingsources",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a ShelterClientFundingSource.  See ShelterClientFundingSource model for details.",
@@ -255,7 +255,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/shelterclientfundingsource/{id}",
+     *     path="/shelterclientfundingsources/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a ShelterClientFundingSource.  See the ShelterClientFundingSource model for details.",
@@ -311,7 +311,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/shelterclientfundingsource/{id}",
+     *     path="/shelterclientfundingsources/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a ShelterClientFundingSource",

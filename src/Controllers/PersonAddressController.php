@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/personaddress",
+ *     resourcePath="/personaddresses",
  *     description="PersonAddress operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class PersonAddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/personaddress/{id}",
+     *     path="/personaddresses/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a PersonAddress",
@@ -103,7 +103,7 @@ class PersonAddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/personaddress",
+     *     path="/personaddresses",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch PersonAddress",
@@ -137,7 +137,7 @@ class PersonAddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/personaddress/{filter}/{value}",
+     *     path="/personaddresses/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays PersonAddress that meet the property=value search criteria",
@@ -208,7 +208,7 @@ class PersonAddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/personaddress",
+     *     path="/personaddresses",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a PersonAddress.  See PersonAddress model for details.",
@@ -252,7 +252,7 @@ class PersonAddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/personaddress/{id}",
+     *     path="/personaddresses/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a PersonAddress.  See the PersonAddress model for details.",
@@ -307,7 +307,7 @@ class PersonAddressController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/personaddress/{id}",
+     *     path="/personaddresses/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a PersonAddress",

@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/ethnicity",
+ *     resourcePath="/ethnicities",
  *     description="Ethnicity operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class EthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/ethnicity/{id}",
+     *     path="/ethnicities/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a Ethnicity",
@@ -103,7 +103,7 @@ class EthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/ethnicity",
+     *     path="/ethnicities",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch Ethnicity",
@@ -135,7 +135,7 @@ class EthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/ethnicity/{filter}/{value}",
+     *     path="/ethnicities/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays Ethnicity that meet the property=value search criteria",
@@ -205,7 +205,7 @@ class EthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/ethnicity",
+     *     path="/ethnicities",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a Ethnicity.  See Ethnicity model for details.",
@@ -249,7 +249,7 @@ class EthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/ethnicity/{id}",
+     *     path="/ethnicities/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a Ethnicity.  See the Ethnicity model for details.",
@@ -304,7 +304,7 @@ class EthnicityController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/ethnicity/{id}",
+     *     path="/ethnicities/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a Ethnicity",

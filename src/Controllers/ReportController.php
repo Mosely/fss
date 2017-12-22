@@ -19,7 +19,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/report",
+ *     resourcePath="/reports",
  *     description="Report operations",
  *     produces="['application/json']"
  * )

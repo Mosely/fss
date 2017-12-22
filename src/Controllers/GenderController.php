@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/gender",
+ *     resourcePath="/genders",
  *     description="Gender operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class GenderController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/gender/{id}",
+     *     path="/genders/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a Gender",
@@ -103,7 +103,7 @@ class GenderController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/gender",
+     *     path="/genders",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch Gender",
@@ -136,7 +136,7 @@ class GenderController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/gender/{filter}/{value}",
+     *     path="/genders/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays Gender that meet the property=value search criteria",
@@ -207,7 +207,7 @@ class GenderController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/gender",
+     *     path="/genders",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a Gender.  See Gender model for details.",
@@ -251,7 +251,7 @@ class GenderController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/gender/{id}",
+     *     path="/genders/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a Gender.  See the Gender model for details.",
@@ -306,7 +306,7 @@ class GenderController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/gender/{id}",
+     *     path="/genders/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a Gender",

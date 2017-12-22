@@ -21,7 +21,7 @@ use \Exception;
  *
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/counselee",
+ *     resourcePath="/counselees",
  *     description="Counselee operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class CounseleeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/counselee/{id}",
+     *     path="/counselees/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a Counselee",
@@ -103,7 +103,7 @@ class CounseleeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/counselee",
+     *     path="/counselees",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch Counselee",
@@ -138,7 +138,7 @@ class CounseleeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/counselee/{filter}/{value}",
+     *     path="/counselees/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays Counselee that meet the property=value search criteria",
@@ -211,7 +211,7 @@ class CounseleeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/counselee",
+     *     path="/counselees",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a Counselee.  See Counselee model for details.",
@@ -255,7 +255,7 @@ class CounseleeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/counselee/{id}",
+     *     path="/counselees/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a Counselee.  See the Counselee model for details.",
@@ -310,7 +310,7 @@ class CounseleeController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/counselee/{id}",
+     *     path="/counselees/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a Counselee",

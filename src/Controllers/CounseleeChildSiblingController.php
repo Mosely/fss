@@ -22,7 +22,7 @@ use \Exception;
  *
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/counseleechildsibling",
+ *     resourcePath="/counseleechildsiblings",
  *     description="CounseleeChildSibling operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class CounseleeChildSiblingController implements ControllerInterface
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
      * @SWG\Api(
-     *     path="/counseleechildsibling/{id}",
+     *     path="/counseleechildsiblings/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a CounseleeChildSibling",
@@ -102,7 +102,7 @@ class CounseleeChildSiblingController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/counseleechildsibling",
+     *     path="/counseleechildsiblings",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch CounseleeChildSibling",
@@ -136,7 +136,7 @@ class CounseleeChildSiblingController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/counseleechildsibling/{filter}/{value}",
+     *     path="/counseleechildsiblings/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays CounseleeChildSibling that meet the property=value search criteria",
@@ -207,7 +207,7 @@ class CounseleeChildSiblingController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/counseleechildsibling",
+     *     path="/counseleechildsiblings",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a CounseleeChildSibling.  See CounseleeChildSibling model for details.",
@@ -251,7 +251,7 @@ class CounseleeChildSiblingController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/counseleechildsibling/{id}",
+     *     path="/counseleechildsiblings/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a CounseleeChildSibling.  See the CounseleeChildSibling model for details.",
@@ -306,7 +306,7 @@ class CounseleeChildSiblingController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/counseleechildsibling/{id}",
+     *     path="/counseleechildsiblings/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a CounseleeChildSibling",

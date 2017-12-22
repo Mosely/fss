@@ -18,7 +18,7 @@ use \Exception;
  *
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/branchofservice",
+ *     resourcePath="/branchesofservice",
  *     description="Branch Of Service operations",
  *     produces="['application/json']"
  * )  
@@ -65,7 +65,7 @@ class BranchOfServiceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/branchofservice/{id}",
+     *     path="/branchesofservice/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a branch of service",
@@ -97,7 +97,7 @@ class BranchOfServiceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/branchofservice",
+     *     path="/branchesofservice",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch branches of service",
@@ -127,7 +127,7 @@ class BranchOfServiceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/branchofservice/{filter}/{value}",
+     *     path="/branchesofservice/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays branches of service that meet the property=value search criteria",
@@ -195,7 +195,7 @@ class BranchOfServiceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      * 
      * @SWG\Api(
-     *     path="/branchofservice",
+     *     path="/branchesofservice",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a branch of service.  See BranchOfService model for details.",
@@ -237,7 +237,7 @@ class BranchOfServiceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      * 
      * @SWG\Api(
-     *     path="/branchofservice/{id}",
+     *     path="/branchesofservice/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a branch of service.  See the BranchOfService model for details.",
@@ -291,7 +291,7 @@ class BranchOfServiceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      * 
      * @SWG\Api(
-     *     path="/branchofservice/{id}",
+     *     path="/branchesofservice/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a branch of service",

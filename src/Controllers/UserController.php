@@ -19,7 +19,7 @@ use Swagger\Annotations as SWG;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/user",
+ *     resourcePath="/users",
  *     description="User operations",
  *     produces="['application/json']"
  * )
@@ -72,7 +72,7 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/user/{id}",
+     *     path="/users/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a User",
@@ -108,7 +108,7 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/user",
+     *     path="/users",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch Users",
@@ -146,7 +146,7 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
           * @SWG\Api(
-     *     path="/user/{filter}/{value}",
+     *     path="/users/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays Users that meet the property=value search criteria",
@@ -222,7 +222,7 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/user",
+     *     path="/users",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a User.  See User model for details.",
@@ -270,7 +270,7 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/user/{id}",
+     *     path="/users/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a User.  See the User model for details.",
@@ -325,7 +325,7 @@ class UserController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/user/{id}",
+     *     path="/users/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a User",

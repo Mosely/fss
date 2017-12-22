@@ -22,7 +22,7 @@ use Swagger\Annotations as SWG;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/shelterclientidentitypreference",
+ *     resourcePath="/shelterclientidentitypreferences",
  *     description="ShelterClientIdentityPreference operations",
  *     produces="['application/json']"
  * )
@@ -68,7 +68,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/shelterclientidentitypreference/{id}",
+     *     path="/shelterclientidentitypreferences/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a ShelterClientIdentityPreference",
@@ -104,7 +104,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/shelterclientidentitypreference",
+     *     path="/shelterclientidentitypreferences",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch ShelterClientIdentityPreference",
@@ -138,7 +138,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/shelterclientidentitypreference/{filter}/{value}",
+     *     path="/shelterclientidentitypreferences/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays ShelterClientIdentityPreference that meet the property=value search criteria",
@@ -211,7 +211,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/shelterclientidentitypreference",
+     *     path="/shelterclientidentitypreferences",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a ShelterClientIdentityPreference.  See ShelterClientIdentityPreference model for details.",
@@ -258,7 +258,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/shelterclientidentitypreference/{id}",
+     *     path="/shelterclientidentitypreferences/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a ShelterClientIdentityPreference.  See the ShelterClientIdentityPreference model for details.",
@@ -315,7 +315,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/shelterclientidentitypreference/{id}",
+     *     path="/shelterclientidentitypreferences/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a ShelterClientIdentityPreference",

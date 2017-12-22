@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/role",
+ *     resourcePath="/roles",
  *     description="Role operations",
  *     produces="['application/json']"
  * )
@@ -66,7 +66,7 @@ class RoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/role/{id}",
+     *     path="/roles/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a Role",
@@ -102,7 +102,7 @@ class RoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/role",
+     *     path="/roles",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch Role",
@@ -134,7 +134,7 @@ class RoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/role/{filter}/{value}",
+     *     path="/roles/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays Role that meet the property=value search criteria",
@@ -203,7 +203,7 @@ class RoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/role",
+     *     path="/roles",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a Role.  See Role model for details.",
@@ -246,7 +246,7 @@ class RoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/role/{id}",
+     *     path="/roles/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a Role.  See the Role model for details.",
@@ -300,7 +300,7 @@ class RoleController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/role/{id}",
+     *     path="/roles/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a Role",

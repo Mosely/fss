@@ -21,7 +21,7 @@ use \Exception;
  * 
  * @SWG\Resource(
  *     apiVersion="1.0",
- *     resourcePath="/person",
+ *     resourcePath="/people",
  *     description="Person operations",
  *     produces="['application/json']"
  * )
@@ -67,7 +67,7 @@ class PersonController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::read()
      *
      * @SWG\Api(
-     *     path="/person/{id}",
+     *     path="/people/{id}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays a Person",
@@ -103,7 +103,7 @@ class PersonController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAll()
      *
      * @SWG\Api(
-     *     path="/person",
+     *     path="/people",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Fetch Person",
@@ -139,7 +139,7 @@ class PersonController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      *
      * @SWG\Api(
-     *     path="/person/{filter}/{value}",
+     *     path="/people/{filter}/{value}",
      *     @SWG\Operation(
      *         method="GET",
      *         summary="Displays Person that meet the property=value search criteria",
@@ -213,7 +213,7 @@ class PersonController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::create()
      *
      * @SWG\Api(
-     *     path="/person",
+     *     path="/people",
      *     @SWG\Operation(
      *         method="POST",
      *         summary="Creates a Person.  See Person model for details.",
@@ -257,7 +257,7 @@ class PersonController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::update()
      *
      * @SWG\Api(
-     *     path="/person/{id}",
+     *     path="/people/{id}",
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a Person.  See the Person model for details.",
@@ -312,7 +312,7 @@ class PersonController implements ControllerInterface
      * @see \FSS\Controllers\ControllerInterface::delete()
      *
      * @SWG\Api(
-     *     path="/person/{id}",
+     *     path="/people/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
      *         summary="Deletes a Person",
