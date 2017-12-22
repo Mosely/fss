@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -18,7 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ *
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/counseleecounselingtopic",
+ *     description="CounseleeCounselingTopic operations",
+ *     produces="['application/json']"
+ * )
  */
 class CounseleeCounselingTopicController implements ControllerInterface
 {
@@ -59,6 +66,24 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopic/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a CounseleeCounselingTopic",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeCounselingTopic to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeCounselingTopic not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +101,25 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopic",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch CounseleeCounselingTopic",
+     *         type="CounseleeCounselingTopic"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = CounseleeCounselingTopic::all();
+        $records = CounseleeCounselingTopic::with(
+            [
+                'Counselee',
+                'CounselingTopic'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All CounseleeCounselingTopic query: ",
             $this->db::getQueryLog());
         // $records = CounseleeCounselingTopic::all();
@@ -96,6 +135,32 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopic/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays CounseleeCounselingTopic that meet the property=value search criteria",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeCounselingTopic not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -106,7 +171,12 @@ class CounseleeCounselingTopicController implements ControllerInterface
         try {
             CounseleeCounselingTopic::validateColumn('CounseleeCounselingTopic',
                 $filter, $this->container);
-            $records = CounseleeCounselingTopic::where($filter, $value)->limit(200)->get();
+            $records = CounseleeCounselingTopic::with(
+            [
+                'Counselee',
+                'CounselingTopic'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("CounseleeCounselingTopic filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -136,6 +206,16 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopic",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a CounseleeCounselingTopic.  See CounseleeCounselingTopic model for details.",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -171,6 +251,24 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopic/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a CounseleeCounselingTopic.  See the CounseleeCounselingTopic model for details.",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeCounselingTopic to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -209,6 +307,24 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopic/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a CounseleeCounselingTopic",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeCounselingTopic to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeCounselingTopic not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
