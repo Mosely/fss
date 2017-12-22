@@ -310,7 +310,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a MilitaryDischargeType",
      *         type="MilitaryDischargeType",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of MilitaryDischargeType to delete",
      *             paramType="path",

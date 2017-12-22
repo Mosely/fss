@@ -309,7 +309,7 @@ class DrugUseController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a DrugUse",
      *         type="DrugUse",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of DrugUse to delete",
      *             paramType="path",

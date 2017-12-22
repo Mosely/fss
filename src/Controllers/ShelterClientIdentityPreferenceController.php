@@ -320,7 +320,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a ShelterClientIdentityPreference",
      *         type="ShelterClientIdentityPreference",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of ShelterClientIdentityPreference to delete",
      *             paramType="path",

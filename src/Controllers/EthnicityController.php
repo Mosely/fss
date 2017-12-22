@@ -309,7 +309,7 @@ class EthnicityController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a Ethnicity",
      *         type="Ethnicity",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of Ethnicity to delete",
      *             paramType="path",

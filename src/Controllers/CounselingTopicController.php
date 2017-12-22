@@ -310,7 +310,7 @@ class CounselingTopicController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a CounselingTopic",
      *         type="CounselingTopic",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of CounselingTopic to delete",
      *             paramType="path",

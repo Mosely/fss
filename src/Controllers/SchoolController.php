@@ -313,7 +313,7 @@ class SchoolController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a School",
      *         type="School",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of School to delete",
      *             paramType="path",

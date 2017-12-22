@@ -305,7 +305,7 @@ class RoleController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a Role",
      *         type="Role",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of Role to delete",
      *             paramType="path",

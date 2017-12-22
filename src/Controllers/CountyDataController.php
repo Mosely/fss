@@ -309,7 +309,7 @@ class CountyDataController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a CountyData",
      *         type="CountyData",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of CountyData to delete",
      *             paramType="path",

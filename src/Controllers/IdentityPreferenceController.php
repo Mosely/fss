@@ -310,7 +310,7 @@ class IdentityPreferenceController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a IdentityPreference",
      *         type="IdentityPreference",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of IdentityPreference to delete",
      *             paramType="path",

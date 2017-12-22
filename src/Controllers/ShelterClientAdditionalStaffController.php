@@ -316,7 +316,7 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a ShelterClientAdditionalStaff",
      *         type="ShelterClientAdditionalStaff",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of ShelterClientAdditionalStaff to delete",
      *             paramType="path",

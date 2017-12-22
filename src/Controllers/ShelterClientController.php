@@ -310,7 +310,7 @@ class ShelterClientController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a ShelterClient",
      *         type="ShelterClient",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of ShelterClient to delete",
      *             paramType="path",

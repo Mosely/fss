@@ -309,7 +309,7 @@ class LanguageController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a Language",
      *         type="Language",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of Language to delete",
      *             paramType="path",

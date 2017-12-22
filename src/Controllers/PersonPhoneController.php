@@ -311,7 +311,7 @@ class PersonPhoneController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a PersonPhone",
      *         type="PersonPhone",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of PersonPhone to delete",
      *             paramType="path",

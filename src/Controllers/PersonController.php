@@ -317,7 +317,7 @@ class PersonController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a Person",
      *         type="Person",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of Person to delete",
      *             paramType="path",

@@ -316,7 +316,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a ShelterClientFundingSource",
      *         type="ShelterClientFundingSource",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of ShelterClientFundingSource to delete",
      *             paramType="path",

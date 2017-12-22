@@ -308,7 +308,7 @@ class PhoneController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a Phone",
      *         type="Phone",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of Phone to delete",
      *             paramType="path",

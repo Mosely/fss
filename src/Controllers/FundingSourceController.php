@@ -309,7 +309,7 @@ class FundingSourceController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a FundingSource",
      *         type="FundingSource",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of FundingSource to delete",
      *             paramType="path",

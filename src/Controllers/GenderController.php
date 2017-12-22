@@ -311,7 +311,7 @@ class GenderController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a Gender",
      *         type="Gender",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of Gender to delete",
      *             paramType="path",

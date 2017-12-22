@@ -312,7 +312,7 @@ class CounseleeMedicationController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a CounseleeMedication",
      *         type="CounseleeMedication",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of CounseleeMedication to delete",
      *             paramType="path",

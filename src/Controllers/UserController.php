@@ -330,7 +330,7 @@ class UserController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a User",
      *         type="User",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of User to delete",
      *             paramType="path",

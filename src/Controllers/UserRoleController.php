@@ -310,7 +310,7 @@ class UserRoleController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a UserRole",
      *         type="UserRole",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of UserRole to delete",
      *             paramType="path",

@@ -312,7 +312,7 @@ class PersonAddressController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a PersonAddress",
      *         type="PersonAddress",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of PersonAddress to delete",
      *             paramType="path",

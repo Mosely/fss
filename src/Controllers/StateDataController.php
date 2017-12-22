@@ -310,7 +310,7 @@ class StateDataController implements ControllerInterface
      *         method="DELETE",
      *         summary="Deletes a StateData",
      *         type="StateData",
-     *         @SFWG\Parameter(
+     *         @SWG\Parameter(
      *             name="id",
      *             description="id of StateData to delete",
      *             paramType="path",
