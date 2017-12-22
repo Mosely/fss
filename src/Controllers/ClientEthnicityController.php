@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -17,7 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+  * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/clientethnicity",
+ *     description="ClientEthnicity operations",
+ *     produces="['application/json']"
+ * )  
  */
 class ClientEthnicityController implements ControllerInterface
 {
@@ -58,6 +65,24 @@ class ClientEthnicityController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     * 
+     * @SWG\Api(
+     *     path="/clientethnicity/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a client ethnicity",
+     *         type="ClientEthnicity",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of client ethnicity to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="client ethnicity not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +101,26 @@ class ClientEthnicityController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     * 
+     * @SWG\Api(
+     *     path="/clientethnicity",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch client ethnicities",
+     *         type="ClientEthnicity"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = ClientEthnicity::all();
+        $records = ClientEthnicity::with(
+            [
+                'Person',
+                'ClientEthnicity',
+                'ClientLanguage'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All client_ethnicity query: ",
             $this->db::getQueryLog());
         // $records = Client_ethnicity::all();
@@ -96,6 +136,32 @@ class ClientEthnicityController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     * 
+     * @SWG\Api(
+     *     path="/clientethnicity/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays client ethnicity that meet the property=value search criteria",
+     *         type="ClientEthnicity",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="client ethnicity not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -106,7 +172,13 @@ class ClientEthnicityController implements ControllerInterface
         try {
             ClientEthnicity::validateColumn('client_ethnicity', $filter,
                 $this->container);
-            $records = ClientEthnicity::where($filter, $value)->limit(200)->get();
+            $records = ClientEthnicity::with(
+            [
+                'Person',
+                'ClientEthnicity',
+                'ClientLanguage'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("ClientEthnicity filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -136,6 +208,16 @@ class ClientEthnicityController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     * 
+     * @SWG\Api(
+     *     path="/clientethnicity",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a client ethnicity record.  See ClientEthnicity model for details.",
+     *         type="ClientEthnicity",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -170,6 +252,24 @@ class ClientEthnicityController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     * 
+     * @SWG\Api(
+     *     path="/clientethnicity/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a client ethnicity record.  See the ClientEthnicity model for details.",
+     *         type="ClientEthnicity",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of client ethnicity to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -207,6 +307,24 @@ class ClientEthnicityController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     * 
+     * @SWG\Api(
+     *     path="/clientethnicity/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a client ethnicity",
+     *         type="ClientEthnicity",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of client ethnicity to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="client ethnicity not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
