@@ -14,6 +14,7 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="street_name", type="string", required=true),
  *     @SWG\Property(name="street_suffix", type="string", required=false),
  *     @SWG\Property(name="zipcode", type="integer", required=true),
+ *     @SWG\Property(name="zipcode_plus_four", type="integer", required=false),
  *     @SWG\Property(name="city_data_id", type="integer", required=true),
  *     @SWG\Property(name="state_data_id", type="integer", required=true),
  *     @SWG\Property(name="county_data_id", type="integer", required=false),
