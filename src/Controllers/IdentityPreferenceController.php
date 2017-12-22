@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -18,7 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/identitypreference",
+ *     description="IdentityPreference operations",
+ *     produces="['application/json']"
+ * )
  */
 class IdentityPreferenceController implements ControllerInterface
 {
@@ -59,6 +66,24 @@ class IdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/identitypreference/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a IdentityPreference",
+     *         type="IdentityPreference",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of IdentityPreference to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="IdentityPreference not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +101,24 @@ class IdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/identitypreference",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch IdentityPreference",
+     *         type="IdentityPreference"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = IdentityPreference::all();
+        $records = IdentityPreference::with(
+            [
+                'ShelterClientIdentityPreference'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All IdentityPreference query: ",
             $this->db::getQueryLog());
         // $records = Identity_preference::all();
@@ -96,6 +134,32 @@ class IdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/identitypreference/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays IdentityPreference that meet the property=value search criteria",
+     *         type="IdentityPreference",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="IdentityPreference not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -106,7 +170,11 @@ class IdentityPreferenceController implements ControllerInterface
         try {
             IdentityPreference::validateColumn('IdentityPreference', $filter,
                 $this->container);
-            $records = IdentityPreference::where($filter, $value)->limit(200)->get();
+            $records = IdentityPreference::with(
+            [
+                'ShelterClientIdentityPreference'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("IdentityPreference filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -136,6 +204,16 @@ class IdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/identitypreference",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a IdentityPreference.  See IdentityPreference model for details.",
+     *         type="IdentityPreference",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -170,6 +248,24 @@ class IdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/identitypreference/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a IdentityPreference.  See the IdentityPreference model for details.",
+     *         type="IdentityPreference",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of IdentityPreference to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -207,6 +303,24 @@ class IdentityPreferenceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/identitypreference/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a IdentityPreference",
+     *         type="IdentityPreference",
+     *         @SFWG\Parameter(
+     *             name="id",
+     *             description="id of IdentityPreference to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="IdentityPreference not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
