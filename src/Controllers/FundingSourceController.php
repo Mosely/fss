@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG
 use \Exception;
 
 /**
@@ -17,7 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/fundingsource",
+ *     description="FundingSource operations",
+ *     produces="['application/json']"
+ * )
  */
 class FundingSourceController implements ControllerInterface
 {
@@ -58,6 +65,24 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/fundingsource/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a FundingSource",
+     *         type="FundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of FundingSource to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="FundingSource not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +101,24 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/fundingsource",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch FundingSource",
+     *         type="FundingSource"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = FundingSource::all();
+        $records = FundingSource::with(
+            [
+                'ShelterClientFundingSource'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All FundingSource query: ",
             $this->db::getQueryLog());
         // $records = Funding_source::all();
@@ -96,6 +134,31 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     * @SWG\Api(
+     *     path="/fundingsource/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays FundingSource that meet the property=value search criteria",
+     *         type="FundingSource",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="FundingSource not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -106,7 +169,11 @@ class FundingSourceController implements ControllerInterface
         try {
             FundingSource::validateColumn('FundingSource', $filter,
                 $this->container);
-            $records = FundingSource::where($filter, $value)->limit(200)->get();
+            $records = FundingSource::with(
+            [
+                'ShelterClientFundingSource'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("FundingSource filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -136,6 +203,16 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/fundingsource",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a FundingSource.  See FundingSource model for details.",
+     *         type="FundingSource",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -170,6 +247,24 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/fundingsource/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a FundingSource.  See the FundingSource model for details.",
+     *         type="FundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of FundingSource to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -207,6 +302,24 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/fundingsource/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a FundingSource",
+     *         type="FundingSource",
+     *         @SFWG\Parameter(
+     *             name="id",
+     *             description="id of FundingSource to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="FundingSource not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
