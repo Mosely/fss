@@ -68,7 +68,7 @@ class BranchOfServiceController implements ControllerInterface
      *     path="/branchesofservice/{id}",
      *     @SWG\Operation(
      *         method="GET",
-     *         summary="Displays a branch of service",
+     *         summary="Displays a branch of service.",
      *         type="BranchOfService",
      *         @SWG\Parameter(
      *             name="id",
@@ -285,7 +285,6 @@ class BranchOfServiceController implements ControllerInterface
     }
 
     /**
-     * (ServerRequestInterface $request, ResponseInterface $response, array $args): ResponseInterface
      * 
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
@@ -294,7 +293,7 @@ class BranchOfServiceController implements ControllerInterface
      *     path="/branchesofservice/{id}",
      *     @SWG\Operation(
      *         method="DELETE",
-     *         summary="Deletes a branch of service",
+     *         summary="Deletes a branch of service.",
      *         type="BranchOfService",
      *         @SWG\Parameter(
      *             name="id",
