@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -15,7 +16,13 @@ use \Exception;
  * Implements the ControllerInterface.
  *
  * @author Dewayne
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/report",
+ *     description="Report operations",
+ *     produces="['application/json']"
+ * )
  */
 class ReportController implements ControllerInterface
 {
@@ -86,8 +93,8 @@ class ReportController implements ControllerInterface
                     "message" => "Error occured: " . $e->getMessage()
                 ], 400);
         }
-    }
-
+    }    
+    
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
