@@ -18,7 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ *
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/counseleechildguardian",
+ *     description="CounseleeChildGuardian operations",
+ *     produces="['application/json']"
+ * )
  */
 class CounseleeChildGuardianController implements ControllerInterface
 {
@@ -59,6 +65,24 @@ class CounseleeChildGuardianController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildguardian/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a CounseleeChildGuardian",
+     *         type="CounseleeChildGuardian",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeChildGuardian to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeChildGuardian not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +100,24 @@ class CounseleeChildGuardianController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildguardian",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch counseleechildguardian",
+     *         type="CounseleeChildGuardian"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = CounseleeChildGuardian::all();
+        $records = CounseleeChildGuardian::with(
+            [
+                'CounseleeChild'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All CounseleeChildGuardian query: ",
             $this->db::getQueryLog());
         // $records = CounseleeChildGuardian::all();
@@ -96,6 +133,32 @@ class CounseleeChildGuardianController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildguardian/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays counseleechildguardian that meet the property=value search criteria",
+     *         type="CounseleeChildGuardian",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeChildGuardian not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -106,7 +169,11 @@ class CounseleeChildGuardianController implements ControllerInterface
         try {
             CounseleeChildGuardian::validateColumn('counselee_child_guardian',
                 $filter, $this->container);
-            $records = CounseleeChildGuardian::where($filter, $value)->limit(200)->get();
+            $records = CounseleeChildGuardian::with(
+            [
+                'CounseleeChild'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("CounseleeChildGuardian filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -136,6 +203,16 @@ class CounseleeChildGuardianController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildguardian",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a CounseleeChildGuardian.  See CounseleeChildGuardian model for details.",
+     *         type="CounseleeChildGuardian",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -170,6 +247,24 @@ class CounseleeChildGuardianController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildguardian/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a CounseleeChildGuardian.  See the CounseleeChildGuardian model for details.",
+     *         type="CounseleeChildGuardian",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeChildGuardian to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -207,6 +302,24 @@ class CounseleeChildGuardianController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildguardian/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a CounseleeChildGuardian",
+     *         type="CounseleeChildGuardian",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeChildGuardian to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeChildGuardian not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
