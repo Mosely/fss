@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -18,7 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/shelterclientadditionalstaff",
+ *     description="ShelterClientAdditionalStaff operations",
+ *     produces="['application/json']"
+ * )
  */
 class ShelterClientAdditionalStaffController implements ControllerInterface
 {
@@ -59,6 +66,24 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientadditionalstaff/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a ShelterClientAdditionalStaff",
+     *         type="ShelterClientAdditionalStaff",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientAdditionalStaff to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientAdditionalStaff not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -77,11 +102,25 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientadditionalstaff",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch ShelterClientAdditionalStaff",
+     *         type="ShelterClientAdditionalStaff"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = ShelterClientAdditionalStaff::all();
+        $records = ShelterClientAdditionalStaff::with(
+            [
+                'ShelterClient',
+                'User'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All ShelterClientAdditionalStaff query: ",
             $this->db::getQueryLog());
         // $records = Shelter_client_additional_staff::all();
@@ -97,6 +136,32 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientadditionalstaff/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays ShelterClientAdditionalStaff that meet the property=value search criteria",
+     *         type="ShelterClientAdditionalStaff",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientAdditionalStaff not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -108,7 +173,12 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
             ShelterClientAdditionalStaff::validateColumn(
                 'ShelterClientAdditionalStaff', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = ShelterClientAdditionalStaff::where($filter, $value)->limit(200)->get();
+            $records = ShelterClientAdditionalStaff::with(
+                [
+                    'ShelterClient',
+                    'User'
+                ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("ShelterClientAdditionalStaff filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -138,6 +208,16 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientadditionalstaff",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a ShelterClientAdditionalStaff.  See ShelterClientAdditionalStaff model for details.",
+     *         type="ShelterClientAdditionalStaff",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -173,6 +253,24 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientadditionalstaff/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a ShelterClientAdditionalStaff.  See the ShelterClientAdditionalStaff model for details.",
+     *         type="ShelterClientAdditionalStaff",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientAdditionalStaff to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -211,6 +309,24 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientadditionalstaff/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a ShelterClientAdditionalStaff",
+     *         type="ShelterClientAdditionalStaff",
+     *         @SFWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientAdditionalStaff to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientAdditionalStaff not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
