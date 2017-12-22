@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -18,7 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ *
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/counseleechildbioparent",
+ *     description="Counselee Child Bio Parent operations",
+ *     produces="['application/json']"
+ * )
  */
 class CounseleeChildBioParentController implements ControllerInterface
 {
@@ -59,6 +66,24 @@ class CounseleeChildBioParentController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildbioparent/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a counselee child bio parent record",
+     *         type="CounseleeChildBioParent",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of counselee child bio parent record to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="counselee child bio parent not found")
+     *     )
+     * )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -76,11 +101,24 @@ class CounseleeChildBioParentController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildbioparent",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch counselee child bio parents",
+     *         type="CounseleeChildBioParent"
+     *     )
+     * )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = CounseleeChildBioParent::all();
+        $records = CounseleeChildBioParent::with(
+            [
+                'CounseleeChild'
+            ]
+            )->limit(200)->get();
         $this->logger->debug("All CounseleeChildBioParent query: ",
             $this->db::getQueryLog());
         // $records = Counselee_child_bio_parent::all();
@@ -96,6 +134,32 @@ class CounseleeChildBioParentController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildbioparent/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays counselee child bio parents that meet the property=value search criteria",
+     *         type="CounseleeChildBioParent",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="counselee child bio parent not found")
+     *     )
+     * )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -106,7 +170,11 @@ class CounseleeChildBioParentController implements ControllerInterface
         try {
             CounseleeChildBioParent::validateColumn('CounseleeChildBioParent',
                 $filter, $this->container);
-            $records = CounseleeChildBioParent::where($filter, $value)->limit(200)->get();
+            $records = CounseleeChildBioParent::with(
+            [
+                'CounseleeChild'
+            ]
+            )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("CounseleeChildBioParent filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -136,6 +204,16 @@ class CounseleeChildBioParentController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildbioparent",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a counselee child bio parent record.  See CounseleeChildBioParent model for details.",
+     *         type="CounseleeChildBioParent",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -171,6 +249,24 @@ class CounseleeChildBioParentController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildbioparent/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a counselee child bio parent record.  See the CounseleeChldBioParent model for details.",
+     *         type="CounseleeChldBioParent",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of counselee child bio parent to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -209,6 +305,24 @@ class CounseleeChildBioParentController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/counseleechildbioparent/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a counselee child bio parent record",
+     *         type="CounseleeChildBioParent",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of counselee child bio parent to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="counselee child bio parent not found")
+     *     )
+     * )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
