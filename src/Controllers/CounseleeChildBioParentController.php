@@ -255,7 +255,7 @@ class CounseleeChildBioParentController implements ControllerInterface
      *     @SWG\Operation(
      *         method="PUT",
      *         summary="Updates a counselee child bio parent record.  See the CounseleeChldBioParent model for details.",
-     *         type="CounseleeChldBioParent",
+     *         type="CounseleeChildBioParent",
      *         @SWG\Parameter(
      *             name="id",
      *             description="id of counselee child bio parent to update",

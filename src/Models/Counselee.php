@@ -18,7 +18,7 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="alcohol_problem", type="boolean", required=true),
  *     @SWG\Property(name="had_black_out", type="boolean", required=true),
  *     @SWG\Property(name="black_out_location", type="string", required=false),
- *     @SWG\Property(name="black_out_date", type="boolean", required=true),
+ *     @SWG\Property(name="black_out_date", type="string", required=true),
  *     @SWG\Property(name="family_drug_alcohol_problem", type="string", required=true),
  *     @SWG\Property(name="famil_drug_problem_other_detail", type="string", required=false),
  *     @SWG\Property(name="current_harm_self", type="boolean", required=true),
