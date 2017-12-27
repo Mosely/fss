@@ -48,7 +48,8 @@ $app->add(
                     [
                         "path" => "/",
                         "passthrough" => [
-                            "/login"
+                            "/login",
+                            "/docs"
                         ]
                     ]),
                 new \Slim\Middleware\JwtAuthentication\RequestMethodRule(
