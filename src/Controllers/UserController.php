@@ -404,7 +404,7 @@ class UserController implements ControllerInterface
                 [
                     "success" => false,
                     "message" => $e->getMessage()
-                ], 404, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                ], 401, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         }
     }
 
