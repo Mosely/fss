@@ -18,13 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/languages",
- *     description="Language operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/languages",
+ *         description="Language operations",
+ *         produces="['application/json']"
+ *         )
  */
 class LanguageController implements ControllerInterface
 {
@@ -37,7 +37,7 @@ class LanguageController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -68,25 +68,24 @@ class LanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/languages/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a Language",
-     *         type="Language",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of Language to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="Language not found")
-     *     )
-     * )
+     *      path="/languages/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a Language",
+     *      type="Language",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of Language to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="Language not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -104,16 +103,15 @@ class LanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/languages",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch Language",
-     *         type="Language"
-     *     )
-     * )
+     *      path="/languages",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch Language",
+     *      type="Language"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -132,33 +130,32 @@ class LanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
      * @SWG\Api(
-     *     path="/languages/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays Language that meet the property=value search criteria",
-     *         type="Language",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="Language not found")
-     *     )
-     * )
+     *      path="/languages/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays Language that meet the property=value search criteria",
+     *      type="Language",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="Language not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -167,10 +164,10 @@ class LanguageController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Language::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
-            $records = Language::where($filter, 'like', '%' . $value . '%')
-                ->limit(200)->get();
+            Language::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
+            $records = Language::where($filter, 'like', '%' . $value . '%')->limit(
+                200)->get();
             $this->logger->debug("Language filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -199,17 +196,16 @@ class LanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/languages",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a Language.  See Language model for details.",
-     *         type="Language",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/languages",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a Language. See Language model for details.",
+     *      type="Language",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -220,8 +216,8 @@ class LanguageController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Language::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                Language::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = Language::insertGetId($recordData);
@@ -231,7 +227,7 @@ class LanguageController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "Language $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -245,25 +241,24 @@ class LanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/languages/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a Language.  See the Language model for details.",
-     *         type="Language",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of Language to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/languages/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a Language. See the Language model for details.",
+     *      type="Language",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of Language to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -273,8 +268,8 @@ class LanguageController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Language::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                Language::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -301,25 +296,24 @@ class LanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/languages/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a Language",
-     *         type="Language",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of Language to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="Language not found")
-     *     )
-     * )
+     *      path="/languages/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a Language",
+     *      type="Language",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of Language to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="Language not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

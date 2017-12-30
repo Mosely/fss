@@ -12,7 +12,7 @@ use \Exception;
  * common code that all models can use.
  *
  * @author Dewayne
- *
+ *        
  */
 abstract class AbstractModel extends Model
 {
@@ -35,8 +35,8 @@ abstract class AbstractModel extends Model
      * @param Manager $db
      * @throws Exception
      */
-    public function validateColumn(string $column,
-        Logger $logger, Cache $cache, Manager $db)
+    public function validateColumn(string $column, Logger $logger, Cache $cache,
+        Manager $db)
     {
         $columns = null;
         $theTable = static::getTableName();
@@ -53,19 +53,19 @@ abstract class AbstractModel extends Model
             throw new Exception("$column is not a valid column option.");
         }
     }
-    
+
     /**
      * While trying to keep in line with the static
      * approach as implemented by Eloquent, here's
      * a static method called through any Model
      * in order to retrieve its table name.
-     * 
-     *  That should cut down on any typos.
-     *  
+     *
+     * That should cut down on any typos.
+     *
      * @return string
      */
-    public static function getTableName() : string
+    public static function getTableName(): string
     {
-        return with(new static)->getTable();
+        return with(new static())->getTable();
     }
 }

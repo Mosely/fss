@@ -19,13 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/militarydischargetypes",
- *     description="MilitaryDischargeType operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/militarydischargetypes",
+ *         description="MilitaryDischargeType operations",
+ *         produces="['application/json']"
+ *         )
  */
 class MilitaryDischargeTypeController implements ControllerInterface
 {
@@ -38,7 +38,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -69,25 +69,24 @@ class MilitaryDischargeTypeController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/militarydischargetypes/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a MilitaryDischargeType",
-     *         type="MilitaryDischargeType",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of MilitaryDischargeType to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="MilitaryDischargeType not found")
-     *     )
-     * )
+     *      path="/militarydischargetypes/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a MilitaryDischargeType",
+     *      type="MilitaryDischargeType",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of MilitaryDischargeType to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="MilitaryDischargeType not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -104,16 +103,15 @@ class MilitaryDischargeTypeController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/militarydischargetypes",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch MilitaryDischargeType",
-     *         type="MilitaryDischargeType"
-     *     )
-     * )
+     *      path="/militarydischargetypes",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch MilitaryDischargeType",
+     *      type="MilitaryDischargeType"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -133,33 +131,32 @@ class MilitaryDischargeTypeController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
      * @SWG\Api(
-     *     path="/militarydischargetypes/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays MilitaryDischargeType that meet the property=value search criteria",
-     *         type="MilitaryDischargeType",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="MilitaryDischargeType not found")
-     *     )
-     * )
+     *      path="/militarydischargetypes/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays MilitaryDischargeType that meet the property=value search criteria",
+     *      type="MilitaryDischargeType",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="MilitaryDischargeType not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -168,11 +165,10 @@ class MilitaryDischargeTypeController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            MilitaryDischargeType::validateColumn(
-                $filter, $this->logger,
+            MilitaryDischargeType::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
-            $records = MilitaryDischargeType::where($filter, 'like', '%' . $value . '%')
-                ->limit(200)->get();
+            $records = MilitaryDischargeType::where($filter, 'like',
+                '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("MilitaryDischargeType filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -201,17 +197,16 @@ class MilitaryDischargeTypeController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/militarydischargetypes",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a MilitaryDischargeType.  See MilitaryDischargeType model for details.",
-     *         type="MilitaryDischargeType",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/militarydischargetypes",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a MilitaryDischargeType. See MilitaryDischargeType model for details.",
+     *      type="MilitaryDischargeType",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -222,8 +217,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                MilitaryDischargeType::validateColumn(
-                    $key, $this->logger,
+                MilitaryDischargeType::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
@@ -234,7 +228,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "MilitaryDischargeType $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -248,25 +242,24 @@ class MilitaryDischargeTypeController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/militarydischargetypes/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a MilitaryDischargeType.  See the MilitaryDischargeType model for details.",
-     *         type="MilitaryDischargeType",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of MilitaryDischargeType to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/militarydischargetypes/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a MilitaryDischargeType. See the MilitaryDischargeType model for details.",
+     *      type="MilitaryDischargeType",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of MilitaryDischargeType to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -276,8 +269,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                MilitaryDischargeType::validateColumn(
-                    $key, $this->logger,
+                MilitaryDischargeType::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
@@ -305,25 +297,24 @@ class MilitaryDischargeTypeController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/militarydischargetypes/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a MilitaryDischargeType",
-     *         type="MilitaryDischargeType",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of MilitaryDischargeType to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="MilitaryDischargeType not found")
-     *     )
-     * )
+     *      path="/militarydischargetypes/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a MilitaryDischargeType",
+     *      type="MilitaryDischargeType",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of MilitaryDischargeType to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="MilitaryDischargeType not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

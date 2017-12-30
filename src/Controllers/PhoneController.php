@@ -18,13 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/phones",
- *     description="Phone operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/phones",
+ *         description="Phone operations",
+ *         produces="['application/json']"
+ *         )
  */
 class PhoneController implements ControllerInterface
 {
@@ -37,7 +37,7 @@ class PhoneController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -67,25 +67,24 @@ class PhoneController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/phones/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a Phone",
-     *         type="Phone",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of Phone to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="Phone not found")
-     *     )
-     * )
+     *      path="/phones/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a Phone",
+     *      type="Phone",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of Phone to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="Phone not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -103,25 +102,22 @@ class PhoneController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/phones",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch Phone",
-     *         type="Phone"
-     *     )
-     * )
+     *      path="/phones",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch Phone",
+     *      type="Phone"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = Phone::with(
-            [
-                'PersonPhone'
-            ]
-            )->limit(200)->get();
+        $records = Phone::with([
+            'PersonPhone'
+        ])->limit(200)->get();
         $this->logger->debug("All phones query: ", $this->db::getQueryLog());
         // $records = Phone::all();
         return $response->withJson(
@@ -135,33 +131,32 @@ class PhoneController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
      * @SWG\Api(
-     *     path="/phones/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays Phone that meet the property=value search criteria",
-     *         type="Phone",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="Phone not found")
-     *     )
-     * )
+     *      path="/phones/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays Phone that meet the property=value search criteria",
+     *      type="Phone",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="Phone not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -175,8 +170,9 @@ class PhoneController implements ControllerInterface
             $records = Phone::with(
                 [
                     'PersonPhone'
-                ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+                ])->where($filter, 'like', '%' . $value . '%')
+                ->limit(200)
+                ->get();
             $this->logger->debug("Phone filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -205,17 +201,16 @@ class PhoneController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/phones",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a Phone.  See Phone model for details.",
-     *         type="Phone",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/phones",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a Phone. See Phone model for details.",
+     *      type="Phone",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -237,7 +232,7 @@ class PhoneController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "Phone $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -251,25 +246,24 @@ class PhoneController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/phones/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a Phone.  See the Phone model for details.",
-     *         type="Phone",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of Phone to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/phones/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a Phone. See the Phone model for details.",
+     *      type="Phone",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of Phone to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -307,25 +301,24 @@ class PhoneController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/phones/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a Phone",
-     *         type="Phone",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of Phone to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="Phone not found")
-     *     )
-     * )
+     *      path="/phones/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a Phone",
+     *      type="Phone",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of Phone to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="Phone not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

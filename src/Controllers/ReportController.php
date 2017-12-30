@@ -16,13 +16,13 @@ use \Exception;
  * Implements the ControllerInterface.
  *
  * @author Dewayne
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/reports",
- *     description="Report operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/reports",
+ *         description="Report operations",
+ *         produces="['application/json']"
+ *         )
  */
 class ReportController implements ControllerInterface
 {
@@ -41,7 +41,7 @@ class ReportController implements ControllerInterface
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
@@ -73,7 +73,7 @@ class ReportController implements ControllerInterface
         $reportType = $report->data[0]->type;
         
         try {
-            // $records = Report::run($columns, 
+            // $records = Report::run($columns,
             // $reportName, $reportType, $this->jwtToken);
             Report::run($columns, $reportName, $reportType, $this->jwtToken);
             $this->logger->debug("Generated Report query: ",
@@ -93,8 +93,8 @@ class ReportController implements ControllerInterface
                     "message" => "Error occured: " . $e->getMessage()
                 ], 400);
         }
-    }    
-    
+    }
+
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
@@ -114,8 +114,8 @@ class ReportController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Report::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
+            Report::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
             $records = Report::with(
                 [
                     'reportColumn' => function ($q) {
@@ -124,7 +124,9 @@ class ReportController implements ControllerInterface
                         // than two tables you will need to handle the
                         // deeper relationships as done here.
                     }
-                ])->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+                ])->where($filter, 'like', '%' . $value . '%')
+                ->limit(200)
+                ->get();
             $this->logger->debug("Report filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

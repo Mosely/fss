@@ -16,13 +16,13 @@ use Swagger\Annotations as SWG;
  * The user controller for all user-related actions.
  *
  * @author Dewayne
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/users",
- *     description="User operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/users",
+ *         description="User operations",
+ *         produces="['application/json']"
+ *         )
  */
 class UserController implements ControllerInterface
 {
@@ -69,25 +69,24 @@ class UserController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/users/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a User",
-     *         type="User",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of User to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="User not found")
-     *     )
-     * )
+     *      path="/users/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a User",
+     *      type="User",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of User to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="User not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -105,16 +104,15 @@ class UserController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/users",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch Users",
-     *         type="User"
-     *     )
-     * )
+     *      path="/users",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch Users",
+     *      type="User"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -143,33 +141,32 @@ class UserController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
-          * @SWG\Api(
-     *     path="/users/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays Users that meet the property=value search criteria",
-     *         type="User",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="User not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
+     * @SWG\Api(
+     *      path="/users/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays Users that meet the property=value search criteria",
+     *      type="User",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="User not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -178,8 +175,7 @@ class UserController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            User::validateColumn($filter, $this->logger, $this->cache,
-                $this->db);
+            User::validateColumn($filter, $this->logger, $this->cache, $this->db);
             // $records = User::where($filter, 'like', '%' . $value . '%')->get();
             $records = User::with(
                 [
@@ -190,7 +186,9 @@ class UserController implements ControllerInterface
                         // and gender tables) you will need to handle the
                         // deeper relationships as done here.
                     }
-                ])->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+                ])->where($filter, 'like', '%' . $value . '%')
+                ->limit(200)
+                ->get();
             $this->logger->debug("Users with filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -219,17 +217,16 @@ class UserController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/users",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a User.  See User model for details.",
-     *         type="User",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/users",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a User. See User model for details.",
+     *      type="User",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -255,7 +252,7 @@ class UserController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "User $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -269,25 +266,24 @@ class UserController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/users/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a User.  See the User model for details.",
-     *         type="User",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of User to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/users/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a User. See the User model for details.",
+     *      type="User",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of User to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -325,25 +321,24 @@ class UserController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/users/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a User",
-     *         type="User",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of User to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="User not found")
-     *     )
-     * )
+     *      path="/users/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a User",
+     *      type="User",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of User to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="User not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

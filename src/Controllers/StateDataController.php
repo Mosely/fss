@@ -18,13 +18,13 @@ use Swagger\Annotations as SWG;
  * Borrows from addressController
  *
  * @author Marshal
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/statedata",
- *     description="StateData operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/statedata",
+ *         description="StateData operations",
+ *         produces="['application/json']"
+ *         )
  */
 class StateDataController implements ControllerInterface
 {
@@ -37,7 +37,7 @@ class StateDataController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -68,25 +68,24 @@ class StateDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/statedata/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a StateData",
-     *         type="StateData",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of StateData to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="StateData not found")
-     *     )
-     * )
+     *      path="/statedata/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a StateData",
+     *      type="StateData",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of StateData to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="StateData not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -103,16 +102,15 @@ class StateDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/statedata",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch StateData",
-     *         type="StateData"
-     *     )
-     * )
+     *      path="/statedata",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch StateData",
+     *      type="StateData"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -131,33 +129,32 @@ class StateDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
      * @SWG\Api(
-     *     path="/statedata/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays StateData that meet the property=value search criteria",
-     *         type="StateData",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="StateData not found")
-     *     )
-     * )
+     *      path="/statedata/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays StateData that meet the property=value search criteria",
+     *      type="StateData",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="StateData not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -166,9 +163,10 @@ class StateDataController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            StateData::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
-            $records = StateData::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            StateData::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
+            $records = StateData::where($filter, 'like', '%' . $value . '%')->limit(
+                200)->get();
             $this->logger->debug("StateData filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -197,17 +195,16 @@ class StateDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/statedata",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a StateData.  See StateData model for details.",
-     *         type="StateData",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/statedata",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a StateData. See StateData model for details.",
+     *      type="StateData",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -218,8 +215,8 @@ class StateDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                StateData::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                StateData::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = StateData::insertGetId($recordData);
@@ -229,7 +226,7 @@ class StateDataController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "StateData $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -243,25 +240,24 @@ class StateDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/statedata/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a StateData.  See the StateData model for details.",
-     *         type="StateData",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of StateData to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/statedata/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a StateData. See the StateData model for details.",
+     *      type="StateData",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of StateData to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -271,8 +267,8 @@ class StateDataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                StateData::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                StateData::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -299,25 +295,24 @@ class StateDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/statedata/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a StateData",
-     *         type="StateData",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of StateData to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="StateData not found")
-     *     )
-     * )
+     *      path="/statedata/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a StateData",
+     *      type="StateData",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of StateData to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="StateData not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

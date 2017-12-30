@@ -18,13 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/schools",
- *     description="School operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/schools",
+ *         description="School operations",
+ *         produces="['application/json']"
+ *         )
  */
 class SchoolController implements ControllerInterface
 {
@@ -37,7 +37,7 @@ class SchoolController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -68,25 +68,24 @@ class SchoolController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/schools/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a School",
-     *         type="School",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of School to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="School not found")
-     *     )
-     * )
+     *      path="/schools/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a School",
+     *      type="School",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of School to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="School not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -104,16 +103,15 @@ class SchoolController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/schools",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch School",
-     *         type="School"
-     *     )
-     * )
+     *      path="/schools",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch School",
+     *      type="School"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -122,8 +120,7 @@ class SchoolController implements ControllerInterface
             [
                 'CityData',
                 'StateData'
-            ]
-            )->limit(200)->get();
+            ])->limit(200)->get();
         $this->logger->debug("All schools query: ", $this->db::getQueryLog());
         // $records = School::all();
         return $response->withJson(
@@ -137,33 +134,32 @@ class SchoolController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
      * @SWG\Api(
-     *     path="/schools/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays School that meet the property=value search criteria",
-     *         type="School",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="School not found")
-     *     )
-     * )
+     *      path="/schools/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays School that meet the property=value search criteria",
+     *      type="School",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="School not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -172,14 +168,15 @@ class SchoolController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            School::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
+            School::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
             $records = School::with(
-            [
-                'CityData',
-                'StateData'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+                [
+                    'CityData',
+                    'StateData'
+                ])->where($filter, 'like', '%' . $value . '%')
+                ->limit(200)
+                ->get();
             $this->logger->debug("School filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -208,17 +205,16 @@ class SchoolController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/schools",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a School.  See School model for details.",
-     *         type="School",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/schools",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a School. See School model for details.",
+     *      type="School",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -229,8 +225,8 @@ class SchoolController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                School::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                School::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = School::insertGetId($recordData);
@@ -240,7 +236,7 @@ class SchoolController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "School $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -254,25 +250,24 @@ class SchoolController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/schools/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a School.  See the School model for details.",
-     *         type="School",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of School to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/schools/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a School. See the School model for details.",
+     *      type="School",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of School to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -282,8 +277,8 @@ class SchoolController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                School::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                School::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -310,25 +305,24 @@ class SchoolController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/schools/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a School",
-     *         type="School",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of School to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="School not found")
-     *     )
-     * )
+     *      path="/schools/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a School",
+     *      type="School",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of School to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="School not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

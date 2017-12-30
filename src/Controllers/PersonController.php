@@ -18,13 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/people",
- *     description="Person operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/people",
+ *         description="Person operations",
+ *         produces="['application/json']"
+ *         )
  */
 class PersonController implements ControllerInterface
 {
@@ -37,7 +37,7 @@ class PersonController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -68,25 +68,24 @@ class PersonController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/people/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a Person",
-     *         type="Person",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of Person to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="Person not found")
-     *     )
-     * )
+     *      path="/people/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a Person",
+     *      type="Person",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of Person to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="Person not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -104,16 +103,15 @@ class PersonController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/people",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch Person",
-     *         type="Person"
-     *     )
-     * )
+     *      path="/people",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch Person",
+     *      type="Person"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -139,33 +137,32 @@ class PersonController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
      * @SWG\Api(
-     *     path="/people/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays Person that meet the property=value search criteria",
-     *         type="Person",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="Person not found")
-     *     )
-     * )
+     *      path="/people/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays Person that meet the property=value search criteria",
+     *      type="Person",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="Person not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -174,8 +171,8 @@ class PersonController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Person::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
+            Person::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
             $records = Person::with(
                 [
                     'User',
@@ -183,7 +180,9 @@ class PersonController implements ControllerInterface
                     'Gender',
                     'PersonAddress',
                     'PersonPhone'
-                ])->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+                ])->where($filter, 'like', '%' . $value . '%')
+                ->limit(200)
+                ->get();
             $this->logger->debug("Person filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -212,17 +211,16 @@ class PersonController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/people",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a Person.  See Person model for details.",
-     *         type="Person",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/people",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a Person. See Person model for details.",
+     *      type="Person",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -233,8 +231,8 @@ class PersonController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Person::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                Person::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = Person::insertGetId($recordData);
@@ -244,7 +242,7 @@ class PersonController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "Person $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -258,25 +256,24 @@ class PersonController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/people/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a Person.  See the Person model for details.",
-     *         type="Person",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of Person to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/people/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a Person. See the Person model for details.",
+     *      type="Person",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of Person to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -286,8 +283,8 @@ class PersonController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Person::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                Person::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -314,25 +311,24 @@ class PersonController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/people/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a Person",
-     *         type="Person",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of Person to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="Person not found")
-     *     )
-     * )
+     *      path="/people/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a Person",
+     *      type="Person",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of Person to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="Person not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

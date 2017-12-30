@@ -30,7 +30,8 @@ $container['AddressController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\AddressController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\AddressController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['GenderController'] = function ($c) {
     $logger = $c->get('logger');
@@ -39,7 +40,8 @@ $container['GenderController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\GenderController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\GenderController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['LanguageController'] = function ($c) {
     $logger = $c->get('logger');
@@ -48,7 +50,8 @@ $container['LanguageController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\LanguageController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\LanguageController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['EthnicityController'] = function ($c) {
     $logger = $c->get('logger');
@@ -57,7 +60,8 @@ $container['EthnicityController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\EthnicityController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\EthnicityController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['MedicationController'] = function ($c) {
     $logger = $c->get('logger');
@@ -66,7 +70,8 @@ $container['MedicationController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\MedicationController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\MedicationController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['CityDataController'] = function ($c) {
     $logger = $c->get('logger');
@@ -75,7 +80,8 @@ $container['CityDataController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\CityDataController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\CityDataController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['CityDataExtendedController'] = function ($c) {
     $logger = $c->get('logger');
@@ -94,7 +100,8 @@ $container['ClientController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\ClientController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\ClientController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['ClientEthnicityController'] = function ($c) {
     $logger = $c->get('logger');
@@ -123,7 +130,8 @@ $container['CounseleeController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\CounseleeController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\CounseleeController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['CounseleeChildController'] = function ($c) {
     $logger = $c->get('logger');
@@ -212,7 +220,8 @@ $container['CountyDataController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\CountyDataController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\CountyDataController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['DrugUseController'] = function ($c) {
     $logger = $c->get('logger');
@@ -221,7 +230,8 @@ $container['DrugUseController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\DrugUseController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\DrugUseController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['FundingSourceController'] = function ($c) {
     $logger = $c->get('logger');
@@ -260,7 +270,8 @@ $container['PersonController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\PersonController($logger, $db, $cache, $debug, $jwtToken, $jwtToken);
+    return new FSS\Controllers\PersonController($logger, $db, $cache, $debug,
+        $jwtToken, $jwtToken);
 };
 $container['PersonAddressController'] = function ($c) {
     $logger = $c->get('logger');
@@ -279,7 +290,8 @@ $container['PersonPhoneController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\PersonPhoneController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\PersonPhoneController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['PhoneController'] = function ($c) {
     $logger = $c->get('logger');
@@ -288,7 +300,8 @@ $container['PhoneController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\PhoneController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\PhoneController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['RoleController'] = function ($c) {
     $logger = $c->get('logger');
@@ -297,7 +310,8 @@ $container['RoleController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\RoleController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\RoleController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['SchoolController'] = function ($c) {
     $logger = $c->get('logger');
@@ -306,7 +320,8 @@ $container['SchoolController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\SchoolController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\SchoolController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['ShelterClientController'] = function ($c) {
     $logger = $c->get('logger');
@@ -355,7 +370,8 @@ $container['StateDataController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\StateDataController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\StateDataController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['UserRoleController'] = function ($c) {
     $logger = $c->get('logger');
@@ -364,7 +380,8 @@ $container['UserRoleController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\UserRoleController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\UserRoleController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['UserViewController'] = function ($c) {
     $logger = $c->get('logger');
@@ -373,7 +390,8 @@ $container['UserViewController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\UserViewController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\UserViewController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['VeteranController'] = function ($c) {
     $logger = $c->get('logger');
@@ -382,7 +400,8 @@ $container['VeteranController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     $jwt = $c->get('jwt');
     $jwtToken = $jwt->decoded;
-    return new FSS\Controllers\VeteranController($logger, $db, $cache, $debug, $jwtToken);
+    return new FSS\Controllers\VeteranController($logger, $db, $cache, $debug,
+        $jwtToken);
 };
 $container['ReportController'] = function ($c) {
     $logger = $c->get('logger');

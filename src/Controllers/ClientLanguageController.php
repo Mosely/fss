@@ -18,13 +18,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/clientlanguages",
- *     description="Client Language operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/clientlanguages",
+ *         description="Client Language operations",
+ *         produces="['application/json']"
+ *         )
  */
 class ClientLanguageController implements ControllerInterface
 {
@@ -37,7 +37,7 @@ class ClientLanguageController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -68,25 +68,24 @@ class ClientLanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/clientlanguages/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a client language record",
-     *         type="ClientLanguage",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of client language record to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="client language not found")
-     *     )
-     * )
+     *      path="/clientlanguages/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a client language record",
+     *      type="ClientLanguage",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of client language record to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="client language not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -104,15 +103,15 @@ class ClientLanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/clientlanguages",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch client languages",
-     *         type="ClientLanguage"
-     *     )
-     * )
+     *      path="/clientlanguages",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch client languages",
+     *      type="ClientLanguage"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -121,8 +120,7 @@ class ClientLanguageController implements ControllerInterface
             [
                 'Client',
                 'Language'
-            ]
-            )->limit(200)->get();
+            ])->limit(200)->get();
         $this->logger->debug("All ClientLanguage query: ",
             $this->db::getQueryLog());
         // $records = ClientLanguage::all();
@@ -137,33 +135,32 @@ class ClientLanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
      * @SWG\Api(
-     *     path="/clientlanguages/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays client languages that meet the property=value search criteria",
-     *         type="ClientLanguage",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="client language not found")
-     *     )
-     * )
+     *      path="/clientlanguages/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays client languages that meet the property=value search criteria",
+     *      type="ClientLanguage",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="client language not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -172,14 +169,15 @@ class ClientLanguageController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            ClientLanguage::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
+            ClientLanguage::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
             $records = ClientLanguage::with(
-            [
-                'Client',
-                'Language'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+                [
+                    'Client',
+                    'Language'
+                ])->where($filter, 'like', '%' . $value . '%')
+                ->limit(200)
+                ->get();
             $this->logger->debug("ClientLanguage filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -208,17 +206,16 @@ class ClientLanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/clientlanguages",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a client language.  See ClientLanguage model for details.",
-     *         type="ClientLanguage",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/clientlanguages",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a client language. See ClientLanguage model for details.",
+     *      type="ClientLanguage",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -229,8 +226,8 @@ class ClientLanguageController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                ClientLanguage::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                ClientLanguage::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = ClientLanguage::insertGetId($recordData);
@@ -240,7 +237,7 @@ class ClientLanguageController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "ClientLanguage $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -254,25 +251,24 @@ class ClientLanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/clientlanguages/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a client language record.  See the ClientLanguage model for details.",
-     *         type="ClientLanguage",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of client language record to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/clientlanguages/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a client language record. See the ClientLanguage model for details.",
+     *      type="ClientLanguage",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of client language record to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -282,8 +278,8 @@ class ClientLanguageController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                ClientLanguage::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                ClientLanguage::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -310,24 +306,24 @@ class ClientLanguageController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/clientlanguages/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a client language record",
-     *         type="ClientLanguage",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of client language to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="client language not found")
-     *     )
-     * )
+     *      path="/clientlanguages/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a client language record",
+     *      type="ClientLanguage",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of client language to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="client language not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

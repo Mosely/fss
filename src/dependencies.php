@@ -19,8 +19,8 @@ $container['db'] = function ($c) {
     $capsule->addConnection($settings);
     $capsule->bootEloquent();
     
-    //$capsule->getContainer()->singleton(
-    //   Illuminate\Contracts\Debug\ExceptionHandler::class);
+    // $capsule->getContainer()->singleton(
+    // Illuminate\Contracts\Debug\ExceptionHandler::class);
     
     return $capsule;
 };

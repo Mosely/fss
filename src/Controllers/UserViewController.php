@@ -30,7 +30,7 @@ class UserViewController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -95,8 +95,9 @@ class UserViewController implements ControllerInterface
     }
 
     /**
+     *
      * {@inheritdoc}
-     * 
+     *
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
     public function readAllWithFilter(ServerRequestInterface $request,
@@ -106,11 +107,10 @@ class UserViewController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            UserView::validateColumn(
-                $filter, $this->logger,
-                $this->cache, $this->db);
-            $records = UserView::where($filter, 'like', '%' . $value . '%')
-                ->limit(200)->get();
+            UserView::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
+            $records = UserView::where($filter, 'like', '%' . $value . '%')->limit(
+                200)->get();
             $this->logger->debug("UserView filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -150,9 +150,8 @@ class UserViewController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                UserView::validateColumn(
-                    $key, $this->logger,
-                    $this->cache, $this->db);
+                UserView::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = UserView::insertGetId($recordData);
@@ -162,7 +161,7 @@ class UserViewController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "UserView $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -186,9 +185,8 @@ class UserViewController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                UserView::validateColumn(
-                    $key, $this->logger,
-                    $this->cache, $this->db);
+                UserView::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val

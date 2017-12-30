@@ -16,13 +16,13 @@ use \Exception;
  * Implements the ControllerInterface.
  *
  * @author Dewayne
- *
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/addresses",
- *     description="Address operations",
- *     produces="['application/json']"
- * )  
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/addresses",
+ *         description="Address operations",
+ *         produces="['application/json']"
+ *         )
  */
 class AddressController implements ControllerInterface
 {
@@ -35,7 +35,7 @@ class AddressController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -66,25 +66,24 @@ class AddressController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/addresses/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays an address",
-     *         type="Address",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of address to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="address not found")
-     *     )
-     * )
+     *      path="/addresses/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays an address",
+     *      type="Address",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of address to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="address not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -102,16 +101,15 @@ class AddressController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/addresses",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch addresses",
-     *         type="Address"
-     *     )
-     * )
+     *      path="/addresses",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch addresses",
+     *      type="Address"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -135,33 +133,32 @@ class AddressController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
      * @SWG\Api(
-     *     path="/addresses/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays addresses that meet the property=value search criteria",
-     *         type="Address",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="address not found")
-     *     )
-     * )
+     *      path="/addresses/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays addresses that meet the property=value search criteria",
+     *      type="Address",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="address not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -170,15 +167,16 @@ class AddressController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Address::validateColumn(
-                $filter, $this->logger,
-                $this->cache, $this->db);
+            Address::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
             $records = Address::with(
                 [
                     'CityData',
                     'StateData',
                     'CountyData'
-                ])->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+                ])->where($filter, 'like', '%' . $value . '%')
+                ->limit(200)
+                ->get();
             $this->logger->debug("Address filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -207,17 +205,16 @@ class AddressController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/addresses",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates an address.  See Address model for details.",
-     *         type="Address",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/addresses",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates an address. See Address model for details.",
+     *      type="Address",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -228,9 +225,8 @@ class AddressController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Address::validateColumn(
-                    $key, $this->logger,
-                    $this->cache, $this->db);
+                Address::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = Address::insertGetId($recordData);
@@ -240,7 +236,7 @@ class AddressController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "Address $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -254,25 +250,24 @@ class AddressController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/addresses/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates an address.  See the Address model for details.",
-     *         type="Address",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of address to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/addresses/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates an address. See the Address model for details.",
+     *      type="Address",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of address to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -282,9 +277,8 @@ class AddressController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Address::validateColumn(
-                    $key, $this->logger,
-                    $this->cache, $this->db);
+                Address::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -311,25 +305,24 @@ class AddressController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/addresses/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes an address",
-     *         type="Address",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of address to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="address not found")
-     *     )
-     * )
+     *      path="/addresses/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes an address",
+     *      type="Address",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of address to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="address not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

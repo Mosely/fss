@@ -19,13 +19,13 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/citydata",
- *     description="City data operations",
- *     produces="['application/json']"
- * )   
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/citydata",
+ *         description="City data operations",
+ *         produces="['application/json']"
+ *         )
  */
 class CityDataController implements ControllerInterface
 {
@@ -38,7 +38,7 @@ class CityDataController implements ControllerInterface
     private $cache;
 
     private $debug;
-    
+
     private $jwtToken;
 
     /**
@@ -69,25 +69,24 @@ class CityDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::read() 
      * @SWG\Api(
-     *     path="/citydata/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays city data",
-     *         type="CityData",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of city data to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="city data not found")
-     *     )
-     * )
+     *      path="/citydata/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays city data",
+     *      type="CityData",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of city data to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="city data not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -105,16 +104,15 @@ class CityDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::readAll() 
      * @SWG\Api(
-     *     path="/citydata",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch all city data",
-     *         type="CityData"
-     *     )
-     * )
+     *      path="/citydata",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch all city data",
+     *      type="CityData"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -133,33 +131,32 @@ class CityDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
      * @SWG\Api(
-     *     path="/citydata/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays city data that meet the property=value search criteria",
-     *         type="CityData",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="city data not found")
-     *     )
-     * )
+     *      path="/citydata/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays city data that meet the property=value search criteria",
+     *      type="CityData",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="city data not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -168,9 +165,10 @@ class CityDataController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CityData::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
-            $records = CityData::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            CityData::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
+            $records = CityData::where($filter, 'like', '%' . $value . '%')->limit(
+                200)->get();
             $this->logger->debug("CityData filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -199,17 +197,16 @@ class CityDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::create() 
      * @SWG\Api(
-     *     path="/citydata",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates city data.  See CityData model for details.",
-     *         type="CityData",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/citydata",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates city data. See CityData model for details.",
+     *      type="CityData",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -220,8 +217,8 @@ class CityDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CityData::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                CityData::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = CityData::insertGetId($recordData);
@@ -231,7 +228,7 @@ class CityDataController implements ControllerInterface
                 [
                     "success" => true,
                     "message" => "CityData $recordId has been created.",
-                    "id"      => $recordId
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -245,25 +242,24 @@ class CityDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::update() 
      * @SWG\Api(
-     *     path="/citydata/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates city data.  See the CityData model for details.",
-     *         type="CityData",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of city data to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     *      path="/citydata/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates city data. See the CityData model for details.",
+     *      type="CityData",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of city data to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -273,8 +269,8 @@ class CityDataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CityData::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                CityData::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -301,25 +297,24 @@ class CityDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     * 
+     * @see \FSS\Controllers\ControllerInterface::delete() 
      * @SWG\Api(
-     *     path="/citydata/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes city data record",
-     *         type="CityData",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of city data to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="city data not found")
-     *     )
-     * )
+     *      path="/citydata/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes city data record",
+     *      type="CityData",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of city data to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="city data not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

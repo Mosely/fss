@@ -12,25 +12,34 @@ use Swagger\Annotations as SWG;
  *
  * @author Dewayne
  *        
- * @SWG\Model(
- *     id="User",
- *     @SWG\Property(name="id", type="integer", required=true),
- *     @SWG\Property(name="username", type="string", required=true),
- *     @SWG\Property(name="email", type="string", required=true),
- *     @SWG\Property(name="password", type="string", required=true), 
- *     @SWG\Property(name="password_created_at", type="integer", required=true),
- *     @SWG\Property(name="is_disabled", type="boolean", required=true),  
- *     @SWG\Property(name="created_at", type="integer", required=false),  
- *     @SWG\Property(name="updated_at", type="integer", required=false), 
- *     @SWG\Property(name="updated_by", type="integer", required=true)
- * )
+ *         @SWG\Model(
+ *         id="User",
+ *         @SWG\Property(name="id", type="integer", required=true),
+ *         @SWG\Property(name="username", type="string", required=true),
+ *         @SWG\Property(name="email", type="string", required=true),
+ *         @SWG\Property(name="password", type="string", required=true),
+ *         @SWG\Property(name="password_created_at", type="integer", required=true),
+ *         @SWG\Property(name="is_disabled", type="boolean", required=true),
+ *         @SWG\Property(name="created_at", type="integer", required=false),
+ *         @SWG\Property(name="updated_at", type="integer", required=false),
+ *         @SWG\Property(name="updated_by", type="integer", required=true)
+ *         )
  */
-class User extends AbstractModel {
+class User extends AbstractModel
+{
+
     protected $table = "user";
-    
+
     protected $primaryKey = "id";
-    
-    protected $fillable = array('username','email','password','password_created_at','is_disabled','updated_by');
+
+    protected $fillable = array(
+        'username',
+        'email',
+        'password',
+        'password_created_at',
+        'is_disabled',
+        'updated_by'
+    );
 
     // There's no need to return these five
     // columns with every request. Going to
@@ -139,17 +148,17 @@ class User extends AbstractModel {
     {
         return $this->belongsTo('FSS\Models\Person', 'id', 'id');
     }
-    
+
     public function ShelterClient()
     {
         return $this->hasMany('FSS\Models\ShelterClient');
     }
-    
+
     public function UserRole()
     {
         return $this->hasMany('FSS\Models\UserRole');
-    }    
-    
+    }
+
     public function ShelterClientAdditionalStaff()
     {
         return $this->hasOne('FSS\Models\ShelterClientAdditionalStaff');
