@@ -114,13 +114,21 @@ class VeteranController implements ControllerInterface
         ResponseInterface $response, array $args): ResponseInterface
     {
         $records = Veteran::with(
-            [
-                'BranchOfService',
-                'MilitaryDischargeType',
-                'Client' => function ($q) {
-                    return $q->with('Person');
-                }
-            ]
+                [
+                    'BranchOfService',
+                    'MilitaryDischargeType',
+                    'Client' => function ($q) {
+                    return $q->with(
+                        [
+                            'Person' => function ($q) {
+                                return $q->with(
+                                    'Gender'
+                                    );
+                                }
+                            ]
+                        );
+                    }
+                ]
             )->limit(200)->get();
         $this->logger->debug("All Veteran query: ", $this->db::getQueryLog());
         // $records = Veteran::all();
@@ -177,7 +185,15 @@ class VeteranController implements ControllerInterface
                         'BranchOfService', 
                         'MilitaryDischargeType',
                         'Client' => function ($q) {
-                            return $q->with('Person');
+                            return $q->with(
+                                [
+                                'Person' => function ($q) {
+                                    return $q->with(
+                                        'Gender'
+                                        );
+                                    }
+                                ]
+                            );
                         }
                     ]
                 )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
