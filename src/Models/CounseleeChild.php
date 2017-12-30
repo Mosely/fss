@@ -13,22 +13,19 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="school_id", type="integer", required=true),
  *     @SWG\Property(name="school_problems", type="string", required=false),
  *     @SWG\Property(name="long_standing_illnesses", type="string", required=false),
- *     @SWG\Property(name="who_else_raised_child", type="string", required=false)
+ *     @SWG\Property(name="who_else_raised_child", type="string", required=false),
+ *     @SWG\Property(name="created_at", type="integer", required=false),
+ *     @SWG\Property(name="updated_at", type="integer", required=false),
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
-class CounseleeChild extends AbstractModel
-{
-
-    // The table for this model
+class CounseleeChild extends AbstractModel {
     protected $table = "counselee_child";
-
-    // Fields that can be mass-updated/insterted
-    protected $fillable = array(
-        'school_id',
-        'school_problems',
-        'long_standing_illnesses',
-        'who_else_raised_child'
-    );
+    
+    protected $primaryKey = "id";
+    
+    protected $fillable = array('school_id','school_problems','long_standing_illnesses','who_else_raised_child','updated_by');
+    
     
     public function Counselee()
     {

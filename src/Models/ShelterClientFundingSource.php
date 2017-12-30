@@ -12,14 +12,16 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="shelter_client_id", type="integer", required=true),
  *     @SWG\Property(name="funding_source_id", type="integer", required=true),
- *     @SWG\Property(name="created_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="created_at", type="integer", required=false), 
+ *     @SWG\Property(name="updated_at", type="integer", required=false), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
 class ShelterClientFundingSource extends AbstractModel
 {
-
+    // The primary key
+    protected $primaryKey = "id";
+    
     // The table for this model
     protected $table = "shelter_client_funding_source";
 
@@ -27,8 +29,6 @@ class ShelterClientFundingSource extends AbstractModel
     protected $fillable = array(
         'shelter_client_id',
         'funding_source_id',
-        'created_at',
-        'updated_at',
         'updated_by'
     );
     

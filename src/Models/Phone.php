@@ -14,14 +14,16 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="phone_number", type="integer", required=true),
  *     @SWG\Property(name="extension", type="integer", required=false),
  *     @SWG\Property(name="phone_type", type="string", required=true),
- *     @SWG\Property(name="created_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="created_at", type="integer", required=false), 
+ *     @SWG\Property(name="updated_at", type="integer", required=false), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
 class Phone extends AbstractModel
 {
-
+    // The primary key
+    protected $primaryKey = "id";
+    
     // The table for this model
     protected $table = "phone";
 
@@ -31,8 +33,6 @@ class Phone extends AbstractModel
         'phone_number',
         'extension',
         'phone_type',
-        'created_at',
-        'updated_at',
         'updated_by'
     );
     

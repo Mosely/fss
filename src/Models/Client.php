@@ -15,14 +15,19 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="is_service_member_or_veteran", type="boolean", required=true),
  *     @SWG\Property(name="has_family_who_is_service_member_or_veteran", type="boolean", required=true),
  *     @SWG\Property(name="is_referred_by_veteran_resource_center", type="boolean", required=true),
- *     @SWG\Property(name="referral", type="string", required=false)
+ *     @SWG\Property(name="referral", type="string", required=false),
+ *     @SWG\Property(name="created_at", type="integer", required=false),
+ *     @SWG\Property(name="updated_at", type="integer", required=false),
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
-class Client extends AbstractModel
-{
-
-    // The table for this model
-    protected $table = 'client';
+class Client extends AbstractModel {
+    protected $table = "client";
+    
+    protected $primaryKey = "id";
+    
+    protected $fillable = array('social_security_number','place_of_employment','is_service_member_or_veteran','has_family_who_is_service_member_or_veteran','is_referred_by_veteran_resource_center','referral','updated_by');
+    
 
     /**
      * Get the person records that have this client.

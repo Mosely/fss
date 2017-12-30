@@ -20,16 +20,17 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="password", type="string", required=true), 
  *     @SWG\Property(name="password_created_at", type="integer", required=true),
  *     @SWG\Property(name="is_disabled", type="boolean", required=true),  
- *     @SWG\Property(name="created_at", type="integer", required=true),  
- *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="created_at", type="integer", required=false),  
+ *     @SWG\Property(name="updated_at", type="integer", required=false), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
-class User extends AbstractModel
-{
-
-    // The table for this model
-    protected $table = 'user';
+class User extends AbstractModel {
+    protected $table = "user";
+    
+    protected $primaryKey = "id";
+    
+    protected $fillable = array('username','email','password','password_created_at','is_disabled','updated_by');
 
     // There's no need to return these five
     // columns with every request. Going to

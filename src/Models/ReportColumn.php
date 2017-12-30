@@ -16,8 +16,8 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="column_name", type="string", required=true),
  *     @SWG\Property(name="column_order", type="integer", required=true),
  *     @SWG\Property(name="width", type="integer", required=false), 
- *     @SWG\Property(name="created_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="created_at", type="integer", required=false), 
+ *     @SWG\Property(name="updated_at", type="integer", required=false), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */

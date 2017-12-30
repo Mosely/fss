@@ -19,16 +19,17 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="state_data_id", type="integer", required=true),
  *     @SWG\Property(name="county_data_id", type="integer", required=false),
  *     @SWG\Property(name="apartment_number", type="integer", required=false),
- *     @SWG\Property(name="created_at", type="integer", required=true),
- *     @SWG\Property(name="updated_at", type="integer", required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=false),
+ *     @SWG\Property(name="updated_at", type="integer", required=false),
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
-class Address extends AbstractModel
-{
-
-    // The table for this model
-    protected $table = 'address';
+class Address extends AbstractModel {
+    protected $table = "address";
+    
+    protected $primaryKey = "id";
+    
+    protected $fillable = array('street_number','street_name','street_suffix','zipcode','zipcode_plus_four','city_data_id','state_data_id','county_data_id','apartment_number','updated_by');
 
     /**
      * Get the city_data record associated with the address.

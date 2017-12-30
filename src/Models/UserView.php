@@ -26,9 +26,13 @@ use Swagger\Annotations as SWG;
  */
 class UserView extends AbstractModel
 {
-
+    // The primary key
+    protected $primaryKey = "id";
+    
     // The table for this model
     protected $table = "user_view";
+    
+    protected $fillable = array('first_name','last_name','middle_name','date_of_birth','age','gender_id','gender','username','password','password_created_at','is_disabled');
 
     // There's no need to return these five
     // columns with every request. Going to

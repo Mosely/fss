@@ -20,14 +20,16 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="enter_date", type="string", required=false),
  *     @SWG\Property(name="exit_date", type="string", required=false), 
  *     @SWG\Property(name="notes", type="string", required=false),
- *     @SWG\Property(name="created_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="created_at", type="integer", required=false), 
+ *     @SWG\Property(name="updated_at", type="integer", required=false), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
 class ShelterClient extends AbstractModel
 {
-
+    // The primary key
+    protected $primaryKey = "id";
+    
     // The table for this model
     protected $table = "shelter_client";
 
@@ -43,8 +45,6 @@ class ShelterClient extends AbstractModel
         'enter_date',
         'exit_date',
         'notes',
-        'created_at',
-        'updated_at',
         'updated_by'
     );
     

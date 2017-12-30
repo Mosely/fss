@@ -13,8 +13,8 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="report_column_id", type="integer", required=true),
  *     @SWG\Property(name="relation", type="string", required=true),
  *     @SWG\Property(name="criteria_value", type="string", required=true),
- *     @SWG\Property(name="created_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="created_at", type="integer", required=false), 
+ *     @SWG\Property(name="updated_at", type="integer", required=false), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */

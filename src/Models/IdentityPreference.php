@@ -12,14 +12,16 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="id", type="integer", required=true),
  *     @SWG\Property(name="name", type="string", required=true),
  *     @SWG\Property(name="description", type="string", required=false),
- *     @SWG\Property(name="created_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="created_at", type="integer", required=false), 
+ *     @SWG\Property(name="updated_at", type="integer", required=false), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
 class IdentityPreference extends AbstractModel
 {
-
+    // The primary key
+    protected $primaryKey = "id";
+    
     // The table for this model
     protected $table = "identity_preference";
 
@@ -27,8 +29,6 @@ class IdentityPreference extends AbstractModel
     protected $fillable = array(
         'name',
         'description',
-        'created_at',
-        'updated_at',
         'updated_by'
     );
     

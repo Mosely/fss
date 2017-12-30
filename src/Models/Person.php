@@ -16,16 +16,17 @@ use Swagger\Annotations as SWG;
  *     @SWG\Property(name="date_of_birth", type="string", required=true),
  *     @SWG\Property(name="age", type="integer", required=false),
  *     @SWG\Property(name="gender_id", type="integer", required=true), 
- *     @SWG\Property(name="created_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="created_at", type="integer", required=false), 
+ *     @SWG\Property(name="updated_at", type="integer", required=false), 
  *     @SWG\Property(name="updated_by", type="integer", required=true)
  * )
  */
-class Person extends AbstractModel
-{
-
-    // The table for this model
-    protected $table = 'person';
+class Person extends AbstractModel {
+    protected $table = "person";
+    
+    protected $primaryKey = "id";
+    
+    protected $fillable = array('first_name','last_name','middle_name','date_of_birth','age','gender_id','updated_by');
 
     /**
      * Get the user that has this person.
