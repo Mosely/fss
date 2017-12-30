@@ -37,8 +37,6 @@ class ReportController implements ControllerInterface
     private $jwtToken;
 
     private $debug;
-    
-    private $jwtToken;
 
     /**
      * The constructor that sets The dependencies and
