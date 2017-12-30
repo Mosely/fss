@@ -113,12 +113,7 @@ class StateDataController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = StateData::with(
-            [
-                'Address',
-                'School'
-            ]
-            )->limit(200)->get();
+        $records = StateData::limit(200)->get();
         $this->logger->debug("All StateData query: ", $this->db::getQueryLog());
         // $records = State_data::all();
         return $response->withJson(
@@ -169,12 +164,7 @@ class StateDataController implements ControllerInterface
         try {
             StateData::validateColumn('state_data', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = StateData::with(
-                [
-                    'Address',
-                    'School'
-                ]
-            )->where($filter, $value)->limit(200)->get();
+            $records = StateData::where($filter, $value)->limit(200)->get();
             $this->logger->debug("StateData filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
