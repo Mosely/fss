@@ -117,7 +117,9 @@ class VeteranController implements ControllerInterface
             [
                 'BranchOfService',
                 'MilitaryDischargeType',
-                'Client'
+                'Client' => function ($q) {
+                    return $q->with('Person');
+                }
             ]
             )->limit(200)->get();
         $this->logger->debug("All Veteran query: ", $this->db::getQueryLog());
@@ -174,7 +176,9 @@ class VeteranController implements ControllerInterface
                     [
                         'BranchOfService', 
                         'MilitaryDischargeType',
-                        'Client'
+                        'Client' => function ($q) {
+                            return $q->with('Person');
+                        }
                     ]
                 )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("Veteran filter query: ",
