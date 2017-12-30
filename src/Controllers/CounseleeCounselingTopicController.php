@@ -2,7 +2,12 @@
 namespace FSS\Controllers;
 
 use FSS\Models\CounseleeCounselingTopic;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -14,27 +19,46 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ *
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/counseleecounselingtopics",
+ *     description="CounseleeCounselingTopic operations",
+ *     produces="['application/json']"
+ * )
  */
 class CounseleeCounselingTopicController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+
+    private $db;
+
+    private $cache;
+
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param ContainerInterface $c
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the CounseleeCounselingTopic Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -42,15 +66,33 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopics/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a CounseleeCounselingTopic",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeCounselingTopic to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeCounselingTopic not found")
+     *     )
+     * )
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug(
-            "Reading CounseleeCounselingTopic with id of $id");
+        $this->logger->debug("Reading CounseleeCounselingTopic with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -59,13 +101,27 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopics",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch CounseleeCounselingTopic",
+     *         type="CounseleeCounselingTopic"
+     *     )
+     * )
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = CounseleeCounselingTopic::all();
-        $this->container['logger']->debug(
-            "All CounseleeCounselingTopic query: ",
-            $this->container['db']::getQueryLog());
+        $records = CounseleeCounselingTopic::with(
+            [
+                'Counselee',
+                'CounselingTopic'
+            ]
+            )->limit(200)->get();
+        $this->logger->debug("All CounseleeCounselingTopic query: ",
+            $this->db::getQueryLog());
         // $records = CounseleeCounselingTopic::all();
         return $response->withJson(
             [
@@ -79,19 +135,51 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopics/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays CounseleeCounselingTopic that meet the property=value search criteria",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeCounselingTopic not found")
+     *     )
+     * )
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
             CounseleeCounselingTopic::validateColumn(
-                'CounseleeCounselingTopic', $filter, $this->container);
-            $records = CounseleeCounselingTopic::where($filter, $value)->get();
-            $this->container['logger']->debug(
-                "CounseleeCounselingTopic filter query: ",
-                $this->container['db']::getQueryLog());
+                $filter, $this->logger,
+                $this->cache, $this->db);
+            $records = CounseleeCounselingTopic::with(
+            [
+                'Counselee',
+                'CounselingTopic'
+            ]
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $this->logger->debug("CounseleeCounselingTopic filter query: ",
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -119,8 +207,19 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopics",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a CounseleeCounselingTopic.  See CounseleeCounselingTopic model for details.",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -129,12 +228,12 @@ class CounseleeCounselingTopicController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 CounseleeCounselingTopic::validateColumn(
-                    'CounseleeCounselingTopic', $key, $this->container);
+                    $key, $this->logger, $this->cache,
+                    $this->db);
             }
             $recordId = CounseleeCounselingTopic::insertGetId($recordData);
-            $this->container['logger']->debug(
-                "CounseleeCounselingTopic create query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("CounseleeCounselingTopic create query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -153,8 +252,27 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopics/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a CounseleeCounselingTopic.  See the CounseleeCounselingTopic model for details.",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeCounselingTopic to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
@@ -162,16 +280,16 @@ class CounseleeCounselingTopicController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 CounseleeCounselingTopic::validateColumn(
-                    'CounseleeCounselingTopic', $key, $this->container);
+                    $key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = CounseleeCounselingTopic::update($updateData);
-            $this->container['logger']->debug(
-                "CounseleeCounselingTopic update query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("CounseleeCounselingTopic update query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -190,16 +308,34 @@ class CounseleeCounselingTopicController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/counseleecounselingtopics/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a CounseleeCounselingTopic",
+     *         type="CounseleeCounselingTopic",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of CounseleeCounselingTopic to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="CounseleeCounselingTopic not found")
+     *     )
+     * )
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = CounseleeCounselingTopic::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug(
-                "CounseleeCounselingTopic delete query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("CounseleeCounselingTopic delete query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,

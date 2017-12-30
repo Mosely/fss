@@ -2,7 +2,12 @@
 namespace FSS\Controllers;
 
 use FSS\Models\MilitaryDischargeType;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -14,27 +19,46 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/militarydischargetypes",
+ *     description="MilitaryDischargeType operations",
+ *     produces="['application/json']"
+ * )
  */
 class MilitaryDischargeTypeController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+
+    private $db;
+
+    private $cache;
+
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param ContainerInterface $c
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the MilitaryDischargeType Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -42,15 +66,33 @@ class MilitaryDischargeTypeController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/militarydischargetypes/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a MilitaryDischargeType",
+     *         type="MilitaryDischargeType",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of MilitaryDischargeType to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="MilitaryDischargeType not found")
+     *     )
+     * )
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug(
-            "Reading MilitaryDischargeType with id of $id");
+        $this->logger->debug("Reading MilitaryDischargeType with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -59,12 +101,22 @@ class MilitaryDischargeTypeController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/militarydischargetypes",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch MilitaryDischargeType",
+     *         type="MilitaryDischargeType"
+     *     )
+     * )
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = MilitaryDischargeType::all();
-        $this->container['logger']->debug("All MilitaryDischargeType query: ",
-            $this->container['db']::getQueryLog());
+        $records = MilitaryDischargeType::limit(200)->get();
+        $this->logger->debug("All MilitaryDischargeType query: ",
+            $this->db::getQueryLog());
         // $records = Military_discharge_type::all();
         return $response->withJson(
             [
@@ -78,19 +130,47 @@ class MilitaryDischargeTypeController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/militarydischargetypes/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays MilitaryDischargeType that meet the property=value search criteria",
+     *         type="MilitaryDischargeType",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="MilitaryDischargeType not found")
+     *     )
+     * )
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            MilitaryDischargeType::validateColumn('military_discharge_type',
-                $filter, $this->container);
-            $records = MilitaryDischargeType::where($filter, $value)->get();
-            $this->container['logger']->debug(
-                "MilitaryDischargeType filter query: ",
-                $this->container['db']::getQueryLog());
+            MilitaryDischargeType::validateColumn(
+                $filter, $this->logger,
+                $this->cache, $this->db);
+            $records = MilitaryDischargeType::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
+            $this->logger->debug("MilitaryDischargeType filter query: ",
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -118,8 +198,19 @@ class MilitaryDischargeTypeController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/militarydischargetypes",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a MilitaryDischargeType.  See MilitaryDischargeType model for details.",
+     *         type="MilitaryDischargeType",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -128,12 +219,12 @@ class MilitaryDischargeTypeController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 MilitaryDischargeType::validateColumn(
-                    'MilitaryDischargeType', $key, $this->container);
+                    $key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = MilitaryDischargeType::insertGetId($recordData);
-            $this->container['logger']->debug(
-                "MilitaryDischargeType create query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("MilitaryDischargeType create query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -152,8 +243,27 @@ class MilitaryDischargeTypeController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/militarydischargetypes/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a MilitaryDischargeType.  See the MilitaryDischargeType model for details.",
+     *         type="MilitaryDischargeType",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of MilitaryDischargeType to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
@@ -161,16 +271,16 @@ class MilitaryDischargeTypeController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 MilitaryDischargeType::validateColumn(
-                    'military_discharge_type', $key, $this->container);
+                    $key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = MilitaryDischargeType::update($updateData);
-            $this->container['logger']->debug(
-                "MilitaryDischargeType update query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("MilitaryDischargeType update query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -189,16 +299,34 @@ class MilitaryDischargeTypeController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/militarydischargetypes/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a MilitaryDischargeType",
+     *         type="MilitaryDischargeType",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of MilitaryDischargeType to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="MilitaryDischargeType not found")
+     *     )
+     * )
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = MilitaryDischargeType::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug(
-                "MilitaryDischargeType delete query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("MilitaryDischargeType delete query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,

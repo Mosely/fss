@@ -19,15 +19,15 @@ $container['db'] = function ($c) {
     $capsule->addConnection($settings);
     $capsule->bootEloquent();
     
-    $capsule->getContainer()->singleton(
-        Illuminate\Contracts\Debug\ExceptionHandler::class);
+    //$capsule->getContainer()->singleton(
+    //   Illuminate\Contracts\Debug\ExceptionHandler::class);
     
     return $capsule;
 };
 
 // opcache magic
 $container['cache'] = function ($c) {
-    return new FSS\Utilities\Cache($c);
+    return new FSS\Utilities\Cache($c->get('logger'));
 };
 
 // JWT Token Generator

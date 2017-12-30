@@ -2,8 +2,13 @@
 namespace FSS\Controllers;
 
 use FSS\Models\ShelterClientFundingSource;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
 use \Exception;
+use Swagger\Annotations as SWG;
 
 /**
  * The controller for
@@ -14,27 +19,46 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/shelterclientfundingsources",
+ *     description="ShelterClientFundingSource operations",
+ *     produces="['application/json']"
+ * )
  */
 class ShelterClientFundingSourceController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+
+    private $db;
+
+    private $cache;
+
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param ContainerInterface $c
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the ShelterClientFundingSource Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -42,14 +66,33 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsources/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a ShelterClientFundingSource",
+     *         type="ShelterClientFundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientFundingSource to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientFundingSource not found")
+     *     )
+     * )
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug(
+        $this->logger->debug(
             "Reading ShelterClientFundingSource with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
@@ -59,13 +102,27 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsources",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch ShelterClientFundingSource",
+     *         type="ShelterClientFundingSource"
+     *     )
+     * )
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = ShelterClientFundingSource::all();
-        $this->container['logger']->debug(
-            "All ShelterClientFundingSource query: ",
-            $this->container['db']::getQueryLog());
+        $records = ShelterClientFundingSource::with(
+            [
+                'ShelterClient',
+                'FundingSource'
+            ]
+            )->limit(200)->get();
+        $this->logger->debug("All ShelterClientFundingSource query: ",
+            $this->db::getQueryLog());
         // $records = Shelter_client_funding_source::all();
         return $response->withJson(
             [
@@ -79,19 +136,51 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsources/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays ShelterClientFundingSource that meet the property=value search criteria",
+     *         type="ShelterClientFundingSource",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientFundingSource not found")
+     *     )
+     * )
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
             ShelterClientFundingSource::validateColumn(
-                'ShelterClientFundingSource', $filter, $this->container);
-            $records = ShelterClientFundingSource::where($filter, $value)->get();
-            $this->container['logger']->debug(
-                "ShelterClientFundingSource filter query: ",
-                $this->container['db']::getQueryLog());
+                $filter, $this->logger,
+                $this->cache, $this->db);
+            $records = ShelterClientFundingSource::with(
+            [
+                'ShelterClient',
+                'FundingSource'
+            ]
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $this->logger->debug("ShelterClientFundingSource filter query: ",
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -119,8 +208,19 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsources",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a ShelterClientFundingSource.  See ShelterClientFundingSource model for details.",
+     *         type="ShelterClientFundingSource",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -129,12 +229,12 @@ class ShelterClientFundingSourceController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 ShelterClientFundingSource::validateColumn(
-                    'ShelterClientFundingSource', $key, $this->container);
+                    $key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = ShelterClientFundingSource::insertGetId($recordData);
-            $this->container['logger']->debug(
-                "ShelterClientFundingSource create query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("ShelterClientFundingSource create query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -153,8 +253,27 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsources/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a ShelterClientFundingSource.  See the ShelterClientFundingSource model for details.",
+     *         type="ShelterClientFundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientFundingSource to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
@@ -162,16 +281,16 @@ class ShelterClientFundingSourceController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 ShelterClientFundingSource::validateColumn(
-                    'ShelterClientFundingSource', $key, $this->container);
+                    $key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = ShelterClientFundingSource::update($updateData);
-            $this->container['logger']->debug(
-                "ShelterClientFundingSource update query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("ShelterClientFundingSource update query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -190,16 +309,34 @@ class ShelterClientFundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/shelterclientfundingsources/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a ShelterClientFundingSource",
+     *         type="ShelterClientFundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of ShelterClientFundingSource to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="ShelterClientFundingSource not found")
+     *     )
+     * )
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = ShelterClientFundingSource::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug(
-                "ShelterClientFundingSource delete query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("ShelterClientFundingSource delete query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,

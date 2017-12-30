@@ -2,7 +2,12 @@
 namespace FSS\Controllers;
 
 use FSS\Models\Person;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -13,27 +18,46 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/people",
+ *     description="Person operations",
+ *     produces="['application/json']"
+ * )
  */
 class PersonController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+
+    private $db;
+
+    private $cache;
+
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param ContainerInterface $c
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the Person Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -41,15 +65,34 @@ class PersonController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/people/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a Person",
+     *         type="Person",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of Person to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="Person not found")
+     *     )
+     * )
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading person with id of $id");
-        $this->container['logger']->debug("Reading person with id of $id");
+        // $this->logger->info("Reading person with id of $id");
+        $this->logger->debug("Reading person with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -58,17 +101,28 @@ class PersonController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/people",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch Person",
+     *         type="Person"
+     *     )
+     * )
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $records = Person::with(
             [
-                'user',
-                'client',
-                'gender'
-            ])->get();
-        $this->container['logger']->debug("All persons query: ",
-            $this->container['db']::getQueryLog());
+                'User',
+                'Client',
+                'Gender',
+                'PersonAddress',
+                'PersonPhone'
+            ])->limit(200)->get();
+        $this->logger->debug("All persons query: ", $this->db::getQueryLog());
         // $records = Person::all();
         return $response->withJson(
             [
@@ -82,22 +136,52 @@ class PersonController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/people/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays Person that meet the property=value search criteria",
+     *         type="Person",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="Person not found")
+     *     )
+     * )
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            Person::validateColumn('person', $filter, $this->container);
+            Person::validateColumn($filter, $this->logger,
+                $this->cache, $this->db);
             $records = Person::with(
                 [
-                    'user',
-                    'client',
-                    'gender'
-                ])->where($filter, $value)->get();
-            $this->container['logger']->debug("Person filter query: ",
-                $this->container['db']::getQueryLog());
+                    'User',
+                    'Client',
+                    'Gender',
+                    'PersonAddress',
+                    'PersonPhone'
+                ])->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $this->logger->debug("Person filter query: ",
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -125,8 +209,19 @@ class PersonController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/people",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a Person.  See Person model for details.",
+     *         type="Person",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -134,11 +229,12 @@ class PersonController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Person::validateColumn('person', $key, $this->container);
+                Person::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = Person::insertGetId($recordData);
-            $this->container['logger']->debug("Person create query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("Person create query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -157,23 +253,43 @@ class PersonController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/people/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a Person.  See the Person model for details.",
+     *         type="Person",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of Person to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Person::validateColumn('person', $key, $this->container);
+                Person::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = Person::update($updateData);
-            $this->container['logger']->debug("Person update query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("Person update query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -192,15 +308,34 @@ class PersonController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/people/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a Person",
+     *         type="Person",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of Person to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="Person not found")
+     *     )
+     * )
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = Person::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("Person delete query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("Person delete query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,

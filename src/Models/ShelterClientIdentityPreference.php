@@ -1,11 +1,21 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "shelter_client_identity_preference" model.
  *
  * @author Dewayne
- *        
+ *      
+ * @SWG\Model(
+ *     id="ShelterClientIdentityPreference",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="shelter_client_id", type="integer", required=true),
+ *     @SWG\Property(name="identity_preference_id", type="integer", required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  */
 class ShelterClientIdentityPreference extends AbstractModel
 {
@@ -21,4 +31,14 @@ class ShelterClientIdentityPreference extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function ShelterClient()
+    {
+        return $this->belongsTo('FSS\Models\ShelterClient');
+    }
+    
+    public function IdentityPreference()
+    {
+        return $this->belongsTo('FSS\Models\IdentityPreference');
+    }
 }

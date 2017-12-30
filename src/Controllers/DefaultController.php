@@ -1,6 +1,9 @@
 <?php
 namespace FSS\Controllers;
 
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+
 /**
  * Just the default controller when [url]/ is invoked.
  *
@@ -13,12 +16,13 @@ class DefaultController
     /**
      * The default action when [url]/ is invoked.
      *
-     * @param unknown $request
-     * @param unknown $response
-     * @param unknown $args
-     * @return unknown
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface $response
+     * @param array $args
+     * @return ResponseInterface
      */
-    public function indexAction($request, $response, $args)
+    public function indexAction(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         return $response->withJson(
             [

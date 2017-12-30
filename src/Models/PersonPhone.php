@@ -1,11 +1,23 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "person_phone" model.
  *
  * @author Dewayne
  *        
+ * @SWG\Model(
+ *     id="PersonPhone",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="person_id", type="integer", required=true),
+ *     @SWG\Property(name="phone_id", type="integer", required=true),
+ *     @SWG\Property(name="is_primary", type="boolean", required=true),
+ *     @SWG\Property(name="can_call", type="boolean", required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  */
 class PersonPhone extends AbstractModel
 {
@@ -23,4 +35,14 @@ class PersonPhone extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    
+    public function Person()
+    {
+        return $this->belongsTo('FSS\Models\Person');
+    }
+    
+    public function Phone()
+    {
+        return $this->belongsTo('FSS\Models\Phone');
+    }
 }

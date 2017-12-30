@@ -65,11 +65,11 @@ $app->post('/medications', 'MedicationController:create');
 $app->put('/medications/{id:[0-9]+}', 'MedicationController:update');
 $app->delete('/medications/{id:[0-9]+}', 'MedicationController:delete');
 
-$app->get('/citydata', 'City_dataController:readAll');
+$app->get('/citydata', 'CityDataController:readAll');
 $app->get('/citydata/{id:[0-9]+}', 'CityDataController:read');
 $app->get('/citydata/{filter}/{value}', 'CityDataController:readAllWithFilter');
 
-$app->post('/citydata', 'City_dataController:create');
+$app->post('/citydata', 'CityDataController:create');
 $app->put('/citydata/{id:[0-9]+}', 'CityDataController:update');
 $app->delete('/citydata/{id:[0-9]+}', 'CityDataController:delete');
 
@@ -126,8 +126,7 @@ $app->get('/counseleechildren/{filter}/{value}',
 
 $app->post('/counseleechildren', 'CounseleeChildController:create');
 $app->put('/counseleechildren/{id:[0-9]+}', 'CounseleeChildController:update');
-$app->delete('/counseleechildren/{id:[0-9]+}',
-    'CounseleeChildController:delete');
+$app->delete('/counseleechildren/{id:[0-9]+}', 'CounseleeChildController:delete');
 
 $app->get('/counseleechildbioparents',
     'CounseleeChildBioParentController:readAll');
@@ -143,29 +142,25 @@ $app->put('/counseleechildbioparents/{id:[0-9]+}',
 $app->delete('/counseleechildbioparents/{id:[0-9]+}',
     'CounseleeChildBioParentController:delete');
 
-$app->get('/counseleechildguardians',
-    'CounseleeChildGuardianController:readAll');
+$app->get('/counseleechildguardians', 'CounseleeChildGuardianController:readAll');
 $app->get('/counseleechildguardians/{id:[0-9]+}',
     'CounseleeChildGuardianController:read');
 $app->get('/counseleechildguardians/{filter}/{value}',
     'CounseleeChildGuardianController:readAllWithFilter');
 
-$app->post('/counseleechildguardians',
-    'CounseleeChildGuardianController:create');
+$app->post('/counseleechildguardians', 'CounseleeChildGuardianController:create');
 $app->put('/counseleechildguardians/{id:[0-9]+}',
     'CounseleeChildGuardianController:update');
 $app->delete('/counseleechildguardians/{id:[0-9]+}',
     'CounseleeChildGuardianController:delete');
 
-$app->get('/counseleechildsiblings',
-    'CounseleeChildSiblingController:readAll');
+$app->get('/counseleechildsiblings', 'CounseleeChildSiblingController:readAll');
 $app->get('/counseleechildsiblings/{id:[0-9]+}',
     'CounseleeChildSiblingController:read');
 $app->get('/counseleechildsiblings/{filter}/{value}',
     'CounseleeChildSiblingController:readAllWithFilter');
 
-$app->post('/counseleechildsiblings',
-    'CounseleeChildSiblingController:create');
+$app->post('/counseleechildsiblings', 'CounseleeChildSiblingController:create');
 $app->put('/counseleechildsiblings/{id:[0-9]+}',
     'CounseleeChildSiblingController:update');
 $app->delete('/counseleechildsiblings/{id:[0-9]+}',
@@ -186,14 +181,12 @@ $app->delete('/counseleecounselingtopics/{id:[0-9]+}',
     'CounseleeCounselingTopicController:delete');
 
 $app->get('/counseleedruguses', 'CounseleeDrugUseController:readAll');
-$app->get('/counseleedruguses/{id:[0-9]+}',
-    'CounseleeDrugUseController:read');
+$app->get('/counseleedruguses/{id:[0-9]+}', 'CounseleeDrugUseController:read');
 $app->get('/counseleedruguses/{filter}/{value}',
     'CounseleeDrugUseController:readAllWithFilter');
 
 $app->post('/counseleedruguses', 'CounseleeDrugUseController:create');
-$app->put('/counseleedruguses/{id:[0-9]+}',
-    'CounseleeDrugUseController:update');
+$app->put('/counseleedruguses/{id:[0-9]+}', 'CounseleeDrugUseController:update');
 $app->delete('/counseleedruguses/{id:[0-9]+}',
     'CounseleeDrugUseController:delete');
 
@@ -216,8 +209,7 @@ $app->get('/counselingtopics/{filter}/{value}',
 
 $app->post('/counselingtopics', 'CounselingTopicController:create');
 $app->put('/counselingtopics/{id:[0-9]+}', 'CounselingTopicController:update');
-$app->delete('/counselingtopics/{id:[0-9]+}',
-    'CounselingTopicController:delete');
+$app->delete('/counselingtopics/{id:[0-9]+}', 'CounselingTopicController:delete');
 
 $app->get('/countydata', 'CountyDataController:readAll');
 $app->get('/countydata/{id:[0-9]+}', 'CountyDataController:read');
@@ -257,15 +249,13 @@ $app->put('/identitypreferences/{id:[0-9]+}',
 $app->delete('/identitypreferences/{id:[0-9]+}',
     'IdentityPreferenceController:delete');
 
-$app->get('/miltarydischargetypes',
-    'MilitaryDischargeTypeController:readAll');
+$app->get('/miltarydischargetypes', 'MilitaryDischargeTypeController:readAll');
 $app->get('/miltarydischargetypes/{id:[0-9]+}',
     'MilitaryDischargeTypeController:read');
 $app->get('/miltarydischargetypes/{filter}/{value}',
     'MilitaryDischargeTypeController:readAllWithFilter');
 
-$app->post('/miltarydischargetypes',
-    'MilitaryDischargeTypeController:create');
+$app->post('/miltarydischargetypes', 'MilitaryDischargeTypeController:create');
 $app->put('/miltarydischargetypes/{id:[0-9]+}',
     'MilitaryDischargeTypeController:update');
 $app->delete('/miltarydischargetypes/{id:[0-9]+}',
@@ -374,8 +364,7 @@ $app->delete('/shelterclientidentitypreferences/{id:[0-9]+}',
 
 $app->get('/statedata', 'StateDataController:readAll');
 $app->get('/statedata/{id:[0-9]+}', 'StateDataController:read');
-$app->get('/statedata/{filter}/{value}',
-    'StateDataController:readAllWithFilter');
+$app->get('/statedata/{filter}/{value}', 'StateDataController:readAllWithFilter');
 
 $app->post('/statedata', 'StateDataController:create');
 $app->put('/statedata/{id:[0-9]+}', 'StateDataController:update');
@@ -383,8 +372,7 @@ $app->delete('/statedata/{id:[0-9]+}', 'StateDataController:delete');
 
 $app->get('/userroles', 'UserRoleController:readAll');
 $app->get('/userroles/{id:[0-9]+}', 'UserRoleController:read');
-$app->get('/userroles/{filter}/{value}',
-    'UserRoleController:readAllWithFilter');
+$app->get('/userroles/{filter}/{value}', 'UserRoleController:readAllWithFilter');
 
 $app->post('/userroles', 'UserRoleController:create');
 $app->put('/userroles/{id:[0-9]+}', 'UserRoleController:update');
@@ -392,8 +380,7 @@ $app->delete('/userroles/{id:[0-9]+}', 'UserRoleController:delete');
 
 $app->get('/userviews', 'UserViewController:readAll');
 $app->get('/userviews/{id:[0-9]+}', 'UserViewController:read');
-$app->get('/userviews/{filter}/{value}',
-    'UserViewController:readAllWithFilter');
+$app->get('/userviews/{filter}/{value}', 'UserViewController:readAllWithFilter');
 
 $app->post('/userviews', 'UserViewController:create');
 $app->put('/userviews/{id:[0-9]+}', 'UserViewController:update');
@@ -406,3 +393,13 @@ $app->get('/veterans/{filter}/{value}', 'VeteranController:readAllWithFilter');
 $app->post('/veterans', 'VeteranController:create');
 $app->put('/veterans/{id:[0-9]+}', 'VeteranController:update');
 $app->delete('/veterans/{id:[0-9]+}', 'VeteranController:delete');
+
+$app->get('/reports', 'ReportController:readAll');
+$app->get('/reports/{id:[0-9]+}', 'ReportController:read');
+$app->get('/reports/{filter}/{value}', 'ReportController:readAllWithFilter');
+
+$app->post('/reports', 'ReportController:create');
+$app->put('/reports/{id:[0-9]+}', 'ReportController:update');
+$app->delete('/reports/{id:[0-9]+}', 'ReportController:delete');
+
+$app->get('/reportoutput/{id:[0-9]+}', 'ReportController:generateReportOutput');

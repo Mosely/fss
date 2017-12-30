@@ -15,6 +15,8 @@ use \DateTime;
 class Token
 {
 
+    public $decoded;
+
     /**
      * Generates a JWT Token and returns
      * an array containig the Token and

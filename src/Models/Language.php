@@ -1,11 +1,20 @@
 <?php
 namespace FSS\Models;
 
+use Swagger\Annotations as SWG;
 /**
  * The "language" model.
  *
  * @author Dewayne
- *        
+ *    
+ * @SWG\Model(
+ *     id="Language",
+ *     @SWG\Property(name="id", type="integer", required=true),
+ *     @SWG\Property(name="name", type="string", required=true),
+ *     @SWG\Property(name="created_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_at", type="integer", required=true), 
+ *     @SWG\Property(name="updated_by", type="integer", required=true)
+ * )
  */
 class Language extends AbstractModel
 {
@@ -20,4 +29,8 @@ class Language extends AbstractModel
         'updated_at',
         'updated_by'
     );
+    public function ClientLanguage()
+    {
+        return $this->hasMany('FSS\Models\ClientLanguage');
+    }
 }

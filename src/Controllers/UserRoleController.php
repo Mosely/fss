@@ -2,8 +2,13 @@
 namespace FSS\Controllers;
 
 use FSS\Models\UserRole;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
 use \Exception;
+use Swagger\Annotations as SWG;
 
 /**
  * The controller for user_role-related actions.
@@ -13,27 +18,46 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/userroles",
+ *     description="UserRole operations",
+ *     produces="['application/json']"
+ * )
  */
 class UserRoleController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+
+    private $db;
+
+    private $cache;
+
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param ContainerInterface $c
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the UserRole Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -41,14 +65,33 @@ class UserRoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/userroles/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a UserRole",
+     *         type="UserRole",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of UserRole to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="UserRole not found")
+     *     )
+     * )
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        $this->container['logger']->debug("Reading UserRole with id of $id");
+        $this->logger->debug("Reading UserRole with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -57,12 +100,26 @@ class UserRoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/userroles",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch UserRole",
+     *         type="UserRole"
+     *     )
+     * )
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = UserRole::all();
-        $this->container['logger']->debug("All UserRole query: ",
-            $this->container['db']::getQueryLog());
+        $records = UserRole::with(
+            [
+                'User',
+                'Role'
+            ]
+            )->limit(200)->get();
+        $this->logger->debug("All UserRole query: ", $this->db::getQueryLog());
         // $records = User_role::all();
         return $response->withJson(
             [
@@ -76,17 +133,50 @@ class UserRoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/userroles/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays UserRole that meet the property=value search criteria",
+     *         type="UserRole",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="UserRole not found")
+     *     )
+     * )
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            UserRole::validateColumn('user_role', $filter, $this->container);
-            $records = UserRole::where($filter, $value)->get();
-            $this->container['logger']->debug("UserRole filter query: ",
-                $this->container['db']::getQueryLog());
+            UserRole::validateColumn($filter, $this->logger,
+                $this->cache, $this->db);
+            $records = UserRole::with(
+            [
+                'User',
+                'Role'
+            ]
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $this->logger->debug("UserRole filter query: ",
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -114,8 +204,19 @@ class UserRoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/userroles",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a UserRole.  See UserRole model for details.",
+     *         type="UserRole",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -123,11 +224,12 @@ class UserRoleController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                UserRole::validateColumn('user_role', $key, $this->container);
+                UserRole::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = UserRole::insertGetId($recordData);
-            $this->container['logger']->debug("UserRole create query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("UserRole create query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -146,23 +248,43 @@ class UserRoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/userroles/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a UserRole.  See the UserRole model for details.",
+     *         type="UserRole",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of UserRole to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                UserRole::validateColumn('UserRole', $key, $this->container);
+                UserRole::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = UserRole::update($updateData);
-            $this->container['logger']->debug("UserRole update query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("UserRole update query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -181,15 +303,34 @@ class UserRoleController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/userroles/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a UserRole",
+     *         type="UserRole",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of UserRole to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="UserRole not found")
+     *     )
+     * )
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = UserRole::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("UserRole delete query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("UserRole delete query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,

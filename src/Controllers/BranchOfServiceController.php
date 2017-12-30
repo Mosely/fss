@@ -2,7 +2,12 @@
 namespace FSS\Controllers;
 
 use FSS\Models\BranchOfService;
-use Interop\Container\ContainerInterface;
+use FSS\Utilities\Cache;
+use Illuminate\Database\Capsule\Manager;
+use Monolog\Logger;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -10,27 +15,47 @@ use \Exception;
  * the branch_of_service model.
  *
  * @author Dewayne
- *        
+ *
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/branchesofservice",
+ *     description="Branch Of Service operations",
+ *     produces="['application/json']"
+ * )  
  */
 class BranchOfServiceController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+
+    private $db;
+
+    private $cache;
+
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets the dependencies and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param ContainerInterface $c
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the Branch Of Service Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -38,8 +63,27 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/branchesofservice/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a branch of service.",
+     *         type="BranchOfService",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of branch of service to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="branch of service not found")
+     *     )
+     * )
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
@@ -51,10 +95,20 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/branchesofservice",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch branches of service",
+     *         type="BranchOfService"
+     *     )
+     * )
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = BranchOfService::all();
+        $records = BranchOfService::limit(200)->get();
         return $response->withJson(
             [
                 "success" => true,
@@ -67,16 +121,44 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     *
+     * @SWG\Api(
+     *     path="/branchesofservice/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays branches of service that meet the property=value search criteria",
+     *         type="BranchOfService",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="branch of service not found")
+     *     )
+     * )
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            BranchOfService::validateColumn('branch_of_service', $filter,
-                $this->container);
-            $records = BranchOfService::where($filter, $value)->get();
+            BranchOfService::validateColumn($filter,
+                $this->logger, $this->cache, $this->db);
+            $records = BranchOfService::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -104,8 +186,19 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     * 
+     * @SWG\Api(
+     *     path="/branchesofservice",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a branch of service.  See BranchOfService model for details.",
+     *         type="BranchOfService",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name
         // attribute on form elements that actually
@@ -113,8 +206,8 @@ class BranchOfServiceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                BranchOfService::validateColumn('branch_of_service', $key,
-                    $this->container);
+                BranchOfService::validateColumn($key,
+                    $this->logger, $this->cache, $this->db);
             }
             $recordId = BranchOfService::insertGetId($recordData);
             return $response->withJson(
@@ -135,16 +228,35 @@ class BranchOfServiceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     * 
+     * @SWG\Api(
+     *     path="/branchesofservice/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a branch of service.  See the BranchOfService model for details.",
+     *         type="BranchOfService",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of branch of service to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                BranchOfService::validateColumn('branch_of_service', $key,
-                    $this->container);
+                BranchOfService::validateColumn($key,
+                    $this->logger, $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
@@ -166,11 +278,30 @@ class BranchOfServiceController implements ControllerInterface
     }
 
     /**
-     *
+     * 
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     * 
+     * @SWG\Api(
+     *     path="/branchesofservice/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a branch of service.",
+     *         type="BranchOfService",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of branch of service to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="branch of service not found")
+     *     )
+     * )
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {

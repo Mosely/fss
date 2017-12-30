@@ -2,7 +2,12 @@
 namespace FSS\Controllers;
 
 use FSS\Models\FundingSource;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -13,27 +18,46 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/fundingsources",
+ *     description="FundingSource operations",
+ *     produces="['application/json']"
+ * )
  */
 class FundingSourceController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+
+    private $db;
+
+    private $cache;
+
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param ContainerInterface $c
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the FundingSource Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -41,16 +65,34 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     *
+     * @SWG\Api(
+     *     path="/fundingsources/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays a FundingSource",
+     *         type="FundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of FundingSource to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="FundingSource not found")
+     *     )
+     * )
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading FundingSource with id of $id");
-        $this->container['logger']->debug(
-            "Reading FundingSource with id of $id");
+        // $this->logger->info("Reading FundingSource with id of $id");
+        $this->logger->debug("Reading FundingSource with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -59,12 +101,22 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     *
+     * @SWG\Api(
+     *     path="/fundingsources",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch FundingSource",
+     *         type="FundingSource"
+     *     )
+     * )
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = FundingSource::all();
-        $this->container['logger']->debug("All FundingSource query: ",
-            $this->container['db']::getQueryLog());
+        $records = FundingSource::limit(200)->get();
+        $this->logger->debug("All FundingSource query: ",
+            $this->db::getQueryLog());
         // $records = Funding_source::all();
         return $response->withJson(
             [
@@ -78,18 +130,45 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     * @SWG\Api(
+     *     path="/fundingsources/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays FundingSource that meet the property=value search criteria",
+     *         type="FundingSource",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="FundingSource not found")
+     *     )
+     * )
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            FundingSource::validateColumn('FundingSource', $filter,
-                $this->container);
-            $records = FundingSource::where($filter, $value)->get();
-            $this->container['logger']->debug("FundingSource filter query: ",
-                $this->container['db']::getQueryLog());
+            FundingSource::validateColumn($filter, $this->logger,
+                $this->cache, $this->db);
+            $records = FundingSource::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
+            $this->logger->debug("FundingSource filter query: ",
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -117,8 +196,19 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     *
+     * @SWG\Api(
+     *     path="/fundingsources",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates a FundingSource.  See FundingSource model for details.",
+     *         type="FundingSource",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -126,12 +216,12 @@ class FundingSourceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                FundingSource::validateColumn('FundingSource', $key,
-                    $this->container);
+                FundingSource::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = FundingSource::insertGetId($recordData);
-            $this->container['logger']->debug("FundingSource create query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("FundingSource create query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -150,24 +240,43 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     *
+     * @SWG\Api(
+     *     path="/fundingsources/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates a FundingSource.  See the FundingSource model for details.",
+     *         type="FundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of FundingSource to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                FundingSource::validateColumn('FundingSource', $key,
-                    $this->container);
+                FundingSource::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = FundingSource::update($updateData);
-            $this->container['logger']->debug("FundingSource update query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("FundingSource update query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -186,15 +295,34 @@ class FundingSourceController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     *
+     * @SWG\Api(
+     *     path="/fundingsources/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes a FundingSource",
+     *         type="FundingSource",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of FundingSource to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="FundingSource not found")
+     *     )
+     * )
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = FundingSource::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("FundingSource delete query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("FundingSource delete query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,

@@ -1,68 +1,75 @@
 <?php
 namespace FSS\Utilities;
 
-use Interop\Container\ContainerInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Shared\StringHelper;
 use PhpOffice\PhpSpreadsheet\Writer\Csv;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-class ReportGenerator {
-    private $container;
+class ReportGenerator
+{
+
     private $savePointer;
+
     private $reportPath;
+
     private $reportType;
+
     private $reportTitle;
+
     private $dataCollection;
+
     private $headerRow = [];
-    private $body      = [];
-    
-    public function __construct(ContainerInterface $c, 
-        string $reportPath, 
-        string $reportTitle, 
-        string $reportType = 'csv') {
-        
+
+    private $body = [];
+
+    private $jwtToken;
+
+    public function __construct($jwtToken, string $reportPath,
+        string $reportTitle, string $reportType = 'CSV')
+    {
         StringHelper::setDecimalSeparator('.');
         StringHelper::setThousandsSeparator(',');
-        $this->container   = $c;
-        $this->reportPath  = $reportPath;
+        $this->jwtToken = $jwtToken;
+        $this->reportPath = $reportPath;
         $this->reportTitle = $reportTitle;
-        $this->reportType  = $reportType;
-        $this->Initialize();
+        $this->reportType = $reportType;
+        $this->initialize();
     }
-    
-    private function Initialize() {
+
+    private function initialize()
+    {
         $this->dataCollection = new Spreadsheet();
-        $this->dataCollection
-            ->getProperties()
-                ->setCreator($this->container["jwtToken"]->sub)
-                ->setLastModifiedBy($this->container["jwtToken"]->sub)
-                ->setTitle($this->reportTitle)
-                ->setSubject($this->reportTitle)
-                ->setDescription(
-                    $this->reportTitle + ", generated for use by FSS."
-                    )
-                ->setKeywords("fss")
-                ->setCategory("FSS report file");
-        switch($this->reportType) {
-            case 'csv':
-                $this->InitCsv();
+        $this->dataCollection->getProperties()
+            ->setCreator($this->jwtToken->sub)
+            ->setLastModifiedBy($this->jwtToken->sub)
+            ->setTitle($this->reportTitle)
+            ->setSubject($this->reportTitle)
+            ->setDescription($this->reportTitle . 
+                ", generated for use by FSS.")
+            ->setKeywords("fss")
+            ->setCategory("FSS report file");
+        switch ($this->reportType) {
+            case 'CSV':
+                $this->initCsv();
                 break;
-            case 'excel':
-                $this->InitExcel();
+            case 'EXCEL':
+                $this->initExcel();
                 break;
         }
     }
-    
-    private function InitCsv() {
-        $this->savePointer = function() {
+
+    private function initCsv()
+    {
+        $this->savePointer = function () {
             $arrayData = [];
-            $arrayData[] = $this->header;
-            for($i = 0; i < count($this->body); $i++) {
+            $arrayData[] = $this->headerRow;
+            for ($i = 0; $i < count($this->body); $i ++) {
                 $arrayData[] = $this->body[$i];
             }
-            $this->dataCollection->getActiveSheet()
-                ->fromArray($arrayData, NULL, 'A1');
+            $this->dataCollection->getActiveSheet()->fromArray(
+                $arrayData, NULL,
+                'A1');
             $writer = new Csv($this->dataCollection);
             $writer->setDelimiter(',');
             $writer->setEnclosure('"');
@@ -71,34 +78,51 @@ class ReportGenerator {
             $writer->save($this->reportPath);
             $this->dataCollection->disconnectWorksheets();
             unset($this->dataCollection);
+            header('Content-Type: application/csv');
+            header(
+                'Content-Disposition: attachment; filename=' . 
+                $this->reportTitle .
+                     '.csv');
+            header('Pragma: no-cache');
         };
     }
-    
-    private function InitExcel() {
-        $this->savePointer = function() {
+
+    private function initExcel()
+    {
+        //TODO: need to fix this...
+        $this->savePointer = function () {
             $arrayData = [];
-            $arrayData[] = $this->header;
-            for($i = 0; i < count($this->body); $i++) {
+            $arrayData[] = $this->headerRow;
+            for ($i = 0; i < count($this->body); $i ++) {
                 $arrayData[] = $this->body[$i];
             }
-            $this->dataCollection->getActiveSheet()
-                ->fromArray($arrayData, NULL, 'A1');
+            $this->dataCollection->getActiveSheet()->fromArray(
+                $arrayData, NULL,
+                'A1');
             $writer = new Xlsx($this->dataCollection);
             $writer->save($this->reportPath);
             $this->dataCollection->disconnectWorksheets();
             unset($this->dataCollection);
+            header('Content-type: application/vnd.ms-excel');
+            header(
+                'Content-Disposition: attachment; filename=' . 
+                $this->reportTitle .
+                     '.xls');
         };
     }
-    
-    public function SetHeader(array $headerRow) {
+
+    public function setHeader(array $headerRow)
+    {
         $this->headerRow = $headerRow;
     }
-    
-    public function AddRow(array $row) {
+
+    public function addRow(array $row)
+    {
         $this->body[] = $row;
     }
-    
-    public function Save() {
-        $this->savePointer();
+
+    public function save()
+    {
+        ($this->savePointer)();
     }
 }

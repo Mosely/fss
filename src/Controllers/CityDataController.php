@@ -2,7 +2,12 @@
 namespace FSS\Controllers;
 
 use FSS\Models\CityData;
-use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Message\ResponseInterface;
+use Monolog\Logger;
+use Illuminate\Database\Capsule\Manager;
+use FSS\Utilities\Cache;
+use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -14,27 +19,46 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *        
+ * 
+ * @SWG\Resource(
+ *     apiVersion="1.0",
+ *     resourcePath="/citydata",
+ *     description="City data operations",
+ *     produces="['application/json']"
+ * )   
  */
 class CityDataController implements ControllerInterface
 {
 
-    // The DI container reference.
-    private $container;
+    // The dependencies.
+    private $logger;
+
+    private $db;
+
+    private $cache;
+
+    private $debug;
 
     /**
-     * The constructor that sets the DI Container reference and
+     * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
      *
-     * @param ContainerInterface $c
+     * @param Logger $logger
+     * @param Manager $db
+     * @param Cache $cache
+     * @param bool $debug
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(Logger $logger, Manager $db, Cache $cache,
+        bool $debug)
     {
-        $this->container = $c;
-        if ($this->container['settings']['debug']) {
-            $this->container['logger']->debug(
+        $this->logger = $logger;
+        $this->db = $db;
+        $this->cache = $cache;
+        $this->debug = $debug;
+        if ($this->debug) {
+            $this->logger->debug(
                 "Enabling query log for the CityData Controller.");
-            $this->container['db']::enableQueryLog();
+            $this->db::enableQueryLog();
         }
     }
 
@@ -42,15 +66,34 @@ class CityDataController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::read()
+     * 
+     * @SWG\Api(
+     *     path="/citydata/{id}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays city data",
+     *         type="CityData",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of city data to fetch",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="city data not found")
+     *     )
+     * )
      */
-    public function read($request, $response, $args)
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         $args['filter'] = "id";
         $args['value'] = $id;
         
-        // $this->container['logger']->info("Reading city_data with id of $id");
-        $this->container['logger']->debug("Reading city_data with id of $id");
+        // $this->logger->info("Reading city_data with id of $id");
+        $this->logger->debug("Reading city_data with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -59,12 +102,21 @@ class CityDataController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAll()
+     * 
+     * @SWG\Api(
+     *     path="/citydata",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Fetch all city data",
+     *         type="CityData"
+     *     )
+     * )
      */
-    public function readAll($request, $response, $args)
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = CityData::all();
-        $this->container['logger']->debug("All city_data query: ",
-            $this->container['db']::getQueryLog());
+        $records = CityData::limit(200)->get();
+        $this->logger->debug("All city_data query: ", $this->db::getQueryLog());
         // $records = City_data::all();
         return $response->withJson(
             [
@@ -78,17 +130,45 @@ class CityDataController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
+     * 
+     * @SWG\Api(
+     *     path="/citydata/{filter}/{value}",
+     *     @SWG\Operation(
+     *         method="GET",
+     *         summary="Displays city data that meet the property=value search criteria",
+     *         type="CityData",
+     *         @SWG\Parameter(
+     *             name="filter",
+     *             description="property to search for in the related model.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="string"
+     *         ),
+     *         @SWG\Parameter(
+     *             name="value",
+     *             description="value to search for, given the property.",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="object"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="city data not found")
+     *     )
+     * )
      */
-    public function readAllWithFilter($request, $response, $args)
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $filter = $args['filter'];
         $value = $args['value'];
         
         try {
-            CityData::validateColumn('city_data', $filter, $this->container);
-            $records = CityData::where($filter, $value)->get();
-            $this->container['logger']->debug("CityData filter query: ",
-                $this->container['db']::getQueryLog());
+            CityData::validateColumn($filter, $this->logger,
+                $this->cache, $this->db);
+            $records = CityData::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $this->logger->debug("CityData filter query: ",
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -116,8 +196,19 @@ class CityDataController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::create()
+     * 
+     * @SWG\Api(
+     *     path="/citydata",
+     *     @SWG\Operation(
+     *         method="POST",
+     *         summary="Creates city data.  See CityData model for details.",
+     *         type="CityData",
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function create($request, $response, $args)
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // Make sure the frontend only puts the name attribute
         // on form elements that actually contain data
@@ -125,11 +216,12 @@ class CityDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CityData::validateColumn('city_data', $key, $this->container);
+                CityData::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = CityData::insertGetId($recordData);
-            $this->container['logger']->debug("CityData create query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("CityData create query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -148,23 +240,43 @@ class CityDataController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::update()
+     * 
+     * @SWG\Api(
+     *     path="/citydata/{id}",
+     *     @SWG\Operation(
+     *         method="PUT",
+     *         summary="Updates city data.  See the CityData model for details.",
+     *         type="CityData",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of city data to update",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=400, message="Error occurred")
+     *     )
+     * )
      */
-    public function update($request, $response, $args)
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         // $id = $args['id'];
         $recordData = $request->getParsedBody();
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CityData::validateColumn('city_data', $key, $this->container);
+                CityData::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
             $recordId = CityData::update($updateData);
-            $this->container['logger']->debug("CityData update query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("CityData update query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -183,15 +295,34 @@ class CityDataController implements ControllerInterface
      *
      * {@inheritdoc}
      * @see \FSS\Controllers\ControllerInterface::delete()
+     * 
+     * @SWG\Api(
+     *     path="/citydata/{id}",
+     *     @SWG\Operation(
+     *         method="DELETE",
+     *         summary="Deletes city data record",
+     *         type="CityData",
+     *         @SWG\Parameter(
+     *             name="id",
+     *             description="id of city data to delete",
+     *             paramType="path",
+     *             required=true,
+     *             allowMultiple=false,
+     *             type="integer"
+     *         ),
+     *         @SWG\ResponseMessage(code=404, message="city data not found")
+     *     )
+     * )
      */
-    public function delete($request, $response, $args)
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
         try {
             $record = CityData::findOrFail($id);
             $record->delete();
-            $this->container['logger']->debug("CityData delete query: ",
-                $this->container['db']::getQueryLog());
+            $this->logger->debug("CityData delete query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,

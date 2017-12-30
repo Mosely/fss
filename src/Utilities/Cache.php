@@ -1,7 +1,7 @@
 <?php
 namespace FSS\Utilities;
 
-use Interop\Container\ContainerInterface;
+use Monolog\Logger;
 
 /**
  * The Cache class provides caching
@@ -17,18 +17,18 @@ use Interop\Container\ContainerInterface;
 class Cache
 {
 
-    // The DI container, referenced in the constructor.
-    private $container;
+    // The logger, referenced in the constructor.
+    private $logger;
 
     /**
      * The constructor.
-     * It makes the DI container available.
+     * It makes the Logger available.
      *
-     * @param ContainerInterface $c
+     * @param Logger $c
      */
-    public function __construct(ContainerInterface $c)
+    public function __construct(Logger $c)
     {
-        $this->container = $c;
+        $this->logger = $c;
         // if($this->container['settings']['debug']) {
         // }
     }
@@ -50,7 +50,7 @@ class Cache
         
         rename($tmp, "/tmp/$key");
         
-        $this->container['logger']->debug("Cached $key.");
+        $this->logger->debug("Cached $key.");
     }
 
     /**
@@ -65,13 +65,12 @@ class Cache
         // Arbitrarily setting max ttl to one hour for these Cache items
         $ttl = 3600;
         $val = null;
-        $this->container['logger']->debug("Retrieving Cache item $key.");
+        $this->logger->debug("Retrieving Cache item $key.");
         if (file_exists("/tmp/$key") &&
              ((time() - filemtime("/tmp/$key")) > $ttl)) {
             opcache_invalidate("/tmp/$key", true);
             unlink("/tmp/$key");
-            $this->container['logger']->debug(
-                "TTL exceeded. Cache item $key invalidated.");
+            $this->logger->debug("TTL exceeded. Cache item $key invalidated.");
         }
         @include "/tmp/$key";
         return isset($val) ? $val : false;
