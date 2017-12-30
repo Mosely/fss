@@ -40,8 +40,8 @@ abstract class AbstractModel extends Model
         Logger $logger, Cache $cache, Manager $db)
     {
         $columns = null;
-        //if (($cacheValue = $cache->get($theTable)) != false) {
-        if (($cacheValue = $cache->get(getTableName())) != false) {
+        $theTable = getTableName();
+        if (($cacheValue = $cache->get($theTable)) != false) {
             $logger->debug("Retrieved $theTable column listing from cache.");
             $columns = $cacheValue;
         } else {
