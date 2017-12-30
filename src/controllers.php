@@ -246,7 +246,7 @@ $container['SchoolController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\SchoolController($logger, $db, $cache, $debug);
 };
-$container['Shelter_clientController'] = function ($c) {
+$container['ShelterClientController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
