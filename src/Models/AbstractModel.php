@@ -29,14 +29,13 @@ abstract class AbstractModel extends Model
      * This will verify that the specified column
      * is indeed a column for the specified table.
      *
-     * @param string $theTable
      * @param string $column
      * @param Logger $logger
      * @param Cache $cache
      * @param Manager $db
      * @throws Exception
      */
-    public function validateColumn(string $theTable, string $column,
+    public function validateColumn(string $column,
         Logger $logger, Cache $cache, Manager $db)
     {
         $columns = null;
