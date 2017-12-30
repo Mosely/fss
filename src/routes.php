@@ -65,11 +65,11 @@ $app->post('/medications', 'MedicationController:create');
 $app->put('/medications/{id:[0-9]+}', 'MedicationController:update');
 $app->delete('/medications/{id:[0-9]+}', 'MedicationController:delete');
 
-$app->get('/citydata', 'City_dataController:readAll');
+$app->get('/citydata', 'CityDataController:readAll');
 $app->get('/citydata/{id:[0-9]+}', 'CityDataController:read');
 $app->get('/citydata/{filter}/{value}', 'CityDataController:readAllWithFilter');
 
-$app->post('/citydata', 'City_dataController:create');
+$app->post('/citydata', 'CityDataController:create');
 $app->put('/citydata/{id:[0-9]+}', 'CityDataController:update');
 $app->delete('/citydata/{id:[0-9]+}', 'CityDataController:delete');
 

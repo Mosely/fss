@@ -115,12 +115,7 @@ class CityDataController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = CityData::with(
-            [
-                'Address',
-                'School'
-            ]
-            )->limit(200)->get();
+        $records = CityData::limit(200)->get();
         $this->logger->debug("All city_data query: ", $this->db::getQueryLog());
         // $records = City_data::all();
         return $response->withJson(
@@ -171,12 +166,7 @@ class CityDataController implements ControllerInterface
         try {
             CityData::validateColumn('city_data', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = CityData::with(
-            [
-                'Address',
-                'School'
-            ]
-            )->where($filter, $value)->limit(200)->get();
+            $records = CityData::where($filter, $value)->limit(200)->get();
             $this->logger->debug("CityData filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
