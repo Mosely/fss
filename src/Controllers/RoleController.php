@@ -115,8 +115,8 @@ class RoleController implements ControllerInterface
     {
         $records = Role::with(
             [
-                'UserRole
-'            ]
+                'UserRole'
+            ]
             )->limit(200)->get();
         $this->logger->debug("All roles query: ", $this->db::getQueryLog());
         // $records = Role::all();
@@ -170,8 +170,8 @@ class RoleController implements ControllerInterface
                 $this->db);
             $records = Role::with(
                 [
-                    'UserRole
-'               ]
+                    'UserRole'
+                ]
             )->where($filter, $value)->limit(200)->get();
             $this->logger->debug("Role filter query: ", $this->db::getQueryLog());
             if ($records->isEmpty()) {
