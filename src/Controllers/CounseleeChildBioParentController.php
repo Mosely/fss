@@ -168,8 +168,9 @@ class CounseleeChildBioParentController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CounseleeChildBioParent::validateColumn(,
-                $filter, $this->container);
+            CounseleeChildBioParent::validateColumn(
+                $filter, $this->logger, $this->cache,
+                $this->db);
             $records = CounseleeChildBioParent::with(
             [
                 'CounseleeChild'
