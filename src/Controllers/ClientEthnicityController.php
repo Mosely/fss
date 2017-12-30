@@ -37,6 +37,8 @@ class ClientEthnicityController implements ControllerInterface
     private $cache;
 
     private $debug;
+    
+    private $jwtToken;
 
     /**
      * The constructor that sets The dependencies and
@@ -46,14 +48,16 @@ class ClientEthnicityController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param object $jwtToken
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, $jwtToken)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->jwtToken = $jwtToken;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the ClientEthnicity Controller.");
@@ -231,6 +235,7 @@ class ClientEthnicityController implements ControllerInterface
                 ClientEthnicity::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
+            $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = ClientEthnicity::insertGetId($recordData);
             $this->logger->debug("ClientEthnicity create query: ",
                 $this->db::getQueryLog());
@@ -287,6 +292,7 @@ class ClientEthnicityController implements ControllerInterface
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = ClientEthnicity::update($updateData);
             $this->logger->debug("ClientEthnicity update query: ",
                 $this->db::getQueryLog());

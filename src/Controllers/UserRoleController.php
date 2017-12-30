@@ -37,6 +37,8 @@ class UserRoleController implements ControllerInterface
     private $cache;
 
     private $debug;
+    
+    private $jwtToken;
 
     /**
      * The constructor that sets The dependencies and
@@ -46,14 +48,16 @@ class UserRoleController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param object $jwtToken
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, $jwtToken)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->jwtToken = $jwtToken;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the UserRole Controller.");
@@ -227,6 +231,7 @@ class UserRoleController implements ControllerInterface
                 UserRole::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
+            $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = UserRole::insertGetId($recordData);
             $this->logger->debug("UserRole create query: ",
                 $this->db::getQueryLog());
@@ -283,6 +288,7 @@ class UserRoleController implements ControllerInterface
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = UserRole::update($updateData);
             $this->logger->debug("UserRole update query: ",
                 $this->db::getQueryLog());

@@ -38,6 +38,8 @@ class IdentityPreferenceController implements ControllerInterface
     private $cache;
 
     private $debug;
+    
+    private $jwtToken;
 
     /**
      * The constructor that sets The dependencies and
@@ -47,14 +49,16 @@ class IdentityPreferenceController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param object $jwtToken
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, $jwtToken)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->jwtToken = $jwtToken;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the IdentityPreference Controller.");
@@ -220,6 +224,7 @@ class IdentityPreferenceController implements ControllerInterface
                 IdentityPreference::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
+            $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = IdentityPreference::insertGetId($recordData);
             $this->logger->debug("IdentityPreference create query: ",
                 $this->db::getQueryLog());
@@ -276,6 +281,7 @@ class IdentityPreferenceController implements ControllerInterface
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = IdentityPreference::update($updateData);
             $this->logger->debug("IdentityPreference update query: ",
                 $this->db::getQueryLog());

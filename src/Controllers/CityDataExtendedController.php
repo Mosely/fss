@@ -38,6 +38,8 @@ class CityDataExtendedController implements ControllerInterface
     private $cache;
 
     private $debug;
+    
+    private $jwtToken;
 
     /**
      * The constructor that sets The dependencies and
@@ -47,14 +49,16 @@ class CityDataExtendedController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param object $jwtToken
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, $jwtToken)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->jwtToken = $jwtToken;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the CityDataExtendedController.");
@@ -230,6 +234,7 @@ class CityDataExtendedController implements ControllerInterface
                 CityDataExtended::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
+            $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = CityDataExtended::insertGetId($recordData);
             $this->logger->debug("CityDataExtended create query: ",
                 $this->db::getQueryLog());
@@ -286,6 +291,7 @@ class CityDataExtendedController implements ControllerInterface
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = CityDataExtended::update($updateData);
             $this->logger->debug("CityDataExtended update query: ",
                 $this->db::getQueryLog());

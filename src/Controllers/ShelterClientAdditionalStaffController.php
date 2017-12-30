@@ -38,6 +38,8 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
     private $cache;
 
     private $debug;
+    
+    private $jwtToken;
 
     /**
      * The constructor that sets The dependencies and
@@ -47,14 +49,16 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param object $jwtToken
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, $jwtToken)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->jwtToken = $jwtToken;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the ShelterClientAdditionalStaff Controller.");
@@ -232,6 +236,7 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
                     $key, $this->logger,
                     $this->cache, $this->db);
             }
+            $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = ShelterClientAdditionalStaff::insertGetId($recordData);
             $this->logger->debug("ShelterClientAdditionalStaff create query: ",
                 $this->db::getQueryLog());
@@ -289,6 +294,7 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = ShelterClientAdditionalStaff::update($updateData);
             $this->logger->debug("ShelterClientAdditionalStaff update query: ",
                 $this->db::getQueryLog());

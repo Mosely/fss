@@ -37,6 +37,8 @@ class PhoneController implements ControllerInterface
     private $cache;
 
     private $debug;
+    
+    private $jwtToken;
 
     /**
      * The constructor that sets The dependencies and
@@ -46,14 +48,16 @@ class PhoneController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param object $jwtToken
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, $jwtToken)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->jwtToken = $jwtToken;
         if ($this->debug) {
             $this->logger->debug("Enabling query log for the Phone Controller.");
             $this->db::enableQueryLog();
@@ -225,6 +229,7 @@ class PhoneController implements ControllerInterface
                 Phone::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
             }
+            $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = Phone::insertGetId($recordData);
             $this->logger->debug("Phone create query: ",
                 $this->db::getQueryLog());
@@ -281,6 +286,7 @@ class PhoneController implements ControllerInterface
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = Phone::update($updateData);
             $this->logger->debug("Phone update query: ",
                 $this->db::getQueryLog());

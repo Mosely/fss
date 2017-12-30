@@ -247,6 +247,7 @@ class UserController implements ControllerInterface
             }
             $recordData['password'] = password_hash($recordData['password'],
                 PASSWORD_DEFAULT);
+            $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = User::insertGetId($recordData);
             $this->logger->debug("Users create query: ",
                 $this->db::getQueryLog());
@@ -303,6 +304,7 @@ class UserController implements ControllerInterface
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = User::update($updateData);
             $this->logger->debug("Users update query: ",
                 $this->db::getQueryLog());

@@ -34,6 +34,8 @@ class BranchOfServiceController implements ControllerInterface
     private $cache;
 
     private $debug;
+    
+    private $jwtToken;
 
     /**
      * The constructor that sets the dependencies and
@@ -43,14 +45,16 @@ class BranchOfServiceController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param object $jwtToken
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, $jwtToken)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->jwtToken = $jwtToken;
         
         if ($this->debug) {
             $this->logger->debug(
@@ -209,6 +213,7 @@ class BranchOfServiceController implements ControllerInterface
                 BranchOfService::validateColumn($key,
                     $this->logger, $this->cache, $this->db);
             }
+            $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = BranchOfService::insertGetId($recordData);
             return $response->withJson(
                 [
@@ -263,6 +268,7 @@ class BranchOfServiceController implements ControllerInterface
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = BranchOfService::update($updateData);
             return $response->withJson(
                 [

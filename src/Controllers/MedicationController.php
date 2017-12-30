@@ -37,6 +37,8 @@ class MedicationController implements ControllerInterface
     private $cache;
 
     private $debug;
+    
+    private $jwtToken;
 
     /**
      * The constructor that sets The dependencies and
@@ -46,14 +48,16 @@ class MedicationController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param object $jwtToken
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, $jwtToken)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->jwtToken = $jwtToken;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the Medication Controller.");
@@ -219,6 +223,7 @@ class MedicationController implements ControllerInterface
                 Medication::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
+            $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = Medication::insertGetId($recordData);
             $this->logger->debug("Medication create query: ",
                 $this->db::getQueryLog());
@@ -275,6 +280,7 @@ class MedicationController implements ControllerInterface
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = Medication::update($updateData);
             $this->logger->debug("Medication update query: ",
                 $this->db::getQueryLog());
