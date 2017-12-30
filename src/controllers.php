@@ -56,14 +56,14 @@ $container['MedicationController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\MedicationController($logger, $db, $cache, $debug);
 };
-$container['City_dataController'] = function ($c) {
+$container['CityDataController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\CityDataController($logger, $db, $cache, $debug);
 };
-$container['City_data_extendedController'] = function ($c) {
+$container['CityDataExtendedController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -78,7 +78,7 @@ $container['ClientController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\ClientController($logger, $db, $cache, $debug);
 };
-$container['Client_ethnicityController'] = function ($c) {
+$container['ClientEthnicityController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -86,7 +86,7 @@ $container['Client_ethnicityController'] = function ($c) {
     return new FSS\Controllers\ClientEthnicityController($logger, $db, $cache,
         $debug);
 };
-$container['Client_languageController'] = function ($c) {
+$container['ClientLanguageController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -101,7 +101,7 @@ $container['CounseleeController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\CounseleeController($logger, $db, $cache, $debug);
 };
-$container['Counselee_childController'] = function ($c) {
+$container['CounseleeChildController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -109,7 +109,7 @@ $container['Counselee_childController'] = function ($c) {
     return new FSS\Controllers\CounseleeChildController($logger, $db, $cache,
         $debug);
 };
-$container['Counselee_child_bio_parentController'] = function ($c) {
+$container['CounseleeChildBioParentController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -117,7 +117,7 @@ $container['Counselee_child_bio_parentController'] = function ($c) {
     return new FSS\Controllers\CounseleeChildBioParentController($logger, $db,
         $cache, $debug);
 };
-$container['Counselee_child_guardianController'] = function ($c) {
+$container['CounseleeChildGuardianController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -125,7 +125,7 @@ $container['Counselee_child_guardianController'] = function ($c) {
     return new FSS\Controllers\CounseleeChildGuardianController($logger, $db,
         $cache, $debug);
 };
-$container['Counselee_child_siblingController'] = function ($c) {
+$container['CounseleeChildSiblingController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -133,7 +133,7 @@ $container['Counselee_child_siblingController'] = function ($c) {
     return new FSS\Controllers\CounseleeChildSiblingController($logger, $db,
         $cache, $debug);
 };
-$container['Counselee_counseling_topicController'] = function ($c) {
+$container['CounseleeCounselingTopicController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -141,7 +141,7 @@ $container['Counselee_counseling_topicController'] = function ($c) {
     return new FSS\Controllers\CounseleeCounselingTopicController($logger, $db,
         $cache, $debug);
 };
-$container['Counselee_drug_useController'] = function ($c) {
+$container['CounseleeDrugUseController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -149,7 +149,7 @@ $container['Counselee_drug_useController'] = function ($c) {
     return new FSS\Controllers\CounseleeDrugUseController($logger, $db, $cache,
         $debug);
 };
-$container['Counselee_medicationController'] = function ($c) {
+$container['CounseleeMedicationController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -157,7 +157,7 @@ $container['Counselee_medicationController'] = function ($c) {
     return new FSS\Controllers\CounseleeMedicationController($logger, $db, $cache,
         $debug);
 };
-$container['Counseling_topicController'] = function ($c) {
+$container['CounselingTopicController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -165,21 +165,21 @@ $container['Counseling_topicController'] = function ($c) {
     return new FSS\Controllers\CounselingTopicController($logger, $db, $cache,
         $debug);
 };
-$container['County_dataController'] = function ($c) {
+$container['CountyDataController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\CountyDataController($logger, $db, $cache, $debug);
 };
-$container['Drug_useController'] = function ($c) {
+$container['DrugUseController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\DrugUseController($logger, $db, $cache, $debug);
 };
-$container['Funding_sourceController'] = function ($c) {
+$container['FundingSourceController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -187,7 +187,7 @@ $container['Funding_sourceController'] = function ($c) {
     return new FSS\Controllers\FundingSourceController($logger, $db, $cache,
         $debug);
 };
-$container['Identity_preferenceController'] = function ($c) {
+$container['IdentityPreferenceController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -195,7 +195,7 @@ $container['Identity_preferenceController'] = function ($c) {
     return new FSS\Controllers\IdentityPreferenceController($logger, $db, $cache,
         $debug);
 };
-$container['Military_discharge_typeController'] = function ($c) {
+$container['MilitaryDischargeTypeController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -210,7 +210,7 @@ $container['PersonController'] = function ($c) {
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\PersonController($logger, $db, $cache, $debug);
 };
-$container['Person_addressController'] = function ($c) {
+$container['PersonAddressController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -218,7 +218,7 @@ $container['Person_addressController'] = function ($c) {
     return new FSS\Controllers\PersonAddressController($logger, $db, $cache,
         $debug);
 };
-$container['Person_phoneController'] = function ($c) {
+$container['PersonPhoneController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -254,7 +254,7 @@ $container['ShelterClientController'] = function ($c) {
     return new FSS\Controllers\ShelterClientController($logger, $db, $cache,
         $debug);
 };
-$container['Shelter_client_additional_staffController'] = function ($c) {
+$container['ShelterClientAdditionalStaffController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -262,7 +262,7 @@ $container['Shelter_client_additional_staffController'] = function ($c) {
     return new FSS\Controllers\ShelterClientAdditionalStaffController($logger,
         $db, $cache, $debug);
 };
-$container['Shelter_client_funding_sourceController'] = function ($c) {
+$container['ShelterClientFundingSourceController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -270,7 +270,7 @@ $container['Shelter_client_funding_sourceController'] = function ($c) {
     return new FSS\Controllers\ShelterClientFundingSourceController($logger, $db,
         $cache, $debug);
 };
-$container['Shelter_client_identity_preferenceController'] = function ($c) {
+$container['ShelterClientIdentityPreferenceController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
@@ -278,21 +278,21 @@ $container['Shelter_client_identity_preferenceController'] = function ($c) {
     return new FSS\Controllers\ShelterClientIdentityPreferenceController($logger,
         $db, $cache, $debug);
 };
-$container['State_dataController'] = function ($c) {
+$container['StateDataController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\StateDataController($logger, $db, $cache, $debug);
 };
-$container['User_roleController'] = function ($c) {
+$container['UserRoleController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\UserRoleController($logger, $db, $cache, $debug);
 };
-$container['User_viewController'] = function ($c) {
+$container['UserViewController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');
     $cache = $c->get('cache');
