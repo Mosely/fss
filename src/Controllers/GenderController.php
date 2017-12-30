@@ -163,7 +163,7 @@ class GenderController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Gender::validateColumn('gender', $filter, $this->logger,
+            Gender::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = Gender::where($filter, 'like', '%' . $value . '%')
                 ->limit(200)->get();
@@ -216,7 +216,7 @@ class GenderController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Gender::validateColumn('gender', $key, $this->logger,
+                Gender::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = Gender::insertGetId($recordData);
@@ -267,7 +267,7 @@ class GenderController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Gender::validateColumn('gender', $key, $this->logger,
+                Gender::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
