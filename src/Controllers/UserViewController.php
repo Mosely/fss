@@ -91,8 +91,8 @@ class UserViewController implements ControllerInterface
     }
 
     /**
-     *
      * {@inheritdoc}
+     * 
      * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
     public function readAllWithFilter(ServerRequestInterface $request,
@@ -102,9 +102,11 @@ class UserViewController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            UserView::validateColumn('UserView', $filter, $this->logger,
+            UserView::validateColumn(UserView::getTableName(), 
+                $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = UserView::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $records = UserView::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             $this->logger->debug("UserView filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -144,7 +146,8 @@ class UserViewController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                UserView::validateColumn('UserView', $key, $this->logger,
+                UserView::validateColumn(UserView::getTableName(), 
+                    $key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = UserView::insertGetId($recordData);
@@ -177,7 +180,8 @@ class UserViewController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                UserView::validateColumn('UserView', $key, $this->logger,
+                UserView::validateColumn(UserView::getTableName(), 
+                    $key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
