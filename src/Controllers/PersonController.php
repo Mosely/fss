@@ -178,8 +178,7 @@ class PersonController implements ControllerInterface
                     'Client',
                     'Gender',
                     'PersonAddress',
-                    'PersonPhone',
-                    'Veteran'
+                    'PersonPhone'
                 ])->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("Person filter query: ",
                 $this->db::getQueryLog());
