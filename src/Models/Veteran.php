@@ -60,6 +60,6 @@ class Veteran extends AbstractModel
         
     public function Client()
     {
-        return $this->belongsTo('FSS\Models\Client');
+        return $this->belongsTo('FSS\Models\Client', 'id', 'id');
     }
 }
