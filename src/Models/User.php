@@ -109,7 +109,7 @@ class User extends AbstractModel
         try {
             
             foreach ($userData as $key => $val) {
-                parent::validateColumn($table, $key, $logger, $cache, $db);
+                parent::validateColumn($key, $logger, $cache, $db);
             }
             
             $user = User::select('password', 'id', 'username', 'is_disabled')->where(
