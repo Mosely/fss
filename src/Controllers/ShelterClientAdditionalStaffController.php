@@ -238,7 +238,8 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "ShelterClientAdditionalStaff $recordId has been created."
+                    "message" => "ShelterClientAdditionalStaff $recordId has been created.",
+                    "id"      => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(

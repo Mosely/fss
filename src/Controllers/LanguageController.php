@@ -225,7 +225,8 @@ class LanguageController implements ControllerInterface
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Language $recordId has been created."
+                    "message" => "Language $recordId has been created.",
+                    "id"      => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(

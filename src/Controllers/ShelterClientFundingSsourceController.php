@@ -238,7 +238,8 @@ class ShelterClientFundingSourceController implements ControllerInterface
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "ShelterClientFundingSource $recordId has been created."
+                    "message" => "ShelterClientFundingSource $recordId has been created.",
+                    "id"      => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(

@@ -234,7 +234,8 @@ class AddressController implements ControllerInterface
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Address $recordId has been created."
+                    "message" => "Address $recordId has been created.",
+                    "id"      => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(

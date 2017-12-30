@@ -235,7 +235,8 @@ class PersonAddressController implements ControllerInterface
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "Person_address $recordId has been created."
+                    "message" => "Person_address $recordId has been created.",
+                    "id"      => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(

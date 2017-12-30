@@ -235,7 +235,8 @@ class CounseleeChildGuardianController implements ControllerInterface
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "CounseleeChildGuardian $recordId has been created."
+                    "message" => "CounseleeChildGuardian $recordId has been created.",
+                    "id"      => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(

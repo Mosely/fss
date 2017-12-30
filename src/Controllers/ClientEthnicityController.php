@@ -237,7 +237,8 @@ class ClientEthnicityController implements ControllerInterface
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "ClientEthnicity $recordId has been created."
+                    "message" => "ClientEthnicity $recordId has been created.",
+                    "id"      => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
