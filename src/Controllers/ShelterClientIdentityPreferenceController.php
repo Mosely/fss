@@ -178,7 +178,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
                 'ShelterClient',
                 'IdentityPreference'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug(
                 "ShelterClientIdentityPreference filter query: ",
                 $this->db::getQueryLog());

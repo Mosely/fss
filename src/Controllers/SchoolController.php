@@ -177,7 +177,7 @@ class SchoolController implements ControllerInterface
                 'StateData',
                 'CounseleeChild'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("School filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

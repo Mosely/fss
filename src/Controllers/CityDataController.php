@@ -166,7 +166,7 @@ class CityDataController implements ControllerInterface
         try {
             CityData::validateColumn('city_data', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = CityData::where($filter, $value)->limit(200)->get();
+            $records = CityData::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("CityData filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

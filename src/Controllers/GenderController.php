@@ -175,7 +175,7 @@ class GenderController implements ControllerInterface
                 'Person',
                 'CounseleeChildSibling'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("Gender filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

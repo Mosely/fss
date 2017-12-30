@@ -180,7 +180,7 @@ class UserController implements ControllerInterface
         try {
             User::validateColumn('user', $filter, $this->logger, $this->cache,
                 $this->db);
-            // $records = User::where($filter, $value)->get();
+            // $records = User::where($filter, 'like', '%' . $value . '%')->get();
             $records = User::with(
                 [
                     'person' => function ($q) {
@@ -190,7 +190,7 @@ class UserController implements ControllerInterface
                         // and gender tables) you will need to handle the
                         // deeper relationships as done here.
                     }
-                ])->where($filter, $value)->limit(200)->get();
+                ])->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("Users with filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

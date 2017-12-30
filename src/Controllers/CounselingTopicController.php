@@ -174,7 +174,7 @@ class CounselingTopicController implements ControllerInterface
             [
                 'CounseleeCounselingTopic'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("CounselingTopic filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

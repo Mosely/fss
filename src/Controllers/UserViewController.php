@@ -104,7 +104,7 @@ class UserViewController implements ControllerInterface
         try {
             UserView::validateColumn('UserView', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = UserView::where($filter, $value)->limit(200)->get();
+            $records = UserView::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("UserView filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

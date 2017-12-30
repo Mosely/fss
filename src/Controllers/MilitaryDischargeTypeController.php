@@ -174,7 +174,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
             [
                 'Veteran'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("MilitaryDischargeType filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

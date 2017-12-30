@@ -176,7 +176,7 @@ class PersonAddressController implements ControllerInterface
                 'Person',
                 'Address'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("PersonAddress filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

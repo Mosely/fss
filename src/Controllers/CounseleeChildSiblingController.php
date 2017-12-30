@@ -175,7 +175,7 @@ class CounseleeChildSiblingController implements ControllerInterface
                 'CounseleeChild',
                 'Gender'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("CounseleeChildSibling filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

@@ -173,7 +173,7 @@ class MedicationController implements ControllerInterface
             [
                 'CounseleeMedication'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("Medication filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

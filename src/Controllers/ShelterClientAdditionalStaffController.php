@@ -178,7 +178,7 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
                     'ShelterClient',
                     'User'
                 ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("ShelterClientAdditionalStaff filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

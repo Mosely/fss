@@ -173,7 +173,7 @@ class LanguageController implements ControllerInterface
             [
                 'ClientLanguage'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("Language filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

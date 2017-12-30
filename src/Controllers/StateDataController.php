@@ -164,7 +164,7 @@ class StateDataController implements ControllerInterface
         try {
             StateData::validateColumn('state_data', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = StateData::where($filter, $value)->limit(200)->get();
+            $records = StateData::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("StateData filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

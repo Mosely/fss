@@ -176,7 +176,7 @@ class CounseleeDrugUseController implements ControllerInterface
                 'Counselee',
                 'DrugUse'
             ]
-            )->where($filter, $value)->limit(200)->get();
+            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("CounseleeDrugUse filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
