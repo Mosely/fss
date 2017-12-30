@@ -164,7 +164,7 @@ class CityDataController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CityData::validateColumn('city_data', $filter, $this->logger,
+            CityData::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = CityData::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("CityData filter query: ",
@@ -216,7 +216,7 @@ class CityDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CityData::validateColumn('city_data', $key, $this->logger,
+                CityData::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = CityData::insertGetId($recordData);
@@ -267,7 +267,7 @@ class CityDataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CityData::validateColumn('city_data', $key, $this->logger,
+                CityData::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

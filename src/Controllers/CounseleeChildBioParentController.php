@@ -168,7 +168,7 @@ class CounseleeChildBioParentController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CounseleeChildBioParent::validateColumn('CounseleeChildBioParent',
+            CounseleeChildBioParent::validateColumn(,
                 $filter, $this->container);
             $records = CounseleeChildBioParent::with(
             [
@@ -225,7 +225,7 @@ class CounseleeChildBioParentController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 CounseleeChildBioParent::validateColumn(
-                    'CounseleeChildBioParent', $key, $this->logger, $this->cache,
+                    $key, $this->logger, $this->cache,
                     $this->db);
             }
             $recordId = CounseleeChildBioParent::insertGetId($recordData);
@@ -277,7 +277,7 @@ class CounseleeChildBioParentController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 CounseleeChildBioParent::validateColumn(
-                    'CounseleeChildBioParent', $key, $this->logger, $this->cache,
+                    $key, $this->logger, $this->cache,
                     $this->db);
                 $updateData = array_merge($updateData,
                     [

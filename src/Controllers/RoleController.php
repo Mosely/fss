@@ -166,7 +166,7 @@ class RoleController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Role::validateColumn('role', $filter, $this->logger, $this->cache,
+            Role::validateColumn($filter, $this->logger, $this->cache,
                 $this->db);
             $records = Role::with(
                 [
@@ -221,7 +221,7 @@ class RoleController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Role::validateColumn('role', $key, $this->logger, $this->cache,
+                Role::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
             }
             $recordId = Role::insertGetId($recordData);
@@ -271,7 +271,7 @@ class RoleController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Role::validateColumn('role', $key, $this->logger, $this->cache,
+                Role::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
                 $updateData = array_merge($updateData,
                     [

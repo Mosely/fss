@@ -178,7 +178,7 @@ class VeteranController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Veteran::validateColumn('veteran', $filter, $this->logger,
+            Veteran::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = Veteran::with(
                     [
@@ -246,7 +246,7 @@ class VeteranController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Veteran::validateColumn('veteran', $key, $this->logger,
+                Veteran::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = Veteran::insertGetId($recordData);
@@ -297,7 +297,7 @@ class VeteranController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Veteran::validateColumn('veteran', $key, $this->logger,
+                Veteran::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

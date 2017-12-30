@@ -170,7 +170,7 @@ class PersonController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Person::validateColumn('person', $filter, $this->logger,
+            Person::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = Person::with(
                 [
@@ -229,7 +229,7 @@ class PersonController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Person::validateColumn('person', $key, $this->logger,
+                Person::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = Person::insertGetId($recordData);
@@ -280,7 +280,7 @@ class PersonController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Person::validateColumn('person', $key, $this->logger,
+                Person::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

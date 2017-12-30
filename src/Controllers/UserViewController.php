@@ -102,7 +102,7 @@ class UserViewController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            UserView::validateColumn(UserView::getTableName(), 
+            UserView::validateColumn(
                 $filter, $this->logger,
                 $this->cache, $this->db);
             $records = UserView::where($filter, 'like', '%' . $value . '%')
@@ -146,7 +146,7 @@ class UserViewController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                UserView::validateColumn(UserView::getTableName(), 
+                UserView::validateColumn(
                     $key, $this->logger,
                     $this->cache, $this->db);
             }
@@ -180,7 +180,7 @@ class UserViewController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                UserView::validateColumn(UserView::getTableName(), 
+                UserView::validateColumn(
                     $key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,

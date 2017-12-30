@@ -178,7 +178,7 @@ class UserController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            User::validateColumn('user', $filter, $this->logger, $this->cache,
+            User::validateColumn($filter, $this->logger, $this->cache,
                 $this->db);
             // $records = User::where($filter, 'like', '%' . $value . '%')->get();
             $records = User::with(
@@ -239,7 +239,7 @@ class UserController implements ControllerInterface
         unset($recordData['password2']);
         try {
             foreach ($recordData as $key => $val) {
-                User::validateColumn('user', $key, $this->logger, $this->cache,
+                User::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
             }
             if (! ($recordData['password'] === $checkPassword)) {
@@ -295,7 +295,7 @@ class UserController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                User::validateColumn('user', $key, $this->logger, $this->cache,
+                User::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
                 $updateData = array_merge($updateData,
                     [

@@ -169,7 +169,7 @@ class CounseleeMedicationController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CounseleeMedication::validateColumn('CounseleeMedication', $filter,
+            CounseleeMedication::validateColumn($filter,
                 $this->container);
             $records = CounseleeMedication::with(
             [
@@ -226,7 +226,7 @@ class CounseleeMedicationController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CounseleeMedication::validateColumn('CounseleeMedication', $key,
+                CounseleeMedication::validateColumn($key,
                     $this->container);
             }
             $recordId = CounseleeMedication::insertGetId($recordData);
@@ -277,7 +277,7 @@ class CounseleeMedicationController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CounseleeMedication::validateColumn('CounseleeMedication', $key,
+                CounseleeMedication::validateColumn($key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [

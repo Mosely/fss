@@ -162,7 +162,7 @@ class StateDataController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            StateData::validateColumn('state_data', $filter, $this->logger,
+            StateData::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = StateData::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("StateData filter query: ",
@@ -214,7 +214,7 @@ class StateDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                StateData::validateColumn('state_data', $key, $this->logger,
+                StateData::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = StateData::insertGetId($recordData);
@@ -265,7 +265,7 @@ class StateDataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                StateData::validateColumn('StateData', $key, $this->logger,
+                StateData::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

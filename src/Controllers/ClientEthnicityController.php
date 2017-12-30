@@ -170,7 +170,7 @@ class ClientEthnicityController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            ClientEthnicity::validateColumn('client_ethnicity', $filter,
+            ClientEthnicity::validateColumn($filter,
                 $this->container);
             $records = ClientEthnicity::with(
             [
@@ -228,7 +228,7 @@ class ClientEthnicityController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                ClientEthnicity::validateColumn('client_ethnicity', $key,
+                ClientEthnicity::validateColumn($key,
                     $this->container);
             }
             $recordId = ClientEthnicity::insertGetId($recordData);
@@ -279,7 +279,7 @@ class ClientEthnicityController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                ClientEthnicity::validateColumn('ClientEthnicity', $key,
+                ClientEthnicity::validateColumn($key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [

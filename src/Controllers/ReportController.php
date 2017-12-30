@@ -114,15 +114,14 @@ class ReportController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Report::validateColumn('report', $filter, $this->logger,
+            Report::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = Report::with(
                 [
                     'reportColumn' => function ($q) {
                         return $q->with('reportCriteria');
                         // NOTE: If you need to traverse the depths of more
-                        // than two tables (in this case, the user, person
-                        // and gender tables) you will need to handle the
+                        // than two tables you will need to handle the
                         // deeper relationships as done here.
                     }
                 ])->where($filter, 'like', '%' . $value . '%')->limit(200)->get();

@@ -163,7 +163,7 @@ class EthnicityController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Ethnicity::validateColumn('ethnicity', $filter, $this->logger,
+            Ethnicity::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = Ethnicity::where($filter, 'like', '%' . $value . '%')
                 ->limit(200)->get();
@@ -216,7 +216,7 @@ class EthnicityController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Ethnicity::validateColumn('ethnicity', $key, $this->logger,
+                Ethnicity::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = Ethnicity::insertGetId($recordData);
@@ -267,7 +267,7 @@ class EthnicityController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Ethnicity::validateColumn('ethnicity', $key, $this->logger,
+                Ethnicity::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

@@ -168,7 +168,7 @@ class CounseleeChildSiblingController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CounseleeChildSibling::validateColumn('CounseleeChildSibling',
+            CounseleeChildSibling::validateColumn(
                 $filter, $this->container);
             $records = CounseleeChildSibling::with(
             [
@@ -225,7 +225,7 @@ class CounseleeChildSiblingController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CounseleeChildSibling::validateColumn('CounseleeChildSibling',
+                CounseleeChildSibling::validateColumn(
                     $key, $this->container);
             }
             $recordId = CounseleeChildSibling::insertGetId($recordData);
@@ -276,7 +276,7 @@ class CounseleeChildSiblingController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CounseleeChildSibling::validateColumn('CounseleeChildSibling',
+                CounseleeChildSibling::validateColumn(
                     $key, $this->container);
                 $updateData = array_merge($updateData,
                     [

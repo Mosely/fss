@@ -155,7 +155,7 @@ class BranchOfServiceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            BranchOfService::validateColumn('branch_of_service', $filter,
+            BranchOfService::validateColumn($filter,
                 $this->logger, $this->cache, $this->db);
             $records = BranchOfService::where($filter, 'like', '%' . $value . '%')
                 ->limit(200)->get();
@@ -206,7 +206,7 @@ class BranchOfServiceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                BranchOfService::validateColumn('branch_of_service', $key,
+                BranchOfService::validateColumn($key,
                     $this->logger, $this->cache, $this->db);
             }
             $recordId = BranchOfService::insertGetId($recordData);
@@ -255,7 +255,7 @@ class BranchOfServiceController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                BranchOfService::validateColumn('branch_of_service', $key,
+                BranchOfService::validateColumn($key,
                     $this->logger, $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

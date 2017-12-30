@@ -163,7 +163,7 @@ class LanguageController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Language::validateColumn('language', $filter, $this->logger,
+            Language::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = Language::where($filter, 'like', '%' . $value . '%')
                 ->limit(200)->get();
@@ -216,7 +216,7 @@ class LanguageController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Language::validateColumn('language', $key, $this->logger,
+                Language::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = Language::insertGetId($recordData);
@@ -267,7 +267,7 @@ class LanguageController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Language::validateColumn('language', $key, $this->logger,
+                Language::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

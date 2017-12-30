@@ -169,7 +169,7 @@ class ClientController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Client::validateColumn('client', $filter, $this->logger,
+            Client::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = Client::with(
                 [
@@ -227,7 +227,7 @@ class ClientController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Client::validateColumn('client', $key, $this->logger,
+                Client::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = Client::insertGetId($recordData);
@@ -278,7 +278,7 @@ class ClientController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Client::validateColumn('client', $key, $this->logger,
+                Client::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

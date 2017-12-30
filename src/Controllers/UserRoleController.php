@@ -167,7 +167,7 @@ class UserRoleController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            UserRole::validateColumn('user_role', $filter, $this->logger,
+            UserRole::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = UserRole::with(
             [
@@ -224,7 +224,7 @@ class UserRoleController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                UserRole::validateColumn('user_role', $key, $this->logger,
+                UserRole::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = UserRole::insertGetId($recordData);
@@ -275,7 +275,7 @@ class UserRoleController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                UserRole::validateColumn('UserRole', $key, $this->logger,
+                UserRole::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

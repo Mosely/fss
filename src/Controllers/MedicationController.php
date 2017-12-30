@@ -163,7 +163,7 @@ class MedicationController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Medication::validateColumn('medication', $filter, $this->logger,
+            Medication::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = Medication::where($filter, 'like', '%' . $value . '%')
                 ->limit(200)->get();
@@ -216,7 +216,7 @@ class MedicationController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Medication::validateColumn('medication', $key, $this->logger,
+                Medication::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = Medication::insertGetId($recordData);
@@ -267,7 +267,7 @@ class MedicationController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Medication::validateColumn('medication', $key, $this->logger,
+                Medication::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

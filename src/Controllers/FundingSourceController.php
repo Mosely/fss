@@ -163,7 +163,7 @@ class FundingSourceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            FundingSource::validateColumn('FundingSource', $filter,
+            FundingSource::validateColumn($filter,
                 $this->container);
             $records = FundingSource::where($filter, 'like', '%' . $value . '%')
                 ->limit(200)->get();
@@ -216,7 +216,7 @@ class FundingSourceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                FundingSource::validateColumn('FundingSource', $key,
+                FundingSource::validateColumn($key,
                     $this->container);
             }
             $recordId = FundingSource::insertGetId($recordData);
@@ -267,7 +267,7 @@ class FundingSourceController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                FundingSource::validateColumn('FundingSource', $key,
+                FundingSource::validateColumn($key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [

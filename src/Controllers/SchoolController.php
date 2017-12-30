@@ -168,7 +168,7 @@ class SchoolController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            School::validateColumn('school', $filter, $this->logger,
+            School::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = School::with(
             [
@@ -225,7 +225,7 @@ class SchoolController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                School::validateColumn('school', $key, $this->logger,
+                School::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = School::insertGetId($recordData);
@@ -276,7 +276,7 @@ class SchoolController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                School::validateColumn('school', $key, $this->logger,
+                School::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

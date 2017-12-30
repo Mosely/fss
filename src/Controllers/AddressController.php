@@ -166,7 +166,7 @@ class AddressController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Address::validateColumn(Address::getTableName(),
+            Address::validateColumn(
                 $filter, $this->logger,
                 $this->cache, $this->db);
             $records = Address::with(
@@ -224,7 +224,7 @@ class AddressController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Address::validateColumn(Address::getTableName(),
+                Address::validateColumn(
                     $key, $this->logger,
                     $this->cache, $this->db);
             }
@@ -276,7 +276,7 @@ class AddressController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Address::validateColumn(Address::getTableName(),
+                Address::validateColumn(
                     $key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,

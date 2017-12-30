@@ -171,7 +171,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
         
         try {
             ShelterClientFundingSource::validateColumn(
-                'ShelterClientFundingSource', $filter, $this->logger,
+                $filter, $this->logger,
                 $this->cache, $this->db);
             $records = ShelterClientFundingSource::with(
             [
@@ -229,7 +229,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 ShelterClientFundingSource::validateColumn(
-                    'ShelterClientFundingSource', $key, $this->logger,
+                    $key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = ShelterClientFundingSource::insertGetId($recordData);
@@ -281,7 +281,7 @@ class ShelterClientFundingSourceController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 ShelterClientFundingSource::validateColumn(
-                    'ShelterClientFundingSource', $key, $this->logger,
+                    $key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

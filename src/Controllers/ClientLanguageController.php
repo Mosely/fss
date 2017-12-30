@@ -168,7 +168,7 @@ class ClientLanguageController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            ClientLanguage::validateColumn('ClientLanguage', $filter,
+            ClientLanguage::validateColumn($filter,
                 $this->container);
             $records = ClientLanguage::with(
             [
@@ -225,7 +225,7 @@ class ClientLanguageController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                ClientLanguage::validateColumn('ClientLanguage', $key,
+                ClientLanguage::validateColumn($key,
                     $this->container);
             }
             $recordId = ClientLanguage::insertGetId($recordData);
@@ -276,7 +276,7 @@ class ClientLanguageController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                ClientLanguage::validateColumn('ClientLanguage', $key,
+                ClientLanguage::validateColumn($key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [

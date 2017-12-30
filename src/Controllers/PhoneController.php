@@ -166,7 +166,7 @@ class PhoneController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            Phone::validateColumn('phone', $filter, $this->logger, $this->cache,
+            Phone::validateColumn($filter, $this->logger, $this->cache,
                 $this->db);
             $records = Phone::with(
                 [
@@ -222,7 +222,7 @@ class PhoneController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                Phone::validateColumn('phone', $key, $this->logger, $this->cache,
+                Phone::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
             }
             $recordId = Phone::insertGetId($recordData);
@@ -273,7 +273,7 @@ class PhoneController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                Phone::validateColumn('phone', $key, $this->logger, $this->cache,
+                Phone::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
                 $updateData = array_merge($updateData,
                     [

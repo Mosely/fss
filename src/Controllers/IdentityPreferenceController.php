@@ -164,7 +164,7 @@ class IdentityPreferenceController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            IdentityPreference::validateColumn('IdentityPreference', $filter,
+            IdentityPreference::validateColumn($filter,
                 $this->container);
             $records = IdentityPreference::where($filter, 'like', '%' . $value . '%')
                 ->limit(200)->get();
@@ -217,7 +217,7 @@ class IdentityPreferenceController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                IdentityPreference::validateColumn('IdentityPreference', $key,
+                IdentityPreference::validateColumn($key,
                     $this->container);
             }
             $recordId = IdentityPreference::insertGetId($recordData);
@@ -268,7 +268,7 @@ class IdentityPreferenceController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                IdentityPreference::validateColumn('IdentityPreference', $key,
+                IdentityPreference::validateColumn($key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [

@@ -171,7 +171,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
         
         try {
             ShelterClientIdentityPreference::validateColumn(
-                'ShelterClientIdentityPreference', $filter, $this->logger,
+                $filter, $this->logger,
                 $this->cache, $this->db);
             $records = ShelterClientIdentityPreference::with(
             [
@@ -230,7 +230,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 ShelterClientIdentityPreference::validateColumn(
-                    'ShelterClientIdentityPreference', $key, $this->logger,
+                    $key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = ShelterClientIdentityPreference::insertGetId(
@@ -284,7 +284,7 @@ class ShelterClientIdentityPreferenceController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 ShelterClientIdentityPreference::validateColumn(
-                    'ShelterClientIdentityPreference', $key, $this->logger,
+                    $key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

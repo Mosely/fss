@@ -168,7 +168,7 @@ class CounselingTopicController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CounselingTopic::validateColumn('CounselingTopic', $filter,
+            CounselingTopic::validateColumn($filter,
                 $this->container);
             $records = CounselingTopic::with(
             [
@@ -224,7 +224,7 @@ class CounselingTopicController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CounselingTopic::validateColumn('counseling_topic', $key,
+                CounselingTopic::validateColumn($key,
                     $this->container);
             }
             $recordId = CounselingTopic::insertGetId($recordData);
@@ -275,7 +275,7 @@ class CounselingTopicController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CounselingTopic::validateColumn('CounselingTopic', $key,
+                CounselingTopic::validateColumn($key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [

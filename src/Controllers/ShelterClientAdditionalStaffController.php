@@ -171,7 +171,7 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
         
         try {
             ShelterClientAdditionalStaff::validateColumn(
-                'ShelterClientAdditionalStaff', $filter, $this->logger,
+                $filter, $this->logger,
                 $this->cache, $this->db);
             $records = ShelterClientAdditionalStaff::with(
                 [
@@ -229,7 +229,7 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 ShelterClientAdditionalStaff::validateColumn(
-                    'ShelterClientAdditionalStaff', $key, $this->logger,
+                    $key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = ShelterClientAdditionalStaff::insertGetId($recordData);
@@ -281,7 +281,7 @@ class ShelterClientAdditionalStaffController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 ShelterClientAdditionalStaff::validateColumn(
-                    'ShelterClientAdditionalStaff', $key, $this->logger,
+                    $key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [

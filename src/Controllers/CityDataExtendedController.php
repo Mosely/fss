@@ -170,7 +170,7 @@ class CityDataExtendedController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CityDataExtended::validateColumn('CityDataExtended', $filter,
+            CityDataExtended::validateColumn($filter,
                 $this->container);
             $records = CityDataExtended::with(
                 [
@@ -227,7 +227,7 @@ class CityDataExtendedController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CityDataExtended::validateColumn('CityDataExtended', $key,
+                CityDataExtended::validateColumn($key,
                     $this->container);
             }
             $recordId = CityDataExtended::insertGetId($recordData);
@@ -278,7 +278,7 @@ class CityDataExtendedController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CityDataExtended::validateColumn('CityDataExtended', $key,
+                CityDataExtended::validateColumn($key,
                     $this->container);
                 $updateData = array_merge($updateData,
                     [

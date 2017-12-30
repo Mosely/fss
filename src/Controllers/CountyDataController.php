@@ -163,7 +163,7 @@ class CountyDataController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CountyData::validateColumn('CountyData', $filter, $this->logger,
+            CountyData::validateColumn($filter, $this->logger,
                 $this->cache, $this->db);
             $records = CountyData::where($filter, 'like', '%' . $value . '%')
                 ->limit(200)->get();
@@ -216,7 +216,7 @@ class CountyDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CountyData::validateColumn('CountyData', $key, $this->logger,
+                CountyData::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
             }
             $recordId = CountyData::insertGetId($recordData);
@@ -267,7 +267,7 @@ class CountyDataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CountyData::validateColumn('CountyData', $key, $this->logger,
+                CountyData::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
