@@ -108,11 +108,7 @@ class BranchOfServiceController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = BranchOfService::with(
-            [
-                'Veteran'
-            ]
-            )->limit(200)->get();
+        $records = BranchOfService::limit(200)->get();
         return $response->withJson(
             [
                 "success" => true,
@@ -161,11 +157,8 @@ class BranchOfServiceController implements ControllerInterface
         try {
             BranchOfService::validateColumn('branch_of_service', $filter,
                 $this->container);
-            $records = BranchOfService::with(
-                [
-                    'Veteran'
-                ]
-            )->where($filter, $value)->limit(200)->get();
+            $records = BranchOfService::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
