@@ -114,11 +114,7 @@ class DrugUseController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = DrugUse::with(
-            [
-                'CounseleeDrugUse'
-            ]
-            )->limit(200)->get();
+        $records = DrugUse::limit(200)->get();
         $this->logger->debug("All DrugUse query: ", $this->db::getQueryLog());
         // $records = Drug_use::all();
         return $response->withJson(
@@ -169,11 +165,8 @@ class DrugUseController implements ControllerInterface
         try {
             DrugUse::validateColumn('DrugUse', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = DrugUse::with(
-            [
-                'CounseleeDrugUse'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $records = DrugUse::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             $this->logger->debug("DrugUse filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

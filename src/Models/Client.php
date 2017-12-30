@@ -39,5 +39,9 @@ class Client extends AbstractModel
     {
         return $this->hasMany('FSS\Models\ClientLanguage');
     }
+    public function Veteran()
+    {
+        return $this->hasOne('FSS\Models\Veteran');
+    }
     // getters and setters if you want and other logic
 }

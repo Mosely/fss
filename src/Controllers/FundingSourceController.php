@@ -114,11 +114,7 @@ class FundingSourceController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = FundingSource::with(
-            [
-                'ShelterClientFundingSource'
-            ]
-            )->limit(200)->get();
+        $records = FundingSource::limit(200)->get();
         $this->logger->debug("All FundingSource query: ",
             $this->db::getQueryLog());
         // $records = Funding_source::all();
@@ -169,11 +165,8 @@ class FundingSourceController implements ControllerInterface
         try {
             FundingSource::validateColumn('FundingSource', $filter,
                 $this->container);
-            $records = FundingSource::with(
-            [
-                'ShelterClientFundingSource'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $records = FundingSource::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             $this->logger->debug("FundingSource filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

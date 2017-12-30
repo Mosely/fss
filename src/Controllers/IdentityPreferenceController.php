@@ -114,11 +114,7 @@ class IdentityPreferenceController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = IdentityPreference::with(
-            [
-                'ShelterClientIdentityPreference'
-            ]
-            )->limit(200)->get();
+        $records = IdentityPreference::limit(200)->get();
         $this->logger->debug("All IdentityPreference query: ",
             $this->db::getQueryLog());
         // $records = Identity_preference::all();
@@ -170,11 +166,8 @@ class IdentityPreferenceController implements ControllerInterface
         try {
             IdentityPreference::validateColumn('IdentityPreference', $filter,
                 $this->container);
-            $records = IdentityPreference::with(
-            [
-                'ShelterClientIdentityPreference'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $records = IdentityPreference::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             $this->logger->debug("IdentityPreference filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

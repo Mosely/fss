@@ -114,11 +114,7 @@ class MilitaryDischargeTypeController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = MilitaryDischargeType::with(
-            [
-                'Veteran'
-            ]
-            )->limit(200)->get();
+        $records = MilitaryDischargeType::limit(200)->get();
         $this->logger->debug("All MilitaryDischargeType query: ",
             $this->db::getQueryLog());
         // $records = Military_discharge_type::all();
@@ -170,11 +166,8 @@ class MilitaryDischargeTypeController implements ControllerInterface
         try {
             MilitaryDischargeType::validateColumn('military_discharge_type',
                 $filter, $this->container);
-            $records = MilitaryDischargeType::with(
-            [
-                'Veteran'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $records = MilitaryDischargeType::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             $this->logger->debug("MilitaryDischargeType filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

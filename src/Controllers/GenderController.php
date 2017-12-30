@@ -114,12 +114,7 @@ class GenderController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = Gender::with(
-            [
-                'Person',
-                'CounseleeChildSibling'
-            ]
-            )->limit(200)->get();
+        $records = Gender::limit(200)->get();
         $this->logger->debug("All genders query: ", $this->db::getQueryLog());
         // $records = Gender::all();
         return $response->withJson(
@@ -170,12 +165,8 @@ class GenderController implements ControllerInterface
         try {
             Gender::validateColumn('gender', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = Gender::with(
-            [
-                'Person',
-                'CounseleeChildSibling'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $records = Gender::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             $this->logger->debug("Gender filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

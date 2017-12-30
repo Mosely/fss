@@ -116,7 +116,8 @@ class VeteranController implements ControllerInterface
         $records = Veteran::with(
             [
                 'BranchOfService',
-                'MilitaryDischargeType'
+                'MilitaryDischargeType',
+                'Client'
             ]
             )->limit(200)->get();
         $this->logger->debug("All Veteran query: ", $this->db::getQueryLog());
@@ -172,7 +173,8 @@ class VeteranController implements ControllerInterface
             $records = Veteran::with(
                     [
                         'BranchOfService', 
-                        'MilitaryDischargeType'
+                        'MilitaryDischargeType',
+                        'Client'
                     ]
                 )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("Veteran filter query: ",

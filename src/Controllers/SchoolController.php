@@ -117,8 +117,7 @@ class SchoolController implements ControllerInterface
         $records = School::with(
             [
                 'CityData',
-                'StateData',
-                'CounseleeChild'
+                'StateData'
             ]
             )->limit(200)->get();
         $this->logger->debug("All schools query: ", $this->db::getQueryLog());
@@ -174,8 +173,7 @@ class SchoolController implements ControllerInterface
             $records = School::with(
             [
                 'CityData',
-                'StateData',
-                'CounseleeChild'
+                'StateData'
             ]
             )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("School filter query: ",

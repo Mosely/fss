@@ -114,11 +114,7 @@ class CountyDataController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = CountyData::with(
-            [
-                'Address'
-            ]
-            )->limit(200)->get();
+        $records = CountyData::limit(200)->get();
         $this->logger->debug("All CountyData query: ", $this->db::getQueryLog());
         // $records = County_data::all();
         return $response->withJson(
@@ -169,11 +165,8 @@ class CountyDataController implements ControllerInterface
         try {
             CountyData::validateColumn('CountyData', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = CountyData::with(
-            [
-                'Address'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $records = CountyData::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             $this->logger->debug("CountyData filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

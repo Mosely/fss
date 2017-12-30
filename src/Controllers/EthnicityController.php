@@ -114,11 +114,7 @@ class EthnicityController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = Ethnicity::with(
-            [
-                'ClientEthnicity'
-            ]
-            )->limit(200)->get();
+        $records = Ethnicity::limit(200)->get();
         $this->logger->debug("All ethnicities query: ", $this->db::getQueryLog());
         // $records = Ethnicity::all();
         return $response->withJson(
@@ -169,11 +165,8 @@ class EthnicityController implements ControllerInterface
         try {
             Ethnicity::validateColumn('ethnicity', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = Ethnicity::with(
-            [
-                'ClientEthnicity'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $records = Ethnicity::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             $this->logger->debug("Ethnicity filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

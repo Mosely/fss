@@ -58,8 +58,8 @@ class Veteran extends AbstractModel
         return $this->belongsTo('FSS\Models\MilitaryDischargeType');
     }
         
-    public function Person()
+    public function Client()
     {
-        return $this->belongsTo('FSS\Models\Person', 'va_id');
+        return $this->belongsTo('FSS\Models\Client');
     }
 }

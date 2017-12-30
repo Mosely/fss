@@ -114,11 +114,7 @@ class LanguageController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $records = Language::with(
-            [
-                'ClientLanguage'
-            ]
-            )->limit(200)->get();
+        $records = Language::limit(200)->get();
         $this->logger->debug("All languages query: ", $this->db::getQueryLog());
         // $records = Language::all();
         return $response->withJson(
@@ -169,11 +165,8 @@ class LanguageController implements ControllerInterface
         try {
             Language::validateColumn('language', $filter, $this->logger,
                 $this->cache, $this->db);
-            $records = Language::with(
-            [
-                'ClientLanguage'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $records = Language::where($filter, 'like', '%' . $value . '%')
+                ->limit(200)->get();
             $this->logger->debug("Language filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
