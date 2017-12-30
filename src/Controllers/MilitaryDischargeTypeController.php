@@ -165,7 +165,8 @@ class MilitaryDischargeTypeController implements ControllerInterface
         
         try {
             MilitaryDischargeType::validateColumn(
-                $filter, $this->container);
+                $filter, $this->logger,
+                $this->cache, $this->db);
             $records = MilitaryDischargeType::where($filter, 'like', '%' . $value . '%')
                 ->limit(200)->get();
             $this->logger->debug("MilitaryDischargeType filter query: ",
@@ -218,7 +219,8 @@ class MilitaryDischargeTypeController implements ControllerInterface
         try {
             foreach ($recordData as $key => $val) {
                 MilitaryDischargeType::validateColumn(
-                    $key, $this->container);
+                    $key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = MilitaryDischargeType::insertGetId($recordData);
             $this->logger->debug("MilitaryDischargeType create query: ",
@@ -269,7 +271,8 @@ class MilitaryDischargeTypeController implements ControllerInterface
             $updateData = [];
             foreach ($recordData as $key => $val) {
                 MilitaryDischargeType::validateColumn(
-                    $key, $this->container);
+                    $key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val

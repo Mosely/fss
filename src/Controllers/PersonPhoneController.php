@@ -225,8 +225,8 @@ class PersonPhoneController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                PersonPhone::validateColumn($key,
-                    $this->container);
+                PersonPhone::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = PersonPhone::insertGetId($recordData);
             $this->logger->debug("PersonPhone create query: ",
@@ -276,8 +276,8 @@ class PersonPhoneController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                PersonPhone::validateColumn($key,
-                    $this->container);
+                PersonPhone::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val

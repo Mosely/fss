@@ -168,8 +168,8 @@ class CounselingTopicController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CounselingTopic::validateColumn($filter,
-                $this->container);
+            CounselingTopic::validateColumn($filter, $this->logger,
+                $this->cache, $this->db);
             $records = CounselingTopic::with(
             [
                 'CounseleeCounselingTopic'
@@ -224,8 +224,8 @@ class CounselingTopicController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CounselingTopic::validateColumn($key,
-                    $this->container);
+                CounselingTopic::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = CounselingTopic::insertGetId($recordData);
             $this->logger->debug("CounselingTopic create query: ",
@@ -275,8 +275,8 @@ class CounselingTopicController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CounselingTopic::validateColumn($key,
-                    $this->container);
+                CounselingTopic::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val

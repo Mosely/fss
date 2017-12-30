@@ -169,8 +169,8 @@ class PersonAddressController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            PersonAddress::validateColumn($filter,
-                $this->container);
+            PersonAddress::validateColumn($filter, $this->logger,
+                $this->cache, $this->db);
             $records = PersonAddress::with(
             [
                 'Person',
@@ -226,8 +226,8 @@ class PersonAddressController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                PersonAddress::validateColumn($key,
-                    $this->container);
+                PersonAddress::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = PersonAddress::insertGetId($recordData);
             $this->logger->debug("PersonAddress create query: ",
@@ -277,8 +277,8 @@ class PersonAddressController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                PersonAddress::validateColumn($key,
-                    $this->container);
+                PersonAddress::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val

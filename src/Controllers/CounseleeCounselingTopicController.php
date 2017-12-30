@@ -170,7 +170,8 @@ class CounseleeCounselingTopicController implements ControllerInterface
         
         try {
             CounseleeCounselingTopic::validateColumn(
-                $filter, $this->container);
+                $filter, $this->logger,
+                $this->cache, $this->db);
             $records = CounseleeCounselingTopic::with(
             [
                 'Counselee',

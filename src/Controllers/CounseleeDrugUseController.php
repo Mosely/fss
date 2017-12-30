@@ -169,8 +169,8 @@ class CounseleeDrugUseController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            CounseleeDrugUse::validateColumn($filter,
-                $this->container);
+            CounseleeDrugUse::validateColumn($filter, $this->logger,
+                $this->cache, $this->db);
             $records = CounseleeDrugUse::with(
             [
                 'Counselee',
@@ -226,8 +226,8 @@ class CounseleeDrugUseController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CounseleeDrugUse::validateColumn($key,
-                    $this->container);
+                CounseleeDrugUse::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = CounseleeDrugUse::insertGetId($recordData);
             $this->logger->debug("CounseleeDrugUse create query: ",
@@ -277,8 +277,8 @@ class CounseleeDrugUseController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CounseleeDrugUse::validateColumn($key,
-                    $this->container);
+                CounseleeDrugUse::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val

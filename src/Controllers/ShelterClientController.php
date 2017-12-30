@@ -172,8 +172,8 @@ class ShelterClientController implements ControllerInterface
         $value = $args['value'];
         
         try {
-            ShelterClient::validateColumn($filter,
-                $this->container);
+            ShelterClient::validateColumn($filter, $this->logger,
+                $this->cache, $this->db);
             $records = ShelterClient::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
             $this->logger->debug("ShelterClient filter query: ",
                 $this->db::getQueryLog());
@@ -224,8 +224,8 @@ class ShelterClientController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                ShelterClient::validateColumn($key,
-                    $this->container);
+                ShelterClient::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
             }
             $recordId = ShelterClient::insertGetId($recordData);
             $this->logger->debug("ShelterClient create query: ",
@@ -275,8 +275,8 @@ class ShelterClientController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                ShelterClient::validateColumn($key,
-                    $this->container);
+                ShelterClient::validateColumn($key, $this->logger,
+                    $this->cache, $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
