@@ -200,15 +200,13 @@ class VeteranController extends AbstractController
                             ]);
                     }
                 ])
-                ->where(
-                    'LOWER(`' . $filters[0] . '`)', 
-                    'like', 
-                    '%' . strtolower($values[0]) . '%');
+                ->whereRaw(
+                    'LOWER(`' . $filters[0] . '`) like ?', 
+                    ['%' . strtolower($values[0]) . '%']);
             for($i = 1; $i < count($filters); $i++) {
-                $records = $records->where(
-                    'LOWER(`' . $filters[$i] . '`)', 
-                    'like', 
-                    '%' . strtolower($values[$i]) . '%');
+                $records = $records->whereRaw(
+                    'LOWER(`' . $filters[$i] . '`) like ?', 
+                    ['%' . strtolower($values[$i]) . '%']);
             }
             $records = $records->limit(200)->get();
             $this->logger->debug("Veteran filter query: ",
