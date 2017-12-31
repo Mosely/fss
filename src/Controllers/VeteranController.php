@@ -93,7 +93,7 @@ class VeteranController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $params = ['id' => $id];
+        $params = ['id', $id];
         $request = $request->withAttribute('params', 
             implode('/', $params));
 
@@ -176,7 +176,7 @@ class VeteranController extends AbstractController
     {
         //$filter = $args['filter'];
         //$value = $args['value'];
-        $this->logger->debug("params: " . $request->getAttribute('params'));
+
         $params = explode('/', $request->getAttribute('params'));
         $filters = [];
         $values  = [];
