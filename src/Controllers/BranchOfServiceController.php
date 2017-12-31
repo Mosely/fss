@@ -23,7 +23,8 @@ use \Exception;
  *         produces="['application/json']"
  *         )
  */
-class BranchOfServiceController implements ControllerInterface
+class BranchOfServiceController extends AbstractController
+    implements ControllerInterface
 {
 
     // The dependencies.

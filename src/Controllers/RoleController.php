@@ -26,7 +26,8 @@ use \Exception;
  *         produces="['application/json']"
  *         )
  */
-class RoleController implements ControllerInterface
+class RoleController extends AbstractController
+    implements ControllerInterface
 {
 
     // The dependencies.

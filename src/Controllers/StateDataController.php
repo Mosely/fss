@@ -26,7 +26,8 @@ use Swagger\Annotations as SWG;
  *         produces="['application/json']"
  *         )
  */
-class StateDataController implements ControllerInterface
+class StateDataController extends AbstractController
+    implements ControllerInterface
 {
 
     // The dependencies.

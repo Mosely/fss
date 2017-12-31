@@ -26,7 +26,8 @@ use Swagger\Annotations as SWG;
  *         produces="['application/json']"
  *         )
  */
-class ShelterClientController implements ControllerInterface
+class ShelterClientController extends AbstractController
+    implements ControllerInterface
 {
 
     // The dependencies.

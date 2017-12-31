@@ -19,7 +19,8 @@ use \Exception;
  * @author Marshal
  *        
  */
-class UserViewController implements ControllerInterface
+class UserViewController extends AbstractController
+    implements ControllerInterface
 {
 
     // The dependencies.

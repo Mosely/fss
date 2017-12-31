@@ -26,7 +26,8 @@ use \Exception;
  *         produces="['application/json']"
  *         )
  */
-class ClientController implements ControllerInterface
+class ClientController extends AbstractController
+    implements ControllerInterface
 {
 
     // The dependencies.
