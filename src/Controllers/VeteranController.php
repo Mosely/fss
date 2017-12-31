@@ -27,7 +27,8 @@ use \Exception;
  *         )
  *        
  */
-class VeteranController implements ControllerInterface
+class VeteranController extends AbstractController 
+    implements ControllerInterface
 {
 
     // The dependencies.
@@ -172,12 +173,20 @@ class VeteranController implements ControllerInterface
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        //$filter = $args['filter'];
+        //$value = $args['value'];
+        
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values  = [];
+        $this->getFilters($params, $filters, $values);
         
         try {
-            Veteran::validateColumn($filter, $this->logger, $this->cache,
+            foreach($filters as $filter) {
+            Veteran::validateColumn($filter, $this->logger, 
+                $this->cache,
                 $this->db);
+            }
             $records = Veteran::with(
                 [
                     'BranchOfService',
@@ -190,9 +199,16 @@ class VeteranController implements ControllerInterface
                                 }
                             ]);
                     }
-                ])->where($filter, 'like', '%' . $value . '%')
-                ->limit(200)
-                ->get();
+                ])
+                ->where($filters[0], 
+                    'like', 
+                    'LOWER(%' . $values[0] . '%)');
+            for($i = 1; $i < count($filters); $i++) {
+                $records = $records->where($filters[$i], 
+                    'like', 
+                    'LOWER(%' . $values[$i] . '%)');
+            }
+            $records = $records->limit(200)->get();
             $this->logger->debug("Veteran filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

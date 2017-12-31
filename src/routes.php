@@ -388,7 +388,7 @@ $app->delete('/userviews/{id:[0-9]+}', 'UserViewController:delete');
 
 $app->get('/veterans', 'VeteranController:readAll');
 $app->get('/veterans/{id:[0-9]+}', 'VeteranController:read');
-$app->get('/veterans/{filter}/{value}', 'VeteranController:readAllWithFilter');
+$app->get('/veterans/{params:.*}', 'VeteranController:readAllWithFilter');
 
 $app->post('/veterans', 'VeteranController:create');
 $app->put('/veterans/{id:[0-9]+}', 'VeteranController:update');
