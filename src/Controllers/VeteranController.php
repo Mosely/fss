@@ -96,6 +96,7 @@ class VeteranController extends AbstractController
         $params = ['id' => $id];
         $request = $request->withAttribute('params', 
             implode('/', $params));
+
         $this->logger->debug("Reading Veteran with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
@@ -175,7 +176,7 @@ class VeteranController extends AbstractController
     {
         //$filter = $args['filter'];
         //$value = $args['value'];
-        
+        $this->logger->debug("params: " . $request->getAttribute('params'));
         $params = explode('/', $request->getAttribute('params'));
         $filters = [];
         $values  = [];
