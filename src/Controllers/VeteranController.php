@@ -179,9 +179,10 @@ class VeteranController extends AbstractController
         $params = explode('/', $request->getAttribute('params'));
         $filters = [];
         $values  = [];
-        $this->getFilters($params, $filters, $values);
         
         try {
+            $this->getFilters($params, $filters, $values);
+            
             foreach($filters as $filter) {
             Veteran::validateColumn($filter, $this->logger, 
                 $this->cache,
@@ -209,6 +210,7 @@ class VeteranController extends AbstractController
                     ['%' . strtolower($values[$i]) . '%']);
             }
             $records = $records->limit(200)->get();
+            
             $this->logger->debug("Veteran filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
