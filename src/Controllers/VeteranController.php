@@ -93,9 +93,9 @@ class VeteranController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
-        
+        $params = ['id' => $id];
+        $request = $request->withAttribute('params', 
+            implode('/', $params));
         $this->logger->debug("Reading Veteran with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
