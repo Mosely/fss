@@ -3,7 +3,6 @@ namespace FSS\Models;
 
 use Illuminate\Database\Capsule\Manager as DB;
 use FSS\Utilities\ReportGenerator;
-use Swagger\Annotations as SWG;
 
 /**
  * The "report" model.

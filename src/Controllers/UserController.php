@@ -10,7 +10,6 @@ use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use FSS\Utilities\Token;
-use Swagger\Annotations as SWG;
 
 /**
  * The user controller for all user-related actions.

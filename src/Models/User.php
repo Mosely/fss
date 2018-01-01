@@ -5,7 +5,6 @@ use \Exception;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
-use Swagger\Annotations as SWG;
 
 /**
  * The "user" model.

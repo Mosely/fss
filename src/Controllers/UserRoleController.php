@@ -8,7 +8,6 @@ use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use \Exception;
-use Swagger\Annotations as SWG;
 
 /**
  * The controller for user_role-related actions.

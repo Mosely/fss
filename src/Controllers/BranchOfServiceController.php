@@ -7,7 +7,6 @@ use Illuminate\Database\Capsule\Manager;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Swagger\Annotations as SWG;
 use \Exception;
 
 /**

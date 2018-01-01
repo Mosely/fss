@@ -1,7 +1,6 @@
 <?php
 namespace FSS\Models;
 
-use Swagger\Annotations as SWG;
 
 /**
  * The "counselee_child_bio_parent" model.

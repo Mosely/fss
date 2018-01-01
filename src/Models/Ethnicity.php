@@ -1,7 +1,6 @@
 <?php
 namespace FSS\Models;
 
-use Swagger\Annotations as SWG;
 
 /**
  * The "ethnicity" model.
