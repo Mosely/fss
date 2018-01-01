@@ -7,7 +7,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
-use Swagger\Annotations as SWG;
+//use Swagger\Annotations as SWG;
 use \Exception;
 
 /**
@@ -247,7 +247,9 @@ class VeteranController extends AbstractController
      *      method="POST",
      *      summary="Creates a veteran. See Veteran model for details.",
      *      type="Veteran",
-     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      @SWG\ResponseMessage(code=400, message="Error occurred"),
+     *      @SWG\ResponseMessage(code=200, 
+     *          message="Veteran $recordId has been created.")
      *      )
      *      )
      */
@@ -262,6 +264,8 @@ class VeteranController extends AbstractController
             foreach ($recordData as $key => $val) {
                 Veteran::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
+                $this->logger->debug("POST values: ", 
+                    $key . " => " . $val);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = Veteran::insertGetId($recordData);
