@@ -218,6 +218,8 @@ class GenderController extends AbstractController
             foreach ($recordData as $key => $val) {
                 Gender::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
+                $this->logger->debug("POST values: ",
+                    $key . " => " . $val);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = Gender::insertGetId($recordData);

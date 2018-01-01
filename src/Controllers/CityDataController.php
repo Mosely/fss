@@ -219,6 +219,8 @@ class CityDataController extends AbstractController
             foreach ($recordData as $key => $val) {
                 CityData::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
+                $this->logger->debug("POST values: ",
+                    $key . " => " . $val);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = CityData::insertGetId($recordData);

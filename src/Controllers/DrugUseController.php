@@ -218,6 +218,8 @@ class DrugUseController extends AbstractController
             foreach ($recordData as $key => $val) {
                 DrugUse::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
+                $this->logger->debug("POST values: ",
+                    $key . " => " . $val);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = DrugUse::insertGetId($recordData);

@@ -228,6 +228,8 @@ class CounseleeMedicationController extends AbstractController
             foreach ($recordData as $key => $val) {
                 CounseleeMedication::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
+                $this->logger->debug("POST values: ",
+                    $key . " => " . $val);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = CounseleeMedication::insertGetId($recordData);

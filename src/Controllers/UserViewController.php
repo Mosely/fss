@@ -153,6 +153,8 @@ class UserViewController extends AbstractController
             foreach ($recordData as $key => $val) {
                 UserView::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
+                $this->logger->debug("POST values: ",
+                    $key . " => " . $val);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = UserView::insertGetId($recordData);
