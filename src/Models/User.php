@@ -119,7 +119,7 @@ class User extends AbstractModel
             
             foreach ($userData as $key => $val) {
                 parent::validateColumn($key, $logger, $cache, $db);
-                $this->logger->debug("POST values: ",
+                $logger->debug("POST values: ",
                     $key . " => " . $val);
             }
             
