@@ -229,7 +229,7 @@ class PersonAddressController extends AbstractController
                 PersonAddress::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
                 $this->logger->debug("POST values: ",
-                    $key . " => " . $val);
+                    [$key . " => " . $val]);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = PersonAddress::insertGetId($recordData);

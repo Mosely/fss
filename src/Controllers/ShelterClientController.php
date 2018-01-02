@@ -227,7 +227,7 @@ class ShelterClientController extends AbstractController
                 ShelterClient::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
                 $this->logger->debug("POST values: ",
-                    $key . " => " . $val);
+                    [$key . " => " . $val]);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = ShelterClient::insertGetId($recordData);

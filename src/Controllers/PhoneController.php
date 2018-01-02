@@ -224,7 +224,7 @@ class PhoneController extends AbstractController
                 Phone::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
                 $this->logger->debug("POST values: ",
-                    $key . " => " . $val);
+                    [$key . " => " . $val]);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = Phone::insertGetId($recordData);

@@ -227,7 +227,7 @@ class CounseleeChildBioParentController extends AbstractController
                 CounseleeChildBioParent::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
                 $this->logger->debug("POST values: ",
-                    $key . " => " . $val);
+                    [$key . " => " . $val]);
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = CounseleeChildBioParent::insertGetId($recordData);

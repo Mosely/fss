@@ -239,7 +239,7 @@ class UserController extends AbstractController
                 User::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
                 $this->logger->debug("POST values: ",
-                    $key . " => " . $val);
+                    [$key . " => " . $val]);
             }
             if (! ($recordData['password'] === $checkPassword)) {
                 throw new Exception("The passwords do not match.");
