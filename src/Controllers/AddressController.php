@@ -89,11 +89,10 @@ class AddressController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
-        
-        // $this->logger->info("Reading address with id of $id");
-        $this->logger->debug("Reading address with id of $id");
+        $params = ['id', $id];
+        $request = $request->withAttribute('params', 
+            implode('/', $params));
+        $this->logger->debug("Reading Address with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
