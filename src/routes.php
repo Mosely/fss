@@ -25,7 +25,7 @@ $app->get('/branchesofservice/{filter}/{value}',
 
 $app->get('/addresses', 'AddressController:readAll');
 $app->get('/addresses/{id:[0-9]+}', 'AddressController:read');
-$app->get('/addresses/{filter}/{value}', 'AddressController:readAllWithFilter');
+$app->get('/addresses/{params:.*}', 'AddressController:readAllWithFilter');
 
 $app->post('/addresses', 'AddressController:create');
 $app->put('/addresses/{id:[0-9]+}', 'AddressController:update');
