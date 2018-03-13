@@ -89,8 +89,11 @@ class BranchOfServiceController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
+        $params = ['id', $id];
+        $request = $request->withAttribute('params', 
+            implode('/', $params));
+        $this->logger->debug("Reading BranchOfService with id of $id");
+        
         return $this->readAllWithFilter($request, $response, $args);
     }
 
@@ -111,6 +114,7 @@ class BranchOfServiceController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $records = BranchOfService::limit(200)->get();
+        $this->logger->debug("All branches of service query: ", $this->db::getQueryLog());
         return $response->withJson(
             [
                 "success" => true,
@@ -152,14 +156,32 @@ class BranchOfServiceController extends AbstractController
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        //$filter = $args['filter'];
+        //$value = $args['value'];
+        
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values  = [];
         
         try {
+            $this->getFilters($params, $filters, $values);
+            
+            foreach($filters as $filter) {
             BranchOfService::validateColumn($filter, $this->logger, $this->cache,
                 $this->db);
-            $records = BranchOfService::where($filter, 'like',
-                '%' . $value . '%')->limit(200)->get();
+            }
+            $records = BranchOfService::whereRaw(
+                    'LOWER(`' . $filters[0] . '`) like ?', 
+                    ['%' . strtolower($values[0]) . '%']);
+            for($i = 1; $i < count($filters); $i++) {
+                $records = $records->whereRaw(
+                    'LOWER(`' . $filters[$i] . '`) like ?', 
+                    ['%' . strtolower($values[$i]) . '%']);
+            }
+            $records = $records->limit(200)->get();
+            
+            $this->logger->debug("BranchOfService filter query: ",
+                $this->db::getQueryLog());
             if ($records->isEmpty()) {
                 return $response->withJson(
                     [
@@ -213,6 +235,8 @@ class BranchOfServiceController extends AbstractController
             }
             $recordData['updated_by'] = $this->jwtToken->sub;
             $recordId = BranchOfService::insertGetId($recordData);
+            $this->logger->debug("BranchOfService create query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -267,6 +291,8 @@ class BranchOfServiceController extends AbstractController
             }
             $updateData['updated_by'] = $this->jwtToken->sub;
             $recordId = BranchOfService::update($updateData);
+            $this->logger->debug("BranchOfService update query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
@@ -310,6 +336,8 @@ class BranchOfServiceController extends AbstractController
         try {
             $record = BranchOfService::findOrFail($id);
             $record->delete();
+            $this->logger->debug("Address delete query: ",
+                $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
