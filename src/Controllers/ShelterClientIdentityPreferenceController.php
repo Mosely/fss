@@ -92,9 +92,9 @@ class ShelterClientIdentityPreferenceController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
-        
+        $params = ['id', $id];
+        $request = $request->withAttribute('params', 
+            implode('/', $params));
         $this->logger->debug(
             "Reading ShelterClientIdentityPreference with id of $id");
         
@@ -166,19 +166,34 @@ class ShelterClientIdentityPreferenceController extends AbstractController
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        //$filter = $args['filter'];
+        //$value = $args['value'];
+        
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values  = [];
         
         try {
+            $this->getFilters($params, $filters, $values);
+            
+            foreach($filters as $filter) {
             ShelterClientIdentityPreference::validateColumn($filter,
                 $this->logger, $this->cache, $this->db);
+            }
             $records = ShelterClientIdentityPreference::with(
                 [
                     'ShelterClient',
                     'IdentityPreference'
-                ])->where($filter, 'like', '%' . $value . '%')
-                ->limit(200)
-                ->get();
+                ])->whereRaw(
+                    'LOWER(`' . $filters[0] . '`) like ?', 
+                    ['%' . strtolower($values[0]) . '%']);
+            for($i = 1; $i < count($filters); $i++) {
+                $records = $records->whereRaw(
+                    'LOWER(`' . $filters[$i] . '`) like ?', 
+                    ['%' . strtolower($values[$i]) . '%']);
+            }
+            $records = $records->limit(200)->get();
+            
             $this->logger->debug(
                 "ShelterClientIdentityPreference filter query: ",
                 $this->db::getQueryLog());
