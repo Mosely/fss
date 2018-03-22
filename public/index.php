@@ -40,6 +40,9 @@ $dotenv->required(
 $settings = require __DIR__ . '/../src/settings.php';
 $app = new \Slim\App($settings);
 
+// Using the CORS middleware pipe
+$app->pipe(Tuupola\Middleware\CorsMiddleware::class);
+
 // Set up dependencies
 require __DIR__ . '/../src/dependencies.php';
 
