@@ -91,9 +91,9 @@ class ShelterClientController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
-        
+        $params = ['id', $id];
+        $request = $request->withAttribute('params', 
+            implode('/', $params));
         // $this->logger->info("Reading shelter_client with id of $id");
         $this->logger->debug("Reading ShelterClient with id of $id");
         
@@ -168,14 +168,30 @@ class ShelterClientController extends AbstractController
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        //$filter = $args['filter'];
+        //$value = $args['value'];
+        
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values  = [];
         
         try {
+            $this->getFilters($params, $filters, $values);
+            
+            foreach($filters as $filter) {
             ShelterClient::validateColumn($filter, $this->logger, $this->cache,
                 $this->db);
-            $records = ShelterClient::where($filter, 'like', '%' . $value . '%')->limit(
-                200)->get();
+            }
+            $records = ShelterClient::whereRaw(
+                    'LOWER(`' . $filters[0] . '`) like ?', 
+                    ['%' . strtolower($values[0]) . '%']);
+            for($i = 1; $i < count($filters); $i++) {
+                $records = $records->whereRaw(
+                    'LOWER(`' . $filters[$i] . '`) like ?', 
+                    ['%' . strtolower($values[$i]) . '%']);
+            }
+            $records = $records->limit(200)->get();
+            
             $this->logger->debug("ShelterClient filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

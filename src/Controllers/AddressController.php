@@ -89,11 +89,10 @@ class AddressController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
-        
-        // $this->logger->info("Reading address with id of $id");
-        $this->logger->debug("Reading address with id of $id");
+        $params = ['id', $id];
+        $request = $request->withAttribute('params', 
+            implode('/', $params));
+        $this->logger->debug("Reading Address with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
     }
@@ -163,20 +162,36 @@ class AddressController extends AbstractController
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        //$filter = $args['filter'];
+        //$value = $args['value'];
+        
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values  = [];
         
         try {
+            $this->getFilters($params, $filters, $values);
+            
+            foreach($filters as $filter) {
             Address::validateColumn($filter, $this->logger, $this->cache,
                 $this->db);
+            }
             $records = Address::with(
                 [
                     'CityData',
                     'StateData',
                     'CountyData'
-                ])->where($filter, 'like', '%' . $value . '%')
-                ->limit(200)
-                ->get();
+                ])
+                ->whereRaw(
+                    'LOWER(`' . $filters[0] . '`) like ?', 
+                    ['%' . strtolower($values[0]) . '%']);
+            for($i = 1; $i < count($filters); $i++) {
+                $records = $records->whereRaw(
+                    'LOWER(`' . $filters[$i] . '`) like ?', 
+                    ['%' . strtolower($values[$i]) . '%']);
+            }
+            $records = $records->limit(200)->get();
+            
             $this->logger->debug("Address filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
