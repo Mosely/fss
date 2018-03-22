@@ -60,7 +60,8 @@ $app->add(
                         ]
                     ])
             ]
-        ]),
+        ]));
+$app->add(
         new Tuupola\Middleware\CorsMiddleware([
             "origin" => ["*"],
             "methods" => ["GET", "POST", "PUT", "PATCH", "DELETE"],
