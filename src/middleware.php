@@ -7,6 +7,8 @@
 $app->add(
     new \Slim\Middleware\JwtAuthentication(
         [
+            "environment" => "HTTP_AUTHORIZATION",
+            "header" => "Authorization",
             "cookie" => getenv('JWT_NAME'),
             "secure" => true,
             "relaxed" => [
