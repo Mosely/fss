@@ -25,11 +25,13 @@
 		"vlucas/phpdotenv" : "^2",
 		"phpoffice/phpspreadsheet" : "dev-master",
 		"thiagoalessio/tesseract_ocr" : "^1",
-		"zircote/swagger-php" : "^2",
+		"zircote/swagger-php" : "~2.0",
 		"phpunit/phpunit" : "6.4.4",
 		"tuupola/cors-middleware" : "~0.7",
 		"sebastian/diff" : "2.0.1",
-		"phpdocumentor/reflection-common" : "1.0.1"
+		"phpdocumentor/reflection-common" : "1.0.1",
+		"league/oauth2-server" : "~7.1",
+		"mdanter/ecc" : "~0.5"
 	},
 	"require-dev" : {
 		"phpunit/phpunit" : "6.4.4",
@@ -44,7 +46,9 @@
 		"zircote/swagger-php" : "^2",
 		"tuupola/cors-middleware" : "~0.7",
 		"sebastian/diff" : "2.0.1",
-		"phpdocumentor/reflection-common" : "1.0.1"
+		"phpdocumentor/reflection-common" : "1.0.1",
+		"league/oauth2-server" : "~7.1",
+		"mdanter/ecc" : "~0.5"
 	},
 	"autoload-dev" : {
 		"psr-4" : {
