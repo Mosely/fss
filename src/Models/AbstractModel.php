@@ -35,21 +35,33 @@ abstract class AbstractModel extends Model
      * @param Manager $db
      * @throws Exception
      */
-    public function validateColumn(string $column, Logger $logger, Cache $cache,
-        Manager $db)
+    public function validateColumn(
+        string $column, 
+        Logger $logger = null, 
+        Cache $cache = null,
+        Manager $db = null)
     {
         $columns = null;
         $theTable = static::getTableName();
-        if (($cacheValue = $cache->get($theTable)) != false) {
-            $logger->debug("Retrieved $theTable column listing from cache.");
+        
+        if (!is_null($cache) && ($cacheValue = $cache->get($theTable)) != false) {
+            if(!is_null($logger)) {
+                $logger->debug("Retrieved $theTable column listing from cache.");
+            }
             $columns = $cacheValue;
         } else {
-            $columns = $db::getSchemaBuilder()->getColumnListing($theTable);
-            $logger->debug("Retrieved $theTable column listing from database: ",
-                $db::getQueryLog());
-            $cache->set($theTable, $columns);
+            if(!is_null($db)) {
+                $columns = $db::getSchemaBuilder()->getColumnListing($theTable);
+            }
+            if(!is_null($logger)) {
+                $logger->debug("Retrieved $theTable column listing from database: ",
+                    $db::getQueryLog());
+            }
+            if (!is_null($cache)) {
+                $cache->set($theTable, $columns);
+            }
         }
-        if (! in_array($column, $columns)) {
+        if (!is_null($db) && !in_array($column, $columns)) {
             throw new Exception("$column is not a valid column option.");
         }
     }

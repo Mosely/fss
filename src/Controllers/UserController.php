@@ -397,7 +397,7 @@ class UserController extends AbstractController
         
         try {
             $id = User::authenticate($userData, $this->logger, $this->cache,
-                $this->db, 'user');
+                $this->db);
             $tokenData = $this->jwt->generate($id);
             // if(!setcookie('token', $tokenData['token'],
             // (int)$tokenData['expires'], '/', "", false, true)) {

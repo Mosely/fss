@@ -112,22 +112,26 @@ class User extends AbstractModel
      * @throws Exception
      * @return string
      */
-    public function authenticate(array $userData, Logger $logger, Cache $cache,
-        Manager $db, string $table): string
+    public function authenticate(array $userData, 
+        Logger $logger = null, 
+        Cache $cache = null,
+        Manager $db = null): string
     {
         try {
             
             foreach ($userData as $key => $val) {
                 parent::validateColumn($key, $logger, $cache, $db);
-                $logger->debug("POST values: ",
-                    [$key . " => " . $val]);
+                if(!is_null($logger)) {
+                    $logger->debug("POST values: ",
+                        [$key . " => " . $val]);
+                }
             }
             
             $user = User::select('password', 'id', 'username', 'is_disabled')->where(
                 'username', '=', $userData['username'])->firstOrFail();
-            
-            $logger->debug("User login query: ", $db::getQueryLog());
-            
+            if(!is_null($logger)) {
+                $logger->debug("User login query: ", $db::getQueryLog());
+            }
             if ($user->is_disabled != 0) {
                 throw new Exception("Your account has been disabled.");
             }
