@@ -383,6 +383,16 @@ $container['UserRoleController'] = function ($c) {
     return new FSS\Controllers\UserRoleController($logger, $db, $cache, $debug,
         $jwtToken);
 };
+$container['RoleTableAccessController'] = function ($c) {
+    $logger = $c->get('logger');
+    $db = $c->get('db');
+    $cache = $c->get('cache');
+    $debug = $c->get('settings')['debug'];
+    $jwt = $c->get('jwt');
+    $jwtToken = $jwt->decoded;
+    return new FSS\Controllers\RoleTableAccessController($logger, $db, $cache, $debug,
+        $jwtToken);
+};
 $container['UserViewController'] = function ($c) {
     $logger = $c->get('logger');
     $db = $c->get('db');

@@ -23,7 +23,7 @@ class ClientRepository implements ClientRepositoryInterface
                 'secret' => getenv('CLIENT_SECRET'),
                 'name' => getenv('CLIENT_NAME'),
                 'redirect_uri' => getenv('CLIENT_REDIRECT_URI'),
-                'is_confidential' => getenv('CLIENT_IS_CONFIDENTIAL')
+                'is_confidential' => filter_var(getenv('CLIENT_IS_CONFIDENTIAL'), FILTER_VALIDATE_BOOLEAN)
             ]
         ];
         // Check if client is registered

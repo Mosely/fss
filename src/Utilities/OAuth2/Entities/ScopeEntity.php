@@ -7,9 +7,12 @@ class ScopeEntity implements ScopeEntityInterface
 {
     use \League\OAuth2\Server\Entities\Traits\EntityTrait;
     
+    /**
+     * {@inheritdoc}
+     */
     public function jsonSerialize()
     {
-        
+        return $this->getIdentifier();
     }
 
 }

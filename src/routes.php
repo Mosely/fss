@@ -390,3 +390,11 @@ $app->put('/reports/{id:[0-9]+}', 'ReportController:update');
 $app->delete('/reports/{id:[0-9]+}', 'ReportController:delete');
 
 $app->get('/reportoutput/{id:[0-9]+}', 'ReportController:generateReportOutput');
+
+$app->get('/roletableaccesses', 'RoleTableAccessController:readAll');
+$app->get('/roletableaccesses/{id:[0-9]+}', 'RoleTableAccessController:read');
+$app->get('/roletableaccesses/{params:.*}', 'RoleTableAccessController:readAllWithFilter');
+
+$app->post('/roletableaccesses', 'RoleTableAccessController:create');
+$app->put('/roletableaccesses/{id:[0-9]+}', 'RoleTableAccessController:update');
+$app->delete('/roletableaccesses/{id:[0-9]+}', 'RoleTableAccessController:delete');
