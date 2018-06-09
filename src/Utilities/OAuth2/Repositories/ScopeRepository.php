@@ -54,7 +54,7 @@ class ScopeRepository implements ScopeRepositoryInterface
         }
         
         if (!in_array($identifier, $tables)) {
-            return;
+            return null;
         }
         
         $scope = new ScopeEntity();
