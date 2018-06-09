@@ -70,7 +70,7 @@ abstract class AbstractModel extends Model
         }
         if (!is_null($db) && 
             !in_array($column, $columns) && 
-            !in_array($column, $this->columnValidationBypass)) {
+            !in_array($column, static::$columnValidationBypass)) {
             throw new Exception("$column is not a valid column option.");
         }
     }
