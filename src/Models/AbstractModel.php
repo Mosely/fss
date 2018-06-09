@@ -25,6 +25,13 @@ abstract class AbstractModel extends Model
         'updated_by'
     ];
 
+    // Column validation exceptions, i.e.: grant_type
+    protected $columnValidationBypass = [
+        'grant_type',
+        'client_id',
+        'client_secret',
+        'scope'
+    ];
     /**
      * This will verify that the specified column
      * is indeed a column for the specified table.
@@ -61,7 +68,9 @@ abstract class AbstractModel extends Model
                 $cache->set($theTable, $columns);
             }
         }
-        if (!is_null($db) && !in_array($column, $columns)) {
+        if (!is_null($db) && 
+            !in_array($column, $columns) && 
+            !in_array($column, $this->columnValidationBypass)) {
             throw new Exception("$column is not a valid column option.");
         }
     }
