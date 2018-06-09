@@ -11,9 +11,9 @@ use FSS\Utilities\OAuth2\Entities\UserEntity;
 class UserRepository implements UserRepositoryInterface
 {
     public function getUserEntityByUserCredentials(
-        string $username, 
-        string $password, 
-        string $grantType = null, 
+        $username, 
+        $password, 
+        $grantType = null, 
         ClientEntityInterface $clientEntity = null) : UserEntityInterface
     {
         $userData = [];
