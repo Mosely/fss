@@ -9,7 +9,7 @@ class ClientRepository implements ClientRepositoryInterface
 {
 
     public function getClientEntity(string $clientIdentifier,
-        string $grantType = null, string $clientSecret = null,
+        $grantType = null, $clientSecret = null,
         bool $mustValidateSecret = true): ClientEntityInterface
     {
         //TODO Remember to update the .env file with below info
