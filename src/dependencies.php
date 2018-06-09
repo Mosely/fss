@@ -66,12 +66,12 @@ $container['oauth2authorizer'] = function($c) {
         $refreshTokenRepository
         );
     
-    $grant->setRefreshTokenTTL(new \DateInterval('P1H')); // refresh tokens will expire after 1 hour
+    $grant->setRefreshTokenTTL(new \DateInterval('PT1H')); // refresh tokens will expire after 1 hour
     
     // Enable the password grant on the server
     $server->enableGrantType(
         $grant,
-        new \DateInterval('PT20I') // access tokens will expire after 20 minutes
+        new \DateInterval('PT20M') // access tokens will expire after 20 minutes
         );
     return $server;
 };
