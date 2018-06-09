@@ -8,9 +8,9 @@ use League\OAuth2\Server\Entities\ClientEntityInterface;
 class ClientRepository implements ClientRepositoryInterface
 {
 
-    public function getClientEntity(string $clientIdentifier,
+    public function getClientEntity($clientIdentifier,
         $grantType = null, $clientSecret = null,
-        bool $mustValidateSecret = true): ClientEntityInterface
+        $mustValidateSecret = true): ClientEntityInterface
     {
         //TODO Remember to update the .env file with below info
         $clientIdFromConf = getenv('CLIENT_IDENTIFIER');
