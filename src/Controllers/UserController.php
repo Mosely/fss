@@ -404,7 +404,6 @@ class UserController extends AbstractController
                 $this->db);
             $response = $this->authorizer->
                 respondToAccessTokenRequest($request, $response);
-            $this->authorizer->
             //$tokenData = $this->jwt->generate($id);
             // if(!setcookie('token', $tokenData['token'],
             // (int)$tokenData['expires'], '/', "", false, true)) {
