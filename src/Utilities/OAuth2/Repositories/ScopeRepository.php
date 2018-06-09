@@ -15,9 +15,9 @@ class ScopeRepository implements ScopeRepositoryInterface
      */
     public function finalizeScopes(
         array $scopes, 
-        string $grantType = null, 
+        $grantType = null, 
         ClientEntityInterface $clientEntity = null, 
-        string $userIdentifier = null) : array
+        $userIdentifier = null) : array
     {
         $roles = UserRole::where('user_id', '=', $userIdentifier)->get(['role_id']);
         $accessibleTables = [];
@@ -45,7 +45,7 @@ class ScopeRepository implements ScopeRepositoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getScopeEntityByIdentifier(string $identifier) : ScopeEntityInterface
+    public function getScopeEntityByIdentifier($identifier) : ScopeEntityInterface
     {
         $tables = [];
         $allTables = RoleTableAccess::where('role_id', '=', '1')->get(['table_name']);
