@@ -64,6 +64,22 @@
             ]
         ]));*/
 
+//$app->add(new \League\OAuth2\Server\Middleware\ResourceServerMiddleware($container['oauth2resource']));
+$app->add(
+    function ($request, $response, $next) use ($container) {
+        //$route = $request->getAttribute('route');
+        //$name = $route->getName();
+        $name = $request->getUri()->getPath();
+        
+        if ($name !== '/login') {
+            $oAuthResourceMiddleware = new \League\OAuth2\Server\Middleware\ResourceServerMiddleware(
+                $container['oauth2resource']);
+            return $oAuthResourceMiddleware($request, $response, $next);
+        }
+        
+        return $next($request, $response);
+    });
+
 $app->add(
         new Tuupola\Middleware\CorsMiddleware([
             "origin" => ["*"],
@@ -82,19 +98,3 @@ $app->add(
                     ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
             }
         ]));
-
-//$app->add(new \League\OAuth2\Server\Middleware\ResourceServerMiddleware($container['oauth2resource']));
-$app->add(
-    function ($request, $response, $next) use ($container) {
-        //$route = $request->getAttribute('route');
-        //$name = $route->getName();
-        $name = $request->getUri()->getPath();
-        
-        if ($name !== '/login') {
-            $oAuthResourceMiddleware = new \League\OAuth2\Server\Middleware\ResourceServerMiddleware(
-                $container['oauth2resource']);
-            return $oAuthResourceMiddleware($request, $response, $next);
-        }
-        
-        return $next($request, $response);
-    });
