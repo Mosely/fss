@@ -1,6 +1,8 @@
 <?php
 // Dependency Injection Container configuration
 
+use Defuse\Crypto\Key;
+
 $container = $app->getContainer();
 
 // monolog
@@ -46,9 +48,9 @@ $container['oauth2authorizer'] = function($c) {
     $refreshTokenRepository = new FSS\Utilities\OAuth2\Repositories\RefreshTokenRepository();
     
     // Path to public and private keys
-    $privateKey = 'file://path/to/private.key';
+    $privateKey = getenv('PRIVATE_KEY_PATH');
     //$privateKey = new CryptKey('file://path/to/private.key', 'passphrase'); // if private key has a pass phrase
-    $encryptionKey = 'lxZFUEsBCJ2Yb14IF2ygAHI5N4+ZAUXXaSeeJm6+twsUmIen'; // generate using base64_encode(random_bytes(32))
+    $encryptionKey = getenv('DEFUSE_KEY'); // generate using generate_defuse_key PHP script
     
     // Setup the authorization server
     $server = new \League\OAuth2\Server\AuthorizationServer(
@@ -56,7 +58,7 @@ $container['oauth2authorizer'] = function($c) {
         $accessTokenRepository,
         $scopeRepository,
         $privateKey,
-        $encryptionKey
+        Key::loadFromAsciiSafeString($encryptionKey)
         );
     
     $grant = new \League\OAuth2\Server\Grant\PasswordGrant(
@@ -79,7 +81,7 @@ $container['oauth2resource'] = function($c) {
     $accessTokenRepository = new FSS\Utilities\OAuth2\Repositories\AccessTokenRepository();
     
     // Path to authorization server's public key
-    $publicKeyPath = 'file://path/to/public.key';
+    $publicKeyPath = getenv('PUBLIC_KEY_PATH');
     
     // Setup the authorization server
     $server = new \League\OAuth2\Server\ResourceServer(
