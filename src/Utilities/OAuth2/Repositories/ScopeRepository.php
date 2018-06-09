@@ -35,7 +35,7 @@ class ScopeRepository implements ScopeRepositoryInterface
         
         foreach($accessibleTables as $table) {
             $scope = new ScopeEntity();
-            $scope->setIdentifier($table);
+            $scope->setIdentifier($table->table_name);
             $scopes[] = $scope;
         }
         
