@@ -85,7 +85,7 @@ $app->add(
 
 //$app->add(new \League\OAuth2\Server\Middleware\ResourceServerMiddleware($container['oauth2resource']));
 $app->add(
-    function ($request, $response, $next) {
+    function ($request, $response, $next) use ($container) {
         //$route = $request->getAttribute('route');
         //$name = $route->getName();
         $name = $request->getUri()->getPath();
