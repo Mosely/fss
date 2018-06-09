@@ -90,9 +90,10 @@ $app->add(
         //$name = $route->getName();
         $name = $request->getUri()->getPath();
         
-        if ($name !== 'login') {
-            return new \League\OAuth2\Server\Middleware\ResourceServerMiddleware(
+        if ($name !== '/login') {
+            $oAuthResourceMiddleware = new \League\OAuth2\Server\Middleware\ResourceServerMiddleware(
                 $container['oauth2resource']);
+            return $oAuthResourceMiddleware($request, $response);
         }
         
         return $next($request, $response);
