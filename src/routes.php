@@ -5,6 +5,8 @@
 // Update the routes as new controllers are added.
 
 // $app->get('/users/{id:[0-9]+}', 'UserController:readUser');
+// Fixing Eclipse's weird $app undefined warning
+$app = $app;
 $app->get('/', 'DefaultController:indexAction');
 
 $app->get('/users', 'UserController:readAll');
@@ -15,7 +17,7 @@ $app->post('/users', 'UserController:create');
 $app->put('/users/{id:[0-9]+}', 'UserController:update');
 $app->delete('/users/{id:[0-9]+}', 'UserController:delete');
 
-$app->post('/login', 'UserController:login');
+$app->post('/login', 'UserController:login')->setName('login');
 $app->get('/logout', 'UserController:logout');
 
 $app->get('/branchesofservice', 'BranchOfServiceController:readAll');

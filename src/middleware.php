@@ -84,3 +84,15 @@ $app->add(
         ]));
 
 //$app->add(new \League\OAuth2\Server\Middleware\ResourceServerMiddleware($container['oauth2resource']));
+$app->add(
+    function ($request, $response, $next) {
+        $route = $request->getAttribute('route');
+        $name = $route->getName();
+        
+        if ($name !== 'login') {
+            return new \League\OAuth2\Server\Middleware\ResourceServerMiddleware(
+                $container['oauth2resource']);
+        }
+        
+        return $next($request, $response);
+    });
