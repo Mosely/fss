@@ -10,6 +10,7 @@ use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use FSS\Utilities\Token;
+use League\OAuth2\Server\AuthorizationServer;
 
 /**
  * The user controller for all user-related actions.
@@ -33,8 +34,11 @@ class UserController extends AbstractController
     private $db;
 
     private $cache;
-
-    private $jwt;
+    
+    /**
+     * @var AuthorizationServer
+     */
+    private $authorizer;
 
     private $jwtToken;
 
@@ -52,13 +56,13 @@ class UserController extends AbstractController
      * @param bool $debug
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        Token $jwt, $jwtToken, bool $debug)
+        $authorizer, bool $debug)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
-        $this->jwt = $jwt;
-        $this->jwtToken = $jwtToken;
+        $this->authorizer = $authorizer;
+        //$this->jwtToken = $jwtToken;
         $this->debug = $debug;
         if ($this->debug) {
             $this->logger->debug("Enabling query log for the User Controller.");
@@ -398,22 +402,29 @@ class UserController extends AbstractController
         try {
             $id = User::authenticate($userData, $this->logger, $this->cache,
                 $this->db);
-            $tokenData = $this->jwt->generate($id);
+            $response = $this->authorizer->
+                respondToAccessTokenRequest($request, $response);
+            $this->authorizer->
+            //$tokenData = $this->jwt->generate($id);
             // if(!setcookie('token', $tokenData['token'],
             // (int)$tokenData['expires'], '/', "", false, true)) {
-            if (! setcookie(getenv('JWT_NAME'), $tokenData['token'], 0, '/', '',
-                false, true)) {
-                throw new Exception(
-                    "Cannot create the JWT Token. Disallowing authentication.");
-            }
+            //if (! setcookie(getenv('JWT_NAME'), $tokenData['token'], 0, '/', '',
+            //    false, true)) {
+            //    throw new Exception(
+            //        "Cannot create the JWT Token. Disallowing authentication.");
+            //}
             $this->logger->debug("Logging in user $id");
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "$id logged in successfully.",
-                    "id" => $id,
-                    "token" => $tokenData['token']
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            //return $response->withJson(
+            //    [
+            //        "success" => true,
+            //        "message" => "$id logged in successfully.",
+            //        "id" => $id,
+            //        "token" => $tokenData['token']
+            //    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            return $response;
+        } catch (\League\OAuth2\Server\Exception\OAuthServerException $exception) {
+            // All instances of OAuthServerException can be formatted into a HTTP response
+            return $exception->generateHttpResponse($response);
         } catch (Exception $e) {
             return $response->withJson(
                 [
@@ -435,7 +446,7 @@ class UserController extends AbstractController
     public function logout(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $userIdFromToken = $this->jwtToken->sub;
+        /*$userIdFromToken = $this->jwtToken->sub;
         try {
             $expireTime = new DateTime("now -60 minutes");
             $expireTimestamp = $expireTime->getTimeStamp();
@@ -456,6 +467,6 @@ class UserController extends AbstractController
                     "success" => false,
                     "message" => $e->getMessage()
                 ], 404, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        }
+        }*/
     }
 }

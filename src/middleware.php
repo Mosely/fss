@@ -63,6 +63,7 @@ $app->add(
                     ])
             ]
         ]));
+
 $app->add(
         new Tuupola\Middleware\CorsMiddleware([
             "origin" => ["*"],
@@ -73,6 +74,7 @@ $app->add(
             "cache" => 0,
             "logger" => $container['logger'],
             "error" => function ($request, $response, $arguments) {
+                $data = [];
                 $data["status"] = "error";
                 $data["message"] = $arguments["message"];
                 return $response
@@ -80,3 +82,5 @@ $app->add(
                     ->write(json_encode($data, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
             }
         ]));
+
+$app->add(new \League\OAuth2\Server\Middleware\ResourceServerMiddleware($container['oauth2resource']));
