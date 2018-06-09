@@ -93,7 +93,7 @@ $app->add(
         if ($name !== '/login') {
             $oAuthResourceMiddleware = new \League\OAuth2\Server\Middleware\ResourceServerMiddleware(
                 $container['oauth2resource']);
-            return $oAuthResourceMiddleware($request, $response);
+            return $oAuthResourceMiddleware($request, $response, $next);
         }
         
         return $next($request, $response);
