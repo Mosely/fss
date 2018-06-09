@@ -4,7 +4,7 @@
 // e.g: $app->add(new \Slim\Csrf\Guard);
 
 // Setting up JWT Authentication
-$app->add(
+/*$app->add(
     new \Slim\Middleware\JwtAuthentication(
         [
             "environment" => "HTTP_AUTHORIZATION",
@@ -62,7 +62,7 @@ $app->add(
                         ]
                     ])
             ]
-        ]));
+        ]));*/
 
 $app->add(
         new Tuupola\Middleware\CorsMiddleware([
