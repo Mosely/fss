@@ -8,7 +8,7 @@ use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use \Exception;
-use Swagger\Annotations as SWG;
+use League\OAuth2\Server\AuthorizationServer;
 
 /**
  * The controller for shelter_client-related actions.
@@ -18,25 +18,48 @@ use Swagger\Annotations as SWG;
  * Borrows from addressController
  *
  * @author Marshal
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/shelterclients",
- *     description="ShelterClient operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/shelterclients",
+ *         description="ShelterClient operations",
+ *         produces="['application/json']"
+ *         )
  */
-class ShelterClientController implements ControllerInterface
+class ShelterClientController extends AbstractController implements 
+    ControllerInterface
 {
 
     // The dependencies.
+    /**
+     *
+     * @var Logger
+     */
     private $logger;
 
+    /**
+     *
+     * @var Manager
+     */
     private $db;
 
+    /**
+     *
+     * @var Cache
+     */
     private $cache;
 
+    /**
+     *
+     * @var bool
+     */
     private $debug;
+
+    /**
+     *
+     * @var AuthorizationServer
+     */
+    private $authorizer;
 
     /**
      * The constructor that sets The dependencies and
@@ -46,14 +69,16 @@ class ShelterClientController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param AuthorizationServer $authorizer
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, AuthorizationServer $authorizer)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->authorizer = $authorizer;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the ShelterClient Controller.");
@@ -64,33 +89,33 @@ class ShelterClientController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
-     * @SWG\Api(
-     *     path="/shelterclients/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a ShelterClient",
-     *         type="ShelterClient",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of ShelterClient to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="ShelterClient not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::read() @SWG\Api(
+     *      path="/shelterclients/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a ShelterClient",
+     *      type="ShelterClient",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of ShelterClient to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="ShelterClient not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
-        
+        $params = [
+            'id',
+            $id
+        ];
+        $request = $request->withAttribute('params', implode('/', $params));
         // $this->logger->info("Reading shelter_client with id of $id");
         $this->logger->debug("Reading ShelterClient with id of $id");
         
@@ -100,16 +125,14 @@ class ShelterClientController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
-     * @SWG\Api(
-     *     path="/shelterclients",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch ShelterClient",
-     *         type="ShelterClient"
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::readAll() @SWG\Api(
+     *      path="/shelterclients",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch ShelterClient",
+     *      type="ShelterClient"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -121,8 +144,7 @@ class ShelterClientController implements ControllerInterface
                 'ShelterClientFundingSource',
                 'ShelterClientIdentityPreference',
                 'User'
-            ]
-            )->limit(200)->get();
+            ])->limit(200)->get();
         $this->logger->debug("All ShelterClient query: ",
             $this->db::getQueryLog());
         // $records = Shelter_client::all();
@@ -137,44 +159,62 @@ class ShelterClientController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
-     * @SWG\Api(
-     *     path="/shelterclients/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays ShelterClient that meet the property=value search criteria",
-     *         type="ShelterClient",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="ShelterClient not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() @SWG\Api(
+     *      path="/shelterclients/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays ShelterClient that meet the property=value search criteria",
+     *      type="ShelterClient",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="ShelterClient not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        // $filter = $args['filter'];
+        // $value = $args['value'];
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values = [];
         
         try {
-            ShelterClient::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
-            $records = ShelterClient::where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+            $this->getFilters($params, $filters, $values);
+            
+            foreach ($filters as $filter) {
+                ShelterClient::validateColumn($filter, $this->logger,
+                    $this->cache, $this->db);
+            }
+            $records = ShelterClient::whereRaw(
+                'LOWER(`' . $filters[0] . '`) like ?',
+                [
+                    '%' . strtolower($values[0]) . '%'
+                ]);
+            for ($i = 1; $i < count($filters); $i ++) {
+                $records = $records->whereRaw(
+                    'LOWER(`' . $filters[$i] . '`) like ?',
+                    [
+                        '%' . strtolower($values[$i]) . '%'
+                    ]);
+            }
+            $records = $records->limit(200)->get();
+            
             $this->logger->debug("ShelterClient filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -203,17 +243,15 @@ class ShelterClientController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
-     * @SWG\Api(
-     *     path="/shelterclients",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a ShelterClient.  See ShelterClient model for details.",
-     *         type="ShelterClient",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::create() @SWG\Api(
+     *      path="/shelterclients",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a ShelterClient. See ShelterClient model for details.",
+     *      type="ShelterClient",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -224,16 +262,21 @@ class ShelterClientController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                ShelterClient::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                ShelterClient::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
+                $this->logger->debug("POST values: ", [
+                    $key . " => " . $val
+                ]);
             }
+            $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = ShelterClient::insertGetId($recordData);
             $this->logger->debug("ShelterClient create query: ",
                 $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "ShelterClient $recordId has been created."
+                    "message" => "ShelterClient $recordId has been created.",
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -247,25 +290,23 @@ class ShelterClientController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
-     * @SWG\Api(
-     *     path="/shelterclients/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a ShelterClient.  See the ShelterClient model for details.",
-     *         type="ShelterClient",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of ShelterClient to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::update() @SWG\Api(
+     *      path="/shelterclients/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a ShelterClient. See the ShelterClient model for details.",
+     *      type="ShelterClient",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of ShelterClient to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -275,13 +316,14 @@ class ShelterClientController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                ShelterClient::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                ShelterClient::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = ShelterClient::update($updateData);
             $this->logger->debug("ShelterClient update query: ",
                 $this->db::getQueryLog());
@@ -302,25 +344,23 @@ class ShelterClientController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
-     * @SWG\Api(
-     *     path="/shelterclients/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a ShelterClient",
-     *         type="ShelterClient",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of ShelterClient to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="ShelterClient not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::delete() @SWG\Api(
+     *      path="/shelterclients/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a ShelterClient",
+     *      type="ShelterClient",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of ShelterClient to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="ShelterClient not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

@@ -7,8 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
-use Swagger\Annotations as SWG;
 use \Exception;
+use League\OAuth2\Server\AuthorizationServer;
 
 /**
  * The controller for counselee_child-related actions.
@@ -18,25 +18,48 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- *
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/counseleechildren",
- *     description="CounseleeChild operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/counseleechildren",
+ *         description="CounseleeChild operations",
+ *         produces="['application/json']"
+ *         )
  */
-class CounseleeChildController implements ControllerInterface
+class CounseleeChildController extends AbstractController implements 
+    ControllerInterface
 {
 
     // The dependencies.
+    /**
+     *
+     * @var Logger
+     */
     private $logger;
 
+    /**
+     *
+     * @var Manager
+     */
     private $db;
 
+    /**
+     *
+     * @var Cache
+     */
     private $cache;
 
+    /**
+     *
+     * @var bool
+     */
     private $debug;
+
+    /**
+     *
+     * @var AuthorizationServer
+     */
+    private $authorizer;
 
     /**
      * The constructor that sets The dependencies and
@@ -46,14 +69,16 @@ class CounseleeChildController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param AuthorizationServer $authorizer
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, AuthorizationServer $authorizer)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->authorizer = $authorizer;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the CounseleeChild Controller.");
@@ -64,33 +89,33 @@ class CounseleeChildController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
-     * @SWG\Api(
-     *     path="/counseleechildren/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a counselee child",
-     *         type="CounseleeChild",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of counselee child to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="counselee child not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::read() @SWG\Api(
+     *      path="/counseleechildren/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a counselee child",
+     *      type="CounseleeChild",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of counselee child to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="counselee child not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
-        
+        $params = [
+            'id',
+            $id
+        ];
+        $request = $request->withAttribute('params', implode('/', $params));
         // $this->logger->info("Reading CounseleeChild with id of $id");
         $this->logger->debug("Reading CounseleeChild with id of $id");
         
@@ -100,16 +125,14 @@ class CounseleeChildController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
-     * @SWG\Api(
-     *     path="/counseleechildren",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch counselee children",
-     *         type="CounseleeChild"
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::readAll() @SWG\Api(
+     *      path="/counseleechildren",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch counselee children",
+     *      type="CounseleeChild"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -121,8 +144,7 @@ class CounseleeChildController implements ControllerInterface
                 'CounseleeChildGuardian',
                 'CounseleeChildSibling',
                 'School'
-            ]
-            )->limit(200)->get();
+            ])->limit(200)->get();
         $this->logger->debug("All CounseleeChild query: ",
             $this->db::getQueryLog());
         // $records = CounseleeChild::all();
@@ -137,52 +159,68 @@ class CounseleeChildController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
-     * @SWG\Api(
-     *     path="/counseleechildren/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays counselee children that meet the property=value search criteria",
-     *         type="CounseleeChild",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="veteran not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() @SWG\Api(
+     *      path="/counseleechildren/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays counselee children that meet the property=value search criteria",
+     *      type="CounseleeChild",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="veteran not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        // $filter = $args['filter'];
+        // $value = $args['value'];
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values = [];
         
         try {
-            CounseleeChild::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
+            $this->getFilters($params, $filters, $values);
+            
+            foreach ($filters as $filter) {
+                CounseleeChild::validateColumn($filter, $this->logger,
+                    $this->cache, $this->db);
+            }
             $records = CounseleeChild::with(
-            [
-                'Counselee',
-                'CounseleeChildBioParent',
-                'CounseleeChildGuardian',
-                'CounseleeChildSibling',
-                'School'
-            ]
-            )->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+                [
+                    'Counselee',
+                    'CounseleeChildBioParent',
+                    'CounseleeChildGuardian',
+                    'CounseleeChildSibling',
+                    'School'
+                ])->whereRaw('LOWER(`' . $filters[0] . '`) like ?',
+                [
+                    '%' . strtolower($values[0]) . '%'
+                ]);
+            for ($i = 1; $i < count($filters); $i ++) {
+                $records = $records->whereRaw(
+                    'LOWER(`' . $filters[$i] . '`) like ?',
+                    [
+                        '%' . strtolower($values[$i]) . '%'
+                    ]);
+            }
+            $records = $records->limit(200)->get();
+            
             $this->logger->debug("CounseleeChild filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -211,17 +249,15 @@ class CounseleeChildController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
-     * @SWG\Api(
-     *     path="/counseleechildren",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a counselee child.  See CounseleeChild model for details.",
-     *         type="CounseleeChild",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::create() @SWG\Api(
+     *      path="/counseleechildren",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a counselee child. See CounseleeChild model for details.",
+     *      type="CounseleeChild",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -232,16 +268,21 @@ class CounseleeChildController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CounseleeChild::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                CounseleeChild::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
+                $this->logger->debug("POST values: ", [
+                    $key . " => " . $val
+                ]);
             }
+            $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = CounseleeChild::insertGetId($recordData);
             $this->logger->debug("Counselee_child create query: ",
                 $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "CounseleeChild $recordId has been created."
+                    "message" => "CounseleeChild $recordId has been created.",
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -255,25 +296,23 @@ class CounseleeChildController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
-     * @SWG\Api(
-     *     path="/counseleechildren/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a counselee child.  See the CounseleeChild model for details.",
-     *         type="CounseleeChild",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of counselee child to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::update() @SWG\Api(
+     *      path="/counseleechildren/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a counselee child. See the CounseleeChild model for details.",
+     *      type="CounseleeChild",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of counselee child to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -283,13 +322,14 @@ class CounseleeChildController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CounseleeChild::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                CounseleeChild::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = CounseleeChild::update($updateData);
             $this->logger->debug("CounseleeChild update query: ",
                 $this->db::getQueryLog());
@@ -310,25 +350,23 @@ class CounseleeChildController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
-     * @SWG\Api(
-     *     path="/counseleechildren/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a counselee child",
-     *         type="CounseleeChild",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of counselee child to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="counselee child not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::delete() @SWG\Api(
+     *      path="/counseleechildren/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a counselee child",
+     *      type="CounseleeChild",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of counselee child to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="counselee child not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface

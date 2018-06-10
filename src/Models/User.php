@@ -5,31 +5,40 @@ use \Exception;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
-use Swagger\Annotations as SWG;
 
 /**
  * The "user" model.
  *
  * @author Dewayne
  *        
- * @SWG\Model(
- *     id="User",
- *     @SWG\Property(name="id", type="integer", required=true),
- *     @SWG\Property(name="username", type="string", required=true),
- *     @SWG\Property(name="email", type="string", required=true),
- *     @SWG\Property(name="password", type="string", required=true), 
- *     @SWG\Property(name="password_created_at", type="integer", required=true),
- *     @SWG\Property(name="is_disabled", type="boolean", required=true),  
- *     @SWG\Property(name="created_at", type="integer", required=true),  
- *     @SWG\Property(name="updated_at", type="integer", required=true), 
- *     @SWG\Property(name="updated_by", type="integer", required=true)
- * )
+ *         @SWG\Model(
+ *         id="User",
+ *         @SWG\Property(name="id", type="integer", required=true),
+ *         @SWG\Property(name="username", type="string", required=true),
+ *         @SWG\Property(name="email", type="string", required=true),
+ *         @SWG\Property(name="password", type="string", required=true),
+ *         @SWG\Property(name="password_created_at", type="integer", required=true),
+ *         @SWG\Property(name="is_disabled", type="boolean", required=true),
+ *         @SWG\Property(name="created_at", type="integer", required=false),
+ *         @SWG\Property(name="updated_at", type="integer", required=false),
+ *         @SWG\Property(name="updated_by", type="integer", required=true)
+ *         )
  */
 class User extends AbstractModel
 {
 
-    // The table for this model
-    protected $table = 'user';
+    protected $table = "user";
+
+    protected $primaryKey = "id";
+
+    protected $fillable = array(
+        'username',
+        'email',
+        'password',
+        'password_created_at',
+        'is_disabled',
+        'updated_by'
+    );
 
     // There's no need to return these five
     // columns with every request. Going to
@@ -103,20 +112,26 @@ class User extends AbstractModel
      * @throws Exception
      * @return string
      */
-    public function authenticate(array $userData, Logger $logger, Cache $cache,
-        Manager $db, string $table): string
+    public function authenticate(array $userData, 
+        Logger $logger = null, 
+        Cache $cache = null,
+        Manager $db = null): string
     {
         try {
             
             foreach ($userData as $key => $val) {
                 parent::validateColumn($key, $logger, $cache, $db);
+                if(!is_null($logger)) {
+                    $logger->debug("POST values: ",
+                        [$key . " => " . $val]);
+                }
             }
             
             $user = User::select('password', 'id', 'username', 'is_disabled')->where(
                 'username', '=', $userData['username'])->firstOrFail();
-            
-            $logger->debug("User login query: ", $db::getQueryLog());
-            
+            if(!is_null($logger)) {
+                $logger->debug("User login query: ", $db::getQueryLog());
+            }
             if ($user->is_disabled != 0) {
                 throw new Exception("Your account has been disabled.");
             }
@@ -138,17 +153,17 @@ class User extends AbstractModel
     {
         return $this->belongsTo('FSS\Models\Person', 'id', 'id');
     }
-    
+
     public function ShelterClient()
     {
         return $this->hasMany('FSS\Models\ShelterClient');
     }
-    
+
     public function UserRole()
     {
         return $this->hasMany('FSS\Models\UserRole');
-    }    
-    
+    }
+
     public function ShelterClientAdditionalStaff()
     {
         return $this->hasOne('FSS\Models\ShelterClientAdditionalStaff');

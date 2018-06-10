@@ -7,8 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
-use Swagger\Annotations as SWG;
 use \Exception;
+use League\OAuth2\Server\AuthorizationServer;
 
 /**
  * The controller for report-related actions.
@@ -16,45 +16,65 @@ use \Exception;
  * Implements the ControllerInterface.
  *
  * @author Dewayne
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/reports",
- *     description="Report operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/reports",
+ *         description="Report operations",
+ *         produces="['application/json']"
+ *         )
  */
-class ReportController implements ControllerInterface
+class ReportController extends AbstractController implements ControllerInterface
 {
 
     // The dependencies.
+    /**
+     *
+     * @var Logger
+     */
     private $logger;
 
+    /**
+     *
+     * @var Manager
+     */
     private $db;
 
+    /**
+     *
+     * @var Cache
+     */
     private $cache;
 
-    private $jwtToken;
+    /**
+     *
+     * @var AuthorizationServer
+     */
+    private $authorizer;
 
+    /**
+     *
+     * @var bool
+     */
     private $debug;
 
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
-     * 
+     *
      * @param Logger $logger
      * @param Manager $db
      * @param Cache $cache
-     * @param object $jwtToken
+     * @param AuthorizationServer $authorizer
      * @param bool $debug
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        $jwtToken, bool $debug)
+        $authorizer, bool $debug)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
-        $this->jwtToken = $jwtToken;
+        $this->authorizer = $authorizer;
         $this->debug = $debug;
         if ($this->debug) {
             $this->logger->debug(
@@ -73,9 +93,9 @@ class ReportController implements ControllerInterface
         $reportType = $report->data[0]->type;
         
         try {
-            // $records = Report::run($columns, 
-            // $reportName, $reportType, $this->jwtToken);
-            Report::run($columns, $reportName, $reportType, $this->jwtToken);
+            // $records = Report::run($columns,
+            // $reportName, $reportType, $this->authorizer);
+            Report::run($columns, $reportName, $reportType, $this->authorizer);
             $this->logger->debug("Generated Report query: ",
                 $this->db::getQueryLog());
             
@@ -93,15 +113,17 @@ class ReportController implements ControllerInterface
                     "message" => "Error occured: " . $e->getMessage()
                 ], 400);
         }
-    }    
-    
+    }
+
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
-        
+        $params = [
+            'id',
+            $id
+        ];
+        $request = $request->withAttribute('params', implode('/', $params));
         $this->logger->debug("Reading report with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
@@ -110,12 +132,19 @@ class ReportController implements ControllerInterface
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        // $filter = $args['filter'];
+        // $value = $args['value'];
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values = [];
         
         try {
-            Report::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
+            $this->getFilters($params, $filters, $values);
+            
+            foreach ($filters as $filter) {
+                Report::validateColumn($filter, $this->logger, $this->cache,
+                    $this->db);
+            }
             $records = Report::with(
                 [
                     'reportColumn' => function ($q) {
@@ -124,7 +153,19 @@ class ReportController implements ControllerInterface
                         // than two tables you will need to handle the
                         // deeper relationships as done here.
                     }
-                ])->where($filter, 'like', '%' . $value . '%')->limit(200)->get();
+                ])->whereRaw('LOWER(`' . $filters[0] . '`) like ?',
+                [
+                    '%' . strtolower($values[0]) . '%'
+                ]);
+            for ($i = 1; $i < count($filters); $i ++) {
+                $records = $records->whereRaw(
+                    'LOWER(`' . $filters[$i] . '`) like ?',
+                    [
+                        '%' . strtolower($values[$i]) . '%'
+                    ]);
+            }
+            $records = $records->limit(200)->get();
+            
             $this->logger->debug("Report filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {

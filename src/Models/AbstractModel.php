@@ -12,7 +12,7 @@ use \Exception;
  * common code that all models can use.
  *
  * @author Dewayne
- *
+ *        
  */
 abstract class AbstractModel extends Model
 {
@@ -35,37 +35,59 @@ abstract class AbstractModel extends Model
      * @param Manager $db
      * @throws Exception
      */
-    public function validateColumn(string $column,
-        Logger $logger, Cache $cache, Manager $db)
+    public function validateColumn(
+        string $column, 
+        Logger $logger = null, 
+        Cache $cache = null,
+        Manager $db = null)
     {
         $columns = null;
         $theTable = static::getTableName();
-        if (($cacheValue = $cache->get($theTable)) != false) {
-            $logger->debug("Retrieved $theTable column listing from cache.");
+        
+        if (!is_null($cache) && ($cacheValue = $cache->get($theTable)) != false) {
+            if(!is_null($logger)) {
+                $logger->debug("Retrieved $theTable column listing from cache.");
+            }
             $columns = $cacheValue;
         } else {
-            $columns = $db::getSchemaBuilder()->getColumnListing($theTable);
-            $logger->debug("Retrieved $theTable column listing from database: ",
-                $db::getQueryLog());
-            $cache->set($theTable, $columns);
+            if(!is_null($db)) {
+                $columns = $db::getSchemaBuilder()->getColumnListing($theTable);
+            }
+            if(!is_null($logger)) {
+                $logger->debug("Retrieved $theTable column listing from database: ",
+                    $db::getQueryLog());
+            }
+            if (!is_null($cache)) {
+                $cache->set($theTable, $columns);
+            }
         }
-        if (! in_array($column, $columns)) {
+        // Column validation exceptions, i.e.: grant_type
+        $columnValidationBypass = [
+            'grant_type',
+            'client_id',
+            'client_secret',
+            'scope'
+        ];
+        
+        if (!is_null($db) && 
+            !in_array($column, $columns) && 
+            !in_array($column, $columnValidationBypass)) {
             throw new Exception("$column is not a valid column option.");
         }
     }
-    
+
     /**
      * While trying to keep in line with the static
      * approach as implemented by Eloquent, here's
      * a static method called through any Model
      * in order to retrieve its table name.
-     * 
-     *  That should cut down on any typos.
-     *  
+     *
+     * That should cut down on any typos.
+     *
      * @return string
      */
-    public static function getTableName() : string
+    public static function getTableName(): string
     {
-        return with(new static)->getTable();
+        return with(new static())->getTable();
     }
 }

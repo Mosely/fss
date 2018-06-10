@@ -7,8 +7,8 @@ use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
-use Swagger\Annotations as SWG;
 use \Exception;
+use League\OAuth2\Server\AuthorizationServer;
 
 /**
  * The controller for county_data-related actions.
@@ -18,25 +18,48 @@ use \Exception;
  * Borrows from addressController
  *
  * @author Marshal
- * 
- * @SWG\Resource(
- *     apiVersion="1.0",
- *     resourcePath="/countydata",
- *     description="CountyData operations",
- *     produces="['application/json']"
- * )
+ *        
+ *         @SWG\Resource(
+ *         apiVersion="1.0",
+ *         resourcePath="/countydata",
+ *         description="CountyData operations",
+ *         produces="['application/json']"
+ *         )
  */
-class CountyDataController implements ControllerInterface
+class CountyDataController extends AbstractController implements 
+    ControllerInterface
 {
 
     // The dependencies.
+    /**
+     *
+     * @var Logger
+     */
     private $logger;
 
+    /**
+     *
+     * @var Manager
+     */
     private $db;
 
+    /**
+     *
+     * @var Cache
+     */
     private $cache;
 
+    /**
+     *
+     * @var bool
+     */
     private $debug;
+
+    /**
+     *
+     * @var AuthorizationServer
+     */
+    private $authorizer;
 
     /**
      * The constructor that sets The dependencies and
@@ -46,14 +69,16 @@ class CountyDataController implements ControllerInterface
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
+     * @param AuthorizationServer $authorizer
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug)
+        bool $debug, AuthorizationServer $authorizer)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
+        $this->authorizer = $authorizer;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the CountyData Controller.");
@@ -64,33 +89,33 @@ class CountyDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read()
-     *
-     * @SWG\Api(
-     *     path="/countydata/{id}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays a CountyData",
-     *         type="CountyData",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of CountyData to fetch",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="CountyData not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::read() @SWG\Api(
+     *      path="/countydata/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays a CountyData",
+     *      type="CountyData",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of CountyData to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="CountyData not found")
+     *      )
+     *      )
      */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $args['filter'] = "id";
-        $args['value'] = $id;
-        
+        $params = [
+            'id',
+            $id
+        ];
+        $request = $request->withAttribute('params', implode('/', $params));
         // $this->logger->info("Reading county_data with id of $id");
         $this->logger->debug("Reading county_data with id of $id");
         
@@ -100,16 +125,14 @@ class CountyDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll()
-     *
-     * @SWG\Api(
-     *     path="/countydata",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Fetch CountyData",
-     *         type="CountyData"
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::readAll() @SWG\Api(
+     *      path="/countydata",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Fetch CountyData",
+     *      type="CountyData"
+     *      )
+     *      )
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -128,45 +151,62 @@ class CountyDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
-     *
-     * @SWG\Api(
-     *     path="/countydata/{filter}/{value}",
-     *     @SWG\Operation(
-     *         method="GET",
-     *         summary="Displays CountyData that meet the property=value search criteria",
-     *         type="CountyData",
-     *         @SWG\Parameter(
-     *             name="filter",
-     *             description="property to search for in the related model.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="string"
-     *         ),
-     *         @SWG\Parameter(
-     *             name="value",
-     *             description="value to search for, given the property.",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="object"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="CountyData not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() @SWG\Api(
+     *      path="/countydata/{filter}/{value}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays CountyData that meet the property=value search criteria",
+     *      type="CountyData",
+     *      @SWG\Parameter(
+     *      name="filter",
+     *      description="property to search for in the related model.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="string"
+     *      ),
+     *      @SWG\Parameter(
+     *      name="value",
+     *      description="value to search for, given the property.",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="object"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="CountyData not found")
+     *      )
+     *      )
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        // $filter = $args['filter'];
+        // $value = $args['value'];
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values = [];
         
         try {
-            CountyData::validateColumn($filter, $this->logger,
-                $this->cache, $this->db);
-            $records = CountyData::where($filter, 'like', '%' . $value . '%')
-                ->limit(200)->get();
+            $this->getFilters($params, $filters, $values);
+            
+            foreach ($filters as $filter) {
+                CountyData::validateColumn($filter, $this->logger, $this->cache,
+                    $this->db);
+            }
+            $records = CountyData::whereRaw(
+                'LOWER(`' . $filters[0] . '`) like ?',
+                [
+                    '%' . strtolower($values[0]) . '%'
+                ]);
+            for ($i = 1; $i < count($filters); $i ++) {
+                $records = $records->whereRaw(
+                    'LOWER(`' . $filters[$i] . '`) like ?',
+                    [
+                        '%' . strtolower($values[$i]) . '%'
+                    ]);
+            }
+            $records = $records->limit(200)->get();
+            
             $this->logger->debug("CountyData filter query: ",
                 $this->db::getQueryLog());
             if ($records->isEmpty()) {
@@ -195,17 +235,15 @@ class CountyDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create()
-     *
-     * @SWG\Api(
-     *     path="/countydata",
-     *     @SWG\Operation(
-     *         method="POST",
-     *         summary="Creates a CountyData.  See CountyData model for details.",
-     *         type="CountyData",
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::create() @SWG\Api(
+     *      path="/countydata",
+     *      @SWG\Operation(
+     *      method="POST",
+     *      summary="Creates a CountyData. See CountyData model for details.",
+     *      type="CountyData",
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -216,16 +254,21 @@ class CountyDataController implements ControllerInterface
         $recordData = $request->getParsedBody();
         try {
             foreach ($recordData as $key => $val) {
-                CountyData::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                CountyData::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
+                $this->logger->debug("POST values: ", [
+                    $key . " => " . $val
+                ]);
             }
+            $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = CountyData::insertGetId($recordData);
             $this->logger->debug("CountyData create query: ",
                 $this->db::getQueryLog());
             return $response->withJson(
                 [
                     "success" => true,
-                    "message" => "CountyData $recordId has been created."
+                    "message" => "CountyData $recordId has been created.",
+                    "id" => $recordId
                 ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
         } catch (Exception $e) {
             return $response->withJson(
@@ -239,25 +282,23 @@ class CountyDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update()
-     *
-     * @SWG\Api(
-     *     path="/countydata/{id}",
-     *     @SWG\Operation(
-     *         method="PUT",
-     *         summary="Updates a CountyData.  See the CountyData model for details.",
-     *         type="CountyData",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of CountyData to update",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=400, message="Error occurred")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::update() @SWG\Api(
+     *      path="/countydata/{id}",
+     *      @SWG\Operation(
+     *      method="PUT",
+     *      summary="Updates a CountyData. See the CountyData model for details.",
+     *      type="CountyData",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of CountyData to update",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=400, message="Error occurred")
+     *      )
+     *      )
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -267,13 +308,14 @@ class CountyDataController implements ControllerInterface
         try {
             $updateData = [];
             foreach ($recordData as $key => $val) {
-                CountyData::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
+                CountyData::validateColumn($key, $this->logger, $this->cache,
+                    $this->db);
                 $updateData = array_merge($updateData,
                     [
                         $key => $val
                     ]);
             }
+            $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = CountyData::update($updateData);
             $this->logger->debug("CountyData update query: ",
                 $this->db::getQueryLog());
@@ -294,25 +336,23 @@ class CountyDataController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete()
-     *
-     * @SWG\Api(
-     *     path="/countydata/{id}",
-     *     @SWG\Operation(
-     *         method="DELETE",
-     *         summary="Deletes a CountyData",
-     *         type="CountyData",
-     *         @SWG\Parameter(
-     *             name="id",
-     *             description="id of CountyData to delete",
-     *             paramType="path",
-     *             required=true,
-     *             allowMultiple=false,
-     *             type="integer"
-     *         ),
-     *         @SWG\ResponseMessage(code=404, message="CountyData not found")
-     *     )
-     * )
+     * @see \FSS\Controllers\ControllerInterface::delete() @SWG\Api(
+     *      path="/countydata/{id}",
+     *      @SWG\Operation(
+     *      method="DELETE",
+     *      summary="Deletes a CountyData",
+     *      type="CountyData",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of CountyData to delete",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="CountyData not found")
+     *      )
+     *      )
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
