@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use \Exception;
+use League\OAuth2\Server\AuthorizationServer;
 
 /**
  * This controller handles actions relating to
@@ -22,20 +23,40 @@ use \Exception;
  *         produces="['application/json']"
  *         )
  */
-class BranchOfServiceController extends AbstractController
-    implements ControllerInterface
+class BranchOfServiceController extends AbstractController implements 
+    ControllerInterface
 {
 
     // The dependencies.
+    /**
+     *
+     * @var Logger
+     */
     private $logger;
 
+    /**
+     *
+     * @var Manager
+     */
     private $db;
 
+    /**
+     *
+     * @var Cache
+     */
     private $cache;
 
+    /**
+     *
+     * @var bool
+     */
     private $debug;
 
-    private $jwtToken;
+    /**
+     *
+     * @var AuthorizationServer
+     */
+    private $authorizer;
 
     /**
      * The constructor that sets the dependencies and
@@ -45,16 +66,16 @@ class BranchOfServiceController extends AbstractController
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
-     * @param object $jwtToken
+     * @param AuthorizationServer $authorizer
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug, $jwtToken)
+        bool $debug, AuthorizationServer $authorizer)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
-        $this->jwtToken = $jwtToken;
+        $this->authorizer = $authorizer;
         
         if ($this->debug) {
             $this->logger->debug(
@@ -66,8 +87,7 @@ class BranchOfServiceController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::read() @SWG\Api(
      *      path="/branchesofservice/{id}",
      *      @SWG\Operation(
      *      method="GET",
@@ -89,9 +109,11 @@ class BranchOfServiceController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $params = ['id', $id];
-        $request = $request->withAttribute('params', 
-            implode('/', $params));
+        $params = [
+            'id',
+            $id
+        ];
+        $request = $request->withAttribute('params', implode('/', $params));
         $this->logger->debug("Reading BranchOfService with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
@@ -100,8 +122,7 @@ class BranchOfServiceController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::readAll() @SWG\Api(
      *      path="/branchesofservice",
      *      @SWG\Operation(
      *      method="GET",
@@ -114,7 +135,8 @@ class BranchOfServiceController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $records = BranchOfService::limit(200)->get();
-        $this->logger->debug("All branches of service query: ", $this->db::getQueryLog());
+        $this->logger->debug("All branches of service query: ",
+            $this->db::getQueryLog());
         return $response->withJson(
             [
                 "success" => true,
@@ -126,8 +148,7 @@ class BranchOfServiceController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() @SWG\Api(
      *      path="/branchesofservice/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
@@ -156,27 +177,30 @@ class BranchOfServiceController extends AbstractController
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        //$filter = $args['filter'];
-        //$value = $args['value'];
-        
+        // $filter = $args['filter'];
+        // $value = $args['value'];
         $params = explode('/', $request->getAttribute('params'));
         $filters = [];
-        $values  = [];
+        $values = [];
         
         try {
             $this->getFilters($params, $filters, $values);
             
-            foreach($filters as $filter) {
-            BranchOfService::validateColumn($filter, $this->logger, $this->cache,
-                $this->db);
+            foreach ($filters as $filter) {
+                BranchOfService::validateColumn($filter, $this->logger,
+                    $this->cache, $this->db);
             }
             $records = BranchOfService::whereRaw(
-                    'LOWER(`' . $filters[0] . '`) like ?', 
-                    ['%' . strtolower($values[0]) . '%']);
-            for($i = 1; $i < count($filters); $i++) {
+                'LOWER(`' . $filters[0] . '`) like ?',
+                [
+                    '%' . strtolower($values[0]) . '%'
+                ]);
+            for ($i = 1; $i < count($filters); $i ++) {
                 $records = $records->whereRaw(
-                    'LOWER(`' . $filters[$i] . '`) like ?', 
-                    ['%' . strtolower($values[$i]) . '%']);
+                    'LOWER(`' . $filters[$i] . '`) like ?',
+                    [
+                        '%' . strtolower($values[$i]) . '%'
+                    ]);
             }
             $records = $records->limit(200)->get();
             
@@ -208,8 +232,7 @@ class BranchOfServiceController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::create() @SWG\Api(
      *      path="/branchesofservice",
      *      @SWG\Operation(
      *      method="POST",
@@ -230,10 +253,11 @@ class BranchOfServiceController extends AbstractController
             foreach ($recordData as $key => $val) {
                 BranchOfService::validateColumn($key, $this->logger,
                     $this->cache, $this->db);
-                $this->logger->debug("POST values: ",
-                    [$key . " => " . $val]);
+                $this->logger->debug("POST values: ", [
+                    $key . " => " . $val
+                ]);
             }
-            $recordData['updated_by'] = $this->jwtToken->sub;
+            $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = BranchOfService::insertGetId($recordData);
             $this->logger->debug("BranchOfService create query: ",
                 $this->db::getQueryLog());
@@ -255,8 +279,7 @@ class BranchOfServiceController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::update() @SWG\Api(
      *      path="/branchesofservice/{id}",
      *      @SWG\Operation(
      *      method="PUT",
@@ -289,7 +312,7 @@ class BranchOfServiceController extends AbstractController
                         $key => $val
                     ]);
             }
-            $updateData['updated_by'] = $this->jwtToken->sub;
+            $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = BranchOfService::update($updateData);
             $this->logger->debug("BranchOfService update query: ",
                 $this->db::getQueryLog());
@@ -310,8 +333,7 @@ class BranchOfServiceController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::delete() @SWG\Api(
      *      path="/branchesofservice/{id}",
      *      @SWG\Operation(
      *      method="DELETE",

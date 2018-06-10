@@ -1,8 +1,6 @@
 <?php
 // Dependency Injection Container configuration
 
-use Defuse\Crypto\Key;
-
 $container = $app->getContainer();
 
 // monolog
@@ -11,7 +9,8 @@ $container['logger'] = function ($c) {
     $logger = new Monolog\Logger($settings['name']);
     $logger->pushProcessor(new Monolog\Processor\UidProcessor());
     $logger->pushHandler(
-        new Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
+        new Monolog\Handler\StreamHandler($settings['path'], 
+            $settings['level']));
     return $logger;
 };
 
@@ -41,16 +40,21 @@ $container['jwt'] = function ($c) {
 // OAuth 2.0 Authorization Server
 $container['oauth2authorizer'] = function($c) {
     // Init our repositories
-    $clientRepository = new FSS\Utilities\OAuth2\Repositories\ClientRepository();
-    $scopeRepository = new FSS\Utilities\OAuth2\Repositories\ScopeRepository();
-    $accessTokenRepository = new FSS\Utilities\OAuth2\Repositories\AccessTokenRepository();
-    $userRepository = new FSS\Utilities\OAuth2\Repositories\UserRepository();
-    $refreshTokenRepository = new FSS\Utilities\OAuth2\Repositories\RefreshTokenRepository();
+    $clientRepository = 
+        new FSS\Utilities\OAuth2\Repositories\ClientRepository();
+    $scopeRepository = 
+        new FSS\Utilities\OAuth2\Repositories\ScopeRepository();
+    $accessTokenRepository = 
+        new FSS\Utilities\OAuth2\Repositories\AccessTokenRepository();
+    $userRepository = 
+        new FSS\Utilities\OAuth2\Repositories\UserRepository();
+    $refreshTokenRepository = 
+        new FSS\Utilities\OAuth2\Repositories\RefreshTokenRepository();
     
     // Path to public and private keys
     $privateKey = getenv('PRIVATE_KEY_PATH');
-    //$privateKey = new CryptKey('file://path/to/private.key', 'passphrase'); // if private key has a pass phrase
-    $encryptionKey = getenv('DEFUSE_KEY'); // generate using generate_defuse_key PHP script
+    $encryptionKey = getenv('DEFUSE_KEY'); 
+    // generate using generate_defuse_key PHP script
     
     // Setup the authorization server
     $server = new \League\OAuth2\Server\AuthorizationServer(
@@ -58,7 +62,7 @@ $container['oauth2authorizer'] = function($c) {
         $accessTokenRepository,
         $scopeRepository,
         $privateKey,
-        Key::loadFromAsciiSafeString($encryptionKey)
+        Defuse\Crypto\Key::loadFromAsciiSafeString($encryptionKey)
         );
     
     $grant = new \League\OAuth2\Server\Grant\PasswordGrant(
@@ -66,19 +70,22 @@ $container['oauth2authorizer'] = function($c) {
         $refreshTokenRepository
         );
     
-    $grant->setRefreshTokenTTL(new \DateInterval('PT1H')); // refresh tokens will expire after 1 hour
+    $grant->setRefreshTokenTTL(new \DateInterval('PT1H')); 
+    // refresh tokens will expire after 1 hour
     
     // Enable the password grant on the server
     $server->enableGrantType(
         $grant,
-        new \DateInterval('PT20M') // access tokens will expire after 20 minutes
+        new \DateInterval('PT20M') 
+    // access tokens will expire after 20 minutes
         );
     return $server;
 };
 
 $container['oauth2resource'] = function($c) {
     // Init our repositories
-    $accessTokenRepository = new FSS\Utilities\OAuth2\Repositories\AccessTokenRepository();
+    $accessTokenRepository = 
+        new FSS\Utilities\OAuth2\Repositories\AccessTokenRepository();
     
     // Path to authorization server's public key
     $publicKeyPath = getenv('PUBLIC_KEY_PATH');

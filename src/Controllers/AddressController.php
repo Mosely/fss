@@ -8,6 +8,7 @@ use Monolog\Logger;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use \Exception;
+use League\OAuth2\Server\AuthorizationServer;
 
 /**
  * The controller for address-related actions.
@@ -23,20 +24,40 @@ use \Exception;
  *         produces="['application/json']"
  *         )
  */
-class AddressController extends AbstractController
-    implements ControllerInterface
+class AddressController extends AbstractController implements 
+    ControllerInterface
 {
 
     // The dependencies.
+    /**
+     *
+     * @var Logger
+     */
     private $logger;
 
+    /**
+     *
+     * @var Manager
+     */
     private $db;
 
+    /**
+     *
+     * @var Cache
+     */
     private $cache;
 
+    /**
+     *
+     * @var bool
+     */
     private $debug;
 
-    private $jwtToken;
+    /**
+     *
+     * @var AuthorizationServer
+     */
+    private $authorizer;
 
     /**
      * The constructor that sets The dependencies and
@@ -46,16 +67,16 @@ class AddressController extends AbstractController
      * @param Manager $db
      * @param Cache $cache
      * @param bool $debug
-     * @param object $jwtToken
+     * @param AuthorizationServer $authorizer
      */
     public function __construct(Logger $logger, Manager $db, Cache $cache,
-        bool $debug, $jwtToken)
+        bool $debug, AuthorizationServer $authorizer)
     {
         $this->logger = $logger;
         $this->db = $db;
         $this->cache = $cache;
         $this->debug = $debug;
-        $this->jwtToken = $jwtToken;
+        $this->authorizer = $authorizer;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the Address Controller.");
@@ -66,8 +87,7 @@ class AddressController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::read() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::read() @SWG\Api(
      *      path="/addresses/{id}",
      *      @SWG\Operation(
      *      method="GET",
@@ -89,9 +109,11 @@ class AddressController extends AbstractController
         ResponseInterface $response, array $args): ResponseInterface
     {
         $id = $args['id'];
-        $params = ['id', $id];
-        $request = $request->withAttribute('params', 
-            implode('/', $params));
+        $params = [
+            'id',
+            $id
+        ];
+        $request = $request->withAttribute('params', implode('/', $params));
         $this->logger->debug("Reading Address with id of $id");
         
         return $this->readAllWithFilter($request, $response, $args);
@@ -100,8 +122,7 @@ class AddressController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::readAll() @SWG\Api(
      *      path="/addresses",
      *      @SWG\Operation(
      *      method="GET",
@@ -132,8 +153,7 @@ class AddressController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() @SWG\Api(
      *      path="/addresses/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
@@ -162,33 +182,34 @@ class AddressController extends AbstractController
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        //$filter = $args['filter'];
-        //$value = $args['value'];
-        
+        // $filter = $args['filter'];
+        // $value = $args['value'];
         $params = explode('/', $request->getAttribute('params'));
         $filters = [];
-        $values  = [];
+        $values = [];
         
         try {
             $this->getFilters($params, $filters, $values);
             
-            foreach($filters as $filter) {
-            Address::validateColumn($filter, $this->logger, $this->cache,
-                $this->db);
+            foreach ($filters as $filter) {
+                Address::validateColumn($filter, $this->logger, $this->cache,
+                    $this->db);
             }
             $records = Address::with(
                 [
                     'CityData',
                     'StateData',
                     'CountyData'
-                ])
-                ->whereRaw(
-                    'LOWER(`' . $filters[0] . '`) like ?', 
-                    ['%' . strtolower($values[0]) . '%']);
-            for($i = 1; $i < count($filters); $i++) {
+                ])->whereRaw('LOWER(`' . $filters[0] . '`) like ?',
+                [
+                    '%' . strtolower($values[0]) . '%'
+                ]);
+            for ($i = 1; $i < count($filters); $i ++) {
                 $records = $records->whereRaw(
-                    'LOWER(`' . $filters[$i] . '`) like ?', 
-                    ['%' . strtolower($values[$i]) . '%']);
+                    'LOWER(`' . $filters[$i] . '`) like ?',
+                    [
+                        '%' . strtolower($values[$i]) . '%'
+                    ]);
             }
             $records = $records->limit(200)->get();
             
@@ -220,8 +241,7 @@ class AddressController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::create() @SWG\Api(
      *      path="/addresses",
      *      @SWG\Operation(
      *      method="POST",
@@ -242,10 +262,11 @@ class AddressController extends AbstractController
             foreach ($recordData as $key => $val) {
                 Address::validateColumn($key, $this->logger, $this->cache,
                     $this->db);
-                $this->logger->debug("POST values: ",
-                    [$key . " => " . $val]);
+                $this->logger->debug("POST values: ", [
+                    $key . " => " . $val
+                ]);
             }
-            $recordData['updated_by'] = $this->jwtToken->sub;
+            $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = Address::insertGetId($recordData);
             $this->logger->debug("Address create query: ",
                 $this->db::getQueryLog());
@@ -267,8 +288,7 @@ class AddressController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::update() @SWG\Api(
      *      path="/addresses/{id}",
      *      @SWG\Operation(
      *      method="PUT",
@@ -301,7 +321,7 @@ class AddressController extends AbstractController
                         $key => $val
                     ]);
             }
-            $updateData['updated_by'] = $this->jwtToken->sub;
+            $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
             $recordId = Address::update($updateData);
             $this->logger->debug("Address update query: ",
                 $this->db::getQueryLog());
@@ -322,8 +342,7 @@ class AddressController extends AbstractController
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete() 
-     * @SWG\Api(
+     * @see \FSS\Controllers\ControllerInterface::delete() @SWG\Api(
      *      path="/addresses/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
