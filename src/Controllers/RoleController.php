@@ -180,8 +180,8 @@ class RoleController extends AbstractController implements ControllerInterface
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $filter = $args['filter'];
-        $value = $args['value'];
+        //$filter = $args['filter'];
+        //$value = $args['value'];
         
         $params = explode('/', $request->getAttribute('params'));
         $filters = [];
