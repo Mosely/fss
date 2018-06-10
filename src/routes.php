@@ -5,8 +5,15 @@
 // Update the routes as new controllers are added.
 
 // $app->get('/users/{id:[0-9]+}', 'UserController:readUser');
+
+use League\OAuth2\Server\AuthorizationServer;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Slim\Http\Stream;
+
 // Fixing Eclipse's weird $app undefined warning
 $app = $app;
+
 $app->get('/', 'DefaultController:indexAction');
 
 $app->get('/users', 'UserController:readAll');
@@ -400,3 +407,26 @@ $app->get('/roletableaccesses/{params:.*}', 'RoleTableAccessController:readAllWi
 $app->post('/roletableaccesses', 'RoleTableAccessController:create');
 $app->put('/roletableaccesses/{id:[0-9]+}', 'RoleTableAccessController:update');
 $app->delete('/roletableaccesses/{id:[0-9]+}', 'RoleTableAccessController:delete');
+
+// special route for refreshing tokens
+$app->post('/token', 
+    function (ServerRequestInterface $request, 
+    ResponseInterface $response) use ($app) {
+    
+    /* @var \League\OAuth2\Server\AuthorizationServer $server */
+    $server = $app->getContainer()->get(AuthorizationServer::class);
+    
+    try {
+        return $server->respondToAccessTokenRequest($request, $response);
+        
+    } catch (\League\OAuth2\Server\Exception\OAuthServerException $exception) {
+        return $exception->generateHttpResponse($response);
+        
+    } catch (\Exception $exception) {
+        // Unknown exception
+        $body = new Stream('php://temp', 'r+');
+        $body->write($exception->getMessage());
+        return $response->withStatus(500)->withBody($body);
+        
+    }
+});
