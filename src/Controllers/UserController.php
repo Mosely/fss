@@ -159,9 +159,13 @@ class UserController extends AbstractController implements ControllerInterface
         
         $encoder = Encoder::instance([
             User::class => UserSchema::class,
-        ], new EncoderOptions(JSON_PRETTY_PRINT, 'http://example.com/api/v1'));
+        ], new EncoderOptions(JSON_PRETTY_PRINT, 
+            $request->getUri()->getScheme() . '://' . 
+            $request->getUri()->getHost()));
         
-        return $response->withJson(json_decode($encoder->encodeData($records)));
+        return $response->withJson(
+            json_decode(
+                $encoder->encodeData($records)));
     }
 
     /**
