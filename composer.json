@@ -31,7 +31,8 @@
 		"sebastian/diff" : "2.0.1",
 		"phpdocumentor/reflection-common" : "1.0.1",
 		"league/oauth2-server" : "~7.1",
-		"mdanter/ecc" : "~0.5"
+		"mdanter/ecc" : "~0.5",
+		"neomerx/json-api" : "~2.0"
 	},
 	"require-dev" : {
 		"phpunit/phpunit" : "6.4.4",
@@ -48,7 +49,8 @@
 		"sebastian/diff" : "2.0.1",
 		"phpdocumentor/reflection-common" : "1.0.1",
 		"league/oauth2-server" : "~7.1",
-		"mdanter/ecc" : "~0.5"
+		"mdanter/ecc" : "~0.5",
+		"neomerx/json-api" : "~2.0"
 	},
 	"autoload-dev" : {
 		"psr-4" : {

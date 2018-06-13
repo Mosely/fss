@@ -6,7 +6,10 @@ use FSS\Models\User;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
+use Neomerx\JsonApi\Encoder\Encoder;
+use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Illuminate\Database\Capsule\Manager;
+use FSS\Schemas\UserSchema;
 use FSS\Utilities\Cache;
 use FSS\Utilities\Token;
 use League\OAuth2\Server\AuthorizationServer;
@@ -147,12 +150,18 @@ class UserController extends AbstractController implements ControllerInterface
                 }
             ])->limit(200)->get();
         $this->logger->debug("All Users query: ", $this->db::getQueryLog());
-        return $response->withJson(
-            [
-                "success" => true,
-                "message" => "All users returned",
-                "data" => $records
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        //return $response->withJson(
+        //    [
+        //        "success" => true,
+        //        "message" => "All users returned",
+        //        "data" => $records
+        //    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        
+        $encoder = Encoder::instance([
+            User::class => UserSchema::class,
+        ], new EncoderOptions(JSON_PRETTY_PRINT, 'http://example.com/api/v1'));
+        
+        return $response->withJson($encoder->encodeData($records));
     }
 
     /**
