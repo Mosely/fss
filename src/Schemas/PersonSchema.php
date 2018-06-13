@@ -7,7 +7,7 @@ class PersonSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "Person";
+    protected $resourceType = "people";
   
     /**
      * @inheritdoc

@@ -7,7 +7,7 @@ class CounseleeChildGuardianSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "CounseleeChildGuardian";
+    protected $resourceType = "counseleechildguardians";
   
     /**
      * @inheritdoc

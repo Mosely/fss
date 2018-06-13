@@ -7,7 +7,7 @@ class UserViewSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "UserView";
+    protected $resourceType = "userviews";
   
     /**
      * @inheritdoc

@@ -7,7 +7,7 @@ class MilitaryDischargeTypeSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "MilitaryDischargeType";
+    protected $resourceType = "militarydischargetypes";
   
     /**
      * @inheritdoc

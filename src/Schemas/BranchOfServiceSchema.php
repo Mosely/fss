@@ -7,7 +7,7 @@ class BranchOfServiceSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "BranchOfService";
+    protected $resourceType = "branchofservices";
   
     /**
      * @inheritdoc

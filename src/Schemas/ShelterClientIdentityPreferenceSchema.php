@@ -7,7 +7,7 @@ class ShelterClientIdentityPreferenceSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "ShelterClientIdentityPreference";
+    protected $resourceType = "shelterclientidentitypreferences";
   
     /**
      * @inheritdoc

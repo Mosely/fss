@@ -7,7 +7,7 @@ class ReportCriteriaSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "ReportCriteria";
+    protected $resourceType = "reportcriterias";
   
     /**
      * @inheritdoc

@@ -7,7 +7,7 @@ class CounseleeCounselingTopicSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "CounseleeCounselingTopic";
+    protected $resourceType = "counseleecounselingtopics";
   
     /**
      * @inheritdoc

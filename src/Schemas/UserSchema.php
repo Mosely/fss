@@ -7,7 +7,7 @@ class UserSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "User";
+    protected $resourceType = "users";
   
     /**
      * @inheritdoc
@@ -27,7 +27,6 @@ class UserSchema extends BaseSchema {
         return [
             'username' => $model->username,
             'email' => $model->email,
-            'password' => $model->password,
             'password_created_at' => $model->password_created_at,
             'is_disabled' => $model->is_disabled,
             'updated_by' => $model->updated_by

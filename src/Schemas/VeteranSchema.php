@@ -7,7 +7,7 @@ class VeteranSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "Veteran";
+    protected $resourceType = "veterans";
   
     /**
      * @inheritdoc

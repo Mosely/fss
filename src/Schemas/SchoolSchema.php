@@ -7,7 +7,7 @@ class SchoolSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "School";
+    protected $resourceType = "schools";
   
     /**
      * @inheritdoc

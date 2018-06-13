@@ -7,7 +7,7 @@ class DrugUseSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "DrugUse";
+    protected $resourceType = "druguses";
   
     /**
      * @inheritdoc

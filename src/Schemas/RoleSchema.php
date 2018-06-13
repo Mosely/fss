@@ -7,7 +7,7 @@ class RoleSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "Role";
+    protected $resourceType = "roles";
   
     /**
      * @inheritdoc

@@ -7,7 +7,7 @@ class ReportColumnSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "ReportColumn";
+    protected $resourceType = "reportcolumns";
   
     /**
      * @inheritdoc

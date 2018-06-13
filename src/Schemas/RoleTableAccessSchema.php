@@ -7,7 +7,7 @@ class RoleTableAccessSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "RoleTableAccess";
+    protected $resourceType = "roletableaccesses";
   
     /**
      * @inheritdoc

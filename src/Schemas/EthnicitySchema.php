@@ -7,7 +7,7 @@ class EthnicitySchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "Ethnicity";
+    protected $resourceType = "ethnicitys";
   
     /**
      * @inheritdoc

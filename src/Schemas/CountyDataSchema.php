@@ -7,7 +7,7 @@ class CountyDataSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "CountyData";
+    protected $resourceType = "countydatas";
   
     /**
      * @inheritdoc

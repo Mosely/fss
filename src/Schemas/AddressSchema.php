@@ -7,7 +7,7 @@ class AddressSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "Address";
+    protected $resourceType = "addresses";
   
     /**
      * @inheritdoc

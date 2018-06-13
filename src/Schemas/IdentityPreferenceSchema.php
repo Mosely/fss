@@ -7,7 +7,7 @@ class IdentityPreferenceSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "IdentityPreference";
+    protected $resourceType = "identitypreferences";
   
     /**
      * @inheritdoc

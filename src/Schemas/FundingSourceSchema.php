@@ -7,7 +7,7 @@ class FundingSourceSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "FundingSource";
+    protected $resourceType = "fundingsources";
   
     /**
      * @inheritdoc

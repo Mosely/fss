@@ -7,7 +7,7 @@ class GenderSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "Gender";
+    protected $resourceType = "genders";
   
     /**
      * @inheritdoc

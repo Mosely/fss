@@ -7,7 +7,7 @@ class LanguageSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "Language";
+    protected $resourceType = "languages";
   
     /**
      * @inheritdoc
