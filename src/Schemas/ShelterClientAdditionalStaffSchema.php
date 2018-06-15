@@ -7,7 +7,7 @@ class ShelterClientAdditionalStaffSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "shelterclientadditionalstaffs";
+    protected $resourceType = "shelterclientadditionalstaff";
   
     /**
      * @inheritdoc
