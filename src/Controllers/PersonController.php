@@ -5,7 +5,10 @@ use FSS\Models\Person;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
+use Neomerx\JsonApi\Encoder\Encoder;
+use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Illuminate\Database\Capsule\Manager;
+use FSS\Schemas\PersonSchema;
 use FSS\Utilities\Cache;
 use \Exception;
 use League\OAuth2\Server\AuthorizationServer;
@@ -146,12 +149,22 @@ class PersonController extends AbstractController implements ControllerInterface
             ])->limit(200)->get();
         $this->logger->debug("All persons query: ", $this->db::getQueryLog());
         // $records = Person::all();
+        //return $response->withJson(
+        //    [
+        //        "success" => true,
+        //        "message" => "All persons returned",
+        //        "data" => $records
+        //    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $encoder = Encoder::instance([
+            Person::class =>
+            PersonSchema::class,
+        ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+            $request->getUri()->getScheme() . '://' .
+            $request->getUri()->getHost()));
+        
         return $response->withJson(
-            [
-                "success" => true,
-                "message" => "All persons returned",
-                "data" => $records
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            json_decode(
+                $encoder->encodeData($records)));
     }
 
     /**
@@ -229,12 +242,22 @@ class PersonController extends AbstractController implements ControllerInterface
                         "data" => $records
                     ], 404);
             }
+            //return $response->withJson(
+            //    [
+            //        "success" => true,
+            //        "message" => "Filtered Person by $filter",
+            //        "data" => $records
+            //    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $encoder = Encoder::instance([
+                Person::class =>
+                PersonSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            
             return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Filtered Person by $filter",
-                    "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                json_decode(
+                    $encoder->encodeData($records)));
         } catch (Exception $e) {
             return $response->withJson(
                 [

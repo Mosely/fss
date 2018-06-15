@@ -5,7 +5,10 @@ use FSS\Models\ShelterClientAdditionalStaff;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
+use Neomerx\JsonApi\Encoder\Encoder;
+use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Illuminate\Database\Capsule\Manager;
+use FSS\Schemas\ShelterClientAdditionalStaffSchema;
 use FSS\Utilities\Cache;
 use \Exception;
 use League\OAuth2\Server\AuthorizationServer;
@@ -146,12 +149,22 @@ class ShelterClientAdditionalStaffController extends AbstractController implemen
         $this->logger->debug("All ShelterClientAdditionalStaff query: ",
             $this->db::getQueryLog());
         // $records = Shelter_client_additional_staff::all();
+        //return $response->withJson(
+        //    [
+        //        "success" => true,
+        //        "message" => "All ShelterClientAdditionalStaff returned",
+        //        "data" => $records
+        //    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+        $encoder = Encoder::instance([
+            ShelterClientAdditionalStaff::class =>
+            ShelterClientAdditionalStaffSchema::class,
+        ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+            $request->getUri()->getScheme() . '://' .
+            $request->getUri()->getHost()));
+        
         return $response->withJson(
-            [
-                "success" => true,
-                "message" => "All ShelterClientAdditionalStaff returned",
-                "data" => $records
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            json_decode(
+                $encoder->encodeData($records)));
     }
 
     /**
@@ -226,12 +239,22 @@ class ShelterClientAdditionalStaffController extends AbstractController implemen
                         "data" => $records
                     ], 404);
             }
+            //return $response->withJson(
+            //    [
+            //        "success" => true,
+            //        "message" => "Filtered ShelterClientAdditionalStaff by $filter",
+            //        "data" => $records
+            //    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $encoder = Encoder::instance([
+                ShelterClientAdditionalStaff::class => 
+                ShelterClientAdditionalStaffSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            
             return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Filtered ShelterClientAdditionalStaff by $filter",
-                    "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                json_decode(
+                    $encoder->encodeData($records)));
         } catch (Exception $e) {
             return $response->withJson(
                 [

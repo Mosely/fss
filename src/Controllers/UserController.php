@@ -246,12 +246,21 @@ class UserController extends AbstractController implements ControllerInterface
                         "data" => $records
                     ], 404);
             }
+            //return $response->withJson(
+            //    [
+            //        "success" => true,
+            //        "message" => "Filtered users by $filter",
+            //        "data" => $records
+            //    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $encoder = Encoder::instance([
+                User::class => UserSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            
             return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Filtered users by $filter",
-                    "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                json_decode(
+                    $encoder->encodeData($records)));
         } catch (Exception $e) {
             return $response->withJson(
                 [
