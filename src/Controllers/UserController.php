@@ -256,7 +256,6 @@ class UserController extends AbstractController implements ControllerInterface
             //    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             $encoder = Encoder::instance([
                 User::class => UserSchema::class,
-                Person::class => PersonSchema::class,
             ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
                 $request->getUri()->getScheme() . '://' .
                 $request->getUri()->getHost()));
