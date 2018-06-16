@@ -2,6 +2,7 @@
 namespace FSS\Controllers;
 
 use \Exception;
+use FSS\Models\Person;
 use FSS\Models\User;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -9,6 +10,7 @@ use Monolog\Logger;
 use Neomerx\JsonApi\Encoder\Encoder;
 use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Illuminate\Database\Capsule\Manager;
+use FSS\Schemas\PersonSchema;
 use FSS\Schemas\UserSchema;
 use FSS\Utilities\Cache;
 use FSS\Utilities\Token;
@@ -254,6 +256,7 @@ class UserController extends AbstractController implements ControllerInterface
             //    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             $encoder = Encoder::instance([
                 User::class => UserSchema::class,
+                Person::class => PersonSchema::class,
             ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
                 $request->getUri()->getScheme() . '://' .
                 $request->getUri()->getHost()));
