@@ -254,7 +254,9 @@ class PersonController extends AbstractController implements ControllerInterface
             ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
                 $request->getUri()->getScheme() . '://' .
                 $request->getUri()->getHost()));
-            
+            if ($records->count() == 1) {
+                $records = $records->first();
+            }
             return $response->withJson(
                 json_decode(
                     $encoder->encodeData($records)));
