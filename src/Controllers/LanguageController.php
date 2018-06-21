@@ -5,7 +5,10 @@ use FSS\Models\Language;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
+use Neomerx\JsonApi\Encoder\Encoder;
+use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Illuminate\Database\Capsule\Manager;
+use FSS\Schemas\LanguageSchema;
 use FSS\Utilities\Cache;
 use \Exception;
 use League\OAuth2\Server\AuthorizationServer;
@@ -140,12 +143,15 @@ class LanguageController extends AbstractController implements
         $records = Language::limit(200)->get();
         $this->logger->debug("All languages query: ", $this->db::getQueryLog());
         // $records = Language::all();
-        return $response->withJson(
-            [
-                "success" => true,
-                "message" => "All Languages returned",
-                "data" => $records
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $encoder = Encoder::instance([
+                Language::class => LanguageSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            return $response->withJson(
+                json_decode(
+                    $encoder->encodeData($records)));
+
     }
 
     /**
@@ -216,12 +222,18 @@ class LanguageController extends AbstractController implements
                         "data" => $records
                     ], 404);
             }
+            $encoder = Encoder::instance([
+                Language::class => LanguageSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            if ($records->count() == 1) {
+                $records = $records->first();
+            }
             return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Filtered Languages by $filter",
-                    "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                json_decode(
+                    $encoder->encodeData($records)));
+
         } catch (Exception $e) {
             return $response->withJson(
                 [

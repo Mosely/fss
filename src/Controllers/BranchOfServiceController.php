@@ -2,9 +2,12 @@
 namespace FSS\Controllers;
 
 use FSS\Models\BranchOfService;
+use FSS\Schemas\BranchOfServiceSchema;
 use FSS\Utilities\Cache;
 use Illuminate\Database\Capsule\Manager;
 use Monolog\Logger;
+use Neomerx\JsonApi\Encoder\Encoder;
+use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use \Exception;
@@ -137,12 +140,15 @@ class BranchOfServiceController extends AbstractController implements
         $records = BranchOfService::limit(200)->get();
         $this->logger->debug("All branches of service query: ",
             $this->db::getQueryLog());
-        return $response->withJson(
-            [
-                "success" => true,
-                "message" => "All branches_of_service returned",
-                "data" => $records
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $encoder = Encoder::instance([
+                BranchOfService::class => BranchOfServiceSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            return $response->withJson(
+                json_decode(
+                    $encoder->encodeData($records)));
+
     }
 
     /**
@@ -214,12 +220,18 @@ class BranchOfServiceController extends AbstractController implements
                         "data" => $records
                     ], 404);
             }
+            $encoder = Encoder::instance([
+                BranchOfService::class => BranchOfServiceSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            if ($records->count() == 1) {
+                $records = $records->first();
+            }
             return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Filtered branches_of_service by $filter",
-                    "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                json_decode(
+                    $encoder->encodeData($records)));
+
         } catch (Exception $e) {
             return $response->withJson(
                 [

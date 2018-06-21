@@ -5,7 +5,10 @@ use FSS\Models\CounseleeMedication;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
+use Neomerx\JsonApi\Encoder\Encoder;
+use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Illuminate\Database\Capsule\Manager;
+use FSS\Schemas\CounseleeMedicationSchema;
 use FSS\Utilities\Cache;
 use \Exception;
 use League\OAuth2\Server\AuthorizationServer;
@@ -145,12 +148,15 @@ class CounseleeMedicationController extends AbstractController implements
         $this->logger->debug("All CounseleeMedication query: ",
             $this->db::getQueryLog());
         // $records = Counselee_medication::all();
-        return $response->withJson(
-            [
-                "success" => true,
-                "message" => "All CounseleeMedication returned",
-                "data" => $records
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $encoder = Encoder::instance([
+                CounseleeMedication::class => CounseleeMedicationSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            return $response->withJson(
+                json_decode(
+                    $encoder->encodeData($records)));
+
     }
 
     /**
@@ -225,12 +231,18 @@ class CounseleeMedicationController extends AbstractController implements
                         "data" => $records
                     ], 404);
             }
+            $encoder = Encoder::instance([
+                CounseleeMedication::class => CounseleeMedicationSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            if ($records->count() == 1) {
+                $records = $records->first();
+            }
             return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Filtered CounseleeMedication by $filter",
-                    "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                json_decode(
+                    $encoder->encodeData($records)));
+
         } catch (Exception $e) {
             return $response->withJson(
                 [

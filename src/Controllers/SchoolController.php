@@ -5,7 +5,10 @@ use FSS\Models\School;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
+use Neomerx\JsonApi\Encoder\Encoder;
+use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Illuminate\Database\Capsule\Manager;
+use FSS\Schemas\SchoolSchema;
 use FSS\Utilities\Cache;
 use \Exception;
 use League\OAuth2\Server\AuthorizationServer;
@@ -143,12 +146,15 @@ class SchoolController extends AbstractController implements ControllerInterface
             ])->limit(200)->get();
         $this->logger->debug("All schools query: ", $this->db::getQueryLog());
         // $records = School::all();
-        return $response->withJson(
-            [
-                "success" => true,
-                "message" => "All Schools returned",
-                "data" => $records
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $encoder = Encoder::instance([
+                School::class => SchoolSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            return $response->withJson(
+                json_decode(
+                    $encoder->encodeData($records)));
+
     }
 
     /**
@@ -223,12 +229,18 @@ class SchoolController extends AbstractController implements ControllerInterface
                         "data" => $records
                     ], 404);
             }
+            $encoder = Encoder::instance([
+                School::class => SchoolSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            if ($records->count() == 1) {
+                $records = $records->first();
+            }
             return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Filtered School by $filter",
-                    "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                json_decode(
+                    $encoder->encodeData($records)));
+
         } catch (Exception $e) {
             return $response->withJson(
                 [

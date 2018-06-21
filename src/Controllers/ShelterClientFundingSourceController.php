@@ -5,7 +5,10 @@ use FSS\Models\ShelterClientFundingSource;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use Monolog\Logger;
+use Neomerx\JsonApi\Encoder\Encoder;
+use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Illuminate\Database\Capsule\Manager;
+use FSS\Schemas\ShelterClientFundingSourceSchema;
 use FSS\Utilities\Cache;
 use \Exception;
 use League\OAuth2\Server\AuthorizationServer;
@@ -146,12 +149,15 @@ class ShelterClientFundingSourceController extends AbstractController implements
         $this->logger->debug("All ShelterClientFundingSource query: ",
             $this->db::getQueryLog());
         // $records = Shelter_client_funding_source::all();
-        return $response->withJson(
-            [
-                "success" => true,
-                "message" => "All ShelterClientFundingSource returned",
-                "data" => $records
-            ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+            $encoder = Encoder::instance([
+                ShelterClientFundingSource::class => ShelterClientFundingSourceSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            return $response->withJson(
+                json_decode(
+                    $encoder->encodeData($records)));
+
     }
 
     /**
@@ -226,12 +232,18 @@ class ShelterClientFundingSourceController extends AbstractController implements
                         "data" => $records
                     ], 404);
             }
+            $encoder = Encoder::instance([
+                ShelterClientFundingSource::class => ShelterClientFundingSourceSchema::class,
+            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                $request->getUri()->getScheme() . '://' .
+                $request->getUri()->getHost()));
+            if ($records->count() == 1) {
+                $records = $records->first();
+            }
             return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Filtered ShelterClientFundingSource by $filter",
-                    "data" => $records
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                json_decode(
+                    $encoder->encodeData($records)));
+
         } catch (Exception $e) {
             return $response->withJson(
                 [
