@@ -7,7 +7,7 @@ class StateDataSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "statedatas";
+    protected $resourceType = "statedata";
   
     /**
      * @inheritdoc

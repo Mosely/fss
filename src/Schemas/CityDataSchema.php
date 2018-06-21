@@ -7,7 +7,7 @@ class CityDataSchema extends BaseSchema {
     /**
      * @inheritdoc
      */
-    protected $resourceType = "citydatas";
+    protected $resourceType = "citydata";
   
     /**
      * @inheritdoc
