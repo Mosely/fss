@@ -127,27 +127,11 @@ abstract class AbstractController implements ControllerInterface
         }
     }
     
-//     /**
-//      *
-//      * {@inheritdoc}
-//      * @see \FSS\Controllers\ControllerInterface::read() @SWG\Api(
-//      *      path="/addresses/{id}",
-//      *      @SWG\Operation(
-//      *      method="GET",
-//      *      summary="Displays an address",
-//      *      type="Address",
-//      *      @SWG\Parameter(
-//      *      name="id",
-//      *      description="id of address to fetch",
-//      *      paramType="path",
-//      *      required=true,
-//      *      allowMultiple=false,
-//      *      type="integer"
-//      *      ),
-//      *      @SWG\ResponseMessage(code=404, message="address not found")
-//      *      )
-//      *      )
-//      */
+    /**
+     *
+     * {@inheritdoc}
+     * @see \FSS\Controllers\ControllerInterface::read()
+     */
     public function read(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
         {
@@ -165,14 +149,7 @@ abstract class AbstractController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAll() @SWG\Api(
-     *      path="/addresses",
-     *      @SWG\Operation(
-     *      method="GET",
-     *      summary="Fetch addresses",
-     *      type="Address"
-     *      )
-     *      )
+     * @see \FSS\Controllers\ControllerInterface::readAll()
      */
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -203,31 +180,7 @@ abstract class AbstractController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter() @SWG\Api(
-     *      path="/addresses/{filter}/{value}",
-     *      @SWG\Operation(
-     *      method="GET",
-     *      summary="Displays addresses that meet the property=value search criteria",
-     *      type="Address",
-     *      @SWG\Parameter(
-     *      name="filter",
-     *      description="property to search for in the related model.",
-     *      paramType="path",
-     *      required=true,
-     *      allowMultiple=false,
-     *      type="string"
-     *      ),
-     *      @SWG\Parameter(
-     *      name="value",
-     *      description="value to search for, given the property.",
-     *      paramType="path",
-     *      required=true,
-     *      allowMultiple=false,
-     *      type="object"
-     *      ),
-     *      @SWG\ResponseMessage(code=404, message="address not found")
-     *      )
-     *      )
+     * @see \FSS\Controllers\ControllerInterface::readAllWithFilter()
      */
     public function readAllWithFilter(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -297,15 +250,7 @@ abstract class AbstractController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::create() @SWG\Api(
-     *      path="/addresses",
-     *      @SWG\Operation(
-     *      method="POST",
-     *      summary="Creates an address. See Address model for details.",
-     *      type="Address",
-     *      @SWG\ResponseMessage(code=400, message="Error occurred")
-     *      )
-     *      )
+     * @see \FSS\Controllers\ControllerInterface::create()
      */
     public function create(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -344,23 +289,7 @@ abstract class AbstractController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::update() @SWG\Api(
-     *      path="/addresses/{id}",
-     *      @SWG\Operation(
-     *      method="PUT",
-     *      summary="Updates an address. See the Address model for details.",
-     *      type="Address",
-     *      @SWG\Parameter(
-     *      name="id",
-     *      description="id of address to update",
-     *      paramType="path",
-     *      required=true,
-     *      allowMultiple=false,
-     *      type="integer"
-     *      ),
-     *      @SWG\ResponseMessage(code=400, message="Error occurred")
-     *      )
-     *      )
+     * @see \FSS\Controllers\ControllerInterface::update()
      */
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
@@ -398,23 +327,7 @@ abstract class AbstractController implements ControllerInterface
     /**
      *
      * {@inheritdoc}
-     * @see \FSS\Controllers\ControllerInterface::delete() @SWG\Api(
-     *      path="/addresses/{id}",
-     *      @SWG\Operation(
-     *      method="DELETE",
-     *      summary="Deletes an address",
-     *      type="Address",
-     *      @SWG\Parameter(
-     *      name="id",
-     *      description="id of address to delete",
-     *      paramType="path",
-     *      required=true,
-     *      allowMultiple=false,
-     *      type="integer"
-     *      ),
-     *      @SWG\ResponseMessage(code=404, message="address not found")
-     *      )
-     *      )
+     * @see \FSS\Controllers\ControllerInterface::delete()
      */
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
