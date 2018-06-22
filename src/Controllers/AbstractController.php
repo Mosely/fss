@@ -182,7 +182,7 @@ abstract class AbstractController implements ControllerInterface
                     $this->db::getQueryLog());
                 // $records = Address::all();
                 $encoder = Encoder::instance([
-                    $this->modelName::class => $this->modelSchemaName::class,
+                    $this->modelName => $this->modelSchemaName,
                 ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
                     $request->getUri()->getScheme() . '://' .
                     $request->getUri()->getHost()));
@@ -269,7 +269,7 @@ abstract class AbstractController implements ControllerInterface
                             ], 404);
                     }
                     $encoder = Encoder::instance([
-                        $this->modelName::class => $this->modelSchemaName::class,
+                        $this->modelName => $this->modelSchemaName,
                     ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
                         $request->getUri()->getScheme() . '://' .
                         $request->getUri()->getHost()));
