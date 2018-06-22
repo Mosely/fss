@@ -32,36 +32,36 @@ use League\OAuth2\Server\AuthorizationServer;
 class PersonController extends AbstractController implements ControllerInterface
 {
 
-    // The dependencies.
-    /**
-     *
-     * @var Logger
-     */
-    private $logger;
+//     // The dependencies.
+//     /**
+//      *
+//      * @var Logger
+//      */
+//     private $logger;
 
-    /**
-     *
-     * @var Manager
-     */
-    private $db;
+//     /**
+//      *
+//      * @var Manager
+//      */
+//     private $db;
 
-    /**
-     *
-     * @var Cache
-     */
-    private $cache;
+//     /**
+//      *
+//      * @var Cache
+//      */
+//     private $cache;
 
-    /**
-     *
-     * @var bool
-     */
-    private $debug;
+//     /**
+//      *
+//      * @var bool
+//      */
+//     private $debug;
 
-    /**
-     *
-     * @var AuthorizationServer
-     */
-    private $authorizer;
+//     /**
+//      *
+//      * @var AuthorizationServer
+//      */
+//     private $authorizer;
 
     /**
      * The constructor that sets The dependencies and
