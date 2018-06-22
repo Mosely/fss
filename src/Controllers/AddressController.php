@@ -89,27 +89,27 @@ class AddressController extends AbstractController implements
         //}
     }
 
-//     /**
-//      *
-//      * {@inheritdoc}
-//      * @see \FSS\Controllers\ControllerInterface::read() @SWG\Api(
-//      *      path="/addresses/{id}",
-//      *      @SWG\Operation(
-//      *      method="GET",
-//      *      summary="Displays an address",
-//      *      type="Address",
-//      *      @SWG\Parameter(
-//      *      name="id",
-//      *      description="id of address to fetch",
-//      *      paramType="path",
-//      *      required=true,
-//      *      allowMultiple=false,
-//      *      type="integer"
-//      *      ),
-//      *      @SWG\ResponseMessage(code=404, message="address not found")
-//      *      )
-//      *      )
-//      */
+    /**
+     *
+     * {@inheritdoc}
+     * @see \FSS\Controllers\ControllerInterface::read() @SWG\Api(
+     *      path="/addresses/{id}",
+     *      @SWG\Operation(
+     *      method="GET",
+     *      summary="Displays an address",
+     *      type="Address",
+     *      @SWG\Parameter(
+     *      name="id",
+     *      description="id of address to fetch",
+     *      paramType="path",
+     *      required=true,
+     *      allowMultiple=false,
+     *      type="integer"
+     *      ),
+     *      @SWG\ResponseMessage(code=404, message="address not found")
+     *      )
+     *      )
+     */
 //     public function read(ServerRequestInterface $request,
 //         ResponseInterface $response, array $args): ResponseInterface
 //     {
