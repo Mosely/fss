@@ -56,12 +56,17 @@ abstract class AbstractController implements ControllerInterface
      * @var string
      */
     protected $modelName;
+    /**
+     *
+     * @var string
+     */
+    protected $modelFullName;
     
     /**
      *
      * @var string
      */
-    private $modelSchemaName;
+    private $modelFullSchemaName;
     
     /**
      *
@@ -84,8 +89,8 @@ abstract class AbstractController implements ControllerInterface
     {
         $this->modelNamespace = "FSS\\Models";
         $this->modelSchemaNamespace = "FSS\\Schemas";
-        $this->modelName = $this->modelNamespace . "\\" . $this->modelName;
-        $this->modelSchemaName = $this->modelSchemaNamespace . "\\" . $this->modelName . "Schema";
+        $this->modelFullSchemaName = $this->modelSchemaNamespace . "\\" . $this->modelName . "Schema";
+        $this->modelFullName = $this->modelNamespace . "\\" . $this->modelName;
         if ($this->debug) {
             $this->logger->debug(
                 "Enabling query log for the " . $this->modelName . " Controller.");
@@ -172,7 +177,7 @@ abstract class AbstractController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
         {
-            $records = $this->modelName::with(
+            $records = $this->modelFullName::with(
                 [
                     'CityData',
                     'StateData',
@@ -182,7 +187,7 @@ abstract class AbstractController implements ControllerInterface
                     $this->db::getQueryLog());
                 // $records = Address::all();
                 $encoder = Encoder::instance([
-                    $this->modelName => $this->modelSchemaName,
+                    $this->modelFullName => $this->modelFullSchemaName,
                 ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
                     $request->getUri()->getScheme() . '://' .
                     $request->getUri()->getHost()));
@@ -237,10 +242,10 @@ abstract class AbstractController implements ControllerInterface
                 $this->getFilters($params, $filters, $values);
                 
                 foreach ($filters as $filter) {
-                    $this->modelName::validateColumn($filter, $this->logger, $this->cache,
+                    $this->modelFullName::validateColumn($filter, $this->logger, $this->cache,
                         $this->db);
                 }
-                $records = $this->modelName::with(
+                $records = $this->modelFullName::with(
                     [
                         'CityData',
                         'StateData',
@@ -264,12 +269,12 @@ abstract class AbstractController implements ControllerInterface
                         return $response->withJson(
                             [
                                 "success" => true,
-                                "message" => "No Address found",
+                                "message" => "No " . $this->modelName . " found",
                                 "data" => $records
                             ], 404);
                     }
                     $encoder = Encoder::instance([
-                        $this->modelName => $this->modelSchemaName,
+                        $this->modelFullName => $this->modelFullSchemaName,
                     ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
                         $request->getUri()->getScheme() . '://' .
                         $request->getUri()->getHost()));
@@ -311,14 +316,14 @@ abstract class AbstractController implements ControllerInterface
             $recordData = $request->getParsedBody();
             try {
                 foreach ($recordData as $key => $val) {
-                    $this->modelName::validateColumn($key, $this->logger, $this->cache,
+                    $this->modelFullName::validateColumn($key, $this->logger, $this->cache,
                         $this->db);
                     $this->logger->debug("POST values: ", [
                         $key . " => " . $val
                     ]);
                 }
                 $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
-                $recordId = $this->modelName::insertGetId($recordData);
+                $recordId = $this->modelFullName::insertGetId($recordData);
                 $this->logger->debug($this->modelName . " create query: ",
                     $this->db::getQueryLog());
                 return $response->withJson(
@@ -365,7 +370,7 @@ abstract class AbstractController implements ControllerInterface
             try {
                 $updateData = [];
                 foreach ($recordData as $key => $val) {
-                    $this->modelName::validateColumn($key, $this->logger, $this->cache,
+                    $this->modelFullName::validateColumn($key, $this->logger, $this->cache,
                         $this->db);
                     $updateData = array_merge($updateData,
                         [
@@ -373,7 +378,7 @@ abstract class AbstractController implements ControllerInterface
                         ]);
                 }
                 $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
-                $recordId = $this->modelName::update($updateData);
+                $recordId = $this->modelFullName::update($updateData);
                 $this->logger->debug($this->modelName . " update query: ",
                     $this->db::getQueryLog());
                 return $response->withJson(
@@ -416,7 +421,7 @@ abstract class AbstractController implements ControllerInterface
         {
             $id = $args['id'];
             try {
-                $record = $this->modelName::findOrFail($id);
+                $record = $this->modelFullName::findOrFail($id);
                 $record->delete();
                 $this->logger->debug($this->modelName . " delete query: ",
                     $this->db::getQueryLog());
