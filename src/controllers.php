@@ -15,7 +15,7 @@ $container['UserController'] = function ($c) {
     $authorizer = $c->get('oauth2authorizer');
     $debug = $c->get('settings')['debug'];
     return new FSS\Controllers\UserController($logger, $db, $cache,
-        $authorizer, $debug);
+        $debug, $authorizer);
 };
 $container['BranchOfServiceController'] = function ($c) {
     $logger = $c->get('logger');
@@ -424,6 +424,6 @@ $container['ReportController'] = function ($c) {
     //$jwt = $c->get('jwt');
     $authorizer = $c->get('oauth2authorizer');
     $debug = $c->get('settings')['debug'];
-    return new FSS\Controllers\ReportController($logger, $db, $cache, $authorizer,
-        $debug);
+    return new FSS\Controllers\ReportController($logger, $db, $cache, $debug, 
+        $authorizer);
 };
