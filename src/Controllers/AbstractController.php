@@ -156,9 +156,9 @@ abstract class AbstractController implements ControllerInterface
         {
             $records = $this->modelFullName::with(
                 [
-                    'CityData',
-                    'StateData',
-                    'CountyData'
+//                    'CityData',
+//                    'StateData',
+//                    'CountyData'
                 ])->limit(200)->get();
                 $this->logger->debug("All " . $this->modelName . " query: ", 
                     $this->db::getQueryLog());
@@ -200,9 +200,9 @@ abstract class AbstractController implements ControllerInterface
                 }
                 $records = $this->modelFullName::with(
                     [
-                        'CityData',
-                        'StateData',
-                        'CountyData'
+//                        'CityData',
+//                        'StateData',
+//                        'CountyData'
                     ])->whereRaw('LOWER(`' . $filters[0] . '`) like ?',
                         [
                             '%' . strtolower($values[0]) . '%'
