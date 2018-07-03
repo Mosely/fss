@@ -24,6 +24,11 @@ class AddressController extends AbstractController
 {
 
     /**
+     * var model
+     */
+    protected $model = "Address";
+    
+    /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
      *
@@ -41,7 +46,7 @@ class AddressController extends AbstractController
         $this->cache = $cache;
         $this->debug = $debug;
         $this->authorizer = $authorizer;
-        $this->modelName = "Address";
+        $this->modelName = $this->model;
         parent::__construct();
     }
 

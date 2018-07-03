@@ -2,16 +2,16 @@
 namespace FSS\Controllers;
 
 use FSS\Models\FundingSource;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
+use FSS\Schemas\FundingSourceSchema;
+use FSS\Utilities\Cache;
+use Illuminate\Database\Capsule\Manager;
+use League\OAuth2\Server\AuthorizationServer;
 use Monolog\Logger;
 use Neomerx\JsonApi\Encoder\Encoder;
 use Neomerx\JsonApi\Encoder\EncoderOptions;
-use Illuminate\Database\Capsule\Manager;
-use FSS\Schemas\FundingSourceSchema;
-use FSS\Utilities\Cache;
-use \Exception;
-use League\OAuth2\Server\AuthorizationServer;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Exception;
 
 /**
  * The controller for funding_source-related actions.
@@ -29,41 +29,14 @@ use League\OAuth2\Server\AuthorizationServer;
  *         produces="['application/json']"
  *         )
  */
-class FundingSourceController extends AbstractController implements 
-    ControllerInterface
+class FundingSourceController extends AbstractController
 {
-
-    // The dependencies.
+    
     /**
-     *
-     * @var Logger
+     * var model
      */
-    private $logger;
-
-    /**
-     *
-     * @var Manager
-     */
-    private $db;
-
-    /**
-     *
-     * @var Cache
-     */
-    private $cache;
-
-    /**
-     *
-     * @var bool
-     */
-    private $debug;
-
-    /**
-     *
-     * @var AuthorizationServer
-     */
-    private $authorizer;
-
+    protected $model = "FundingSource";
+    
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
@@ -82,11 +55,8 @@ class FundingSourceController extends AbstractController implements
         $this->cache = $cache;
         $this->debug = $debug;
         $this->authorizer = $authorizer;
-        if ($this->debug) {
-            $this->logger->debug(
-                "Enabling query log for the FundingSource Controller.");
-            $this->db::enableQueryLog();
-        }
+        $this->modelName = $this->model;
+        parent::__construct();
     }
 
     /**

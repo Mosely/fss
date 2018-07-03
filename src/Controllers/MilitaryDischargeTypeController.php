@@ -1,17 +1,10 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\MilitaryDischargeType;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Monolog\Logger;
-use Neomerx\JsonApi\Encoder\Encoder;
-use Neomerx\JsonApi\Encoder\EncoderOptions;
-use Illuminate\Database\Capsule\Manager;
-use FSS\Schemas\MilitaryDischargeTypeSchema;
 use FSS\Utilities\Cache;
-use \Exception;
+use Illuminate\Database\Capsule\Manager;
 use League\OAuth2\Server\AuthorizationServer;
+use Monolog\Logger;
 
 /**
  * The controller for
@@ -30,41 +23,14 @@ use League\OAuth2\Server\AuthorizationServer;
  *         produces="['application/json']"
  *         )
  */
-class MilitaryDischargeTypeController extends AbstractController implements 
-    ControllerInterface
+class MilitaryDischargeTypeController extends AbstractController
 {
-
-    // The dependencies.
+    
     /**
-     *
-     * @var Logger
+     * var model
      */
-    private $logger;
-
-    /**
-     *
-     * @var Manager
-     */
-    private $db;
-
-    /**
-     *
-     * @var Cache
-     */
-    private $cache;
-
-    /**
-     *
-     * @var bool
-     */
-    private $debug;
-
-    /**
-     *
-     * @var AuthorizationServer
-     */
-    private $authorizer;
-
+    protected $model = "MilitaryDischarge";
+    
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
@@ -83,11 +49,8 @@ class MilitaryDischargeTypeController extends AbstractController implements
         $this->cache = $cache;
         $this->debug = $debug;
         $this->authorizer = $authorizer;
-        if ($this->debug) {
-            $this->logger->debug(
-                "Enabling query log for the MilitaryDischargeType Controller.");
-            $this->db::enableQueryLog();
-        }
+        $this->modelName = $this->model;
+        parent::__construct();
     }
 
     /**
@@ -111,20 +74,7 @@ class MilitaryDischargeTypeController extends AbstractController implements
      *      )
      *      )
      */
-    public function read(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        $id = $args['id'];
-        $params = [
-            'id',
-            $id
-        ];
-        $request = $request->withAttribute('params', implode('/', $params));
-        $this->logger->debug("Reading MilitaryDischargeType with id of $id");
-        
-        return $this->readAllWithFilter($request, $response, $args);
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -137,24 +87,7 @@ class MilitaryDischargeTypeController extends AbstractController implements
      *      )
      *      )
      */
-    public function readAll(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        $records = MilitaryDischargeType::limit(200)->get();
-        $this->logger->debug("All MilitaryDischargeType query: ",
-            $this->db::getQueryLog());
-        // $records = Military_discharge_type::all();
-            $encoder = Encoder::instance([
-                MilitaryDischargeType::class => MilitaryDischargeTypeSchema::class,
-            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
-                $request->getUri()->getScheme() . '://' .
-                $request->getUri()->getHost()));
-            return $response->withJson(
-                json_decode(
-                    $encoder->encodeData($records)));
-
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -184,67 +117,7 @@ class MilitaryDischargeTypeController extends AbstractController implements
      *      )
      *      )
      */
-    public function readAllWithFilter(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        // $filter = $args['filter'];
-        // $value = $args['value'];
-        $params = explode('/', $request->getAttribute('params'));
-        $filters = [];
-        $values = [];
-        
-        try {
-            $this->getFilters($params, $filters, $values);
-            
-            foreach ($filters as $filter) {
-                MilitaryDischargeType::validateColumn($filter, $this->logger,
-                    $this->cache, $this->db);
-            }
-            $records = MilitaryDischargeType::whereRaw(
-                'LOWER(`' . $filters[0] . '`) like ?',
-                [
-                    '%' . strtolower($values[0]) . '%'
-                ]);
-            for ($i = 1; $i < count($filters); $i ++) {
-                $records = $records->whereRaw(
-                    'LOWER(`' . $filters[$i] . '`) like ?',
-                    [
-                        '%' . strtolower($values[$i]) . '%'
-                    ]);
-            }
-            $records = $records->limit(200)->get();
-            
-            $this->logger->debug("MilitaryDischargeType filter query: ",
-                $this->db::getQueryLog());
-            if ($records->isEmpty()) {
-                return $response->withJson(
-                    [
-                        "success" => true,
-                        "message" => "No MilitaryDischargeType found",
-                        "data" => $records
-                    ], 404);
-            }
-            $encoder = Encoder::instance([
-                MilitaryDischargeType::class => MilitaryDischargeTypeSchema::class,
-            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
-                $request->getUri()->getScheme() . '://' .
-                $request->getUri()->getHost()));
-            if ($records->count() == 1) {
-                $records = $records->first();
-            }
-            return $response->withJson(
-                json_decode(
-                    $encoder->encodeData($records)));
-
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);
-        }
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -258,40 +131,7 @@ class MilitaryDischargeTypeController extends AbstractController implements
      *      )
      *      )
      */
-    public function create(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        // Make sure the frontend only puts the name attribute
-        // on form elements that actually contain data
-        // for the record.
-        $recordData = $request->getParsedBody();
-        try {
-            foreach ($recordData as $key => $val) {
-                MilitaryDischargeType::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
-                $this->logger->debug("POST values: ", [
-                    $key . " => " . $val
-                ]);
-            }
-            $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
-            $recordId = MilitaryDischargeType::insertGetId($recordData);
-            $this->logger->debug("MilitaryDischargeType create query: ",
-                $this->db::getQueryLog());
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "MilitaryDischargeType $recordId has been created.",
-                    "id" => $recordId
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);
-        }
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -313,39 +153,7 @@ class MilitaryDischargeTypeController extends AbstractController implements
      *      )
      *      )
      */
-    public function update(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        // $id = $args['id'];
-        $recordData = $request->getParsedBody();
-        try {
-            $updateData = [];
-            foreach ($recordData as $key => $val) {
-                MilitaryDischargeType::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
-                $updateData = array_merge($updateData,
-                    [
-                        $key => $val
-                    ]);
-            }
-            $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
-            $recordId = MilitaryDischargeType::update($updateData);
-            $this->logger->debug("MilitaryDischargeType update query: ",
-                $this->db::getQueryLog());
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Updated MilitaryDischargeType $recordId"
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);
-        }
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -367,26 +175,5 @@ class MilitaryDischargeTypeController extends AbstractController implements
      *      )
      *      )
      */
-    public function delete(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        $id = $args['id'];
-        try {
-            $record = MilitaryDischargeType::findOrFail($id);
-            $record->delete();
-            $this->logger->debug("MilitaryDischargeType delete query: ",
-                $this->db::getQueryLog());
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Deleted MilitaryDischargeType $id"
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "MilitaryDischargeType not found"
-                ], 404);
-        }
-    }
+ 
 }

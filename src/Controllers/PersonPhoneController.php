@@ -1,17 +1,10 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\PersonPhone;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Monolog\Logger;
-use Neomerx\JsonApi\Encoder\Encoder;
-use Neomerx\JsonApi\Encoder\EncoderOptions;
-use Illuminate\Database\Capsule\Manager;
-use FSS\Schemas\PersonPhoneSchema;
 use FSS\Utilities\Cache;
-use \Exception;
+use Illuminate\Database\Capsule\Manager;
 use League\OAuth2\Server\AuthorizationServer;
+use Monolog\Logger;
 
 /**
  * The controller for person_phone-related actions.
@@ -29,41 +22,14 @@ use League\OAuth2\Server\AuthorizationServer;
  *         produces="['application/json']"
  *         )
  */
-class PersonPhoneController extends AbstractController implements 
-    ControllerInterface
+class PersonPhoneController extends AbstractController
 {
-
-    // The dependencies.
+    
     /**
-     *
-     * @var Logger
+     * var model
      */
-    private $logger;
-
-    /**
-     *
-     * @var Manager
-     */
-    private $db;
-
-    /**
-     *
-     * @var Cache
-     */
-    private $cache;
-
-    /**
-     *
-     * @var bool
-     */
-    private $debug;
-
-    /**
-     *
-     * @var AuthorizationServer
-     */
-    private $authorizer;
-
+    protected $model = "PersonPhone";
+    
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
@@ -82,11 +48,8 @@ class PersonPhoneController extends AbstractController implements
         $this->cache = $cache;
         $this->debug = $debug;
         $this->authorizer = $authorizer;
-        if ($this->debug) {
-            $this->logger->debug(
-                "Enabling query log for the PersonPhone Controller.");
-            $this->db::enableQueryLog();
-        }
+        $this->modelName = $this->model;
+        parent::__construct();
     }
 
     /**
@@ -110,20 +73,7 @@ class PersonPhoneController extends AbstractController implements
      *      )
      *      )
      */
-    public function read(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        $id = $args['id'];
-        $params = [
-            'id',
-            $id
-        ];
-        $request = $request->withAttribute('params', implode('/', $params));
-        // $this->logger->info("Reading person_phone with id of $id");
-        $this->logger->debug("Reading PersonPhone with id of $id");
-        
-        return $this->readAllWithFilter($request, $response, $args);
-    }
+ 
 
     /**
      *
@@ -137,26 +87,7 @@ class PersonPhoneController extends AbstractController implements
      *      )
      *      )
      */
-    public function readAll(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        $records = PersonPhone::with(
-            [
-                'Person',
-                'Phone'
-            ])->limit(200)->get();
-        $this->logger->debug("All PersonPhone query: ", $this->db::getQueryLog());
-        // $records = Person_phone::all();
-            $encoder = Encoder::instance([
-                PersonPhone::class => PersonPhoneSchema::class,
-            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
-                $request->getUri()->getScheme() . '://' .
-                $request->getUri()->getHost()));
-            return $response->withJson(
-                json_decode(
-                    $encoder->encodeData($records)));
-
-    }
+ 
 
     /**
      *
@@ -187,69 +118,7 @@ class PersonPhoneController extends AbstractController implements
      *      )
      *      )
      */
-    public function readAllWithFilter(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        // $filter = $args['filter'];
-        // $value = $args['value'];
-        $params = explode('/', $request->getAttribute('params'));
-        $filters = [];
-        $values = [];
-        
-        try {
-            $this->getFilters($params, $filters, $values);
-            
-            foreach ($filters as $filter) {
-                PersonPhone::validateColumn($filter, $this->logger, $this->cache,
-                    $this->db);
-            }
-            $records = PersonPhone::with(
-                [
-                    'Person',
-                    'Phone'
-                ])->whereRaw('LOWER(`' . $filters[0] . '`) like ?',
-                [
-                    '%' . strtolower($values[0]) . '%'
-                ]);
-            for ($i = 1; $i < count($filters); $i ++) {
-                $records = $records->whereRaw(
-                    'LOWER(`' . $filters[$i] . '`) like ?',
-                    [
-                        '%' . strtolower($values[$i]) . '%'
-                    ]);
-            }
-            $records = $records->limit(200)->get();
-            
-            $this->logger->debug("PersonPhone filter query: ",
-                $this->db::getQueryLog());
-            if ($records->isEmpty()) {
-                return $response->withJson(
-                    [
-                        "success" => true,
-                        "message" => "No PersonPhone found",
-                        "data" => $records
-                    ], 404);
-            }
-            $encoder = Encoder::instance([
-                PersonPhone::class => PersonPhoneSchema::class,
-            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
-                $request->getUri()->getScheme() . '://' .
-                $request->getUri()->getHost()));
-            if ($records->count() == 1) {
-                $records = $records->first();
-            }
-            return $response->withJson(
-                json_decode(
-                    $encoder->encodeData($records)));
-
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);
-        }
-    }
+ 
 
     /**
      *
@@ -264,40 +133,7 @@ class PersonPhoneController extends AbstractController implements
      *      )
      *      )
      */
-    public function create(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        // Make sure the frontend only puts the name attribute
-        // on form elements that actually contain data
-        // for the record.
-        $recordData = $request->getParsedBody();
-        try {
-            foreach ($recordData as $key => $val) {
-                PersonPhone::validateColumn($key, $this->logger, $this->cache,
-                    $this->db);
-                $this->logger->debug("POST values: ", [
-                    $key . " => " . $val
-                ]);
-            }
-            $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
-            $recordId = PersonPhone::insertGetId($recordData);
-            $this->logger->debug("PersonPhone create query: ",
-                $this->db::getQueryLog());
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "PersonPhone $recordId has been created.",
-                    "id" => $recordId
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);
-        }
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -319,39 +155,7 @@ class PersonPhoneController extends AbstractController implements
      *      )
      *      )
      */
-    public function update(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        // $id = $args['id'];
-        $recordData = $request->getParsedBody();
-        try {
-            $updateData = [];
-            foreach ($recordData as $key => $val) {
-                PersonPhone::validateColumn($key, $this->logger, $this->cache,
-                    $this->db);
-                $updateData = array_merge($updateData,
-                    [
-                        $key => $val
-                    ]);
-            }
-            $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
-            $recordId = PersonPhone::update($updateData);
-            $this->logger->debug("PersonPhone update query: ",
-                $this->db::getQueryLog());
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Updated PersonPhone $recordId"
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);
-        }
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -373,26 +177,5 @@ class PersonPhoneController extends AbstractController implements
      *      )
      *      )
      */
-    public function delete(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        $id = $args['id'];
-        try {
-            $record = PersonPhone::findOrFail($id);
-            $record->delete();
-            $this->logger->debug("PersonPhone delete query: ",
-                $this->db::getQueryLog());
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Deleted PersonPhone $id"
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "PersonPhone not found"
-                ], 404);
-        }
-    }
+ 
 }

@@ -1,17 +1,10 @@
 <?php
 namespace FSS\Controllers;
 
-use FSS\Models\IdentityPreference;
-use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Monolog\Logger;
-use Neomerx\JsonApi\Encoder\Encoder;
-use Neomerx\JsonApi\Encoder\EncoderOptions;
-use Illuminate\Database\Capsule\Manager;
-use FSS\Schemas\IdentityPreferenceSchema;
 use FSS\Utilities\Cache;
-use \Exception;
+use Illuminate\Database\Capsule\Manager;
 use League\OAuth2\Server\AuthorizationServer;
+use Monolog\Logger;
 
 /**
  * The controller for
@@ -30,41 +23,14 @@ use League\OAuth2\Server\AuthorizationServer;
  *         produces="['application/json']"
  *         )
  */
-class IdentityPreferenceController extends AbstractController implements 
-    ControllerInterface
+class IdentityPreferenceController extends AbstractController
 {
-
-    // The dependencies.
+    
     /**
-     *
-     * @var Logger
+     * var model
      */
-    private $logger;
-
-    /**
-     *
-     * @var Manager
-     */
-    private $db;
-
-    /**
-     *
-     * @var Cache
-     */
-    private $cache;
-
-    /**
-     *
-     * @var bool
-     */
-    private $debug;
-
-    /**
-     *
-     * @var AuthorizationServer
-     */
-    private $authorizer;
-
+    protected $model = "IdentityPreference";
+    
     /**
      * The constructor that sets The dependencies and
      * enable query logging if debug mode is true in settings.php
@@ -83,11 +49,8 @@ class IdentityPreferenceController extends AbstractController implements
         $this->cache = $cache;
         $this->debug = $debug;
         $this->authorizer = $authorizer;
-        if ($this->debug) {
-            $this->logger->debug(
-                "Enabling query log for the IdentityPreference Controller.");
-            $this->db::enableQueryLog();
-        }
+        $this->modelName = $this->model;
+        parent::__construct();
     }
 
     /**
@@ -111,20 +74,7 @@ class IdentityPreferenceController extends AbstractController implements
      *      )
      *      )
      */
-    public function read(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        $id = $args['id'];
-        $params = [
-            'id',
-            $id
-        ];
-        $request = $request->withAttribute('params', implode('/', $params));
-        $this->logger->debug("Reading IdentityPreference with id of $id");
-        
-        return $this->readAllWithFilter($request, $response, $args);
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -137,24 +87,7 @@ class IdentityPreferenceController extends AbstractController implements
      *      )
      *      )
      */
-    public function readAll(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        $records = IdentityPreference::limit(200)->get();
-        $this->logger->debug("All IdentityPreference query: ",
-            $this->db::getQueryLog());
-        // $records = Identity_preference::all();
-            $encoder = Encoder::instance([
-                IdentityPreference::class => IdentityPreferenceSchema::class,
-            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
-                $request->getUri()->getScheme() . '://' .
-                $request->getUri()->getHost()));
-            return $response->withJson(
-                json_decode(
-                    $encoder->encodeData($records)));
-
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -184,67 +117,7 @@ class IdentityPreferenceController extends AbstractController implements
      *      )
      *      )
      */
-    public function readAllWithFilter(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        // $filter = $args['filter'];
-        // $value = $args['value'];
-        $params = explode('/', $request->getAttribute('params'));
-        $filters = [];
-        $values = [];
-        
-        try {
-            $this->getFilters($params, $filters, $values);
-            
-            foreach ($filters as $filter) {
-                IdentityPreference::validateColumn($filter, $this->logger,
-                    $this->cache, $this->db);
-            }
-            $records = IdentityPreference::whereRaw(
-                'LOWER(`' . $filters[0] . '`) like ?',
-                [
-                    '%' . strtolower($values[0]) . '%'
-                ]);
-            for ($i = 1; $i < count($filters); $i ++) {
-                $records = $records->whereRaw(
-                    'LOWER(`' . $filters[$i] . '`) like ?',
-                    [
-                        '%' . strtolower($values[$i]) . '%'
-                    ]);
-            }
-            $records = $records->limit(200)->get();
-            
-            $this->logger->debug("IdentityPreference filter query: ",
-                $this->db::getQueryLog());
-            if ($records->isEmpty()) {
-                return $response->withJson(
-                    [
-                        "success" => true,
-                        "message" => "No IdentityPreference found",
-                        "data" => $records
-                    ], 404);
-            }
-            $encoder = Encoder::instance([
-                IdentityPreference::class => IdentityPreferenceSchema::class,
-            ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
-                $request->getUri()->getScheme() . '://' .
-                $request->getUri()->getHost()));
-            if ($records->count() == 1) {
-                $records = $records->first();
-            }
-            return $response->withJson(
-                json_decode(
-                    $encoder->encodeData($records)));
-
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);
-        }
-    }
-
+  
     /**
      *
      * {@inheritdoc}
@@ -258,40 +131,7 @@ class IdentityPreferenceController extends AbstractController implements
      *      )
      *      )
      */
-    public function create(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        // Make sure the frontend only puts the name attribute
-        // on form elements that actually contain data
-        // for the record.
-        $recordData = $request->getParsedBody();
-        try {
-            foreach ($recordData as $key => $val) {
-                IdentityPreference::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
-                $this->logger->debug("POST values: ", [
-                    $key . " => " . $val
-                ]);
-            }
-            $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
-            $recordId = IdentityPreference::insertGetId($recordData);
-            $this->logger->debug("IdentityPreference create query: ",
-                $this->db::getQueryLog());
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "IdentityPreference $recordId has been created.",
-                    "id" => $recordId
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);
-        }
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -313,39 +153,7 @@ class IdentityPreferenceController extends AbstractController implements
      *      )
      *      )
      */
-    public function update(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        // $id = $args['id'];
-        $recordData = $request->getParsedBody();
-        try {
-            $updateData = [];
-            foreach ($recordData as $key => $val) {
-                IdentityPreference::validateColumn($key, $this->logger,
-                    $this->cache, $this->db);
-                $updateData = array_merge($updateData,
-                    [
-                        $key => $val
-                    ]);
-            }
-            $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
-            $recordId = IdentityPreference::update($updateData);
-            $this->logger->debug("IdentityPreference update query: ",
-                $this->db::getQueryLog());
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Updated IdentityPreference $recordId"
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "Error occured: " . $e->getMessage()
-                ], 400);
-        }
-    }
-
+ 
     /**
      *
      * {@inheritdoc}
@@ -367,26 +175,5 @@ class IdentityPreferenceController extends AbstractController implements
      *      )
      *      )
      */
-    public function delete(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-    {
-        $id = $args['id'];
-        try {
-            $record = IdentityPreference::findOrFail($id);
-            $record->delete();
-            $this->logger->debug("IdentityPreference delete query: ",
-                $this->db::getQueryLog());
-            return $response->withJson(
-                [
-                    "success" => true,
-                    "message" => "Deleted IdentityPreference $id"
-                ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
-        } catch (Exception $e) {
-            return $response->withJson(
-                [
-                    "success" => false,
-                    "message" => "IdentityPreference not found"
-                ], 404);
-        }
-    }
+ 
 }
