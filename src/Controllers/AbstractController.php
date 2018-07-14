@@ -194,10 +194,24 @@ abstract class AbstractController implements ControllerInterface
             try {
                 $this->getFilters($params, $filters, $values);
                 
-                foreach ($filters as $filter) {
+/*                 foreach ($filters as $filter) {
                     $this->modelFullName::validateColumn($filter, $this->logger, $this->cache,
                         $this->db);
+                    if ($filter == "id") {
+                        
+                    }
+                } */
+                
+                for($i = 0; $i < count($filters); $i++) {
+                    $this->modelFullName::validateColumn($filters[$i], $this->logger, $this->cache,
+                        $this->db);
+                    if ($filters[$i] == "id") {
+                        $values[$i] = $values[$i];
+                    } else {
+                        $values[$i] = '%' . strtolower($values[$i]) . '%';
+                    }
                 }
+                
                 $records = $this->modelFullName::with(
                     [
 //                        'CityData',
@@ -205,13 +219,13 @@ abstract class AbstractController implements ControllerInterface
 //                        'CountyData'
                     ])->whereRaw('LOWER(`' . $filters[0] . '`) like ?',
                         [
-                            '%' . strtolower($values[0]) . '%'
+                            $values[0]
                         ]);
                     for ($i = 1; $i < count($filters); $i ++) {
                         $records = $records->whereRaw(
                             'LOWER(`' . $filters[$i] . '`) like ?',
                             [
-                                '%' . strtolower($values[$i]) . '%'
+                                $values[$i]
                             ]);
                     }
                     $records = $records->limit(200)->get();
