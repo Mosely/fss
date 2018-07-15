@@ -273,6 +273,8 @@ abstract class AbstractController implements ControllerInterface
             // on form elements that actually contain data
             // for the record.
             $recordData = $request->getParsedBody();
+            // JSON API: Get teh stuff from data->attributes
+            $recordData = $recordData->data->attributes;
             try {
                 foreach ($recordData as $key => $val) {
                     $this->modelFullName::validateColumn($key, $this->logger, $this->cache,
