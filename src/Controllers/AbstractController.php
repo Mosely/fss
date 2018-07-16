@@ -282,8 +282,8 @@ abstract class AbstractController implements ControllerInterface
             }
             print("<pre>");
             print_r($recordData);
-            print("<pre>");
-            return;
+            print("</pre>");
+            return $response;
             // JSON API: Get the stuff from data['attributes']
             $recordData = $recordData->data['attributes'];
             try {
