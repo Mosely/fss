@@ -278,6 +278,7 @@ abstract class AbstractController implements ControllerInterface
             try {
                 $this->logger->debug("Preparing to insert new " . 
                     $this->modelName . " record.");
+                $this->logger->debug("Payload: " . $recordData);
                 foreach ($recordData as $key => $val) {
                     $this->modelFullName::validateColumn($key, $this->logger, $this->cache,
                         $this->db);
