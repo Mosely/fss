@@ -276,6 +276,8 @@ abstract class AbstractController implements ControllerInterface
             // JSON API: Get teh stuff from data->attributes
             $recordData = $recordData->data->attributes;
             try {
+                $this->logger->debug("Preparing to insert new " . 
+                    $this->modelName . " record.");
                 foreach ($recordData as $key => $val) {
                     $this->modelFullName::validateColumn($key, $this->logger, $this->cache,
                         $this->db);
