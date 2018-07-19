@@ -245,7 +245,7 @@ abstract class AbstractController implements ControllerInterface
                     ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
                         $request->getUri()->getScheme() . '://' .
                         $request->getUri()->getHost()));
-                    if ($records->count() == 1) {
+                    if (count($request->getQueryParams()) == 0 && $records->count() == 1) {
                         $records = $records->first();
                     }
                     return $response->withJson(
