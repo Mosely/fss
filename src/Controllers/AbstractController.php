@@ -280,10 +280,12 @@ abstract class AbstractController implements ControllerInterface
                     ]);
                 }
             }
-            //print("<pre>");
-            //print_r($recordData);
-            //print("</pre>");
-            //return $response;
+            // Getting the relationship models
+            $relatedRecordData = $recordData['data']['relationships'];
+            // NOTE: in ['data']['relationships'], the first children keys are
+            // the actual model names. Corresponding data, like id is found in 
+            //[relatedModelName]['data']
+            
             // JSON API: Get the stuff from data['attributes']
             $recordData = $recordData['data']['attributes'];
             try {
@@ -303,16 +305,35 @@ abstract class AbstractController implements ControllerInterface
                         $key . " => " . $val
                     ]);
                 }
+                foreach ($relatedRecordData as $key => $val) {
+                    $tempIdKey = $key . "_id";
+                    $recordData[$tempIdKey] = $val['data']['id'];
+                }
                 $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
                 $recordId = $this->modelFullName::insertGetId($recordData);
+                // As per JSON-API, we'll need to send the newly created record
+                // back as the success response and use http 201 for http code
                 $this->logger->debug($this->modelName . " create query: ",
                     $this->db::getQueryLog());
-                return $response->withJson(
+                
+                $theNewRecord = $this->modelFullName::where("id","=",$recordId)->get();
+                /* return $response->withJson(
                     [
                         "success" => true,
                         "message" => $this->modelName . " $recordId has been created.",
                         "id" => $recordId
-                    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); */
+                $encoder = Encoder::instance([
+                    $this->modelFullName => $this->modelFullSchemaName,
+                ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                    $request->getUri()->getScheme() . '://' .
+                    $request->getUri()->getHost()));
+                if (count($request->getQueryParams()) == 0 && $theNewRecord->count() == 1) {
+                    $theNewRecord = $theNewRecord->first();
+                }
+                return $response->withJson(
+                    json_decode(
+                        $encoder->encodeData($theNewRecord)), 201);
             } catch (Exception $e) {
                 return $response->withJson(
                     [
