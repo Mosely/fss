@@ -60,7 +60,8 @@ class ShelterClientIdentityPreferenceController extends AbstractController
      *      path="/shelterclientidentitypreferences/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a ShelterClientIdentityPreference",
+     *      summary="Displays a ShelterClientIdentityPreference",     
+     *      nickname="ShelterClientIdentityPreferenceRead",
      *      type="ShelterClientIdentityPreference",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class ShelterClientIdentityPreferenceController extends AbstractController
      *      path="/shelterclientidentitypreferences",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch ShelterClientIdentityPreference",
+     *      summary="Fetch ShelterClientIdentityPreference",     
+     *      nickname="ShelterClientIdentityPreferenceReadAll",
      *      type="ShelterClientIdentityPreference"
      *      )
      *      )
@@ -96,7 +98,8 @@ class ShelterClientIdentityPreferenceController extends AbstractController
      *      path="/shelterclientidentitypreferences/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays ShelterClientIdentityPreference that meet the property=value search criteria",
+     *      summary="Displays ShelterClientIdentityPreference that meet the property=value search criteria",     
+     *      nickname="ShelterClientIdentityPreferenceReadAllWithFilter",
      *      type="ShelterClientIdentityPreference",
      *      @SWG\Parameter(
      *      name="filter",
@@ -127,7 +130,8 @@ class ShelterClientIdentityPreferenceController extends AbstractController
      *      path="/shelterclientidentitypreferences",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a ShelterClientIdentityPreference. See ShelterClientIdentityPreference model for details.",
+     *      summary="Creates a ShelterClientIdentityPreference. See ShelterClientIdentityPreference model for details.",     
+     *      nickname="ShelterClientIdentityPreferenceCreate",
      *      type="ShelterClientIdentityPreference",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -141,7 +145,8 @@ class ShelterClientIdentityPreferenceController extends AbstractController
      *      path="/shelterclientidentitypreferences/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a ShelterClientIdentityPreference. See the ShelterClientIdentityPreference model for details.",
+     *      summary="Updates a ShelterClientIdentityPreference. See the ShelterClientIdentityPreference model for details.",     
+     *      nickname="ShelterClientIdentityPreferenceUpdate",
      *      type="ShelterClientIdentityPreference",
      *      @SWG\Parameter(
      *      name="id",
@@ -163,7 +168,8 @@ class ShelterClientIdentityPreferenceController extends AbstractController
      *      path="/shelterclientidentitypreferences/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a ShelterClientIdentityPreference",
+     *      summary="Deletes a ShelterClientIdentityPreference",     
+     *      nickname="ShelterClientIdentityPreferenceDelete",
      *      type="ShelterClientIdentityPreference",
      *      @SWG\Parameter(
      *      name="id",
