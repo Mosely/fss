@@ -59,7 +59,8 @@ class CounselingTopicController extends AbstractController
      *      path="/counselingtopics/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a CounselingTopic",
+     *      summary="Displays a CounselingTopic",     
+     *      nickname="CounselingTopicRead",
      *      type="CounselingTopic",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class CounselingTopicController extends AbstractController
      *      path="/counselingtopics",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch CounselingTopic",
+     *      summary="Fetch CounselingTopic",     
+     *      nickname="CounselingTopicReadAll",
      *      type="CounselingTopic"
      *      )
      *      )
@@ -94,7 +96,8 @@ class CounselingTopicController extends AbstractController
      *      path="/counselingtopics/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays CounselingTopic that meet the property=value search criteria",
+     *      summary="Displays CounselingTopic that meet the property=value search criteria",     
+     *      nickname="CounselingTopicReadAllWithFilter",
      *      type="CounselingTopic",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class CounselingTopicController extends AbstractController
      *      path="/counselingtopics",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a CounselingTopic. See CounselingTopic model for details.",
+     *      summary="Creates a CounselingTopic. See CounselingTopic model for details.",     
+     *      nickname="CounselingTopicCreate",
      *      type="CounselingTopic",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class CounselingTopicController extends AbstractController
      *      path="/counselingtopics/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a CounselingTopic. See the CounselingTopic model for details.",
+     *      summary="Updates a CounselingTopic. See the CounselingTopic model for details.",     
+     *      nickname="CounselingTopicUpdate",
      *      type="CounselingTopic",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class CounselingTopicController extends AbstractController
      *      path="/counselingtopics/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a CounselingTopic",
+     *      summary="Deletes a CounselingTopic",     
+     *      nickname="CounselingTopicDelete",
      *      type="CounselingTopic",
      *      @SWG\Parameter(
      *      name="id",
