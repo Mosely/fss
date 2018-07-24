@@ -59,7 +59,8 @@ class RoleTableAccessController extends AbstractController
      *      path="/roletableaccesses/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a RoleTableAccess",
+     *      summary="Displays a RoleTableAccess",     
+     *      nickname="RoleTableAccessRead",
      *      type="RoleTableAccess",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class RoleTableAccessController extends AbstractController
      *      path="/roletableaccesses",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch RoleTableAccess",
+     *      summary="Fetch RoleTableAccess",     
+     *      nickname="RoleTableAccessReadAll",
      *      type="RoleTableAccess"
      *      )
      *      )
@@ -94,7 +96,8 @@ class RoleTableAccessController extends AbstractController
      *      path="/roletableaccesses/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays RoleTableAccess that meet the property=value search criteria",
+     *      summary="Displays RoleTableAccess that meet the property=value search criteria",     
+     *      nickname="RoleTableAccessReadAllWithFilter",
      *      type="RoleTableAccess",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class RoleTableAccessController extends AbstractController
      *      path="/roletableaccesses",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a RoleTableAccess. See RoleTableAccess model for details.",
+     *      summary="Creates a RoleTableAccess. See RoleTableAccess model for details.",     
+     *      nickname="RoleTableAccessCreate",
      *      type="RoleTableAccess",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class RoleTableAccessController extends AbstractController
      *      path="/roletableaccesses/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a RoleTableAccess. See the RoleTableAccess model for details.",
+     *      summary="Updates a RoleTableAccess. See the RoleTableAccess model for details.",     
+     *      nickname="RoleTableAccessUpdate",
      *      type="RoleTableAccess",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class RoleTableAccessController extends AbstractController
      *      path="/roletableaccesses/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a RoleTableAccess",
+     *      summary="Deletes a RoleTableAccess",     
+     *      nickname="RoleTableAccessDelete",
      *      type="RoleTableAccess",
      *      @SWG\Parameter(
      *      name="id",
