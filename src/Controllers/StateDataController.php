@@ -59,7 +59,8 @@ class StateDataController extends AbstractController
      *      path="/statedata/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a StateData",
+     *      summary="Displays a StateData",     
+     *      nickname="StateDataRead",
      *      type="StateData",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class StateDataController extends AbstractController
      *      path="/statedata",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch StateData",
+     *      summary="Fetch StateData",     
+     *      nickname="StateDataReadAll",
      *      type="StateData"
      *      )
      *      )
@@ -95,7 +97,8 @@ class StateDataController extends AbstractController
      *      path="/statedata/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays StateData that meet the property=value search criteria",
+     *      summary="Displays StateData that meet the property=value search criteria",     
+     *      nickname="StateDataReadAllWithFilter",
      *      type="StateData",
      *      @SWG\Parameter(
      *      name="filter",
@@ -125,7 +128,8 @@ class StateDataController extends AbstractController
      *      path="/statedata",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a StateData. See StateData model for details.",
+     *      summary="Creates a StateData. See StateData model for details.",     
+     *      nickname="StateDataCreate",
      *      type="StateData",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -140,7 +144,8 @@ class StateDataController extends AbstractController
      *      path="/statedata/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a StateData. See the StateData model for details.",
+     *      summary="Updates a StateData. See the StateData model for details.",     
+     *      nickname="StateDataUpdate",
      *      type="StateData",
      *      @SWG\Parameter(
      *      name="id",
@@ -162,7 +167,8 @@ class StateDataController extends AbstractController
      *      path="/statedata/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a StateData",
+     *      summary="Deletes a StateData",     
+     *      nickname="StateDataDelete",
      *      type="StateData",
      *      @SWG\Parameter(
      *      name="id",
