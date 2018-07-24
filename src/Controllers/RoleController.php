@@ -59,7 +59,8 @@ class RoleController extends AbstractController implements ControllerInterface
      *      path="/roles/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a Role",
+     *      summary="Displays a Role",     
+     *      nickname="RoleRead",
      *      type="Role",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class RoleController extends AbstractController implements ControllerInterface
      *      path="/roles",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch Role",
+     *      summary="Fetch Role",     
+     *      nickname="RoleReadAll",
      *      type="Role"
      *      )
      *      )
@@ -94,7 +96,8 @@ class RoleController extends AbstractController implements ControllerInterface
      *      path="/roles/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays Role that meet the property=value search criteria",
+     *      summary="Displays Role that meet the property=value search criteria",     
+     *      nickname="RoleReadAllWithFilter",
      *      type="Role",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class RoleController extends AbstractController implements ControllerInterface
      *      path="/roles",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a Role. See Role model for details.",
+     *      summary="Creates a Role. See Role model for details.",     
+     *      nickname="RoleCreate",
      *      type="Role",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class RoleController extends AbstractController implements ControllerInterface
      *      path="/roles/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a Role. See the Role model for details.",
+     *      summary="Updates a Role. See the Role model for details.",     
+     *      nickname="RoleUpdate",
      *      type="Role",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class RoleController extends AbstractController implements ControllerInterface
      *      path="/roles/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a Role",
+     *      summary="Deletes a Role",     
+     *      nickname="RoleDelete",
      *      type="Role",
      *      @SWG\Parameter(
      *      name="id",
