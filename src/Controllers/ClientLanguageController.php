@@ -58,7 +58,8 @@ class ClientLanguageController extends AbstractController
      *      path="/clientlanguages/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a client language record",
+     *      summary="Displays a client language record",     
+     *      nickname="ClientLanguageRead",
      *      type="ClientLanguage",
      *      @SWG\Parameter(
      *      name="id",
@@ -80,7 +81,8 @@ class ClientLanguageController extends AbstractController
      *      path="/clientlanguages",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch client languages",
+     *      summary="Fetch client languages",     
+     *      nickname="ClientLanguageReadAll",
      *      type="ClientLanguage"
      *      )
      *      )
@@ -93,7 +95,8 @@ class ClientLanguageController extends AbstractController
      *      path="/clientlanguages/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays client languages that meet the property=value search criteria",
+     *      summary="Displays client languages that meet the property=value search criteria",     
+     *      nickname="ClientLanguageReadAllWithFilter",
      *      type="ClientLanguage",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class ClientLanguageController extends AbstractController
      *      path="/clientlanguages",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a client language. See ClientLanguage model for details.",
+     *      summary="Creates a client language. See ClientLanguage model for details.",     
+     *      nickname="ClientLanguageCreate",
      *      type="ClientLanguage",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class ClientLanguageController extends AbstractController
      *      path="/clientlanguages/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a client language record. See the ClientLanguage model for details.",
+     *      summary="Updates a client language record. See the ClientLanguage model for details.",     
+     *      nickname="ClientLanguageUpdate",
      *      type="ClientLanguage",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class ClientLanguageController extends AbstractController
      *      path="/clientlanguages/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a client language record",
+     *      summary="Deletes a client language record",     
+     *      nickname="ClientLanguageDelete",
      *      type="ClientLanguage",
      *      @SWG\Parameter(
      *      name="id",
