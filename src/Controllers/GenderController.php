@@ -59,7 +59,8 @@ class GenderController extends AbstractController
      *      path="/genders/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a Gender",
+     *      summary="Displays a Gender",     
+     *      nickname="GenderRead",
      *      type="Gender",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class GenderController extends AbstractController
      *      path="/genders",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch Gender",
+     *      summary="Fetch Gender",     
+     *      nickname="GenderReadAll",
      *      type="Gender"
      *      )
      *      )
@@ -94,7 +96,8 @@ class GenderController extends AbstractController
      *      path="/genders/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays Gender that meet the property=value search criteria",
+     *      summary="Displays Gender that meet the property=value search criteria",     
+     *      nickname="GenderReadAllWithFilter",
      *      type="Gender",
      *      @SWG\Parameter(
      *      name="filter",
@@ -125,7 +128,8 @@ class GenderController extends AbstractController
      *      path="/genders",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a Gender. See Gender model for details.",
+     *      summary="Creates a Gender. See Gender model for details.",     
+     *      nickname="GenderCreate",
      *      type="Gender",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -140,7 +144,8 @@ class GenderController extends AbstractController
      *      path="/genders/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a Gender. See the Gender model for details.",
+     *      summary="Updates a Gender. See the Gender model for details.",     
+     *      nickname="GenderUpdate",
      *      type="Gender",
      *      @SWG\Parameter(
      *      name="id",
@@ -162,7 +167,8 @@ class GenderController extends AbstractController
      *      path="/genders/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a Gender",
+     *      summary="Deletes a Gender",     
+     *      nickname="GenderDelete",
      *      type="Gender",
      *      @SWG\Parameter(
      *      name="id",
