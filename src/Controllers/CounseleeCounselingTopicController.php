@@ -60,7 +60,8 @@ class CounseleeCounselingTopicController extends AbstractController
      *      path="/counseleecounselingtopics/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a CounseleeCounselingTopic",
+     *      summary="Displays a CounseleeCounselingTopic",     
+     *      nickname="CounseleeCounselingTopicRead",
      *      type="CounseleeCounselingTopic",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class CounseleeCounselingTopicController extends AbstractController
      *      path="/counseleecounselingtopics",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch CounseleeCounselingTopic",
+     *      summary="Fetch CounseleeCounselingTopic",     
+     *      nickname="CounseleeCounselingTopicReadAll",
      *      type="CounseleeCounselingTopic"
      *      )
      *      )
@@ -95,7 +97,8 @@ class CounseleeCounselingTopicController extends AbstractController
      *      path="/counseleecounselingtopics/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays CounseleeCounselingTopic that meet the property=value search criteria",
+     *      summary="Displays CounseleeCounselingTopic that meet the property=value search criteria",     
+     *      nickname="CounseleeCounselingTopicReadAllWithFilter",
      *      type="CounseleeCounselingTopic",
      *      @SWG\Parameter(
      *      name="filter",
@@ -126,7 +129,8 @@ class CounseleeCounselingTopicController extends AbstractController
      *      path="/counseleecounselingtopics",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a CounseleeCounselingTopic. See CounseleeCounselingTopic model for details.",
+     *      summary="Creates a CounseleeCounselingTopic. See CounseleeCounselingTopic model for details.",     
+     *      nickname="CounseleeCounselingTopicCreate",
      *      type="CounseleeCounselingTopic",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -140,7 +144,8 @@ class CounseleeCounselingTopicController extends AbstractController
      *      path="/counseleecounselingtopics/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a CounseleeCounselingTopic. See the CounseleeCounselingTopic model for details.",
+     *      summary="Updates a CounseleeCounselingTopic. See the CounseleeCounselingTopic model for details.",     
+     *      nickname="CounseleeCounselingTopicUpdate",
      *      type="CounseleeCounselingTopic",
      *      @SWG\Parameter(
      *      name="id",
@@ -162,7 +167,8 @@ class CounseleeCounselingTopicController extends AbstractController
      *      path="/counseleecounselingtopics/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a CounseleeCounselingTopic",
+     *      summary="Deletes a CounseleeCounselingTopic",     
+     *      nickname="CounseleeCounselingTopicDelete",
      *      type="CounseleeCounselingTopic",
      *      @SWG\Parameter(
      *      name="id",
