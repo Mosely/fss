@@ -60,7 +60,8 @@ class MilitaryDischargeTypeController extends AbstractController
      *      path="/militarydischargetypes/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a MilitaryDischargeType",
+     *      summary="Displays a MilitaryDischargeType",     
+     *      nickname="MilitaryDischargeTypeRead",
      *      type="MilitaryDischargeType",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class MilitaryDischargeTypeController extends AbstractController
      *      path="/militarydischargetypes",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch MilitaryDischargeType",
+     *      summary="Fetch MilitaryDischargeType",     
+     *      nickname="MilitaryDischargeTypeReadAll",
      *      type="MilitaryDischargeType"
      *      )
      *      )
@@ -95,7 +97,8 @@ class MilitaryDischargeTypeController extends AbstractController
      *      path="/militarydischargetypes/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays MilitaryDischargeType that meet the property=value search criteria",
+     *      summary="Displays MilitaryDischargeType that meet the property=value search criteria",     
+     *      nickname="MilitaryDischargeTypeReadAllWithFilter",
      *      type="MilitaryDischargeType",
      *      @SWG\Parameter(
      *      name="filter",
@@ -125,7 +128,8 @@ class MilitaryDischargeTypeController extends AbstractController
      *      path="/militarydischargetypes",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a MilitaryDischargeType. See MilitaryDischargeType model for details.",
+     *      summary="Creates a MilitaryDischargeType. See MilitaryDischargeType model for details.",     
+     *      nickname="MilitaryDischargeTypeCreate",
      *      type="MilitaryDischargeType",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -139,7 +143,8 @@ class MilitaryDischargeTypeController extends AbstractController
      *      path="/militarydischargetypes/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a MilitaryDischargeType. See the MilitaryDischargeType model for details.",
+     *      summary="Updates a MilitaryDischargeType. See the MilitaryDischargeType model for details.",     
+     *      nickname="MilitaryDischargeTypeUpdate",
      *      type="MilitaryDischargeType",
      *      @SWG\Parameter(
      *      name="id",
@@ -161,7 +166,8 @@ class MilitaryDischargeTypeController extends AbstractController
      *      path="/militarydischargetypes/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a MilitaryDischargeType",
+     *      summary="Deletes a MilitaryDischargeType",     
+     *      nickname="MilitaryDischargeTypeDelete",
      *      type="MilitaryDischargeType",
      *      @SWG\Parameter(
      *      name="id",
