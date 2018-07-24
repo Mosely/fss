@@ -59,7 +59,8 @@ class ClientEthnicityController extends AbstractController
      *      path="/clientethnicities/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a client ethnicity",
+     *      summary="Displays a client ethnicity",     
+     *      nickname="ClientEthnicityRead",
      *      type="ClientEthnicity",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class ClientEthnicityController extends AbstractController
      *      path="/clientethnicities",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch client ethnicities",
+     *      summary="Fetch client ethnicities",     
+     *      nickname="ClientEthnicityReadAll",
      *      type="ClientEthnicity"
      *      )
      *      )
@@ -96,7 +98,8 @@ class ClientEthnicityController extends AbstractController
      *      path="/clientethnicities/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays client ethnicity that meet the property=value search criteria",
+     *      summary="Displays client ethnicity that meet the property=value search criteria",     
+     *      nickname="ClientEthnicityReadAllWithFilter",
      *      type="ClientEthnicity",
      *      @SWG\Parameter(
      *      name="filter",
@@ -127,7 +130,8 @@ class ClientEthnicityController extends AbstractController
      *      path="/clientethnicities",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a client ethnicity record. See ClientEthnicity model for details.",
+     *      summary="Creates a client ethnicity record. See ClientEthnicity model for details.",     
+     *      nickname="ClientEthnicityCreate",
      *      type="ClientEthnicity",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -141,7 +145,8 @@ class ClientEthnicityController extends AbstractController
      *      path="/clientethnicities/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a client ethnicity record. See the ClientEthnicity model for details.",
+     *      summary="Updates a client ethnicity record. See the ClientEthnicity model for details.",     
+     *      nickname="ClientEthnicityUpdate",
      *      type="ClientEthnicity",
      *      @SWG\Parameter(
      *      name="id",
@@ -163,7 +168,8 @@ class ClientEthnicityController extends AbstractController
      *      path="/clientethnicities/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a client ethnicity",
+     *      summary="Deletes a client ethnicity",     
+     *      nickname="ClientEthnicityDelete",
      *      type="ClientEthnicity",
      *      @SWG\Parameter(
      *      name="id",
