@@ -285,7 +285,10 @@ abstract class AbstractController implements ControllerInterface
             // NOTE: in ['data']['relationships'], the first children keys are
             // the actual model names. Corresponding data, like id is found in 
             //[relatedModelName]['data']
-            
+            $passedRecordId = "";
+            if (array_key_exists("id", $recordData['data'])) {
+                $passedRecordId = $recordData['data']['id'];
+            }
             // JSON API: Get the stuff from data['attributes']
             $recordData = $recordData['data']['attributes'];
             try {
@@ -308,6 +311,9 @@ abstract class AbstractController implements ControllerInterface
                 foreach ($relatedRecordData as $key => $val) {
                     $tempIdKey = $key . "_id";
                     $recordData[$tempIdKey] = $val['data']['id'];
+                }
+                if($passedRecordId != "") {
+                    $recordData['id'] = $passedRecordId;
                 }
                 $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
                 $recordId = $this->modelFullName::insertGetId($recordData);
