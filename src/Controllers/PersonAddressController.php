@@ -59,7 +59,8 @@ class PersonAddressController extends AbstractController
      *      path="/personaddresses/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a PersonAddress",
+     *      summary="Displays a PersonAddress",      
+     *      nickname="PersonAddressRead",
      *      type="PersonAddress",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class PersonAddressController extends AbstractController
      *      path="/personaddresses",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch PersonAddress",
+     *      summary="Fetch PersonAddress",     
+     *      nickname="PersonAddressReadAll",
      *      type="PersonAddress"
      *      )
      *      )
@@ -94,7 +96,8 @@ class PersonAddressController extends AbstractController
      *      path="/personaddresses/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays PersonAddress that meet the property=value search criteria",
+     *      summary="Displays PersonAddress that meet the property=value search criteria",     
+     *      nickname="PersonAddressReadAllWithFilter",
      *      type="PersonAddress",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class PersonAddressController extends AbstractController
      *      path="/personaddresses",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a PersonAddress. See PersonAddress model for details.",
+     *      summary="Creates a PersonAddress. See PersonAddress model for details.",     
+     *      nickname="PersonAddressCreate",
      *      type="PersonAddress",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class PersonAddressController extends AbstractController
      *      path="/personaddresses/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a PersonAddress. See the PersonAddress model for details.",
+     *      summary="Updates a PersonAddress. See the PersonAddress model for details.",     
+     *      nickname="PersonAddressUpdate",
      *      type="PersonAddress",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class PersonAddressController extends AbstractController
      *      path="/personaddresses/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a PersonAddress",
+     *      summary="Deletes a PersonAddress",     
+     *      nickname="PersonAddressDelete",
      *      type="PersonAddress",
      *      @SWG\Parameter(
      *      name="id",
