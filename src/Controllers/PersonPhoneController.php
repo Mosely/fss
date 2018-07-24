@@ -59,7 +59,8 @@ class PersonPhoneController extends AbstractController
      *      path="/personphones/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a PersonPhone",
+     *      summary="Displays a PersonPhone",     
+     *      nickname="PersonPhoneRead",
      *      type="PersonPhone",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class PersonPhoneController extends AbstractController
      *      path="/personphones",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch PersonPhone",
+     *      summary="Fetch PersonPhone",     
+     *      nickname="PersonPhoneReadAll",
      *      type="PersonPhone"
      *      )
      *      )
@@ -96,7 +98,8 @@ class PersonPhoneController extends AbstractController
      *      path="/personphones/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays PersonPhone that meet the property=value search criteria",
+     *      summary="Displays PersonPhone that meet the property=value search criteria",     
+     *      nickname="PersonPhoneReadAllWithFilter",
      *      type="PersonPhone",
      *      @SWG\Parameter(
      *      name="filter",
@@ -127,7 +130,8 @@ class PersonPhoneController extends AbstractController
      *      path="/personphones",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a PersonPhone. See PersonPhone model for details.",
+     *      summary="Creates a PersonPhone. See PersonPhone model for details.",     
+     *      nickname="PersonPhoneCreate",
      *      type="PersonPhone",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -141,7 +145,8 @@ class PersonPhoneController extends AbstractController
      *      path="/personphones/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a PersonPhone. See the PersonPhone model for details.",
+     *      summary="Updates a PersonPhone. See the PersonPhone model for details.",     
+     *      nickname="PersonPhoneUpdate",
      *      type="PersonPhone",
      *      @SWG\Parameter(
      *      name="id",
@@ -163,7 +168,8 @@ class PersonPhoneController extends AbstractController
      *      path="/personphones/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a PersonPhone",
+     *      summary="Deletes a PersonPhone",     
+     *      nickname="PersonPhoneDelete",
      *      type="PersonPhone",
      *      @SWG\Parameter(
      *      name="id",
