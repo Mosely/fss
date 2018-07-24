@@ -59,7 +59,8 @@ class PersonController extends AbstractController
      *      path="/people/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a Person",
+     *      summary="Displays a Person",     
+     *      nickname="PersonRead",
      *      type="Person",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class PersonController extends AbstractController
      *      path="/people",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch Person",
+     *      summary="Fetch Person",     
+     *      nickname="PersonReadAll",
      *      type="Person"
      *      )
      *      )
@@ -94,7 +96,8 @@ class PersonController extends AbstractController
      *      path="/people/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays Person that meet the property=value search criteria",
+     *      summary="Displays Person that meet the property=value search criteria",     
+     *      nickname="PersonReadAllWithFilter",
      *      type="Person",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class PersonController extends AbstractController
      *      path="/people",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a Person. See Person model for details.",
+     *      summary="Creates a Person. See Person model for details.",     
+     *      nickname="PersonCreate",
      *      type="Person",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class PersonController extends AbstractController
      *      path="/people/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a Person. See the Person model for details.",
+     *      summary="Updates a Person. See the Person model for details.",     
+     *      nickname="PersonUpdate",
      *      type="Person",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class PersonController extends AbstractController
      *      path="/people/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a Person",
+     *      summary="Deletes a Person",     
+     *      nickname="PersonDelete",
      *      type="Person",
      *      @SWG\Parameter(
      *      name="id",
