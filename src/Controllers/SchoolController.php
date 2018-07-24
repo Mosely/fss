@@ -59,7 +59,8 @@ class SchoolController extends AbstractController
      *      path="/schools/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a School",
+     *      summary="Displays a School",     
+     *      nickname="SchoolRead",
      *      type="School",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class SchoolController extends AbstractController
      *      path="/schools",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch School",
+     *      summary="Fetch School",     
+     *      nickname="SchoolReadAll",
      *      type="School"
      *      )
      *      )
@@ -95,7 +97,8 @@ class SchoolController extends AbstractController
      *      path="/schools/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays School that meet the property=value search criteria",
+     *      summary="Displays School that meet the property=value search criteria",     
+     *      nickname="SchoolReadAllWithFilter",
      *      type="School",
      *      @SWG\Parameter(
      *      name="filter",
@@ -125,7 +128,8 @@ class SchoolController extends AbstractController
      *      path="/schools",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a School. See School model for details.",
+     *      summary="Creates a School. See School model for details.",     
+     *      nickname="SchoolCreate",
      *      type="School",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -139,7 +143,8 @@ class SchoolController extends AbstractController
      *      path="/schools/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a School. See the School model for details.",
+     *      summary="Updates a School. See the School model for details.",     
+     *      nickname="SchoolUpdate",
      *      type="School",
      *      @SWG\Parameter(
      *      name="id",
@@ -161,7 +166,8 @@ class SchoolController extends AbstractController
      *      path="/schools/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a School",
+     *      summary="Deletes a School",     
+     *      nickname="SchoolDelete",
      *      type="School",
      *      @SWG\Parameter(
      *      name="id",
