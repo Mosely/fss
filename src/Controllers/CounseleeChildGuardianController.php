@@ -61,7 +61,8 @@ class CounseleeChildGuardianController extends AbstractController implements
      *      path="/counseleechildguardians/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a CounseleeChildGuardian",
+     *      summary="Displays a CounseleeChildGuardian",     
+     *      nickname="CounseleeChildGuardianRead",
      *      type="CounseleeChildGuardian",
      *      @SWG\Parameter(
      *      name="id",
@@ -83,7 +84,8 @@ class CounseleeChildGuardianController extends AbstractController implements
      *      path="/counseleechildguardians",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch counseleechildguardian",
+     *      summary="Fetch counseleechildguardian",     
+     *      nickname="CounseleeChildGuardianReadAll",
      *      type="CounseleeChildGuardian"
      *      )
      *      )
@@ -96,7 +98,8 @@ class CounseleeChildGuardianController extends AbstractController implements
      *      path="/counseleechildguardians/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays counseleechildguardian that meet the property=value search criteria",
+     *      summary="Displays counseleechildguardian that meet the property=value search criteria",     
+     *      nickname="CounseleeChildGuardianReadAllWithFilter",
      *      type="CounseleeChildGuardian",
      *      @SWG\Parameter(
      *      name="filter",
@@ -126,7 +129,8 @@ class CounseleeChildGuardianController extends AbstractController implements
      *      path="/counseleechildguardians",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a CounseleeChildGuardian. See CounseleeChildGuardian model for details.",
+     *      summary="Creates a CounseleeChildGuardian. See CounseleeChildGuardian model for details.",     
+     *      nickname="CounseleeChildGuardianCreate",
      *      type="CounseleeChildGuardian",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -140,7 +144,8 @@ class CounseleeChildGuardianController extends AbstractController implements
      *      path="/counseleechildguardians/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a CounseleeChildGuardian. See the CounseleeChildGuardian model for details.",
+     *      summary="Updates a CounseleeChildGuardian. See the CounseleeChildGuardian model for details.",     
+     *      nickname="CounseleeChildGuardianUpdate",
      *      type="CounseleeChildGuardian",
      *      @SWG\Parameter(
      *      name="id",
@@ -162,7 +167,8 @@ class CounseleeChildGuardianController extends AbstractController implements
      *      path="/counseleechildguardians/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a CounseleeChildGuardian",
+     *      summary="Deletes a CounseleeChildGuardian",     
+     *      nickname="CounseleeChildGuardianDelete",
      *      type="CounseleeChildGuardian",
      *      @SWG\Parameter(
      *      name="id",
