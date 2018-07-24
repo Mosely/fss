@@ -57,6 +57,7 @@ class BranchOfServiceController extends AbstractController
      *      @SWG\Operation(
      *      method="GET",
      *      summary="Displays a branch of service.",
+     *      nickname="BranchOfServiceRead",
      *      type="BranchOfService",
      *      @SWG\Parameter(
      *      name="id",
@@ -79,6 +80,7 @@ class BranchOfServiceController extends AbstractController
      *      @SWG\Operation(
      *      method="GET",
      *      summary="Fetch branches of service",
+     *      nickname="BranchOfServiceReadAll",
      *      type="BranchOfService"
      *      )
      *      )
@@ -91,7 +93,8 @@ class BranchOfServiceController extends AbstractController
      *      path="/branchesofservice/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays branches of service that meet the property=value search criteria",
+     *      summary="Displays branches of service that meet the property=value search criteria",     
+     *      nickname="BranchOfServiceReadAllWithFilter",
      *      type="BranchOfService",
      *      @SWG\Parameter(
      *      name="filter",
@@ -122,7 +125,8 @@ class BranchOfServiceController extends AbstractController
      *      path="/branchesofservice",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a branch of service. See BranchOfService model for details.",
+     *      summary="Creates a branch of service. See BranchOfService model for details.",     
+     *      nickname="BranchOfServiceCreate",
      *      type="BranchOfService",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -137,7 +141,8 @@ class BranchOfServiceController extends AbstractController
      *      path="/branchesofservice/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a branch of service. See the BranchOfService model for details.",
+     *      summary="Updates a branch of service. See the BranchOfService model for details.",     
+     *      nickname="BranchOfServiceUpdate",
      *      type="BranchOfService",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class BranchOfServiceController extends AbstractController
      *      path="/branchesofservice/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a branch of service.",
+     *      summary="Deletes a branch of service.",     
+     *      nickname="BranchOfServiceDelete",
      *      type="BranchOfService",
      *      @SWG\Parameter(
      *      name="id",
