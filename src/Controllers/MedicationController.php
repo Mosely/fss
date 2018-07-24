@@ -59,7 +59,8 @@ class MedicationController extends AbstractController
      *      path="/medications/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a Medication",
+     *      summary="Displays a Medication",     
+     *      nickname="MedicationRead",
      *      type="Medication",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class MedicationController extends AbstractController
      *      path="/medications",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch Medication",
+     *      summary="Fetch Medication",     
+     *      nickname="MedicationReadAll",
      *      type="Medication"
      *      )
      *      )
@@ -94,7 +96,8 @@ class MedicationController extends AbstractController
      *      path="/medications/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays Medication that meet the property=value search criteria",
+     *      summary="Displays Medication that meet the property=value search criteria",     
+     *      nickname="MedicationReadAllWithFilter",
      *      type="Medication",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class MedicationController extends AbstractController
      *      path="/medications",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a Medication. See Medication model for details.",
+     *      summary="Creates a Medication. See Medication model for details.",     
+     *      nickname="MedicationCreate",
      *      type="Medication",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class MedicationController extends AbstractController
      *      path="/medications/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a Medication. See the Medication model for details.",
+     *      summary="Updates a Medication. See the Medication model for details.",     
+     *      nickname="MedicationUpdate",
      *      type="Medication",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class MedicationController extends AbstractController
      *      path="/medications/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a Medication",
+     *      summary="Deletes a Medication",     
+     *      nickname="MedicationDelete",
      *      type="Medication",
      *      @SWG\Parameter(
      *      name="id",
