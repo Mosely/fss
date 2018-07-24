@@ -32,6 +32,7 @@ class User extends AbstractModel
     protected $primaryKey = "id";
 
     protected $fillable = array(
+        'id',
         'username',
         'email',
         'password',

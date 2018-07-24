@@ -46,6 +46,7 @@ class Counselee extends AbstractModel
     protected $primaryKey = "id";
 
     protected $fillable = array(
+        'id',
         'has_been_abused',
         'abused_by_whom',
         'abused_count',

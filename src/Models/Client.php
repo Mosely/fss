@@ -29,6 +29,7 @@ class Client extends AbstractModel
     protected $primaryKey = "id";
 
     protected $fillable = array(
+        'id',
         'social_security_number',
         'place_of_employment',
         'is_service_member_or_veteran',

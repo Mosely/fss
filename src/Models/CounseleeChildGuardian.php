@@ -29,6 +29,7 @@ class CounseleeChildGuardian extends AbstractModel
     protected $primaryKey = "id";
 
     protected $fillable = array(
+        'id',
         'counselee_child_id',
         'name',
         'age',

@@ -36,6 +36,7 @@ class ShelterClient extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
+        'id',
         'used_form_assistance',
         'assistant_name',
         'assistant_relationship',

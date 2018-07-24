@@ -36,6 +36,7 @@ class Veteran extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
+        'id',
         'referred_by',
         'branch_of_service_id',
         'military_discharge_type_id',

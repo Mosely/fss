@@ -28,6 +28,7 @@ class ShelterClientFundingSource extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
+        'id',
         'shelter_client_id',
         'funding_source_id',
         'updated_by'

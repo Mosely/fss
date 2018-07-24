@@ -33,6 +33,7 @@ class CounseleeChildBioParent extends AbstractModel
     protected $primaryKey = "id";
 
     protected $fillable = array(
+        'id',
         'counselee_child_id',
         'type',
         'name',

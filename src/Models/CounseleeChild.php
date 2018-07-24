@@ -27,6 +27,7 @@ class CounseleeChild extends AbstractModel
     protected $primaryKey = "id";
 
     protected $fillable = array(
+        'id',
         'school_id',
         'school_problems',
         'long_standing_illnesses',
