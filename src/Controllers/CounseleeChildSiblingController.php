@@ -60,7 +60,8 @@ class CounseleeChildSiblingController extends AbstractController
      *      path="/counseleechildsiblings/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a CounseleeChildSibling",
+     *      summary="Displays a CounseleeChildSibling",     
+     *      nickname="CounseleeChildSiblingRead",
      *      type="CounseleeChildSibling",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class CounseleeChildSiblingController extends AbstractController
      *      path="/counseleechildsiblings",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch CounseleeChildSibling",
+     *      summary="Fetch CounseleeChildSibling",     
+     *      nickname="CounseleeChildSiblingReadAll",
      *      type="CounseleeChildSibling"
      *      )
      *      )
@@ -95,7 +97,8 @@ class CounseleeChildSiblingController extends AbstractController
      *      path="/counseleechildsiblings/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays CounseleeChildSibling that meet the property=value search criteria",
+     *      summary="Displays CounseleeChildSibling that meet the property=value search criteria",     
+     *      nickname="CounseleeChildSiblingReadAllWithFilter",
      *      type="CounseleeChildSibling",
      *      @SWG\Parameter(
      *      name="filter",
@@ -125,7 +128,8 @@ class CounseleeChildSiblingController extends AbstractController
      *      path="/counseleechildsiblings",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a CounseleeChildSibling. See CounseleeChildSibling model for details.",
+     *      summary="Creates a CounseleeChildSibling. See CounseleeChildSibling model for details.",     
+     *      nickname="CounseleeChildSiblingCreate",
      *      type="CounseleeChildSibling",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -139,7 +143,8 @@ class CounseleeChildSiblingController extends AbstractController
      *      path="/counseleechildsiblings/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a CounseleeChildSibling. See the CounseleeChildSibling model for details.",
+     *      summary="Updates a CounseleeChildSibling. See the CounseleeChildSibling model for details.",     
+     *      nickname="CounseleeChildSiblingUpdate",
      *      type="CounseleeChildSibling",
      *      @SWG\Parameter(
      *      name="id",
@@ -161,7 +166,8 @@ class CounseleeChildSiblingController extends AbstractController
      *      path="/counseleechildsiblings/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a CounseleeChildSibling",
+     *      summary="Deletes a CounseleeChildSibling",     
+     *      nickname="CounseleeChildSiblingDelete",
      *      type="CounseleeChildSibling",
      *      @SWG\Parameter(
      *      name="id",
