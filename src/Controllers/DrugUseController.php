@@ -59,7 +59,8 @@ class DrugUseController extends AbstractController
      *      path="/druguses/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a DrugUse",
+     *      summary="Displays a DrugUse",     
+     *      nickname="DrugUseRead",
      *      type="DrugUse",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class DrugUseController extends AbstractController
      *      path="/druguses",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch DrugUse",
+     *      summary="Fetch DrugUse",     
+     *      nickname="DrugUseReadAll",
      *      type="DrugUse"
      *      )
      *      )
@@ -94,7 +96,8 @@ class DrugUseController extends AbstractController
      *      path="/druguses/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays DrugUse that meet the property=value search criteria",
+     *      summary="Displays DrugUse that meet the property=value search criteria",     
+     *      nickname="DrugUseReadAllWithFilter",
      *      type="DrugUse",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class DrugUseController extends AbstractController
      *      path="/druguses",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a DrugUse. See DrugUse model for details.",
+     *      summary="Creates a DrugUse. See DrugUse model for details.",     
+     *      nickname="DrugUseCreate",
      *      type="DrugUse",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class DrugUseController extends AbstractController
      *      path="/druguses/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a DrugUse. See the DrugUse model for details.",
+     *      summary="Updates a DrugUse. See the DrugUse model for details.",     
+     *      nickname="DrugUseUpdate",
      *      type="DrugUse",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class DrugUseController extends AbstractController
      *      path="/druguses/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a DrugUse",
+     *      summary="Deletes a DrugUse",     
+     *      nickname="DrugUseDelete",
      *      type="DrugUse",
      *      @SWG\Parameter(
      *      name="id",
