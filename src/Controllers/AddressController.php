@@ -71,7 +71,11 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-
+    public function read(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
+        {
+            return parent::read($request, $response, $args);
+    }
     /**
      *
      * {@inheritdoc}
@@ -84,7 +88,11 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-
+    public function readAll(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
+        {
+            return parent::readAll($request, $response, $args);
+    }
     /**
      *
      * {@inheritdoc}
@@ -114,7 +122,11 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-
+    public function readAllWithFilter(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
+        {
+            return parent::readAllWithFilter($request, $response, $args);
+    }
     /**
      *
      * {@inheritdoc}
@@ -128,7 +140,11 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-
+    public function create(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
+        {
+            return parent::create($request, $response, $args);
+    }
     /**
      *
      * {@inheritdoc}
@@ -150,7 +166,11 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-
+    public function update(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
+        {
+            return parent::update($request, $response, $args);
+    }
     /**
      *
      * {@inheritdoc}
@@ -172,5 +192,9 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-
+    public function delete(ServerRequestInterface $request,
+        ResponseInterface $response, array $args): ResponseInterface
+        {
+            return parent::delete($request, $response, $args);
+    }
 }
