@@ -315,6 +315,9 @@ abstract class AbstractController implements ControllerInterface
                 if($passedRecordId != "") {
                     $recordData['id'] = $passedRecordId;
                 }
+                if(array_key_exists("password", $recordData)) {
+                    $recordData['password'] = password_hash($recordData['password'], PASSWORD_DEFAULT);
+                }
                 $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
                 $recordId = $this->modelFullName::insertGetId($recordData);
                 // As per JSON-API, we'll need to send the newly created record
