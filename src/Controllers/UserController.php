@@ -59,7 +59,8 @@ class UserController extends AbstractController
      *      path="/users/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a User",
+     *      summary="Displays a User",     
+     *      nickname="UserRead",
      *      type="User",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class UserController extends AbstractController
      *      path="/users",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch Users",
+     *      summary="Fetch Users",     
+     *      nickname="UserReadAll",
      *      type="User"
      *      )
      *      )
@@ -117,7 +119,8 @@ class UserController extends AbstractController
      *      path="/users/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays Users that meet the property=value search criteria",
+     *      summary="Displays Users that meet the property=value search criteria",     
+     *      nickname="UserReadAllWithFilter",
      *      type="User",
      *      @SWG\Parameter(
      *      name="filter",
@@ -147,7 +150,8 @@ class UserController extends AbstractController
      *      path="/users",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a User. See User model for details.",
+     *      summary="Creates a User. See User model for details.",     
+     *      nickname="UserCreate",
      *      type="User",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -161,7 +165,8 @@ class UserController extends AbstractController
      *      path="/users/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a User. See the User model for details.",
+     *      summary="Updates a User. See the User model for details.",     
+     *      nickname="UserUpdate",
      *      type="User",
      *      @SWG\Parameter(
      *      name="id",
@@ -183,7 +188,8 @@ class UserController extends AbstractController
      *      path="/users/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a User",
+     *      summary="Deletes a User",     
+     *      nickname="UserDelete",
      *      type="User",
      *      @SWG\Parameter(
      *      name="id",
