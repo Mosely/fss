@@ -60,7 +60,8 @@ class CounseleeChildBioParentController extends AbstractController
      *      path="/counseleechildbioparents/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a counselee child bio parent record",
+     *      summary="Displays a counselee child bio parent record",     
+     *      nickname="CounseleeChildBioParentRead",
      *      type="CounseleeChildBioParent",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class CounseleeChildBioParentController extends AbstractController
      *      path="/counseleechildbioparents",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch counselee child bio parents",
+     *      summary="Fetch counselee child bio parents",     
+     *      nickname="CounseleeChildBioParentReadAll",
      *      type="CounseleeChildBioParent"
      *      )
      *      )
@@ -95,7 +97,8 @@ class CounseleeChildBioParentController extends AbstractController
      *      path="/counseleechildbioparents/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays counselee child bio parents that meet the property=value search criteria",
+     *      summary="Displays counselee child bio parents that meet the property=value search criteria",     
+     *      nickname="CounseleeChildBioParentReadAllWithFilter",
      *      type="CounseleeChildBioParent",
      *      @SWG\Parameter(
      *      name="filter",
@@ -125,7 +128,8 @@ class CounseleeChildBioParentController extends AbstractController
      *      path="/counseleechildbioparents",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a counselee child bio parent record. See CounseleeChildBioParent model for details.",
+     *      summary="Creates a counselee child bio parent record. See CounseleeChildBioParent model for details.",     
+     *      nickname="CounseleeChildBioParentCreate",
      *      type="CounseleeChildBioParent",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -139,7 +143,8 @@ class CounseleeChildBioParentController extends AbstractController
      *      path="/counseleechildbioparents/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a counselee child bio parent record. See the CounseleeChldBioParent model for details.",
+     *      summary="Updates a counselee child bio parent record. See the CounseleeChldBioParent model for details.",     
+     *      nickname="CounseleeChildBioParentUpdate",
      *      type="CounseleeChildBioParent",
      *      @SWG\Parameter(
      *      name="id",
@@ -161,7 +166,8 @@ class CounseleeChildBioParentController extends AbstractController
      *      path="/counseleechildbioparents/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a counselee child bio parent record",
+     *      summary="Deletes a counselee child bio parent record",     
+     *      nickname="CounseleeChildBioParentDelete",
      *      type="CounseleeChildBioParent",
      *      @SWG\Parameter(
      *      name="id",
