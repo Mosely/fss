@@ -59,7 +59,8 @@ class PhoneController extends AbstractController
      *      path="/phones/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a Phone",
+     *      summary="Displays a Phone",     
+     *      nickname="PhoneRead",
      *      type="Phone",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class PhoneController extends AbstractController
      *      path="/phones",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch Phone",
+     *      summary="Fetch Phone",     
+     *      nickname="PhoneReadAll",
      *      type="Phone"
      *      )
      *      )
@@ -94,7 +96,8 @@ class PhoneController extends AbstractController
      *      path="/phones/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays Phone that meet the property=value search criteria",
+     *      summary="Displays Phone that meet the property=value search criteria",     
+     *      nickname="PhoneReadAllWithFilter",
      *      type="Phone",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class PhoneController extends AbstractController
      *      path="/phones",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a Phone. See Phone model for details.",
+     *      summary="Creates a Phone. See Phone model for details.",     
+     *      nickname="PhoneCreate",
      *      type="Phone",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class PhoneController extends AbstractController
      *      path="/phones/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a Phone. See the Phone model for details.",
+     *      summary="Updates a Phone. See the Phone model for details.",     
+     *      nickname="PhoneUpdate",
      *      type="Phone",
      *      @SWG\Parameter(
      *      name="id",
@@ -161,7 +166,8 @@ class PhoneController extends AbstractController
      *      path="/phones/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a Phone",
+     *      summary="Deletes a Phone",     
+     *      nickname="PhoneDelete",
      *      type="Phone",
      *      @SWG\Parameter(
      *      name="id",
