@@ -59,7 +59,8 @@ class LanguageController extends AbstractController
      *      path="/languages/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a Language",
+     *      summary="Displays a Language",     
+     *      nickname="LanguageRead",
      *      type="Language",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class LanguageController extends AbstractController
      *      path="/languages",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch Language",
+     *      summary="Fetch Language",     
+     *      nickname="LanguageReadAll",
      *      type="Language"
      *      )
      *      )
@@ -95,7 +97,8 @@ class LanguageController extends AbstractController
      *      path="/languages/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays Language that meet the property=value search criteria",
+     *      summary="Displays Language that meet the property=value search criteria",     
+     *      nickname="LanguageReadAllWithFilter",
      *      type="Language",
      *      @SWG\Parameter(
      *      name="filter",
@@ -125,7 +128,8 @@ class LanguageController extends AbstractController
      *      path="/languages",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a Language. See Language model for details.",
+     *      summary="Creates a Language. See Language model for details.",     
+     *      nickname="LanguageCreate",
      *      type="Language",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -139,7 +143,8 @@ class LanguageController extends AbstractController
      *      path="/languages/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a Language. See the Language model for details.",
+     *      summary="Updates a Language. See the Language model for details.",     
+     *      nickname="LanguageUpdate",
      *      type="Language",
      *      @SWG\Parameter(
      *      name="id",
@@ -161,7 +166,8 @@ class LanguageController extends AbstractController
      *      path="/languages/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a Language",
+     *      summary="Deletes a Language",     
+     *      nickname="LanguageDelete",
      *      type="Language",
      *      @SWG\Parameter(
      *      name="id",
