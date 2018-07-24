@@ -60,7 +60,8 @@ class ShelterClientAdditionalStaffController extends AbstractController
      *      path="/shelterclientadditionalstaff/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a ShelterClientAdditionalStaff",
+     *      summary="Displays a ShelterClientAdditionalStaff",     
+     *      nickname="ShelterClientAdditionalStaffRead",
      *      type="ShelterClientAdditionalStaff",
      *      @SWG\Parameter(
      *      name="id",
@@ -83,6 +84,7 @@ class ShelterClientAdditionalStaffController extends AbstractController
      *      @SWG\Operation(
      *      method="GET",
      *      summary="Fetch ShelterClientAdditionalStaff",
+     *      nickname="ShelterClientAdditionalStaffReadAll",
      *      type="ShelterClientAdditionalStaff"
      *      )
      *      )
@@ -96,6 +98,7 @@ class ShelterClientAdditionalStaffController extends AbstractController
      *      @SWG\Operation(
      *      method="GET",
      *      summary="Displays ShelterClientAdditionalStaff that meet the property=value search criteria",
+     *      nickname="ShelterClientAdditionalStaffReadAllWithFilter",
      *      type="ShelterClientAdditionalStaff",
      *      @SWG\Parameter(
      *      name="filter",
@@ -126,6 +129,7 @@ class ShelterClientAdditionalStaffController extends AbstractController
      *      @SWG\Operation(
      *      method="POST",
      *      summary="Creates a ShelterClientAdditionalStaff. See ShelterClientAdditionalStaff model for details.",
+     *      nickname="ShelterClientAdditionalStaffCreate",
      *      type="ShelterClientAdditionalStaff",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -140,6 +144,7 @@ class ShelterClientAdditionalStaffController extends AbstractController
      *      @SWG\Operation(
      *      method="PUT",
      *      summary="Updates a ShelterClientAdditionalStaff. See the ShelterClientAdditionalStaff model for details.",
+     *      nickname="ShelterClientAdditionalStaffUpdate",
      *      type="ShelterClientAdditionalStaff",
      *      @SWG\Parameter(
      *      name="id",
@@ -162,6 +167,7 @@ class ShelterClientAdditionalStaffController extends AbstractController
      *      @SWG\Operation(
      *      method="DELETE",
      *      summary="Deletes a ShelterClientAdditionalStaff",
+     *      nickname="ShelterClientAdditionalStaffDelete",
      *      type="ShelterClientAdditionalStaff",
      *      @SWG\Parameter(
      *      name="id",
