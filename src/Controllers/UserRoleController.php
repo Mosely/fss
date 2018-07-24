@@ -59,7 +59,8 @@ class UserRoleController extends AbstractController
      *      path="/userroles/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a UserRole",
+     *      summary="Displays a UserRole",     
+     *      nickname="UserRoleRead",
      *      type="UserRole",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class UserRoleController extends AbstractController
      *      path="/userroles",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch UserRole",
+     *      summary="Fetch UserRole",     
+     *      nickname="UserRoleReadAll",
      *      type="UserRole"
      *      )
      *      )
@@ -94,7 +96,8 @@ class UserRoleController extends AbstractController
      *      path="/userroles/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays UserRole that meet the property=value search criteria",
+     *      summary="Displays UserRole that meet the property=value search criteria",     
+     *      nickname="UserRoleReadAllWithFilter",
      *      type="UserRole",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class UserRoleController extends AbstractController
      *      path="/userroles",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a UserRole. See UserRole model for details.",
+     *      summary="Creates a UserRole. See UserRole model for details.",     
+     *      nickname="UserRoleCreate",
      *      type="UserRole",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class UserRoleController extends AbstractController
      *      path="/userroles/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a UserRole. See the UserRole model for details.",
+     *      summary="Updates a UserRole. See the UserRole model for details.",     
+     *      nickname="UserRoleUpdate",
      *      type="UserRole",
      *      @SWG\Parameter(
      *      name="id",
@@ -161,7 +166,8 @@ class UserRoleController extends AbstractController
      *      path="/userroles/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a UserRole",
+     *      summary="Deletes a UserRole",     
+     *      nickname="UserRoleDelete",
      *      type="UserRole",
      *      @SWG\Parameter(
      *      name="id",
