@@ -60,7 +60,8 @@ class VeteranController extends AbstractController
      *      path="/veterans/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a veteran",
+     *      summary="Displays a veteran",     
+     *      nickname="VeteranRead",
      *      type="Veteran",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class VeteranController extends AbstractController
      *      path="/veterans",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch veterans",
+     *      summary="Fetch veterans",     
+     *      nickname="VeteranReadAll",
      *      type="Veteran"
      *      )
      *      )
@@ -95,7 +97,8 @@ class VeteranController extends AbstractController
      *      path="/veterans/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays veterans that meet the property=value search criteria",
+     *      summary="Displays veterans that meet the property=value search criteria",     
+     *      nickname="VeteranReadAllWithFilter",
      *      type="Veteran",
      *      @SWG\Parameter(
      *      name="filter",
@@ -125,7 +128,8 @@ class VeteranController extends AbstractController
      *      path="/veterans",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a veteran. See Veteran model for details.",
+     *      summary="Creates a veteran. See Veteran model for details.",     
+     *      nickname="VeteranCreate",
      *      type="Veteran",
      *      @SWG\ResponseMessage(code=400, message="Error occurred"),
      *      @SWG\ResponseMessage(code=200,
@@ -141,7 +145,8 @@ class VeteranController extends AbstractController
      *      path="/veterans/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a veteran. See the Veteran model for details.",
+     *      summary="Updates a veteran. See the Veteran model for details.",     
+     *      nickname="VeteranUpdate",
      *      type="Veteran",
      *      @SWG\Parameter(
      *      name="id",
@@ -163,7 +168,8 @@ class VeteranController extends AbstractController
      *      path="/veterans/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a veteran",
+     *      summary="Deletes a veteran",     
+     *      nickname="VeteranDelete",
      *      type="Veteran",
      *      @SWG\Parameter(
      *      name="id",
