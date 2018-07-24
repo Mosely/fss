@@ -59,7 +59,8 @@ class ShelterClientController extends AbstractController
      *      path="/shelterclients/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a ShelterClient",
+     *      summary="Displays a ShelterClient",     
+     *      nickname="ShelterClientRead",
      *      type="ShelterClient",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class ShelterClientController extends AbstractController
      *      path="/shelterclients",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch ShelterClient",
+     *      summary="Fetch ShelterClient",     
+     *      nickname="ShelterClientReadAll",
      *      type="ShelterClient"
      *      )
      *      )
@@ -94,7 +96,8 @@ class ShelterClientController extends AbstractController
      *      path="/shelterclients/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays ShelterClient that meet the property=value search criteria",
+     *      summary="Displays ShelterClient that meet the property=value search criteria",     
+     *      nickname="ShelterClientReadAllWithFilter",
      *      type="ShelterClient",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class ShelterClientController extends AbstractController
      *      path="/shelterclients",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a ShelterClient. See ShelterClient model for details.",
+     *      summary="Creates a ShelterClient. See ShelterClient model for details.",     
+     *      nickname="ShelterClientCreate",
      *      type="ShelterClient",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class ShelterClientController extends AbstractController
      *      path="/shelterclients/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a ShelterClient. See the ShelterClient model for details.",
+     *      summary="Updates a ShelterClient. See the ShelterClient model for details.",     
+     *      nickname="ShelterClientUpdate",
      *      type="ShelterClient",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class ShelterClientController extends AbstractController
      *      path="/shelterclients/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a ShelterClient",
+     *      summary="Deletes a ShelterClient",     
+     *      nickname="ShelterClientDelete",
      *      type="ShelterClient",
      *      @SWG\Parameter(
      *      name="id",
