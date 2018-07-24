@@ -59,7 +59,8 @@ class EthnicityController extends AbstractController
      *      path="/ethnicities/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a Ethnicity",
+     *      summary="Displays a Ethnicity",     
+     *      nickname="EthnicityRead",
      *      type="Ethnicity",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class EthnicityController extends AbstractController
      *      path="/ethnicities",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch Ethnicity",
+     *      summary="Fetch Ethnicity",     
+     *      nickname="EthnicityReadAll",
      *      type="Ethnicity"
      *      )
      *      )
@@ -94,7 +96,8 @@ class EthnicityController extends AbstractController
      *      path="/ethnicities/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays Ethnicity that meet the property=value search criteria",
+     *      summary="Displays Ethnicity that meet the property=value search criteria",     
+     *      nickname="EthnicityReadAllWithFilter",
      *      type="Ethnicity",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class EthnicityController extends AbstractController
      *      path="/ethnicities",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a Ethnicity. See Ethnicity model for details.",
+     *      summary="Creates a Ethnicity. See Ethnicity model for details.",     
+     *      nickname="EthnicityCreate",
      *      type="Ethnicity",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class EthnicityController extends AbstractController
      *      path="/ethnicities/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a Ethnicity. See the Ethnicity model for details.",
+     *      summary="Updates a Ethnicity. See the Ethnicity model for details.",     
+     *      nickname="EthnicityUpdate",
      *      type="Ethnicity",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class EthnicityController extends AbstractController
      *      path="/ethnicities/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a Ethnicity",
+     *      summary="Deletes a Ethnicity",     
+     *      nickname="EthnicityDelete",
      *      type="Ethnicity",
      *      @SWG\Parameter(
      *      name="id",
