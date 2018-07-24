@@ -59,7 +59,8 @@ class CountyDataController extends AbstractController
      *      path="/countydata/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a CountyData",
+     *      summary="Displays a CountyData",     
+     *      nickname="CountyDataRead",
      *      type="CountyData",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class CountyDataController extends AbstractController
      *      path="/countydata",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch CountyData",
+     *      summary="Fetch CountyData",     
+     *      nickname="CountyDataReadAll",
      *      type="CountyData"
      *      )
      *      )
@@ -94,7 +96,8 @@ class CountyDataController extends AbstractController
      *      path="/countydata/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays CountyData that meet the property=value search criteria",
+     *      summary="Displays CountyData that meet the property=value search criteria",     
+     *      nickname="CountyDataReadAllWithFilter",
      *      type="CountyData",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class CountyDataController extends AbstractController
      *      path="/countydata",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a CountyData. See CountyData model for details.",
+     *      summary="Creates a CountyData. See CountyData model for details.",     
+     *      nickname="CountyDataCreate",
      *      type="CountyData",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -139,7 +143,8 @@ class CountyDataController extends AbstractController
      *      path="/countydata/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a CountyData. See the CountyData model for details.",
+     *      summary="Updates a CountyData. See the CountyData model for details.",     
+     *      nickname="CountyDataUpdate",
      *      type="CountyData",
      *      @SWG\Parameter(
      *      name="id",
@@ -162,7 +167,8 @@ class CountyDataController extends AbstractController
      *      path="/countydata/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a CountyData",
+     *      summary="Deletes a CountyData",     
+     *      nickname="CountyDataDelete",
      *      type="CountyData",
      *      @SWG\Parameter(
      *      name="id",
