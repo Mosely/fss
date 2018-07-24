@@ -60,6 +60,7 @@ class AddressController extends AbstractController
      *      @SWG\Operation(
      *      method="GET",
      *      summary="Displays an address",
+     *      nickname="AddressRead",
      *      type="Address",
      *      @SWG\Parameter(
      *      name="id",
@@ -73,11 +74,7 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-    public function read(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-        {
-            return parent::read($request, $response, $args);
-    }
+    
     /**
      *
      * {@inheritdoc}
@@ -86,15 +83,12 @@ class AddressController extends AbstractController
      *      @SWG\Operation(
      *      method="GET",
      *      summary="Fetch addresses",
-     *      type="Address"
+     *      type="Address",
+     *      nickname="AddressReadAll"
      *      )
      *      )
      */
-    public function readAll(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-        {
-            return parent::readAll($request, $response, $args);
-    }
+    
     /**
      *
      * {@inheritdoc}
@@ -103,6 +97,7 @@ class AddressController extends AbstractController
      *      @SWG\Operation(
      *      method="GET",
      *      summary="Displays addresses that meet the property=value search criteria",
+     *      nickname="AddressReadAllWithFilter",
      *      type="Address",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,11 +119,7 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-    public function readAllWithFilter(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-        {
-            return parent::readAllWithFilter($request, $response, $args);
-    }
+
     /**
      *
      * {@inheritdoc}
@@ -137,16 +128,13 @@ class AddressController extends AbstractController
      *      @SWG\Operation(
      *      method="POST",
      *      summary="Creates an address. See Address model for details.",
+     *      nickname="AddressCreate",
      *      type="Address",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
      *      )
      */
-    public function create(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-        {
-            return parent::create($request, $response, $args);
-    }
+
     /**
      *
      * {@inheritdoc}
@@ -155,6 +143,7 @@ class AddressController extends AbstractController
      *      @SWG\Operation(
      *      method="PUT",
      *      summary="Updates an address. See the Address model for details.",
+     *      nickname="AddressUpdate",
      *      type="Address",
      *      @SWG\Parameter(
      *      name="id",
@@ -168,11 +157,7 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-    public function update(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-        {
-            return parent::update($request, $response, $args);
-    }
+    
     /**
      *
      * {@inheritdoc}
@@ -181,6 +166,7 @@ class AddressController extends AbstractController
      *      @SWG\Operation(
      *      method="DELETE",
      *      summary="Deletes an address",
+     *      nickname="AddressDelete",
      *      type="Address",
      *      @SWG\Parameter(
      *      name="id",
@@ -194,9 +180,4 @@ class AddressController extends AbstractController
      *      )
      *      )
      */
-    public function delete(ServerRequestInterface $request,
-        ResponseInterface $response, array $args): ResponseInterface
-        {
-            return parent::delete($request, $response, $args);
-    }
 }
