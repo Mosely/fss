@@ -60,7 +60,8 @@ class CityDataController extends AbstractController
      *      path="/citydata/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays city data",
+     *      summary="Displays city data",     
+     *      nickname="CityDataRead",
      *      type="CityData",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class CityDataController extends AbstractController
      *      path="/citydata",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch all city data",
+     *      summary="Fetch all city data",     
+     *      nickname="CityDataReadAll",
      *      type="CityData"
      *      )
      *      )
@@ -96,7 +98,8 @@ class CityDataController extends AbstractController
      *      path="/citydata/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays city data that meet the property=value search criteria",
+     *      summary="Displays city data that meet the property=value search criteria",     
+     *      nickname="CityDataReadAllWithFilter",
      *      type="CityData",
      *      @SWG\Parameter(
      *      name="filter",
@@ -126,7 +129,8 @@ class CityDataController extends AbstractController
      *      path="/citydata",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates city data. See CityData model for details.",
+     *      summary="Creates city data. See CityData model for details.",     
+     *      nickname="CityDataCreate",
      *      type="CityData",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -140,7 +144,8 @@ class CityDataController extends AbstractController
      *      path="/citydata/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates city data. See the CityData model for details.",
+     *      summary="Updates city data. See the CityData model for details.",     
+     *      nickname="CityDataUpdate",
      *      type="CityData",
      *      @SWG\Parameter(
      *      name="id",
@@ -162,7 +167,8 @@ class CityDataController extends AbstractController
      *      path="/citydata/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes city data record",
+     *      summary="Deletes city data record",     
+     *      nickname="CityDataDelete",
      *      type="CityData",
      *      @SWG\Parameter(
      *      name="id",
