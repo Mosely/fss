@@ -2,6 +2,8 @@
 namespace FSS\Controllers;
 
 use Monolog\Logger;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Illuminate\Database\Capsule\Manager;
 use FSS\Utilities\Cache;
 use League\OAuth2\Server\AuthorizationServer;
