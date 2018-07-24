@@ -60,7 +60,8 @@ class IdentityPreferenceController extends AbstractController
      *      path="/identitypreferences/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a IdentityPreference",
+     *      summary="Displays a IdentityPreference",     
+     *      nickname="IdentityPreferenceRead",
      *      type="IdentityPreference",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class IdentityPreferenceController extends AbstractController
      *      path="/identitypreferences",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch IdentityPreference",
+     *      summary="Fetch IdentityPreference",     
+     *      nickname="IdentityPreferenceReadAll",
      *      type="IdentityPreference"
      *      )
      *      )
@@ -95,7 +97,8 @@ class IdentityPreferenceController extends AbstractController
      *      path="/identitypreferences/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays IdentityPreference that meet the property=value search criteria",
+     *      summary="Displays IdentityPreference that meet the property=value search criteria",     
+     *      nickname="IdentityPreferenceReadAllWithFilter",
      *      type="IdentityPreference",
      *      @SWG\Parameter(
      *      name="filter",
@@ -125,7 +128,8 @@ class IdentityPreferenceController extends AbstractController
      *      path="/identitypreferences",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a IdentityPreference. See IdentityPreference model for details.",
+     *      summary="Creates a IdentityPreference. See IdentityPreference model for details.",     
+     *      nickname="IdentityPreferenceCreate",
      *      type="IdentityPreference",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -139,7 +143,8 @@ class IdentityPreferenceController extends AbstractController
      *      path="/identitypreferences/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a IdentityPreference. See the IdentityPreference model for details.",
+     *      summary="Updates a IdentityPreference. See the IdentityPreference model for details.",     
+     *      nickname="IdentityPreferenceUpdate",
      *      type="IdentityPreference",
      *      @SWG\Parameter(
      *      name="id",
@@ -161,7 +166,8 @@ class IdentityPreferenceController extends AbstractController
      *      path="/identitypreferences/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a IdentityPreference",
+     *      summary="Deletes a IdentityPreference",     
+     *      nickname="IdentityPreferenceDelete",
      *      type="IdentityPreference",
      *      @SWG\Parameter(
      *      name="id",
