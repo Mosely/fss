@@ -60,7 +60,8 @@ class ShelterClientFundingSourceController extends AbstractController
      *      path="/shelterclientfundingsources/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a ShelterClientFundingSource",
+     *      summary="Displays a ShelterClientFundingSource",     
+     *      nickname="ShelterClientFundingSourceRead",
      *      type="ShelterClientFundingSource",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class ShelterClientFundingSourceController extends AbstractController
      *      path="/shelterclientfundingsources",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch ShelterClientFundingSource",
+     *      summary="Fetch ShelterClientFundingSource",     
+     *      nickname="ShelterClientFundingSourceReadAll",
      *      type="ShelterClientFundingSource"
      *      )
      *      )
@@ -96,7 +98,8 @@ class ShelterClientFundingSourceController extends AbstractController
      *      path="/shelterclientfundingsources/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays ShelterClientFundingSource that meet the property=value search criteria",
+     *      summary="Displays ShelterClientFundingSource that meet the property=value search criteria",     
+     *      nickname="ShelterClientFundingSourceReadAllWithFilter",
      *      type="ShelterClientFundingSource",
      *      @SWG\Parameter(
      *      name="filter",
@@ -126,7 +129,8 @@ class ShelterClientFundingSourceController extends AbstractController
      *      path="/shelterclientfundingsources",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a ShelterClientFundingSource. See ShelterClientFundingSource model for details.",
+     *      summary="Creates a ShelterClientFundingSource. See ShelterClientFundingSource model for details.",     
+     *      nickname="ShelterClientFundingSourceCreate",
      *      type="ShelterClientFundingSource",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -140,7 +144,8 @@ class ShelterClientFundingSourceController extends AbstractController
      *      path="/shelterclientfundingsources/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a ShelterClientFundingSource. See the ShelterClientFundingSource model for details.",
+     *      summary="Updates a ShelterClientFundingSource. See the ShelterClientFundingSource model for details.",     
+     *      nickname="ShelterClientFundingSourceUpdate",
      *      type="ShelterClientFundingSource",
      *      @SWG\Parameter(
      *      name="id",
@@ -162,7 +167,8 @@ class ShelterClientFundingSourceController extends AbstractController
      *      path="/shelterclientfundingsources/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a ShelterClientFundingSource",
+     *      summary="Deletes a ShelterClientFundingSource",     
+     *      nickname="ShelterClientFundingSourceDelete",
      *      type="ShelterClientFundingSource",
      *      @SWG\Parameter(
      *      name="id",
