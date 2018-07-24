@@ -59,7 +59,8 @@ class CounseleeDrugUseController extends AbstractController
      *      path="/counseleedruguses/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a CounseleeDrugUse",
+     *      summary="Displays a CounseleeDrugUse",     
+     *      nickname="CounseleeDrugUseRead",
      *      type="CounseleeDrugUse",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class CounseleeDrugUseController extends AbstractController
      *      path="/counseleedruguses",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch CounseleeDrugUse",
+     *      summary="Fetch CounseleeDrugUse",     
+     *      nickname="CounseleeDrugUseReadAll",
      *      type="CounseleeDrugUse"
      *      )
      *      )
@@ -94,7 +96,8 @@ class CounseleeDrugUseController extends AbstractController
      *      path="/counseleedruguses/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays CounseleeDrugUse that meet the property=value search criteria",
+     *      summary="Displays CounseleeDrugUse that meet the property=value search criteria",     
+     *      nickname="CounseleeDrugUseReadAllWithFilter",
      *      type="CounseleeDrugUse",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class CounseleeDrugUseController extends AbstractController
      *      path="/counseleedruguses",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a CounseleeDrugUse. See CounseleeDrugUse model for details.",
+     *      summary="Creates a CounseleeDrugUse. See CounseleeDrugUse model for details.",     
+     *      nickname="CounseleeDrugUseCreate",
      *      type="CounseleeDrugUse",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class CounseleeDrugUseController extends AbstractController
      *      path="/counseleedruguses/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a CounseleeDrugUse. See the CounseleeDrugUse model for details.",
+     *      summary="Updates a CounseleeDrugUse. See the CounseleeDrugUse model for details.",     
+     *      nickname="CounseleeDrugUseUpdate",
      *      type="CounseleeDrugUse",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class CounseleeDrugUseController extends AbstractController
      *      path="/counseleedruguses/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a CounseleeDrugUse",
+     *      summary="Deletes a CounseleeDrugUse",     
+     *      nickname="CounseleeDrugUseDelete",
      *      type="CounseleeDrugUse",
      *      @SWG\Parameter(
      *      name="id",
