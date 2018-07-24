@@ -59,7 +59,8 @@ class CounseleeController extends AbstractController
      *      path="/counselees/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a Counselee",
+     *      summary="Displays a Counselee",     
+     *      nickname="CounseleeRead",
      *      type="Counselee",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class CounseleeController extends AbstractController
      *      path="/counselees",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch Counselee",
+     *      summary="Fetch Counselee",     
+     *      nickname="CounseleeReadAll",
      *      type="Counselee"
      *      )
      *      )
@@ -94,7 +96,8 @@ class CounseleeController extends AbstractController
      *      path="/counselees/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays Counselee that meet the property=value search criteria",
+     *      summary="Displays Counselee that meet the property=value search criteria",     
+     *      nickname="CounseleeReadAllWithFilter",
      *      type="Counselee",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class CounseleeController extends AbstractController
      *      path="/counselees",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a Counselee. See Counselee model for details.",
+     *      summary="Creates a Counselee. See Counselee model for details.",     
+     *      nickname="CounseleeCreate",
      *      type="Counselee",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class CounseleeController extends AbstractController
      *      path="/counselees/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a Counselee. See the Counselee model for details.",
+     *      summary="Updates a Counselee. See the Counselee model for details.",     
+     *      nickname="CounseleeUpdate",
      *      type="Counselee",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class CounseleeController extends AbstractController
      *      path="/counselees/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a Counselee",
+     *      summary="Deletes a Counselee",     
+     *      nickname="CounseleeDelete",
      *      type="Counselee",
      *      @SWG\Parameter(
      *      name="id",
