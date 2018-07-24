@@ -59,7 +59,8 @@ class CounseleeChildController extends AbstractController
      *      path="/counseleechildren/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a counselee child",
+     *      summary="Displays a counselee child",     
+     *      nickname="CounseleeChildRead",
      *      type="CounseleeChild",
      *      @SWG\Parameter(
      *      name="id",
@@ -81,7 +82,8 @@ class CounseleeChildController extends AbstractController
      *      path="/counseleechildren",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch counselee children",
+     *      summary="Fetch counselee children",     
+     *      nickname="CounseleeChildReadAll",
      *      type="CounseleeChild"
      *      )
      *      )
@@ -94,7 +96,8 @@ class CounseleeChildController extends AbstractController
      *      path="/counseleechildren/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays counselee children that meet the property=value search criteria",
+     *      summary="Displays counselee children that meet the property=value search criteria",     
+     *      nickname="CounseleeChildReadAllWithFilter",
      *      type="CounseleeChild",
      *      @SWG\Parameter(
      *      name="filter",
@@ -124,7 +127,8 @@ class CounseleeChildController extends AbstractController
      *      path="/counseleechildren",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a counselee child. See CounseleeChild model for details.",
+     *      summary="Creates a counselee child. See CounseleeChild model for details.",     
+     *      nickname="CounseleeChildCreate",
      *      type="CounseleeChild",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -138,7 +142,8 @@ class CounseleeChildController extends AbstractController
      *      path="/counseleechildren/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a counselee child. See the CounseleeChild model for details.",
+     *      summary="Updates a counselee child. See the CounseleeChild model for details.",     
+     *      nickname="CounseleeChildUpdate",
      *      type="CounseleeChild",
      *      @SWG\Parameter(
      *      name="id",
@@ -160,7 +165,8 @@ class CounseleeChildController extends AbstractController
      *      path="/counseleechildren/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a counselee child",
+     *      summary="Deletes a counselee child",     
+     *      nickname="CounseleeChildDelete",
      *      type="CounseleeChild",
      *      @SWG\Parameter(
      *      name="id",
