@@ -60,7 +60,8 @@ class ClientController extends AbstractController
      *      path="/clients/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a client",
+     *      summary="Displays a client",     
+     *      nickname="ClientRead",
      *      type="Client",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class ClientController extends AbstractController
      *      path="/clients",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch clients",
+     *      summary="Fetch clients",     
+     *      nickname="ClientReadAll",
      *      type="Client"
      *      )
      *      )
@@ -95,7 +97,8 @@ class ClientController extends AbstractController
      *      path="/clients/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays clients that meet the property=value search criteria",
+     *      summary="Displays clients that meet the property=value search criteria",     
+     *      nickname="ClientReadAllWithFilter",
      *      type="Client",
      *      @SWG\Parameter(
      *      name="filter",
@@ -126,7 +129,8 @@ class ClientController extends AbstractController
      *      path="/clients",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a client. See Client model for details.",
+     *      summary="Creates a client. See Client model for details.",     
+     *      nickname="ClientCreate",
      *      type="Client",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -141,7 +145,8 @@ class ClientController extends AbstractController
      *      path="/clients/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a client. See the Client model for details.",
+     *      summary="Updates a client. See the Client model for details.",     
+     *      nickname="ClientUpdate",
      *      type="Client",
      *      @SWG\Parameter(
      *      name="id",
@@ -163,7 +168,8 @@ class ClientController extends AbstractController
      *      path="/clients/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a client",
+     *      summary="Deletes a client",     
+     *      nickname="ClientDelete",
      *      type="Client",
      *      @SWG\Parameter(
      *      name="id",
