@@ -59,7 +59,8 @@ class FundingSourceController extends AbstractController
      *      path="/fundingsources/{id}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays a FundingSource",
+     *      summary="Displays a FundingSource",     
+     *      nickname="FundingSourceRead",
      *      type="FundingSource",
      *      @SWG\Parameter(
      *      name="id",
@@ -82,7 +83,8 @@ class FundingSourceController extends AbstractController
      *      path="/fundingsources",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Fetch FundingSource",
+     *      summary="Fetch FundingSource",     
+     *      nickname="FundingSourceReadAll",
      *      type="FundingSource"
      *      )
      *      )
@@ -96,7 +98,8 @@ class FundingSourceController extends AbstractController
      *      path="/fundingsources/{filter}/{value}",
      *      @SWG\Operation(
      *      method="GET",
-     *      summary="Displays FundingSource that meet the property=value search criteria",
+     *      summary="Displays FundingSource that meet the property=value search criteria",     
+     *      nickname="FundingSourceReadAllWithFilter",
      *      type="FundingSource",
      *      @SWG\Parameter(
      *      name="filter",
@@ -127,7 +130,8 @@ class FundingSourceController extends AbstractController
      *      path="/fundingsources",
      *      @SWG\Operation(
      *      method="POST",
-     *      summary="Creates a FundingSource. See FundingSource model for details.",
+     *      summary="Creates a FundingSource. See FundingSource model for details.",     
+     *      nickname="FundingSourceCreate",
      *      type="FundingSource",
      *      @SWG\ResponseMessage(code=400, message="Error occurred")
      *      )
@@ -142,7 +146,8 @@ class FundingSourceController extends AbstractController
      *      path="/fundingsources/{id}",
      *      @SWG\Operation(
      *      method="PUT",
-     *      summary="Updates a FundingSource. See the FundingSource model for details.",
+     *      summary="Updates a FundingSource. See the FundingSource model for details.",     
+     *      nickname="FundingSourceUpdate",
      *      type="FundingSource",
      *      @SWG\Parameter(
      *      name="id",
@@ -165,7 +170,8 @@ class FundingSourceController extends AbstractController
      *      path="/fundingsources/{id}",
      *      @SWG\Operation(
      *      method="DELETE",
-     *      summary="Deletes a FundingSource",
+     *      summary="Deletes a FundingSource",     
+     *      nickname="FundingSourceDelete",
      *      type="FundingSource",
      *      @SWG\Parameter(
      *      name="id",
