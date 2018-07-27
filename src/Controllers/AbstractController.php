@@ -362,6 +362,19 @@ abstract class AbstractController implements ControllerInterface
         {
             // $id = $args['id'];
             $recordData = $request->getParsedBody();
+            
+            // Getting the relationship models
+            $relatedRecordData = $recordData['data']['relationships'];
+            // NOTE: in ['data']['relationships'], the first children keys are
+            // the actual model names. Corresponding data, like id is found in
+            //[relatedModelName]['data']
+            $passedRecordId = "";
+            if (array_key_exists("id", $recordData['data'])) {
+                $passedRecordId = $recordData['data']['id'];
+            }
+            // JSON API: Get the stuff from data['attributes']
+            $recordData = $recordData['data']['attributes'];
+            
             try {
                 $updateData = [];
                 foreach ($recordData as $key => $val) {
@@ -372,15 +385,38 @@ abstract class AbstractController implements ControllerInterface
                             $key => $val
                         ]);
                 }
+                foreach ($relatedRecordData as $key => $val) {
+                    $tempIdKey = $key . "_id";
+                    $updateData[$tempIdKey] = $val['data']['id'];
+                }
+                if($passedRecordId != "") {
+                    $updateData['id'] = $passedRecordId;
+                }
+                if(array_key_exists("password", $recordData)) {
+                    $updateData['password'] = password_hash($recordData['password'], PASSWORD_DEFAULT);
+                }
+                
                 $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
                 $recordId = $this->modelFullName::update($updateData);
                 $this->logger->debug($this->modelName . " update query: ",
                     $this->db::getQueryLog());
-                return $response->withJson(
+                $theNewRecord = $this->modelFullName::where("id","=",$recordId)->get();
+/*                 return $response->withJson(
                     [
                         "success" => true,
                         "message" => "Updated " . $this->modelName . " $recordId"
-                    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT); */
+                $encoder = Encoder::instance([
+                    $this->modelFullName => $this->modelFullSchemaName,
+                ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
+                    $request->getUri()->getScheme() . '://' .
+                    $request->getUri()->getHost()));
+                if (count($request->getQueryParams()) == 0 && $theNewRecord->count() == 1) {
+                    $theNewRecord = $theNewRecord->first();
+                }
+                return $response->withJson(
+                    json_decode(
+                        $encoder->encodeData($theNewRecord)), 200);
             } catch (Exception $e) {
                 return $response->withJson(
                     [
