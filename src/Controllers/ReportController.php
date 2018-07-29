@@ -59,9 +59,10 @@ class ReportController extends AbstractController
     {
         $reportJson = $this->read($request, $response, $args)->getBody();
         $report = json_decode($reportJson, false);
-        $columns = $report->data[0]->report_column;
-        $reportName = $report->data[0]->name;
-        $reportType = $report->data[0]->rtype;
+        $report = $report['data']['attributes'];
+        $columns = $report->report_column;
+        $reportName = $report->name;
+        $reportType = $report->rtype;
         
         try {
             // $records = Report::run($columns,
