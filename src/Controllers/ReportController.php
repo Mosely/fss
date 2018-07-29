@@ -57,8 +57,38 @@ class ReportController extends AbstractController
     public function generateReportOutput(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
     {
-        $reportJson = $this->read($request, $response, $args)->getBody();
-        $report = json_decode($reportJson, false);
+        $id = $args['id'];
+        $params = [
+            'id',
+            $id
+        ];
+        $request = $request->withAttribute('params', implode('/', $params));
+        $this->logger->debug("Reading report with id of $id");
+        
+        $params = explode('/', $request->getAttribute('params'));
+        $filters = [];
+        $values = [];
+        
+        $this->getFilters($params, $filters, $values);
+        
+        foreach ($filters as $filter) {
+            Report::validateColumn($filter, $this->logger, $this->cache,
+                $this->db);
+        }
+        $records = Report::with(
+            [
+                'reportColumn' => function ($q) {
+                    return $q->with('reportCriteria');
+                    // NOTE: If you need to traverse the depths of more
+                    // than two tables you will need to handle the
+                    // deeper relationships as done here.
+                }
+                ])->where('id','=',$values[0]);
+        $records = $records->get();
+        
+        //$reportJson = $this->read($request, $response, $args)->getBody();
+        //$report = json_decode($reportJson, false);
+        $report = $records;
         print("<pre>");
         print_r($report);
         print("</pre>");
