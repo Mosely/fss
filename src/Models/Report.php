@@ -28,7 +28,7 @@ class Report extends AbstractModel
 
     protected $fillable = array(
         'name',
-        'type',
+        'rtype',
         'updated_by'
     );
 

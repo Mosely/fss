@@ -61,7 +61,7 @@ class ReportController extends AbstractController
         $report = json_decode($reportJson, false);
         $columns = $report->data[0]->report_column;
         $reportName = $report->data[0]->name;
-        $reportType = $report->data[0]->type;
+        $reportType = $report->data[0]->rtype;
         
         try {
             // $records = Report::run($columns,
