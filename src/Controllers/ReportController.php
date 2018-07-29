@@ -66,7 +66,8 @@ class ReportController extends AbstractController
         try {
             // $records = Report::run($columns,
             // $reportName, $reportType, $this->authorizer);
-            Report::run($columns, $reportName, $reportType, $this->authorizer);
+            Report::run($columns, $reportName, $reportType, 
+                $request->getAttribute('oauth_user_id'));
             $this->logger->debug("Generated Report query: ",
                 $this->db::getQueryLog());
             

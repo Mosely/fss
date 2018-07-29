@@ -23,14 +23,14 @@ class ReportGenerator
 
     private $body = [];
 
-    private $jwtToken;
+    private $userId;
 
-    public function __construct($jwtToken, string $reportPath,
+    public function __construct($userId, string $reportPath,
         string $reportTitle, string $reportType = 'CSV')
     {
         StringHelper::setDecimalSeparator('.');
         StringHelper::setThousandsSeparator(',');
-        $this->jwtToken = $jwtToken;
+        $this->userId = $userId;
         $this->reportPath = $reportPath;
         $this->reportTitle = $reportTitle;
         $this->reportType = $reportType;
@@ -41,8 +41,8 @@ class ReportGenerator
     {
         $this->dataCollection = new Spreadsheet();
         $this->dataCollection->getProperties()
-            ->setCreator($this->jwtToken->sub)
-            ->setLastModifiedBy($this->jwtToken->sub)
+            ->setCreator($this->userId)
+            ->setLastModifiedBy($this->userId)
             ->setTitle($this->reportTitle)
             ->setSubject($this->reportTitle)
             ->setDescription(

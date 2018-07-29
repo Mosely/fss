@@ -69,7 +69,7 @@ class Report extends AbstractModel
     }
 
     public function run(array $columns, string $reportName, string $reportType,
-        $jwtToken)
+        $userId)
     {
         // Sort the array of ReportColumn objects by column_order,
         Report::sortReportColumnsAsc($columns,
@@ -115,7 +115,7 @@ class Report extends AbstractModel
         $records = $query->get();
         
         $reportPath = "php://output";
-        $report = new ReportGenerator($jwtToken, $reportPath, $reportName,
+        $report = new ReportGenerator($userId, $reportPath, $reportName,
             $reportType);
         $report->SetHeader($headerArray);
         foreach ($records as $record) {
