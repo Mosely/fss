@@ -95,13 +95,13 @@ class ReportController extends AbstractController
         //return $response;
         
         $report = json_decode(json_encode($report), false);
-        print("<pre>");
-        print_r($report);
-        print("</pre>");
-        return $response;
-        $columns = $report->report_column;
-        $reportName = $report->name;
-        $reportType = $report->rtype;
+        //print("<pre>");
+        //print_r($report);
+        //print("</pre>");
+        //return $response;
+        $columns = $report[0]->report_column;
+        $reportName = $report[0]->name;
+        $reportType = $report[0]->rtype;
 
         
         try {
