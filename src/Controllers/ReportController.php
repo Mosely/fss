@@ -92,10 +92,10 @@ class ReportController extends AbstractController
         print("<pre>");
         print_r($report);
         print("</pre>");
-        return $response;
+        //return $response;
         
         //$report = $report['data']['attributes'];
-        $columns = $report->report_column;
+        $columns = $report->reportColumn;
         $reportName = $report->name;
         $reportType = $report->rtype;
         
