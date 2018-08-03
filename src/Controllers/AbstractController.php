@@ -310,7 +310,14 @@ abstract class AbstractController implements ControllerInterface
                 }
                 foreach ($relatedRecordData as $key => $val) {
                     $tempIdKey = $key . "_id";
-                    $recordData[$tempIdKey] = $val['data']['id'];
+                    try {
+                        $this->modelFullName::validateColumn($tempIdKey,
+                            $this->logger, $this->cache,
+                            $this->db);
+                        $recordData[$tempIdKey] = $val['data']['id'];
+                    } catch (Exception $e) {
+                        // just skip that column
+                    }
                 }
                 if($passedRecordId != "") {
                     $recordData['id'] = $passedRecordId;
@@ -388,7 +395,14 @@ abstract class AbstractController implements ControllerInterface
                 }
                 foreach ($relatedRecordData as $key => $val) {
                     $tempIdKey = $key . "_id";
-                    $updateData[$tempIdKey] = $val['data']['id'];
+                    try {
+                        $this->modelFullName::validateColumn($tempIdKey, 
+                            $this->logger, $this->cache,
+                            $this->db);
+                        $updateData[$tempIdKey] = $val['data']['id'];
+                    } catch (Exception $e) {
+                        // just skip that column
+                    }
                 }
                 if($passedRecordId != "") {
                     $updateData['id'] = $passedRecordId;
