@@ -400,7 +400,8 @@ abstract class AbstractController implements ControllerInterface
                 }
                 $this->logger->debug("Built the " . $this->modelName . " update query.");
                 $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
-                $recordId = $this->modelFullName::update($updateData);
+                $this->modelFullName::where("id","=",$updateData['id'])->update($updateData);
+                $recordId = $passedRecordId;
                 $this->logger->debug($this->modelName . " update query: ",
                     $this->db::getQueryLog());
                 $theNewRecord = $this->modelFullName::where("id","=",$recordId)->get();
