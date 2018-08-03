@@ -410,6 +410,8 @@ abstract class AbstractController implements ControllerInterface
                 if(array_key_exists("password", $recordData)) {
                     if($recordData['password'] != null) {
                         $updateData['password'] = password_hash($recordData['password'], PASSWORD_DEFAULT);
+                    } else {
+                        unset($updateData['password']);
                     }
                 }
                 $this->logger->debug("Built the " . $this->modelName . " update query.");
