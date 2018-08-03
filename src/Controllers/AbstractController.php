@@ -360,6 +360,7 @@ abstract class AbstractController implements ControllerInterface
     public function update(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
         {
+            $this->logger->debug("Starting the " . $this->modelName . " update query.");
             // $id = $args['id'];
             $recordData = $request->getParsedBody();
             
@@ -393,9 +394,11 @@ abstract class AbstractController implements ControllerInterface
                     $updateData['id'] = $passedRecordId;
                 }
                 if(array_key_exists("password", $recordData)) {
-                    $updateData['password'] = password_hash($recordData['password'], PASSWORD_DEFAULT);
+                    if($recordData['password'] != null) {
+                        $updateData['password'] = password_hash($recordData['password'], PASSWORD_DEFAULT);
+                    }
                 }
-                
+                $this->logger->debug("Built the " . $this->modelName . " update query.");
                 $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
                 $recordId = $this->modelFullName::update($updateData);
                 $this->logger->debug($this->modelName . " update query: ",
