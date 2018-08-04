@@ -325,6 +325,9 @@ abstract class AbstractController implements ControllerInterface
                 if(array_key_exists("password", $recordData)) {
                     $recordData['password'] = password_hash($recordData['password'], PASSWORD_DEFAULT);
                 }
+                if(array_key_exists('age', $recordData)) {
+                    unset($recordData['age']);
+                }
                 $recordData['updated_by'] = $request->getAttribute('oauth_user_id');
                 $recordId = $this->modelFullName::insertGetId($recordData);
                 // As per JSON-API, we'll need to send the newly created record
@@ -413,6 +416,9 @@ abstract class AbstractController implements ControllerInterface
                     } else {
                         unset($updateData['password']);
                     }
+                }
+                if(array_key_exists('age', $updateData)) {
+                    unset($updateData['age']);
                 }
                 $this->logger->debug("Built the " . $this->modelName . " update query.");
                 $updateData['updated_by'] = $request->getAttribute('oauth_user_id');
