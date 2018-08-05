@@ -460,6 +460,8 @@ abstract class AbstractController implements ControllerInterface
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
         {
+            $this->logger->debug("Entering the " . $this->modelName . 
+                " delete query.");
             //$id = $args['id'];
             $recordData = $request->getParsedBody();
             
@@ -470,11 +472,11 @@ abstract class AbstractController implements ControllerInterface
                 $record->delete();
                 $this->logger->debug($this->modelName . " delete query: ",
                     $this->db::getQueryLog());
-                return $response->withJson(
+                return $response->withJson(["meta" =>
                     [
                         "success" => true,
                         "message" => "Deleted " . $this->modelName . " $id"
-                    ], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
+                    ]], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             } catch (Exception $e) {
                 return $response->withJson(
                     [
