@@ -460,13 +460,11 @@ abstract class AbstractController implements ControllerInterface
     public function delete(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
         {
+            $id = $args['id'];
             $this->logger->debug("Entering the " . $this->modelName . 
-                " delete query.");
-            //$id = $args['id'];
-            $recordData = $request->getParsedBody();
-            
-            // Getting the relationship models
-            $id = $recordData['data']['id'];
+                " delete query for id of " . $id);
+            //$recordData = $request->getParsedBody();
+            //$id = $recordData['data']['id'];
             try {
                 $record = $this->modelFullName::findOrFail($id);
                 $record->delete();
