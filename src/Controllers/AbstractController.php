@@ -480,6 +480,7 @@ abstract class AbstractController implements ControllerInterface
                         "message" => "Deleted " . $this->modelName . " $id"
                     ]], 200, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT);
             } catch (Exception $e) {
+                $this->logger->debug("DELETE Error: " . $e);
                 return $response->withJson(
                     [
                         "success" => false,
