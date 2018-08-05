@@ -469,8 +469,9 @@ abstract class AbstractController implements ControllerInterface
                 //$record = $this->modelFullName::findOrFail($id);
                 //$record->delete();
                 //$this->modelFullName::destroy($id);
-                $record = $this->modelFullName::where("id","=",$id)->get();
-                $record->delete();
+                //$record = $this->modelFullName::where("id","=",$id)->get();
+                //$record->delete();
+                $this->modelFullName::where("id","=",$id)->delete();
                 $this->logger->debug($this->modelName . " delete query: ",
                     $this->db::getQueryLog());
                 return $response->withJson(["meta" =>
