@@ -26,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
  *         produces="['application/json']"
  *         )
  */
-class tablecolumnController extends AbstractController implements ControllerInterface
+class TableColumnController extends AbstractController implements ControllerInterface
 {
     
     /**
