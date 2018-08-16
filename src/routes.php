@@ -408,6 +408,12 @@ $app->post('/roletableaccesses', 'RoleTableAccessController:create');
 $app->put('/roletableaccesses/{id:[0-9]+}', 'RoleTableAccessController:update');
 $app->delete('/roletableaccesses/{id:[0-9]+}', 'RoleTableAccessController:delete');
 
+$app->get('/tables', 'TableController:readAll');
+
+$app->get('/tablecolumns', 'TableColumnController:readAll');
+$app->get('/tablecolumns/{params:.*}', 'TableColumnController:readAllWithFilter');
+    
+
 // special route for refreshing tokens
 $app->post('/token', 
     function (ServerRequestInterface $request, 
