@@ -24,6 +24,8 @@ class TableSchema extends BaseSchema {
     public function getAttributes($model, array $fieldKeysFilter = null): ? array
     {
         /** @var table $model */
-        return [];
+        return [
+            'Tables_in_fss' => $model->Tables_in_fss
+        ];
     }
 }

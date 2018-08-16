@@ -24,6 +24,8 @@ class TableColumnSchema extends BaseSchema {
     public function getAttributes($model, array $fieldKeysFilter = null): ? array
     {
         /** @var TableColumn $model */
-        return [];
+        return [
+            'TABLE_COLUMN' => $model->TABLE_COLUMN
+        ];
     }
 }
