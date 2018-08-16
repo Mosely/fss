@@ -95,11 +95,12 @@ class TableController extends AbstractController implements ControllerInterface
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
         {
-        $tableListing = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
-        $records = [];
-        foreach($tableListing as $table) {
-            $records[] = $table->Tables_in_fss;
-        }
+        //$tableListing = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
+          $records = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
+        //$records = [];
+        //foreach($tableListing as $table) {
+        //    $records[] = $table->Tables_in_fss;
+        //}
         
         $this->logger->debug("All " . $this->modelName . " query: ",
             $this->db::getQueryLog());
