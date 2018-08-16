@@ -427,3 +427,25 @@ $container['ReportController'] = function ($c) {
     return new FSS\Controllers\ReportController($logger, $db, $cache, $debug, 
         $authorizer);
 };
+
+$container['TableController'] = function ($c) {
+    $logger = $c->get('logger');
+    $db = $c->get('db');
+    $cache = $c->get('cache');
+    //$jwt = $c->get('jwt');
+    $authorizer = $c->get('oauth2authorizer');
+    $debug = $c->get('settings')['debug'];
+    return new FSS\Controllers\TableController($logger, $db, $cache, $debug,
+        $authorizer);
+};
+
+$container['TableColumnController'] = function ($c) {
+    $logger = $c->get('logger');
+    $db = $c->get('db');
+    $cache = $c->get('cache');
+    //$jwt = $c->get('jwt');
+    $authorizer = $c->get('oauth2authorizer');
+    $debug = $c->get('settings')['debug'];
+    return new FSS\Controllers\TableColumnController($logger, $db, $cache, $debug,
+        $authorizer);
+};
