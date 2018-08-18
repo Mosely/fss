@@ -104,7 +104,8 @@ class TableController extends AbstractController implements ControllerInterface
         
         $this->logger->debug("All " . $this->modelName . " query: ",
             $this->db::getQueryLog());
-
+        $this->logger->debug("The returned tables:", $records);
+        
         $encoder = Encoder::instance([
             $this->modelFullName => $this->modelFullSchemaName,
         ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
