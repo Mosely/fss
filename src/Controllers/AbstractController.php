@@ -66,7 +66,7 @@ abstract class AbstractController implements ControllerInterface
      *
      * @var string
      */
-    private $modelFullSchemaName;
+    protected $modelFullSchemaName;
     
     /**
      *
