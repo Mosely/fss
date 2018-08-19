@@ -15,7 +15,7 @@ class TableSchema extends BaseSchema {
     public function getId($model): ? string
     {
         /** @var table $model */
-        return $model->getKey();
+        return $model->Tables_in_fss;
     }
   
     /**
