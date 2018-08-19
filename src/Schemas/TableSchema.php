@@ -14,7 +14,7 @@ class TableSchema extends BaseSchema {
      */
     public function getId($model): ? string
     {
-        /** @var table $model */
+        /** @var Table $model */
         return $model->Tables_in_fss;
     }
   
@@ -23,7 +23,7 @@ class TableSchema extends BaseSchema {
      */
     public function getAttributes($model, array $fieldKeysFilter = null): ? array
     {
-        /** @var table $model */
+        /** @var Table $model */
         return [
             'Tables_in_fss' => $model->Tables_in_fss
         ];

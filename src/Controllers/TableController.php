@@ -110,6 +110,9 @@ class TableController extends AbstractController implements ControllerInterface
         //print_r($records);
         //print("</pre>");
         //return $response;
+        $this->logger->debug($this->modelFullName);
+        $this->logger->debug($this->modelFullSchemaName);
+        $this->logger->debug("The returned tables:", $theTables);
         $encoder = Encoder::instance([
             $this->modelFullName => $this->modelFullSchemaName,
         ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
