@@ -9,6 +9,7 @@ use Neomerx\JsonApi\Encoder\Encoder;
 use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ReflectionObject;
 
 /**
  * The controller for table-related actions.
@@ -102,7 +103,7 @@ class TableController extends AbstractController implements ControllerInterface
             $records[] = $table->Tables_in_fss;
         }
         $theTables = (object)['Tables_in_fss' => $records];
-        
+        $theTables = cast($this->modelFullName, $theTables);
         $this->logger->debug("All " . $this->modelName . " query: ",
             $this->db::getQueryLog());
         //$this->logger->debug("The returned tables:", $records);
@@ -124,6 +125,36 @@ class TableController extends AbstractController implements ControllerInterface
         return $response->withJson(
             json_decode(
                 $encoder->encodeData($theTables)));
+    }
+    
+    /**
+     * Class casting
+     *
+     * @param string|object $destination
+     * @param object $sourceObject
+     * @return object
+     */
+    function cast($destination, $sourceObject)
+    {
+        if (is_string($destination)) {
+            $destination = new $destination();
+        }
+        $sourceReflection = new ReflectionObject($sourceObject);
+        $destinationReflection = new ReflectionObject($destination);
+        $sourceProperties = $sourceReflection->getProperties();
+        foreach ($sourceProperties as $sourceProperty) {
+            $sourceProperty->setAccessible(true);
+            $name = $sourceProperty->getName();
+            $value = $sourceProperty->getValue($sourceObject);
+            if ($destinationReflection->hasProperty($name)) {
+                $propDest = $destinationReflection->getProperty($name);
+                $propDest->setAccessible(true);
+                $propDest->setValue($destination,$value);
+            } else {
+                $destination->$name = $value;
+            }
+        }
+        return $destination;
     }
     
     /**
