@@ -103,8 +103,10 @@ class TableController extends AbstractController implements ControllerInterface
         $records = [];
         //$theTables = (object)['Tables_in_fss' => $records];
         Table::unguard();
+        $i = 1;
         foreach($tableListing as $table) {
-            $records[] = new Table(['Tables_in_fss' => $table->Tables_in_fss]);
+            $records[] = new Table(['id' => $i, 'Tables_in_fss' => $table->Tables_in_fss]);
+            $i++;
         }
         Table::reguard();
         $theTables = new Collection($records);
