@@ -102,9 +102,11 @@ class TableController extends AbstractController implements ControllerInterface
         //$records = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
         $records = [];
         //$theTables = (object)['Tables_in_fss' => $records];
+        Table::unguard();
         foreach($tableListing as $table) {
             $records[] = new Table(['Tables_in_fss' => $table->Tables_in_fss]);
         }
+        Table::reguard();
         $theTables = new Collection($records);
         //for($i = 0; $i < count($tableListing); $i++) {
         //    $tableListing[$i] = $this->cast($this->modelFullName, $tableListing[$i]);
