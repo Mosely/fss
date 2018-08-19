@@ -163,7 +163,7 @@ abstract class AbstractController implements ControllerInterface
                 $this->logger->debug("All " . $this->modelName . " query: ", 
                     $this->db::getQueryLog());
                 // $records = Address::all();
-                $this->logger->debug("The returned values: ", $records);
+                //$this->logger->debug("The returned values: ", $records);
                 $encoder = Encoder::instance([
                     $this->modelFullName => $this->modelFullSchemaName,
                 ], new EncoderOptions(JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT,
