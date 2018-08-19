@@ -108,7 +108,7 @@ class TableColumnController extends AbstractController implements ControllerInte
             TableColumn::unguard();
             $i = 1;
             foreach($tableColumnListing as $tableColumn) {
-                $columns[] = new TableColumn(['id' => $i, 'table_column' => $tableColumn->TABLE_COLUMN]);
+                $columns[] = new TableColumn(['id' => $i, 'table_column' => $tableColumn->COLUMN_NAME]);
                 $i++;
             }
             TableColumn::reguard();
@@ -169,13 +169,22 @@ class TableColumnController extends AbstractController implements ControllerInte
             
             $this->getFilters($params, $filters, $values);
                 
-            $records = $this->db::select('SELECT COLUMN_NAME FROM ' .
+            $tableColumnListing = $this->db::select('SELECT COLUMN_NAME FROM ' .
                 'INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = \'fss\' '.
                 'AND TABLE_NAME = ?', $values[0]); // returns an array of stdObjects
             //$records = [];
             //foreach($tableListing as $table) {
             //    $records[] = $table->Tables_in_fss;
             //}
+            $columns = [];
+            TableColumn::unguard();
+            $i = 1;
+            foreach($tableColumnListing as $tableColumn) {
+                $columns[] = new TableColumn(['id' => $i, 'table_column' => $tableColumn->COLUMN_NAME]);
+                $i++;
+            }
+            TableColumn::reguard();
+            $records = new Collection($columns);
             
             $this->logger->debug("All " . $this->modelName . " query: ",
                 $this->db::getQueryLog());
