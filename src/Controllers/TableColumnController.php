@@ -171,7 +171,7 @@ class TableColumnController extends AbstractController implements ControllerInte
                 
             $tableColumnListing = $this->db::select('SELECT COLUMN_NAME FROM ' .
                 'INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = \'fss\' '.
-                'AND TABLE_NAME = ?', $values); // returns an array of stdObjects
+                'AND TABLE_NAME LIKE %?%', $values); // returns an array of stdObjects
             //$records = [];
             //foreach($tableListing as $table) {
             //    $records[] = $table->Tables_in_fss;
