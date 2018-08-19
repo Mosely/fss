@@ -25,7 +25,7 @@ class TableSchema extends BaseSchema {
     {
         /** @var Table $model */
         return [
-            'Tables_in_fss' => $model->Tables_in_fss[0]
+            'Tables_in_fss' => $model->Tables_in_fss
         ];
     }
 }
