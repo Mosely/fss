@@ -1,6 +1,7 @@
 <?php
 namespace FSS\Controllers;
 
+use FSS\Models\Table;
 use FSS\Utilities\Cache;
 use Illuminate\Database\Capsule\Manager;
 use League\OAuth2\Server\AuthorizationServer;
@@ -10,6 +11,7 @@ use Neomerx\JsonApi\Encoder\EncoderOptions;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use ReflectionObject;
+use Illuminate\Database\Eloquent\Collection;
 
 /**
  * The controller for table-related actions.
@@ -98,14 +100,15 @@ class TableController extends AbstractController implements ControllerInterface
         {
         $tableListing = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
         //$records = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
-        //$records = [];
+        $records = [];
         //$theTables = (object)['Tables_in_fss' => $records];
-        //foreach($tableListing as $table) {
-        //    $theTables->Tables_in_fss[] = $table->Tables_in_fss;
-        //}
-        for($i = 0; $i < count($tableListing); $i++) {
-            $tableListing[$i] = $this->cast($this->modelFullName, $tableListing[$i]);
+        foreach($tableListing as $table) {
+            $records[] = new Table(['Tables_in_fss' => $table->Tables_in_fss]);
         }
+        $theTables = new Collection($records);
+        //for($i = 0; $i < count($tableListing); $i++) {
+        //    $tableListing[$i] = $this->cast($this->modelFullName, $tableListing[$i]);
+        //}
         
         //$theTables = $this->cast($this->modelFullName, $theTables);
         $this->logger->debug("All " . $this->modelName . " query: ",
@@ -128,7 +131,7 @@ class TableController extends AbstractController implements ControllerInterface
         //}
         return $response->withJson(
             json_decode(
-                $encoder->encodeData($tableListing)));
+                $encoder->encodeData($theTables)));
     }
     
     /**
