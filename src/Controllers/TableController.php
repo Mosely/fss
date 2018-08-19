@@ -98,13 +98,16 @@ class TableController extends AbstractController implements ControllerInterface
         {
         $tableListing = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
         //$records = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
-        $records = [];
-        $theTables = (object)['Tables_in_fss' => $records];
-        foreach($tableListing as $table) {
-            $theTables->Tables_in_fss[] = $table->Tables_in_fss;
+        //$records = [];
+        //$theTables = (object)['Tables_in_fss' => $records];
+        //foreach($tableListing as $table) {
+        //    $theTables->Tables_in_fss[] = $table->Tables_in_fss;
+        //}
+        for($i = 0; $i < count($tableListing); $i++) {
+            $tableListing[$i] = $this->cast($this->modelFullName, $tableListing[$i]);
         }
         
-        $theTables = $this->cast($this->modelFullName, $theTables);
+        //$theTables = $this->cast($this->modelFullName, $theTables);
         $this->logger->debug("All " . $this->modelName . " query: ",
             $this->db::getQueryLog());
         //$this->logger->debug("The returned tables:", $records);
@@ -125,7 +128,7 @@ class TableController extends AbstractController implements ControllerInterface
         //}
         return $response->withJson(
             json_decode(
-                $encoder->encodeData($theTables)));
+                $encoder->encodeData($tableListing)));
     }
     
     /**
