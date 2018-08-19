@@ -103,7 +103,7 @@ class TableController extends AbstractController implements ControllerInterface
             $records[] = $table->Tables_in_fss;
         }
         $theTables = (object)['Tables_in_fss' => $records];
-        $theTables = cast($this->modelFullName, $theTables);
+        $theTables = $this->cast($this->modelFullName, $theTables);
         $this->logger->debug("All " . $this->modelName . " query: ",
             $this->db::getQueryLog());
         //$this->logger->debug("The returned tables:", $records);
