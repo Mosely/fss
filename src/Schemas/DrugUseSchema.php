@@ -25,7 +25,7 @@ class DrugUseSchema extends BaseSchema {
     {
         /** @var DrugUse $model */
         return [
-            'type' => $model->type,
+            'dtype' => $model->dtype,
             'updated_by' => $model->updated_by
         ];
     }

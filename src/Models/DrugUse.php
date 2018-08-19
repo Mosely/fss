@@ -10,7 +10,7 @@ namespace FSS\Models;
  *         @SWG\Model(
  *         id="DrugUse",
  *         @SWG\Property(name="id", type="integer", required=true),
- *         @SWG\Property(name="type", type="string", required=true),
+ *         @SWG\Property(name="dtype", type="string", required=true),
  *         @SWG\Property(name="created_at", type="integer", required=false),
  *         @SWG\Property(name="updated_at", type="integer", required=false),
  *         @SWG\Property(name="updated_by", type="integer", required=true)
@@ -27,7 +27,7 @@ class DrugUse extends AbstractModel
 
     // Fields that can be mass-updated/insterted
     protected $fillable = array(
-        'type',
+        'dtype',
         'updated_by'
     );
 
