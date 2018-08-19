@@ -12,7 +12,7 @@ namespace FSS\Models;
  *         @SWG\Property(name="TABLE_COLUMN", type="string", required=true)
  *         )
  */
-class tablecolumn extends AbstractModel
+class TableColumn extends AbstractModel
 {
 
     // The primary key
