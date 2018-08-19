@@ -1,8 +1,10 @@
 <?php
 namespace FSS\Controllers;
 
+use FSS\Models\TableColumn;
 use FSS\Utilities\Cache;
 use Illuminate\Database\Capsule\Manager;
+use Illuminate\Database\Eloquent\Collection;
 use League\OAuth2\Server\AuthorizationServer;
 use Monolog\Logger;
 use Neomerx\JsonApi\Encoder\Encoder;
@@ -95,13 +97,22 @@ class TableColumnController extends AbstractController implements ControllerInte
     public function readAll(ServerRequestInterface $request,
         ResponseInterface $response, array $args): ResponseInterface
         {
-            $records = $this->db::select('SELECT COLUMN_NAME FROM ' . 
+            $tableColumnListing = $this->db::select('SELECT COLUMN_NAME FROM ' . 
                 'INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = \'fss\''); 
             // returns an array of stdObjects
             //$records = [];
             //foreach($tableListing as $table) {
             //    $records[] = $table->Tables_in_fss;
             //}
+            $columns = [];
+            TableColumn::unguard();
+            $i = 1;
+            foreach($tableColumnListing as $tableColumn) {
+                $columns[] = new TableColumn(['id' => $i, 'table_column' => $tableColumn->TABLE_COLUMN]);
+                $i++;
+            }
+            TableColumn::reguard();
+            $records = new Collection($columns);
             
             $this->logger->debug("All " . $this->modelName . " query: ",
                 $this->db::getQueryLog());

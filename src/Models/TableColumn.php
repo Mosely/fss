@@ -16,8 +16,10 @@ class TableColumn extends AbstractModel
 {
 
     // The primary key
-    protected $primaryKey = "TABLE_COLUMN";
+    protected $primaryKey = "id";
 
     // The table for this model
-    protected $table = "tablecolumn";
+    protected $table = "TableColumn";
+    
+    protected $fillable = ["table_column"];
 }

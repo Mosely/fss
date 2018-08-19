@@ -25,7 +25,7 @@ class TableColumnSchema extends BaseSchema {
     {
         /** @var TableColumn $model */
         return [
-            'TABLE_COLUMN' => $model->TABLE_COLUMN
+            'table_column' => $model->table_column
         ];
     }
 }
