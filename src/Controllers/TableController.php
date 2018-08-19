@@ -111,10 +111,10 @@ class TableController extends AbstractController implements ControllerInterface
         $this->logger->debug("All " . $this->modelName . " query: ",
             $this->db::getQueryLog());
         //$this->logger->debug("The returned tables:", $records);
-        //print("<pre>");
-        //print_r($records);
-        //print("</pre>");
-        //return $response;
+        print("<pre>");
+        print_r($tableListing);
+        print("</pre>");
+        return $response;
         $this->logger->debug($this->modelFullName);
         $this->logger->debug($this->modelFullSchemaName);
         //$this->logger->debug("The returned tables:", $theTables);
