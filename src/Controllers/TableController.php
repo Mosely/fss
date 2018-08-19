@@ -99,10 +99,11 @@ class TableController extends AbstractController implements ControllerInterface
         $tableListing = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
         //$records = $this->db::select('SHOW TABLES'); // returns an array of stdObjects
         $records = [];
-        foreach($tableListing as $table) {
-            $records[] = $table->Tables_in_fss;
-        }
         $theTables = (object)['Tables_in_fss' => $records];
+        foreach($tableListing as $table) {
+            $theTables->Tables_in_fss[] = $table->Tables_in_fss;
+        }
+        
         $theTables = $this->cast($this->modelFullName, $theTables);
         $this->logger->debug("All " . $this->modelName . " query: ",
             $this->db::getQueryLog());
